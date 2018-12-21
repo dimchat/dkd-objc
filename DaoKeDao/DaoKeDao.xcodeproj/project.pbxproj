@@ -1,0 +1,674 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 50;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		E9F3A9BB21CBC160009690F6 /* DaoKeDao.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E9F3A9B121CBC160009690F6 /* DaoKeDao.framework */; };
+		E9F3A9C021CBC160009690F6 /* DaoKeDaoTests.m in Sources */ = {isa = PBXBuildFile; fileRef = E9F3A9BF21CBC160009690F6 /* DaoKeDaoTests.m */; };
+		E9F3A9FB21CBC17E009690F6 /* DKDKeyStore.h in Headers */ = {isa = PBXBuildFile; fileRef = E9F3A9CC21CBC17E009690F6 /* DKDKeyStore.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		E9F3A9FC21CBC17E009690F6 /* MKMGroup+Message.m in Sources */ = {isa = PBXBuildFile; fileRef = E9F3A9CE21CBC17E009690F6 /* MKMGroup+Message.m */; };
+		E9F3A9FD21CBC17E009690F6 /* MKMAccount+Message.m in Sources */ = {isa = PBXBuildFile; fileRef = E9F3A9CF21CBC17E009690F6 /* MKMAccount+Message.m */; };
+		E9F3A9FE21CBC17E009690F6 /* MKMUser+Message.m in Sources */ = {isa = PBXBuildFile; fileRef = E9F3A9D021CBC17E009690F6 /* MKMUser+Message.m */; };
+		E9F3A9FF21CBC17F009690F6 /* MKMGroup+Message.h in Headers */ = {isa = PBXBuildFile; fileRef = E9F3A9D121CBC17E009690F6 /* MKMGroup+Message.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		E9F3AA0021CBC17F009690F6 /* MKMAccount+Message.h in Headers */ = {isa = PBXBuildFile; fileRef = E9F3A9D221CBC17E009690F6 /* MKMAccount+Message.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		E9F3AA0121CBC17F009690F6 /* MKMUser+Message.h in Headers */ = {isa = PBXBuildFile; fileRef = E9F3A9D321CBC17E009690F6 /* MKMUser+Message.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		E9F3AA0221CBC17F009690F6 /* DKDDictionary.h in Headers */ = {isa = PBXBuildFile; fileRef = E9F3A9D521CBC17E009690F6 /* DKDDictionary.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		E9F3AA0321CBC17F009690F6 /* DKDDictionary.m in Sources */ = {isa = PBXBuildFile; fileRef = E9F3A9D621CBC17E009690F6 /* DKDDictionary.m */; };
+		E9F3AA0421CBC17F009690F6 /* DKDTransceiver.m in Sources */ = {isa = PBXBuildFile; fileRef = E9F3A9D721CBC17E009690F6 /* DKDTransceiver.m */; };
+		E9F3AA0521CBC17F009690F6 /* DKDMessageContent+Forward.h in Headers */ = {isa = PBXBuildFile; fileRef = E9F3A9D921CBC17E009690F6 /* DKDMessageContent+Forward.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		E9F3AA0621CBC17F009690F6 /* DKDMessageContent+Webpage.h in Headers */ = {isa = PBXBuildFile; fileRef = E9F3A9DA21CBC17E009690F6 /* DKDMessageContent+Webpage.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		E9F3AA0721CBC17F009690F6 /* DKDMessageContent+Text.m in Sources */ = {isa = PBXBuildFile; fileRef = E9F3A9DB21CBC17E009690F6 /* DKDMessageContent+Text.m */; };
+		E9F3AA0821CBC17F009690F6 /* DKDMessageContent+Image.m in Sources */ = {isa = PBXBuildFile; fileRef = E9F3A9DC21CBC17E009690F6 /* DKDMessageContent+Image.m */; };
+		E9F3AA0921CBC17F009690F6 /* DKDMessageContent+Command.h in Headers */ = {isa = PBXBuildFile; fileRef = E9F3A9DD21CBC17E009690F6 /* DKDMessageContent+Command.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		E9F3AA0A21CBC17F009690F6 /* DKDMessageContent+Audio.h in Headers */ = {isa = PBXBuildFile; fileRef = E9F3A9DE21CBC17E009690F6 /* DKDMessageContent+Audio.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		E9F3AA0B21CBC17F009690F6 /* DKDMessageContent.m in Sources */ = {isa = PBXBuildFile; fileRef = E9F3A9DF21CBC17E009690F6 /* DKDMessageContent.m */; };
+		E9F3AA0C21CBC17F009690F6 /* DKDMessageContent+Quote.h in Headers */ = {isa = PBXBuildFile; fileRef = E9F3A9E021CBC17E009690F6 /* DKDMessageContent+Quote.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		E9F3AA0D21CBC17F009690F6 /* DKDMessageContent+File.m in Sources */ = {isa = PBXBuildFile; fileRef = E9F3A9E121CBC17E009690F6 /* DKDMessageContent+File.m */; };
+		E9F3AA0E21CBC17F009690F6 /* DKDMessageContent+Video.m in Sources */ = {isa = PBXBuildFile; fileRef = E9F3A9E221CBC17E009690F6 /* DKDMessageContent+Video.m */; };
+		E9F3AA0F21CBC17F009690F6 /* DKDMessageContent+Text.h in Headers */ = {isa = PBXBuildFile; fileRef = E9F3A9E321CBC17E009690F6 /* DKDMessageContent+Text.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		E9F3AA1021CBC17F009690F6 /* DKDMessageContent+Webpage.m in Sources */ = {isa = PBXBuildFile; fileRef = E9F3A9E421CBC17E009690F6 /* DKDMessageContent+Webpage.m */; };
+		E9F3AA1121CBC17F009690F6 /* DKDMessageContent+Forward.m in Sources */ = {isa = PBXBuildFile; fileRef = E9F3A9E521CBC17E009690F6 /* DKDMessageContent+Forward.m */; };
+		E9F3AA1221CBC17F009690F6 /* DKDMessageContent+Audio.m in Sources */ = {isa = PBXBuildFile; fileRef = E9F3A9E621CBC17E009690F6 /* DKDMessageContent+Audio.m */; };
+		E9F3AA1321CBC17F009690F6 /* DKDMessageContent+Command.m in Sources */ = {isa = PBXBuildFile; fileRef = E9F3A9E721CBC17E009690F6 /* DKDMessageContent+Command.m */; };
+		E9F3AA1421CBC17F009690F6 /* DKDMessageContent+Image.h in Headers */ = {isa = PBXBuildFile; fileRef = E9F3A9E821CBC17E009690F6 /* DKDMessageContent+Image.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		E9F3AA1521CBC17F009690F6 /* DKDMessageContent+Quote.m in Sources */ = {isa = PBXBuildFile; fileRef = E9F3A9E921CBC17E009690F6 /* DKDMessageContent+Quote.m */; };
+		E9F3AA1621CBC17F009690F6 /* DKDMessageContent.h in Headers */ = {isa = PBXBuildFile; fileRef = E9F3A9EA21CBC17E009690F6 /* DKDMessageContent.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		E9F3AA1721CBC17F009690F6 /* DKDMessageContent+File.h in Headers */ = {isa = PBXBuildFile; fileRef = E9F3A9EB21CBC17E009690F6 /* DKDMessageContent+File.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		E9F3AA1821CBC17F009690F6 /* DKDMessageContent+Video.h in Headers */ = {isa = PBXBuildFile; fileRef = E9F3A9EC21CBC17E009690F6 /* DKDMessageContent+Video.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		E9F3AA1921CBC17F009690F6 /* DKDSecureMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = E9F3A9EE21CBC17E009690F6 /* DKDSecureMessage.m */; };
+		E9F3AA1A21CBC17F009690F6 /* DKDEnvelope.h in Headers */ = {isa = PBXBuildFile; fileRef = E9F3A9EF21CBC17E009690F6 /* DKDEnvelope.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		E9F3AA1B21CBC17F009690F6 /* DKDMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = E9F3A9F021CBC17E009690F6 /* DKDMessage.m */; };
+		E9F3AA1C21CBC17F009690F6 /* DKDInstantMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = E9F3A9F121CBC17E009690F6 /* DKDInstantMessage.m */; };
+		E9F3AA1D21CBC17F009690F6 /* DKDReliableMessage.h in Headers */ = {isa = PBXBuildFile; fileRef = E9F3A9F221CBC17E009690F6 /* DKDReliableMessage.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		E9F3AA1E21CBC17F009690F6 /* DKDInstantMessage.h in Headers */ = {isa = PBXBuildFile; fileRef = E9F3A9F321CBC17E009690F6 /* DKDInstantMessage.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		E9F3AA1F21CBC17F009690F6 /* DKDMessage.h in Headers */ = {isa = PBXBuildFile; fileRef = E9F3A9F421CBC17E009690F6 /* DKDMessage.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		E9F3AA2021CBC17F009690F6 /* DKDEnvelope.m in Sources */ = {isa = PBXBuildFile; fileRef = E9F3A9F521CBC17E009690F6 /* DKDEnvelope.m */; };
+		E9F3AA2121CBC17F009690F6 /* DKDSecureMessage.h in Headers */ = {isa = PBXBuildFile; fileRef = E9F3A9F621CBC17E009690F6 /* DKDSecureMessage.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		E9F3AA2221CBC17F009690F6 /* DKDReliableMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = E9F3A9F721CBC17E009690F6 /* DKDReliableMessage.m */; };
+		E9F3AA2321CBC17F009690F6 /* DKDKeyStore.m in Sources */ = {isa = PBXBuildFile; fileRef = E9F3A9F821CBC17E009690F6 /* DKDKeyStore.m */; };
+		E9F3AA2421CBC17F009690F6 /* DKDTransceiver.h in Headers */ = {isa = PBXBuildFile; fileRef = E9F3A9F921CBC17E009690F6 /* DKDTransceiver.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		E9F3AA2521CBC17F009690F6 /* DaoKeDao.h in Headers */ = {isa = PBXBuildFile; fileRef = E9F3A9FA21CBC17E009690F6 /* DaoKeDao.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		E9F3AA3121CBC21B009690F6 /* MingKeMing.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E9F3AA3021CBC21B009690F6 /* MingKeMing.framework */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		E9F3A9BC21CBC160009690F6 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = E9F3A9A821CBC160009690F6 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = E9F3A9B021CBC160009690F6;
+			remoteInfo = DaoKeDao;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		E9F3A9B121CBC160009690F6 /* DaoKeDao.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = DaoKeDao.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		E9F3A9B521CBC160009690F6 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		E9F3A9BA21CBC160009690F6 /* DaoKeDaoTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = DaoKeDaoTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		E9F3A9BF21CBC160009690F6 /* DaoKeDaoTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DaoKeDaoTests.m; sourceTree = "<group>"; };
+		E9F3A9C121CBC160009690F6 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		E9F3A9CC21CBC17E009690F6 /* DKDKeyStore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DKDKeyStore.h; sourceTree = "<group>"; };
+		E9F3A9CE21CBC17E009690F6 /* MKMGroup+Message.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "MKMGroup+Message.m"; sourceTree = "<group>"; };
+		E9F3A9CF21CBC17E009690F6 /* MKMAccount+Message.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "MKMAccount+Message.m"; sourceTree = "<group>"; };
+		E9F3A9D021CBC17E009690F6 /* MKMUser+Message.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "MKMUser+Message.m"; sourceTree = "<group>"; };
+		E9F3A9D121CBC17E009690F6 /* MKMGroup+Message.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "MKMGroup+Message.h"; sourceTree = "<group>"; };
+		E9F3A9D221CBC17E009690F6 /* MKMAccount+Message.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "MKMAccount+Message.h"; sourceTree = "<group>"; };
+		E9F3A9D321CBC17E009690F6 /* MKMUser+Message.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "MKMUser+Message.h"; sourceTree = "<group>"; };
+		E9F3A9D521CBC17E009690F6 /* DKDDictionary.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DKDDictionary.h; sourceTree = "<group>"; };
+		E9F3A9D621CBC17E009690F6 /* DKDDictionary.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DKDDictionary.m; sourceTree = "<group>"; };
+		E9F3A9D721CBC17E009690F6 /* DKDTransceiver.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DKDTransceiver.m; sourceTree = "<group>"; };
+		E9F3A9D921CBC17E009690F6 /* DKDMessageContent+Forward.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "DKDMessageContent+Forward.h"; sourceTree = "<group>"; };
+		E9F3A9DA21CBC17E009690F6 /* DKDMessageContent+Webpage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "DKDMessageContent+Webpage.h"; sourceTree = "<group>"; };
+		E9F3A9DB21CBC17E009690F6 /* DKDMessageContent+Text.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "DKDMessageContent+Text.m"; sourceTree = "<group>"; };
+		E9F3A9DC21CBC17E009690F6 /* DKDMessageContent+Image.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "DKDMessageContent+Image.m"; sourceTree = "<group>"; };
+		E9F3A9DD21CBC17E009690F6 /* DKDMessageContent+Command.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "DKDMessageContent+Command.h"; sourceTree = "<group>"; };
+		E9F3A9DE21CBC17E009690F6 /* DKDMessageContent+Audio.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "DKDMessageContent+Audio.h"; sourceTree = "<group>"; };
+		E9F3A9DF21CBC17E009690F6 /* DKDMessageContent.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DKDMessageContent.m; sourceTree = "<group>"; };
+		E9F3A9E021CBC17E009690F6 /* DKDMessageContent+Quote.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "DKDMessageContent+Quote.h"; sourceTree = "<group>"; };
+		E9F3A9E121CBC17E009690F6 /* DKDMessageContent+File.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "DKDMessageContent+File.m"; sourceTree = "<group>"; };
+		E9F3A9E221CBC17E009690F6 /* DKDMessageContent+Video.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "DKDMessageContent+Video.m"; sourceTree = "<group>"; };
+		E9F3A9E321CBC17E009690F6 /* DKDMessageContent+Text.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "DKDMessageContent+Text.h"; sourceTree = "<group>"; };
+		E9F3A9E421CBC17E009690F6 /* DKDMessageContent+Webpage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "DKDMessageContent+Webpage.m"; sourceTree = "<group>"; };
+		E9F3A9E521CBC17E009690F6 /* DKDMessageContent+Forward.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "DKDMessageContent+Forward.m"; sourceTree = "<group>"; };
+		E9F3A9E621CBC17E009690F6 /* DKDMessageContent+Audio.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "DKDMessageContent+Audio.m"; sourceTree = "<group>"; };
+		E9F3A9E721CBC17E009690F6 /* DKDMessageContent+Command.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "DKDMessageContent+Command.m"; sourceTree = "<group>"; };
+		E9F3A9E821CBC17E009690F6 /* DKDMessageContent+Image.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "DKDMessageContent+Image.h"; sourceTree = "<group>"; };
+		E9F3A9E921CBC17E009690F6 /* DKDMessageContent+Quote.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "DKDMessageContent+Quote.m"; sourceTree = "<group>"; };
+		E9F3A9EA21CBC17E009690F6 /* DKDMessageContent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DKDMessageContent.h; sourceTree = "<group>"; };
+		E9F3A9EB21CBC17E009690F6 /* DKDMessageContent+File.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "DKDMessageContent+File.h"; sourceTree = "<group>"; };
+		E9F3A9EC21CBC17E009690F6 /* DKDMessageContent+Video.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "DKDMessageContent+Video.h"; sourceTree = "<group>"; };
+		E9F3A9EE21CBC17E009690F6 /* DKDSecureMessage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DKDSecureMessage.m; sourceTree = "<group>"; };
+		E9F3A9EF21CBC17E009690F6 /* DKDEnvelope.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DKDEnvelope.h; sourceTree = "<group>"; };
+		E9F3A9F021CBC17E009690F6 /* DKDMessage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DKDMessage.m; sourceTree = "<group>"; };
+		E9F3A9F121CBC17E009690F6 /* DKDInstantMessage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DKDInstantMessage.m; sourceTree = "<group>"; };
+		E9F3A9F221CBC17E009690F6 /* DKDReliableMessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DKDReliableMessage.h; sourceTree = "<group>"; };
+		E9F3A9F321CBC17E009690F6 /* DKDInstantMessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DKDInstantMessage.h; sourceTree = "<group>"; };
+		E9F3A9F421CBC17E009690F6 /* DKDMessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DKDMessage.h; sourceTree = "<group>"; };
+		E9F3A9F521CBC17E009690F6 /* DKDEnvelope.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DKDEnvelope.m; sourceTree = "<group>"; };
+		E9F3A9F621CBC17E009690F6 /* DKDSecureMessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DKDSecureMessage.h; sourceTree = "<group>"; };
+		E9F3A9F721CBC17E009690F6 /* DKDReliableMessage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DKDReliableMessage.m; sourceTree = "<group>"; };
+		E9F3A9F821CBC17E009690F6 /* DKDKeyStore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DKDKeyStore.m; sourceTree = "<group>"; };
+		E9F3A9F921CBC17E009690F6 /* DKDTransceiver.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DKDTransceiver.h; sourceTree = "<group>"; };
+		E9F3A9FA21CBC17E009690F6 /* DaoKeDao.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DaoKeDao.h; sourceTree = "<group>"; };
+		E9F3AA3021CBC21B009690F6 /* MingKeMing.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = MingKeMing.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		E9F3A9AE21CBC160009690F6 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E9F3AA3121CBC21B009690F6 /* MingKeMing.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		E9F3A9B721CBC160009690F6 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E9F3A9BB21CBC160009690F6 /* DaoKeDao.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		E9F3A9A721CBC160009690F6 = {
+			isa = PBXGroup;
+			children = (
+				E9F3A9CB21CBC17E009690F6 /* Classes */,
+				E9F3A9B321CBC160009690F6 /* DaoKeDao */,
+				E9F3A9BE21CBC160009690F6 /* DaoKeDaoTests */,
+				E9F3A9B221CBC160009690F6 /* Products */,
+				E9F3AA2F21CBC21B009690F6 /* Frameworks */,
+			);
+			sourceTree = "<group>";
+		};
+		E9F3A9B221CBC160009690F6 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				E9F3A9B121CBC160009690F6 /* DaoKeDao.framework */,
+				E9F3A9BA21CBC160009690F6 /* DaoKeDaoTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		E9F3A9B321CBC160009690F6 /* DaoKeDao */ = {
+			isa = PBXGroup;
+			children = (
+				E9F3A9B521CBC160009690F6 /* Info.plist */,
+			);
+			path = DaoKeDao;
+			sourceTree = "<group>";
+		};
+		E9F3A9BE21CBC160009690F6 /* DaoKeDaoTests */ = {
+			isa = PBXGroup;
+			children = (
+				E9F3A9BF21CBC160009690F6 /* DaoKeDaoTests.m */,
+				E9F3A9C121CBC160009690F6 /* Info.plist */,
+			);
+			path = DaoKeDaoTests;
+			sourceTree = "<group>";
+		};
+		E9F3A9CB21CBC17E009690F6 /* Classes */ = {
+			isa = PBXGroup;
+			children = (
+				E9F3A9CD21CBC17E009690F6 /* extends */,
+				E9F3A9D421CBC17E009690F6 /* types */,
+				E9F3A9D821CBC17E009690F6 /* content */,
+				E9F3A9ED21CBC17E009690F6 /* message */,
+				E9F3A9CC21CBC17E009690F6 /* DKDKeyStore.h */,
+				E9F3A9F821CBC17E009690F6 /* DKDKeyStore.m */,
+				E9F3A9F921CBC17E009690F6 /* DKDTransceiver.h */,
+				E9F3A9D721CBC17E009690F6 /* DKDTransceiver.m */,
+				E9F3A9FA21CBC17E009690F6 /* DaoKeDao.h */,
+			);
+			name = Classes;
+			path = ../Classes;
+			sourceTree = "<group>";
+		};
+		E9F3A9CD21CBC17E009690F6 /* extends */ = {
+			isa = PBXGroup;
+			children = (
+				E9F3A9D221CBC17E009690F6 /* MKMAccount+Message.h */,
+				E9F3A9CF21CBC17E009690F6 /* MKMAccount+Message.m */,
+				E9F3A9D321CBC17E009690F6 /* MKMUser+Message.h */,
+				E9F3A9D021CBC17E009690F6 /* MKMUser+Message.m */,
+				E9F3A9D121CBC17E009690F6 /* MKMGroup+Message.h */,
+				E9F3A9CE21CBC17E009690F6 /* MKMGroup+Message.m */,
+			);
+			path = extends;
+			sourceTree = "<group>";
+		};
+		E9F3A9D421CBC17E009690F6 /* types */ = {
+			isa = PBXGroup;
+			children = (
+				E9F3A9D521CBC17E009690F6 /* DKDDictionary.h */,
+				E9F3A9D621CBC17E009690F6 /* DKDDictionary.m */,
+			);
+			path = types;
+			sourceTree = "<group>";
+		};
+		E9F3A9D821CBC17E009690F6 /* content */ = {
+			isa = PBXGroup;
+			children = (
+				E9F3A9EA21CBC17E009690F6 /* DKDMessageContent.h */,
+				E9F3A9DF21CBC17E009690F6 /* DKDMessageContent.m */,
+				E9F3A9DE21CBC17E009690F6 /* DKDMessageContent+Audio.h */,
+				E9F3A9E621CBC17E009690F6 /* DKDMessageContent+Audio.m */,
+				E9F3A9DD21CBC17E009690F6 /* DKDMessageContent+Command.h */,
+				E9F3A9E721CBC17E009690F6 /* DKDMessageContent+Command.m */,
+				E9F3A9EB21CBC17E009690F6 /* DKDMessageContent+File.h */,
+				E9F3A9E121CBC17E009690F6 /* DKDMessageContent+File.m */,
+				E9F3A9D921CBC17E009690F6 /* DKDMessageContent+Forward.h */,
+				E9F3A9E521CBC17E009690F6 /* DKDMessageContent+Forward.m */,
+				E9F3A9E821CBC17E009690F6 /* DKDMessageContent+Image.h */,
+				E9F3A9DC21CBC17E009690F6 /* DKDMessageContent+Image.m */,
+				E9F3A9E021CBC17E009690F6 /* DKDMessageContent+Quote.h */,
+				E9F3A9E921CBC17E009690F6 /* DKDMessageContent+Quote.m */,
+				E9F3A9E321CBC17E009690F6 /* DKDMessageContent+Text.h */,
+				E9F3A9DB21CBC17E009690F6 /* DKDMessageContent+Text.m */,
+				E9F3A9EC21CBC17E009690F6 /* DKDMessageContent+Video.h */,
+				E9F3A9E221CBC17E009690F6 /* DKDMessageContent+Video.m */,
+				E9F3A9DA21CBC17E009690F6 /* DKDMessageContent+Webpage.h */,
+				E9F3A9E421CBC17E009690F6 /* DKDMessageContent+Webpage.m */,
+			);
+			path = content;
+			sourceTree = "<group>";
+		};
+		E9F3A9ED21CBC17E009690F6 /* message */ = {
+			isa = PBXGroup;
+			children = (
+				E9F3A9EF21CBC17E009690F6 /* DKDEnvelope.h */,
+				E9F3A9F521CBC17E009690F6 /* DKDEnvelope.m */,
+				E9F3A9F421CBC17E009690F6 /* DKDMessage.h */,
+				E9F3A9F021CBC17E009690F6 /* DKDMessage.m */,
+				E9F3A9F321CBC17E009690F6 /* DKDInstantMessage.h */,
+				E9F3A9F121CBC17E009690F6 /* DKDInstantMessage.m */,
+				E9F3A9F221CBC17E009690F6 /* DKDReliableMessage.h */,
+				E9F3A9F721CBC17E009690F6 /* DKDReliableMessage.m */,
+				E9F3A9F621CBC17E009690F6 /* DKDSecureMessage.h */,
+				E9F3A9EE21CBC17E009690F6 /* DKDSecureMessage.m */,
+			);
+			path = message;
+			sourceTree = "<group>";
+		};
+		E9F3AA2F21CBC21B009690F6 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				E9F3AA3021CBC21B009690F6 /* MingKeMing.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXHeadersBuildPhase section */
+		E9F3A9AC21CBC160009690F6 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E9F3AA0021CBC17F009690F6 /* MKMAccount+Message.h in Headers */,
+				E9F3AA0121CBC17F009690F6 /* MKMUser+Message.h in Headers */,
+				E9F3A9FF21CBC17F009690F6 /* MKMGroup+Message.h in Headers */,
+				E9F3AA0221CBC17F009690F6 /* DKDDictionary.h in Headers */,
+				E9F3AA0F21CBC17F009690F6 /* DKDMessageContent+Text.h in Headers */,
+				E9F3AA0621CBC17F009690F6 /* DKDMessageContent+Webpage.h in Headers */,
+				E9F3AA1621CBC17F009690F6 /* DKDMessageContent.h in Headers */,
+				E9F3AA0A21CBC17F009690F6 /* DKDMessageContent+Audio.h in Headers */,
+				E9F3AA0521CBC17F009690F6 /* DKDMessageContent+Forward.h in Headers */,
+				E9F3AA0921CBC17F009690F6 /* DKDMessageContent+Command.h in Headers */,
+				E9F3AA1821CBC17F009690F6 /* DKDMessageContent+Video.h in Headers */,
+				E9F3AA1421CBC17F009690F6 /* DKDMessageContent+Image.h in Headers */,
+				E9F3AA1721CBC17F009690F6 /* DKDMessageContent+File.h in Headers */,
+				E9F3AA0C21CBC17F009690F6 /* DKDMessageContent+Quote.h in Headers */,
+				E9F3AA1E21CBC17F009690F6 /* DKDInstantMessage.h in Headers */,
+				E9F3AA1D21CBC17F009690F6 /* DKDReliableMessage.h in Headers */,
+				E9F3AA2121CBC17F009690F6 /* DKDSecureMessage.h in Headers */,
+				E9F3AA1A21CBC17F009690F6 /* DKDEnvelope.h in Headers */,
+				E9F3AA1F21CBC17F009690F6 /* DKDMessage.h in Headers */,
+				E9F3A9FB21CBC17E009690F6 /* DKDKeyStore.h in Headers */,
+				E9F3AA2421CBC17F009690F6 /* DKDTransceiver.h in Headers */,
+				E9F3AA2521CBC17F009690F6 /* DaoKeDao.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXHeadersBuildPhase section */
+
+/* Begin PBXNativeTarget section */
+		E9F3A9B021CBC160009690F6 /* DaoKeDao */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = E9F3A9C521CBC160009690F6 /* Build configuration list for PBXNativeTarget "DaoKeDao" */;
+			buildPhases = (
+				E9F3A9AC21CBC160009690F6 /* Headers */,
+				E9F3A9AD21CBC160009690F6 /* Sources */,
+				E9F3A9AE21CBC160009690F6 /* Frameworks */,
+				E9F3A9AF21CBC160009690F6 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = DaoKeDao;
+			productName = DaoKeDao;
+			productReference = E9F3A9B121CBC160009690F6 /* DaoKeDao.framework */;
+			productType = "com.apple.product-type.framework";
+		};
+		E9F3A9B921CBC160009690F6 /* DaoKeDaoTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = E9F3A9C821CBC160009690F6 /* Build configuration list for PBXNativeTarget "DaoKeDaoTests" */;
+			buildPhases = (
+				E9F3A9B621CBC160009690F6 /* Sources */,
+				E9F3A9B721CBC160009690F6 /* Frameworks */,
+				E9F3A9B821CBC160009690F6 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				E9F3A9BD21CBC160009690F6 /* PBXTargetDependency */,
+			);
+			name = DaoKeDaoTests;
+			productName = DaoKeDaoTests;
+			productReference = E9F3A9BA21CBC160009690F6 /* DaoKeDaoTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		E9F3A9A821CBC160009690F6 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 1010;
+				ORGANIZATIONNAME = "DIM Group";
+				TargetAttributes = {
+					E9F3A9B021CBC160009690F6 = {
+						CreatedOnToolsVersion = 10.1;
+					};
+					E9F3A9B921CBC160009690F6 = {
+						CreatedOnToolsVersion = 10.1;
+					};
+				};
+			};
+			buildConfigurationList = E9F3A9AB21CBC160009690F6 /* Build configuration list for PBXProject "DaoKeDao" */;
+			compatibilityVersion = "Xcode 9.3";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = E9F3A9A721CBC160009690F6;
+			productRefGroup = E9F3A9B221CBC160009690F6 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				E9F3A9B021CBC160009690F6 /* DaoKeDao */,
+				E9F3A9B921CBC160009690F6 /* DaoKeDaoTests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		E9F3A9AF21CBC160009690F6 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		E9F3A9B821CBC160009690F6 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		E9F3A9AD21CBC160009690F6 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E9F3AA0E21CBC17F009690F6 /* DKDMessageContent+Video.m in Sources */,
+				E9F3AA0B21CBC17F009690F6 /* DKDMessageContent.m in Sources */,
+				E9F3AA0D21CBC17F009690F6 /* DKDMessageContent+File.m in Sources */,
+				E9F3AA1921CBC17F009690F6 /* DKDSecureMessage.m in Sources */,
+				E9F3AA2321CBC17F009690F6 /* DKDKeyStore.m in Sources */,
+				E9F3AA2021CBC17F009690F6 /* DKDEnvelope.m in Sources */,
+				E9F3AA1221CBC17F009690F6 /* DKDMessageContent+Audio.m in Sources */,
+				E9F3AA2221CBC17F009690F6 /* DKDReliableMessage.m in Sources */,
+				E9F3AA0421CBC17F009690F6 /* DKDTransceiver.m in Sources */,
+				E9F3AA0721CBC17F009690F6 /* DKDMessageContent+Text.m in Sources */,
+				E9F3AA1321CBC17F009690F6 /* DKDMessageContent+Command.m in Sources */,
+				E9F3AA0821CBC17F009690F6 /* DKDMessageContent+Image.m in Sources */,
+				E9F3AA1B21CBC17F009690F6 /* DKDMessage.m in Sources */,
+				E9F3AA1C21CBC17F009690F6 /* DKDInstantMessage.m in Sources */,
+				E9F3AA1021CBC17F009690F6 /* DKDMessageContent+Webpage.m in Sources */,
+				E9F3A9FC21CBC17E009690F6 /* MKMGroup+Message.m in Sources */,
+				E9F3AA1121CBC17F009690F6 /* DKDMessageContent+Forward.m in Sources */,
+				E9F3A9FD21CBC17E009690F6 /* MKMAccount+Message.m in Sources */,
+				E9F3AA0321CBC17F009690F6 /* DKDDictionary.m in Sources */,
+				E9F3AA1521CBC17F009690F6 /* DKDMessageContent+Quote.m in Sources */,
+				E9F3A9FE21CBC17E009690F6 /* MKMUser+Message.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		E9F3A9B621CBC160009690F6 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E9F3A9C021CBC160009690F6 /* DaoKeDaoTests.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		E9F3A9BD21CBC160009690F6 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = E9F3A9B021CBC160009690F6 /* DaoKeDao */;
+			targetProxy = E9F3A9BC21CBC160009690F6 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		E9F3A9C321CBC160009690F6 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = "../../mkm-objc/Classes/**";
+				IPHONEOS_DEPLOYMENT_TARGET = 12.1;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Debug;
+		};
+		E9F3A9C421CBC160009690F6 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = "../../mkm-objc/Classes/**";
+				IPHONEOS_DEPLOYMENT_TARGET = 12.1;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = iphoneos;
+				VALIDATE_PRODUCT = YES;
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Release;
+		};
+		E9F3A9C621CBC160009690F6 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "";
+				CODE_SIGN_STYLE = Automatic;
+				DEFINES_MODULE = YES;
+				DEVELOPMENT_TEAM = 4N8627W97S;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				INFOPLIST_FILE = DaoKeDao/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = DIM.DaoKeDao;
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		E9F3A9C721CBC160009690F6 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "";
+				CODE_SIGN_STYLE = Automatic;
+				DEFINES_MODULE = YES;
+				DEVELOPMENT_TEAM = 4N8627W97S;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				INFOPLIST_FILE = DaoKeDao/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = DIM.DaoKeDao;
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		E9F3A9C921CBC160009690F6 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 4N8627W97S;
+				INFOPLIST_FILE = DaoKeDaoTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = DIM.DaoKeDaoTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		E9F3A9CA21CBC160009690F6 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 4N8627W97S;
+				INFOPLIST_FILE = DaoKeDaoTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = DIM.DaoKeDaoTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		E9F3A9AB21CBC160009690F6 /* Build configuration list for PBXProject "DaoKeDao" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				E9F3A9C321CBC160009690F6 /* Debug */,
+				E9F3A9C421CBC160009690F6 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		E9F3A9C521CBC160009690F6 /* Build configuration list for PBXNativeTarget "DaoKeDao" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				E9F3A9C621CBC160009690F6 /* Debug */,
+				E9F3A9C721CBC160009690F6 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		E9F3A9C821CBC160009690F6 /* Build configuration list for PBXNativeTarget "DaoKeDaoTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				E9F3A9C921CBC160009690F6 /* Debug */,
+				E9F3A9CA21CBC160009690F6 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = E9F3A9A821CBC160009690F6 /* Project object */;
+}
