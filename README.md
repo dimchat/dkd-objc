@@ -30,7 +30,7 @@ Copyright &copy; 2018 Albert Moky
 {
     sender   : "moki@4WDfe3zZ4T7opFSi3iDAKiuTnUHjxmXekk",
     receiver : "hulk@4YeVEN3aUnvC1DNUufCq1bs9zoBSJTzVEj",
-    time     : 1544106533
+    time     : 1545405083
 }
 ```
 
@@ -39,8 +39,8 @@ Copyright &copy; 2018 Albert Moky
 ```javascript
 /* example */
 {
-    type     : 0x01,       // message type
-    sn       : 1544106533, // serial number (message ID in conversation)
+    type     : 0x01,      // message type
+    sn       : 412968873, // serial number (message ID in conversation)
     
     text     : "Hey guy!"
 }
@@ -92,18 +92,18 @@ Accordingly, when the client received a message, it needs TWO steps to extract t
     //-------- head (envelope) --------
     sender   : "moki@4WDfe3zZ4T7opFSi3iDAKiuTnUHjxmXekk",
     receiver : "hulk@4YeVEN3aUnvC1DNUufCq1bs9zoBSJTzVEj",
-    time     : 1544106533,
+    time     : 1545405083,
     
     //-------- body (content) ---------
     content  : {
-        type : 0x01,       // message type
-        sn   : 1544106533, // serial number (ID)
+        type : 0x01,      // message type
+        sn   : 412968873, // serial number (ID)
         text : "Hey guy!"
     }
 }
 ```
 
-content -> JsON string: ```{"sn":1544106533,"text":"Hey guy!","type":1}```
+content -> JsON string: ```{"sn":412968873,"text":"Hey guy!","type":1}```
 
 ### <span id="secure-message">Secure Message</span>
 
@@ -119,11 +119,11 @@ content -> JsON string: ```{"sn":1544106533,"text":"Hey guy!","type":1}```
     //-------- head (envelope) --------
     sender   : "moki@4WDfe3zZ4T7opFSi3iDAKiuTnUHjxmXekk",
     receiver : "hulk@4YeVEN3aUnvC1DNUufCq1bs9zoBSJTzVEj",
-    time     : 1544106533,
+    time     : 1545405083,
     
     //-------- body (content) ---------
-    data     : "1e8OshcP8Z1XBf49ABJkTGNbIVWS8HjD2DCVEv7HmzMv4LqMKdZBSr4wvf4lXrAk",
-    key      : "MnaepvMge7eSSKGeYr2YYblvQr3DPVb3xe3HBC4u5BScusHydQ4/lx0Vl3rvzC3uLMdGVN+BG4qmjYYt53hLSCJhwfwwLynuw/ldSeABQG9t0ObKHnpgAwkvchfDINs2ssz6QgD9bDuV1WzwH49ycNTr84Wa12vXzjERJYalpvw="
+    data     : "9cjCKG99ULCCxbL2mkc/MgF1saeRqJaCc+S12+HCqmsuF7TWK61EwTQWZSKskUeF",
+    key      : "WH/wAcu+HfpaLq+vRblNnYufkyjTm4FgYyzW3wBDeRtXs1TeDmRxKVu7nQI/sdIALGLXrY+O5mlRfhU8f8TuIBilZUlX/eIUpL4uSDYKVLaRG9pOcrCHKevjUpId9x/8KBEiMIL5LB0Vo7sKrvrqosCnIgNfHbXMKvMzwcqZEU8="
 }
 ```
 
@@ -138,11 +138,11 @@ content -> JsON string: ```{"sn":1544106533,"text":"Hey guy!","type":1}```
     //-------- head (envelope) --------
     sender   : "moki@4WDfe3zZ4T7opFSi3iDAKiuTnUHjxmXekk",
     receiver : "hulk@4YeVEN3aUnvC1DNUufCq1bs9zoBSJTzVEj",
-    time     : 1544106533,
+    time     : 1545405083,
     
     //-------- body (content) ---------
-    data      : "1e8OshcP8Z1XBf49ABJkTGNbIVWS8HjD2DCVEv7HmzMv4LqMKdZBSr4wvf4lXrAk",
-    key       : "MnaepvMge7eSSKGeYr2YYblvQr3DPVb3xe3HBC4u5BScusHydQ4/lx0Vl3rvzC3uLMdGVN+BG4qmjYYt53hLSCJhwfwwLynuw/ldSeABQG9t0ObKHnpgAwkvchfDINs2ssz6QgD9bDuV1WzwH49ycNTr84Wa12vXzjERJYalpvw=",
-    signature : "oKcdCzYfysL5CJNCkgRUfeiRGG5AfEWc6GPerLafUbFWW+sij1codi3kZCiHiBlC4Ya4D/I+2xST78A0GME8P1b//LRP+/4Lh8tOE4qRPjj/G8eWSXvjsLkRbjiLeNmNHiD74BR84/Q0d18T0dlP5hQ30DzBKzauZzrhMas89kc="
+    data      : "9cjCKG99ULCCxbL2mkc/MgF1saeRqJaCc+S12+HCqmsuF7TWK61EwTQWZSKskUeF",
+    key       : "WH/wAcu+HfpaLq+vRblNnYufkyjTm4FgYyzW3wBDeRtXs1TeDmRxKVu7nQI/sdIALGLXrY+O5mlRfhU8f8TuIBilZUlX/eIUpL4uSDYKVLaRG9pOcrCHKevjUpId9x/8KBEiMIL5LB0Vo7sKrvrqosCnIgNfHbXMKvMzwcqZEU8=",
+    signature : "Yo+hchWsQlWHtc8iMGS7jpn/i9pOLNq0E3dTNsx80QdBboTLeKoJYAg/lI+kZL+g7oWJYpD4qKemOwzI+9pxdMuZmPycG+0/VM3HVSMcguEOqOH9SElp/fYVnm4aSjAJk2vBpARzMT0aRNp/jTFLawmMDuIlgWhBfXvH7bT7rDI="
 }
 ```
