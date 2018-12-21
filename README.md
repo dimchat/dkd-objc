@@ -10,8 +10,12 @@ This document introduces a common **Message Module** for decentralized instant m
 Copyright &copy; 2018 Albert Moky
 
 - [Envelope](#envelope)
+    - Sender
+    - Receiver
+    - Time
 - [Content](#content)
     - [Type](#content-type)
+    - Serial Number
 - [Message](#message)
     - [Instant Message](#instant-message)
     - [Secure Message](#secure-message)
@@ -22,6 +26,7 @@ Copyright &copy; 2018 Albert Moky
 ### Message Envelope
 
 ```javascript
+/* example */
 {
     sender   : "moki@4WDfe3zZ4T7opFSi3iDAKiuTnUHjxmXekk",
     receiver : "hulk@4YeVEN3aUnvC1DNUufCq1bs9zoBSJTzVEj",
@@ -32,6 +37,7 @@ Copyright &copy; 2018 Albert Moky
 ## <span id="content">1. Content</span>
 
 ```javascript
+/* example */
 {
     type     : 0x01,       // message type
     sn       : 1544106533, // serial number (message ID in conversation)
@@ -81,6 +87,7 @@ Accordingly, when the client received a message, it needs TWO steps to extract t
 ### <span id="instant-message">Instant Message</span>
 
 ```javascript
+/* example */
 {
     //-------- head (envelope) --------
     sender   : "moki@4WDfe3zZ4T7opFSi3iDAKiuTnUHjxmXekk",
@@ -93,7 +100,6 @@ Accordingly, when the client received a message, it needs TWO steps to extract t
         sn   : 1544106533, // serial number (ID)
         text : "Hey guy!"
     }
-    
 }
 ```
 
@@ -126,9 +132,7 @@ content -> JsON string: ```{"sn":1544106533,"text":"Hey guy!","type":1}```
 ```javascript
 /**
  *  Algorithm:
- *      ...
- *      digest    = sha256(sha256(data));
- *      signature = sign(digest, sender.SK);
+ *      signature = sign(data, sender.SK);
  */
 {
     //-------- head (envelope) --------
