@@ -12,6 +12,8 @@
 
 #import "NSObject+JsON.h"
 
+#import "MKMImmortals.h"
+
 @interface DaoKeDaoTests : XCTestCase
 
 @end
@@ -40,10 +42,16 @@
 
 - (void)testMessage {
     
+    MKMImmortals *immortals = [[MKMImmortals alloc] init];
+    MKMFacebook().userDelegate = immortals;
+    MKMFacebook().contactDelegate = immortals;
+    DKDTransceiver *trans = [DKDTransceiver sharedInstance];
+    
     DKDMessageContent *text;
     text = [[DKDMessageContent alloc] initWithText:@"Hey guy!"];
     NSLog(@"text: %@", text);
     NSLog(@"json: %@", [text jsonString]);
+    NSAssert(text.type == DKDMessageType_Text, @"msg type error");
     
     MKMID *ID1 = [MKMID IDWithID:MKM_IMMORTAL_HULK_ID];
     MKMID *ID2 = [MKMID IDWithID:MKM_MONKEY_KING_ID];
@@ -56,6 +64,13 @@
     NSLog(@"instant msg: %@", iMsg);
     NSLog(@"json: %@", [iMsg jsonString]);
     
+    DKDReliableMessage *rMsg;
+    rMsg = [trans encryptAndSignMessage:iMsg];
+    NSLog(@"reliable msg: %@", rMsg);
+    NSLog(@"json: %@", [rMsg jsonString]);
+    
+    DKDInstantMessage *recv = [trans verifyAndDecryptMessage:rMsg];
+    NSAssert([recv isEqual:iMsg], @"msg packing error");
 }
 
 @end
