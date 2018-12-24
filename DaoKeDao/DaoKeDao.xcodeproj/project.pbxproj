@@ -52,7 +52,7 @@
 		E9F3AA2321CBC17F009690F6 /* DKDKeyStore.m in Sources */ = {isa = PBXBuildFile; fileRef = E9F3A9F821CBC17E009690F6 /* DKDKeyStore.m */; };
 		E9F3AA2421CBC17F009690F6 /* DKDTransceiver.h in Headers */ = {isa = PBXBuildFile; fileRef = E9F3A9F921CBC17E009690F6 /* DKDTransceiver.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		E9F3AA2521CBC17F009690F6 /* DaoKeDao.h in Headers */ = {isa = PBXBuildFile; fileRef = E9F3A9FA21CBC17E009690F6 /* DaoKeDao.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		E9F3AA3121CBC21B009690F6 /* MingKeMing.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E9F3AA3021CBC21B009690F6 /* MingKeMing.framework */; };
+		E9F3AB9021D07781009690F6 /* MingKeMing.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E9F3AB8D21D07775009690F6 /* MingKeMing.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -62,6 +62,20 @@
 			proxyType = 1;
 			remoteGlobalIDString = E9F3A9B021CBC160009690F6;
 			remoteInfo = DaoKeDao;
+		};
+		E9F3AB8C21D07775009690F6 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = E9F3AB8721D07774009690F6 /* MingKeMing.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = E9F3A69A21CA4627009690F6;
+			remoteInfo = MingKeMing;
+		};
+		E9F3AB8E21D07775009690F6 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = E9F3AB8721D07774009690F6 /* MingKeMing.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = E9F3A6A321CA4627009690F6;
+			remoteInfo = MingKeMingTests;
 		};
 /* End PBXContainerItemProxy section */
 
@@ -114,7 +128,7 @@
 		E9F3A9F821CBC17E009690F6 /* DKDKeyStore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DKDKeyStore.m; sourceTree = "<group>"; };
 		E9F3A9F921CBC17E009690F6 /* DKDTransceiver.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DKDTransceiver.h; sourceTree = "<group>"; };
 		E9F3A9FA21CBC17E009690F6 /* DaoKeDao.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DaoKeDao.h; sourceTree = "<group>"; };
-		E9F3AA3021CBC21B009690F6 /* MingKeMing.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = MingKeMing.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		E9F3AB8721D07774009690F6 /* MingKeMing.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = MingKeMing.xcodeproj; path = "../../mkm-objc/MingKeMing/MingKeMing.xcodeproj"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -122,7 +136,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E9F3AA3121CBC21B009690F6 /* MingKeMing.framework in Frameworks */,
+				E9F3AB9021D07781009690F6 /* MingKeMing.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -140,6 +154,7 @@
 		E9F3A9A721CBC160009690F6 = {
 			isa = PBXGroup;
 			children = (
+				E9F3AB8721D07774009690F6 /* MingKeMing.xcodeproj */,
 				E9F3A9CB21CBC17E009690F6 /* Classes */,
 				E9F3A9B321CBC160009690F6 /* DaoKeDao */,
 				E9F3A9BE21CBC160009690F6 /* DaoKeDaoTests */,
@@ -260,9 +275,17 @@
 		E9F3AA2F21CBC21B009690F6 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				E9F3AA3021CBC21B009690F6 /* MingKeMing.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		E9F3AB8821D07774009690F6 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				E9F3AB8D21D07775009690F6 /* MingKeMing.framework */,
+				E9F3AB8F21D07775009690F6 /* MingKeMingTests.xctest */,
+			);
+			name = Products;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -363,6 +386,12 @@
 			mainGroup = E9F3A9A721CBC160009690F6;
 			productRefGroup = E9F3A9B221CBC160009690F6 /* Products */;
 			projectDirPath = "";
+			projectReferences = (
+				{
+					ProductGroup = E9F3AB8821D07774009690F6 /* Products */;
+					ProjectRef = E9F3AB8721D07774009690F6 /* MingKeMing.xcodeproj */;
+				},
+			);
 			projectRoot = "";
 			targets = (
 				E9F3A9B021CBC160009690F6 /* DaoKeDao */,
@@ -370,6 +399,23 @@
 			);
 		};
 /* End PBXProject section */
+
+/* Begin PBXReferenceProxy section */
+		E9F3AB8D21D07775009690F6 /* MingKeMing.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = MingKeMing.framework;
+			remoteRef = E9F3AB8C21D07775009690F6 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		E9F3AB8F21D07775009690F6 /* MingKeMingTests.xctest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = MingKeMingTests.xctest;
+			remoteRef = E9F3AB8E21D07775009690F6 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+/* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
 		E9F3A9AF21CBC160009690F6 /* Resources */ = {
