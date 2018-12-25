@@ -77,6 +77,13 @@
 			remoteGlobalIDString = E9F3A6A321CA4627009690F6;
 			remoteInfo = MingKeMingTests;
 		};
+		E9F3ABEB21D22F41009690F6 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = E9F3AB8721D07774009690F6 /* MingKeMing.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = E9F3A69921CA4627009690F6;
+			remoteInfo = MingKeMing;
+		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
@@ -335,6 +342,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				E9F3ABEC21D22F41009690F6 /* PBXTargetDependency */,
 			);
 			name = DaoKeDao;
 			productName = DaoKeDao;
@@ -478,6 +486,11 @@
 			isa = PBXTargetDependency;
 			target = E9F3A9B021CBC160009690F6 /* DaoKeDao */;
 			targetProxy = E9F3A9BC21CBC160009690F6 /* PBXContainerItemProxy */;
+		};
+		E9F3ABEC21D22F41009690F6 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = MingKeMing;
+			targetProxy = E9F3ABEB21D22F41009690F6 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
