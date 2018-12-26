@@ -14,27 +14,6 @@
 
 #import "DKDSecureMessage.h"
 
-@implementation DKDEncryptedKeyMap
-
-- (void) setObject:(id)anObject forKey:(const NSString *)aKey {
-    NSAssert(false, @"DON'T call me");
-    //[super setObject:anObject forKey:aKey];
-}
-
-- (NSData *)encryptedKeyForID:(const MKMID *)ID {
-    NSString *encode = [_storeDictionary objectForKey:ID.address];
-    return [encode base64Decode];
-}
-
-- (void)setEncryptedKey:(NSData *)key forID:(const MKMID *)ID {
-    NSString *encode = [key base64Encode];
-    [_storeDictionary setObject:encode forKey:ID.address];
-}
-
-@end
-
-#pragma mark -
-
 @interface DKDSecureMessage ()
 
 @property (strong, nonatomic) NSData *data;
@@ -145,12 +124,46 @@
 
 - (DKDEncryptedKeyMap *)encryptedKeys {
     if (!_encryptedKeys) {
-        NSDictionary *keys = [_storeDictionary objectForKey:@"keys"];
-        DKDEncryptedKeyMap *map;
-        map = [[DKDEncryptedKeyMap alloc] initWithDictionary:keys];
-        _encryptedKeys = map;
+        id keys = [_storeDictionary objectForKey:@"keys"];
+        _encryptedKeys = [DKDEncryptedKeyMap mapWithMap:keys];
     }
     return _encryptedKeys;
+}
+
+@end
+
+#pragma mark -
+
+@implementation DKDEncryptedKeyMap
+
++ (instancetype)mapWithMap:(id)map {
+    if ([map isKindOfClass:[DKDEncryptedKeyMap class]]) {
+        return map;
+    } else if ([map isKindOfClass:[NSDictionary class]]) {
+        return [[self alloc] initWithDictionary:map];
+    } else {
+        NSAssert(!map, @"unexpected key map: %@", map);
+        return nil;
+    }
+}
+
+- (void) setObject:(id)anObject forKey:(const NSString *)aKey {
+    NSAssert(false, @"DON'T call me");
+    //[super setObject:anObject forKey:aKey];
+}
+
+- (NSData *)encryptedKeyForID:(const MKMID *)ID {
+    NSString *encode = [_storeDictionary objectForKey:ID];
+    return [encode base64Decode];
+}
+
+- (void)setEncryptedKey:(NSData *)key forID:(const MKMID *)ID {
+    if (key) {
+        NSString *encode = [key base64Encode];
+        [_storeDictionary setObject:encode forKey:ID];
+    } else {
+        [_storeDictionary removeObjectForKey:ID];
+    }
 }
 
 @end
