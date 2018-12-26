@@ -218,6 +218,10 @@ SingletonImplementations(DKDKeyStore, sharedInstance)
 - (void)setCipherKey:(MKMSymmetricKey *)key
           forAccount:(const MKMID *)ID {
     NSAssert(MKMNetwork_IsPerson(ID.type), @"ID error");
+    if (!key) {
+        NSAssert(false, @"cipher key cannot be empty");
+        return;
+    }
     [_keysForAccounts setObject:key forKey:ID.address];
 }
 
@@ -231,6 +235,10 @@ SingletonImplementations(DKDKeyStore, sharedInstance)
 - (void)setCipherKey:(MKMSymmetricKey *)key
          fromAccount:(const MKMID *)ID {
     NSAssert(MKMNetwork_IsPerson(ID.type), @"ID error");
+    if (!key) {
+        NSAssert(false, @"cipher key cannot be empty");
+        return;
+    }
     [_keysFromAccounts setObject:key forKey:ID.address];
     _dirty = YES;
 }
@@ -245,6 +253,10 @@ SingletonImplementations(DKDKeyStore, sharedInstance)
 - (void)setCipherKey:(MKMSymmetricKey *)key
             forGroup:(const MKMID *)ID {
     NSAssert(MKMNetwork_IsGroup(ID.type), @"ID error");
+    if (!key) {
+        NSAssert(false, @"cipher key cannot be empty");
+        return;
+    }
     [_keysForGroups setObject:key forKey:ID.address];
 }
 
@@ -263,6 +275,10 @@ SingletonImplementations(DKDKeyStore, sharedInstance)
              inGroup:(const MKMID *)group {
     NSAssert(MKMNetwork_IsPerson(ID.type), @"ID error");
     NSAssert(MKMNetwork_IsGroup(group.type), @"group ID error");
+    if (!key) {
+        NSAssert(false, @"cipher key cannot be empty");
+        return;
+    }
     KeysTableM *table = [_tablesFromGroups objectForKey:group.address];
     if (!table) {
         table = [[KeysTableM alloc] init];

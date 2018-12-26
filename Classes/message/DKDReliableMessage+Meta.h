@@ -11,7 +11,7 @@
 NS_ASSUME_NONNULL_BEGIN
 
 /**
- *  Extends for the first message package of 'First Handshake' protocol
+ *  Extends for the first message package of 'Handshake' protocol
  */
 @interface DKDReliableMessage (Meta)
 

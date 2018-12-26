@@ -22,11 +22,6 @@ FOUNDATION_EXPORT const unsigned char DaoKeDaoVersionString[];
 #if !defined(__DAO_KE_DAO__)
 #define __DAO_KE_DAO__ 1
 
-// Extends
-#import <DaoKeDao/MKMAccount+Message.h>
-#import <DaoKeDao/MKMUser+Message.h>
-#import <DaoKeDao/MKMGroup+Message.h>
-
 // Types
 //#import <DaoKeDao/DKDDictionary.h>
 
@@ -49,6 +44,9 @@ FOUNDATION_EXPORT const unsigned char DaoKeDaoVersionString[];
 #import <DaoKeDao/DKDSecureMessage.h>
 #import <DaoKeDao/DKDReliableMessage.h>
 #import <DaoKeDao/DKDReliableMessage+Meta.h>
+#import <DaoKeDao/DKDInstantMessage+Transform.h>
+#import <DaoKeDao/DKDSecureMessage+Transform.h>
+#import <DaoKeDao/DKDReliableMessage+Transform.h>
 
 //-
 #import <DaoKeDao/DKDTransceiver.h>
