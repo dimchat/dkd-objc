@@ -53,6 +53,8 @@
 		E9F3AA2421CBC17F009690F6 /* DKDTransceiver.h in Headers */ = {isa = PBXBuildFile; fileRef = E9F3A9F921CBC17E009690F6 /* DKDTransceiver.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		E9F3AA2521CBC17F009690F6 /* DaoKeDao.h in Headers */ = {isa = PBXBuildFile; fileRef = E9F3A9FA21CBC17E009690F6 /* DaoKeDao.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		E9F3AC2121D2391C009690F6 /* MingKeMing.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E9F3AB8D21D07775009690F6 /* MingKeMing.framework */; };
+		E9F83C5C21D38E0D00B99B44 /* DKDReliableMessage+Meta.h in Headers */ = {isa = PBXBuildFile; fileRef = E9F83C5A21D38E0D00B99B44 /* DKDReliableMessage+Meta.h */; };
+		E9F83C5D21D38E0D00B99B44 /* DKDReliableMessage+Meta.m in Sources */ = {isa = PBXBuildFile; fileRef = E9F83C5B21D38E0D00B99B44 /* DKDReliableMessage+Meta.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -136,6 +138,8 @@
 		E9F3A9F921CBC17E009690F6 /* DKDTransceiver.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DKDTransceiver.h; sourceTree = "<group>"; };
 		E9F3A9FA21CBC17E009690F6 /* DaoKeDao.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DaoKeDao.h; sourceTree = "<group>"; };
 		E9F3AB8721D07774009690F6 /* MingKeMing.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = MingKeMing.xcodeproj; path = "../../mkm-objc/MingKeMing/MingKeMing.xcodeproj"; sourceTree = "<group>"; };
+		E9F83C5A21D38E0D00B99B44 /* DKDReliableMessage+Meta.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "DKDReliableMessage+Meta.h"; sourceTree = "<group>"; };
+		E9F83C5B21D38E0D00B99B44 /* DKDReliableMessage+Meta.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "DKDReliableMessage+Meta.m"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -273,6 +277,8 @@
 				E9F3A9F121CBC17E009690F6 /* DKDInstantMessage.m */,
 				E9F3A9F221CBC17E009690F6 /* DKDReliableMessage.h */,
 				E9F3A9F721CBC17E009690F6 /* DKDReliableMessage.m */,
+				E9F83C5A21D38E0D00B99B44 /* DKDReliableMessage+Meta.h */,
+				E9F83C5B21D38E0D00B99B44 /* DKDReliableMessage+Meta.m */,
 				E9F3A9F621CBC17E009690F6 /* DKDSecureMessage.h */,
 				E9F3A9EE21CBC17E009690F6 /* DKDSecureMessage.m */,
 			);
@@ -308,6 +314,7 @@
 				E9F3AA0221CBC17F009690F6 /* DKDDictionary.h in Headers */,
 				E9F3AA0F21CBC17F009690F6 /* DKDMessageContent+Text.h in Headers */,
 				E9F3AA0621CBC17F009690F6 /* DKDMessageContent+Webpage.h in Headers */,
+				E9F83C5C21D38E0D00B99B44 /* DKDReliableMessage+Meta.h in Headers */,
 				E9F3AA1621CBC17F009690F6 /* DKDMessageContent.h in Headers */,
 				E9F3AA0A21CBC17F009690F6 /* DKDMessageContent+Audio.h in Headers */,
 				E9F3AA0521CBC17F009690F6 /* DKDMessageContent+Forward.h in Headers */,
@@ -459,6 +466,7 @@
 				E9F3AA0721CBC17F009690F6 /* DKDMessageContent+Text.m in Sources */,
 				E9F3AA1321CBC17F009690F6 /* DKDMessageContent+Command.m in Sources */,
 				E9F3AA0821CBC17F009690F6 /* DKDMessageContent+Image.m in Sources */,
+				E9F83C5D21D38E0D00B99B44 /* DKDReliableMessage+Meta.m in Sources */,
 				E9F3AA1B21CBC17F009690F6 /* DKDMessage.m in Sources */,
 				E9F3AA1C21CBC17F009690F6 /* DKDInstantMessage.m in Sources */,
 				E9F3AA1021CBC17F009690F6 /* DKDMessageContent+Webpage.m in Sources */,
