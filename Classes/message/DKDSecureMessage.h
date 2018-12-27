@@ -25,7 +25,7 @@ NS_ASSUME_NONNULL_BEGIN
  *          data     : "...",  // base64_encode(symmetric)
  *          key      : "...",  // base64_encode(asymmetric)
  *          keys     : {
- *              "ID1": "key1",  // base64_encode(asymmetric)
+ *              "ID1": "key1", // base64_encode(asymmetric)
  *          }
  *      }
  */

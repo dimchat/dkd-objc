@@ -8,6 +8,8 @@
 
 #import "DKDEnvelope.h"
 
+#import "DKDReliableMessage+Meta.h"
+
 #import "DKDReliableMessage+Transform.h"
 
 @implementation DKDReliableMessage (Transform)
@@ -20,6 +22,13 @@
     // 1. verify the signature with public key
     MKMContact *contact = MKMContactWithID(sender);
     MKMPublicKey *PK = contact.publicKey;
+    if (!PK) {
+        // first contact, try meta in message package
+        MKMMeta *meta = self.meta;
+        if ([meta matchID:sender]) {
+            PK = meta.key;
+        }
+    }
     if (![PK verify:self.data withSignature:self.signature]) {
         // signature error
         return nil;

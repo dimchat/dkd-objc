@@ -217,12 +217,11 @@ SingletonImplementations(DKDKeyStore, sharedInstance)
 
 - (void)setCipherKey:(MKMSymmetricKey *)key
           forAccount:(const MKMID *)ID {
+    NSAssert(key, @"cipher key cannot be empty");
     NSAssert(MKMNetwork_IsPerson(ID.type), @"ID error");
-    if (!key) {
-        NSAssert(false, @"cipher key cannot be empty");
-        return;
+    if (key) {
+        [_keysForAccounts setObject:key forKey:ID.address];
     }
-    [_keysForAccounts setObject:key forKey:ID.address];
 }
 
 #pragma mark - Cipher key from account(contact) to decrypt message
@@ -234,13 +233,12 @@ SingletonImplementations(DKDKeyStore, sharedInstance)
 
 - (void)setCipherKey:(MKMSymmetricKey *)key
          fromAccount:(const MKMID *)ID {
+    NSAssert(key, @"cipher key cannot be empty");
     NSAssert(MKMNetwork_IsPerson(ID.type), @"ID error");
-    if (!key) {
-        NSAssert(false, @"cipher key cannot be empty");
-        return;
+    if (key) {
+        [_keysFromAccounts setObject:key forKey:ID.address];
+        _dirty = YES;
     }
-    [_keysFromAccounts setObject:key forKey:ID.address];
-    _dirty = YES;
 }
 
 #pragma mark - Cipher key to encrypt message for all group members
@@ -252,12 +250,11 @@ SingletonImplementations(DKDKeyStore, sharedInstance)
 
 - (void)setCipherKey:(MKMSymmetricKey *)key
             forGroup:(const MKMID *)ID {
+    NSAssert(key, @"cipher key cannot be empty");
     NSAssert(MKMNetwork_IsGroup(ID.type), @"ID error");
-    if (!key) {
-        NSAssert(false, @"cipher key cannot be empty");
-        return;
+    if (key) {
+        [_keysForGroups setObject:key forKey:ID.address];
     }
-    [_keysForGroups setObject:key forKey:ID.address];
 }
 
 #pragma mark - Cipher key from a member in the group to decrypt message
@@ -273,19 +270,18 @@ SingletonImplementations(DKDKeyStore, sharedInstance)
 - (void)setCipherKey:(MKMSymmetricKey *)key
           fromMember:(const MKMID *)ID
              inGroup:(const MKMID *)group {
+    NSAssert(key, @"cipher key cannot be empty");
     NSAssert(MKMNetwork_IsPerson(ID.type), @"ID error");
     NSAssert(MKMNetwork_IsGroup(group.type), @"group ID error");
-    if (!key) {
-        NSAssert(false, @"cipher key cannot be empty");
-        return;
-    }
     KeysTableM *table = [_tablesFromGroups objectForKey:group.address];
     if (!table) {
         table = [[KeysTableM alloc] init];
         [_tablesFromGroups setObject:table forKey:group.address];
     }
-    [table setObject:key forKey:ID.address];
-    _dirty = YES;
+    if (key) {
+        [table setObject:key forKey:ID.address];
+        _dirty = YES;
+    }
 }
 
 #pragma mark - Private key encrpyted by a password for user

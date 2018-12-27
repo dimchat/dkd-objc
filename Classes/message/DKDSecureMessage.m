@@ -40,13 +40,19 @@
     NSAssert(content, @"content cannot be empty");
     if (self = [super initWithEnvelope:env]) {
         // content data
-        _data = [content copy];
-        [_storeDictionary setObject:[content base64Encode] forKey:@"data"];
+        if (content) {
+            _data = [content copy];
+            [_storeDictionary setObject:[content base64Encode] forKey:@"data"];
+        } else {
+            _data = nil;
+        }
         
         // encrypted key
         if (key) {
             _encryptedKey = [key copy];
             [_storeDictionary setObject:[key base64Encode] forKey:@"key"];
+        } else {
+            _encryptedKey = nil;
         }
         
         _encryptedKeys = nil;
@@ -61,8 +67,12 @@
     NSAssert(content, @"content cannot be empty");
     if (self = [super initWithEnvelope:env]) {
         // content data
-        _data = [content copy];
-        [_storeDictionary setObject:[content base64Encode] forKey:@"data"];
+        if (content) {
+            _data = [content copy];
+            [_storeDictionary setObject:[content base64Encode] forKey:@"data"];
+        } else {
+            _data = nil;
+        }
         
         _encryptedKey = nil;
         
@@ -70,6 +80,8 @@
         if (keys.count > 0) {
             _encryptedKeys = [keys copy];
             [_storeDictionary setObject:_encryptedKeys forKey:@"keys"];
+        } else {
+            _encryptedKeys = nil;
         }
     }
     return self;

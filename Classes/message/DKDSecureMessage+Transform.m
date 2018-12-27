@@ -60,7 +60,6 @@ static inline MKMSymmetricKey *get_decrypt_key(const MKMUser *user,
         // receiver type not supported
         assert(false);
     }
-    assert(scKey);
     return scKey;
 }
 
@@ -73,9 +72,14 @@ static inline MKMSymmetricKey *get_decrypt_key(const MKMUser *user,
     
     // 1. symmetric key
     MKMSymmetricKey *scKey = get_decrypt_key(user, self);
+    NSAssert(scKey, @"failed to get decrypt key for receiver: %@", receiver);
     
     // 2. decrypt 'data' to 'content'
     NSData *data = [scKey decrypt:self.data];
+    if (!data) {
+        NSAssert(false, @"failed to decrypt secure data: %@", self);
+        return nil;
+    }
     NSString *json = [data UTF8String];
     DKDMessageContent *content;
     content = [[DKDMessageContent alloc] initWithJSONString:json];
