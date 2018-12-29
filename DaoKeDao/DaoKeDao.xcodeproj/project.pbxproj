@@ -55,6 +55,8 @@
 		E9F83C9F21D3E07600B99B44 /* DKDInstantMessage+Transform.m in Sources */ = {isa = PBXBuildFile; fileRef = E9F83C9D21D3E07600B99B44 /* DKDInstantMessage+Transform.m */; };
 		E9F83CA221D3E10E00B99B44 /* DKDReliableMessage+Transform.h in Headers */ = {isa = PBXBuildFile; fileRef = E9F83CA021D3E10E00B99B44 /* DKDReliableMessage+Transform.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		E9F83CA321D3E10E00B99B44 /* DKDReliableMessage+Transform.m in Sources */ = {isa = PBXBuildFile; fileRef = E9F83CA121D3E10E00B99B44 /* DKDReliableMessage+Transform.m */; };
+		E9F83CAD21D5C31000B99B44 /* DKDSecureMessage+Packing.h in Headers */ = {isa = PBXBuildFile; fileRef = E9F83CAB21D5C31000B99B44 /* DKDSecureMessage+Packing.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		E9F83CAE21D5C31000B99B44 /* DKDSecureMessage+Packing.m in Sources */ = {isa = PBXBuildFile; fileRef = E9F83CAC21D5C31000B99B44 /* DKDSecureMessage+Packing.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -140,6 +142,8 @@
 		E9F83C9D21D3E07600B99B44 /* DKDInstantMessage+Transform.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "DKDInstantMessage+Transform.m"; sourceTree = "<group>"; };
 		E9F83CA021D3E10E00B99B44 /* DKDReliableMessage+Transform.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "DKDReliableMessage+Transform.h"; sourceTree = "<group>"; };
 		E9F83CA121D3E10E00B99B44 /* DKDReliableMessage+Transform.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "DKDReliableMessage+Transform.m"; sourceTree = "<group>"; };
+		E9F83CAB21D5C31000B99B44 /* DKDSecureMessage+Packing.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "DKDSecureMessage+Packing.h"; sourceTree = "<group>"; };
+		E9F83CAC21D5C31000B99B44 /* DKDSecureMessage+Packing.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "DKDSecureMessage+Packing.m"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -267,6 +271,8 @@
 				E9F3A9EE21CBC17E009690F6 /* DKDSecureMessage.m */,
 				E9F83C9721D3DF5000B99B44 /* DKDSecureMessage+Transform.h */,
 				E9F83C9821D3DF5000B99B44 /* DKDSecureMessage+Transform.m */,
+				E9F83CAB21D5C31000B99B44 /* DKDSecureMessage+Packing.h */,
+				E9F83CAC21D5C31000B99B44 /* DKDSecureMessage+Packing.m */,
 				E9F3A9F221CBC17E009690F6 /* DKDReliableMessage.h */,
 				E9F3A9F721CBC17E009690F6 /* DKDReliableMessage.m */,
 				E9F83CA021D3E10E00B99B44 /* DKDReliableMessage+Transform.h */,
@@ -318,6 +324,7 @@
 				E9F3AA1F21CBC17F009690F6 /* DKDMessage.h in Headers */,
 				E9F83C9E21D3E07600B99B44 /* DKDInstantMessage+Transform.h in Headers */,
 				E9F83C9921D3DF5000B99B44 /* DKDSecureMessage+Transform.h in Headers */,
+				E9F83CAD21D5C31000B99B44 /* DKDSecureMessage+Packing.h in Headers */,
 				E9F83CA221D3E10E00B99B44 /* DKDReliableMessage+Transform.h in Headers */,
 				E9F83C5C21D38E0D00B99B44 /* DKDReliableMessage+Meta.h in Headers */,
 				E9F3A9FB21CBC17E009690F6 /* DKDKeyStore.h in Headers */,
@@ -461,6 +468,7 @@
 				E9F83C5D21D38E0D00B99B44 /* DKDReliableMessage+Meta.m in Sources */,
 				E9F83CA321D3E10E00B99B44 /* DKDReliableMessage+Transform.m in Sources */,
 				E9F3AA1B21CBC17F009690F6 /* DKDMessage.m in Sources */,
+				E9F83CAE21D5C31000B99B44 /* DKDSecureMessage+Packing.m in Sources */,
 				E9F3AA1C21CBC17F009690F6 /* DKDInstantMessage.m in Sources */,
 				E9F3AA1021CBC17F009690F6 /* DKDMessageContent+Webpage.m in Sources */,
 				E9F83C9F21D3E07600B99B44 /* DKDInstantMessage+Transform.m in Sources */,
