@@ -69,7 +69,8 @@
     NSLog(@"reliable msg: %@", rMsg);
     NSLog(@"json: %@", [rMsg jsonString]);
     
-    DKDInstantMessage *recv = [trans verifyAndDecryptMessage:rMsg];
+    MKMUser *user = MKMUserWithID(ID2);
+    DKDInstantMessage *recv = [trans verifyAndDecryptMessage:rMsg forUser:user];
     NSAssert([recv isEqual:iMsg], @"msg packing error");
 }
 
