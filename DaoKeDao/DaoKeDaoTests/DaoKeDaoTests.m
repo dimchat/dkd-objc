@@ -44,7 +44,7 @@
     
     MKMImmortals *immortals = [[MKMImmortals alloc] init];
     MKMFacebook().userDelegate = immortals;
-    MKMFacebook().contactDelegate = immortals;
+    MKMFacebook().accountDelegate = immortals;
     DKDTransceiver *trans = [DKDTransceiver sharedInstance];
     
     DKDMessageContent *text;
