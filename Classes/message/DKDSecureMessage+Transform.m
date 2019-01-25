@@ -29,7 +29,7 @@
     // 1. symmetric key
     MKMSymmetricKey *scKey = nil;
     NSData *key = nil;
-    if (MKMNetwork_IsPerson(receiver.type)) {
+    if (MKMNetwork_IsCommunicator(receiver.type)) {
         key = self.encryptedKey;
         if (key) {
             // 1.1. decrypt passphrase with user's private key

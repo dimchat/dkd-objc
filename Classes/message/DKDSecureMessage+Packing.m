@@ -90,7 +90,7 @@ static inline BOOL check_group(const MKMID *grp, const MKMID *receiver) {
     NSDate *time = env.time;
     NSData *data = self.data;
     
-    if (MKMNetwork_IsPerson(receiver.type)) {
+    if (MKMNetwork_IsCommunicator(receiver.type)) {
         if (!member || [member isEqual:receiver]) {
             sMsg = self;
         } else {

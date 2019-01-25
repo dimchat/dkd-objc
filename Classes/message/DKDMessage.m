@@ -85,7 +85,7 @@
         
         // time
         NSNumber *timestamp = [_storeDictionary objectForKey:@"time"];
-        NSAssert(timestamp.doubleValue > 0, @"time error");
+        //NSAssert(timestamp.doubleValue > 0, @"time error");
         NSDate *time = NSDateFromNumber(timestamp);
         
         _envelope = [[DKDEnvelope alloc] initWithSender:sender
