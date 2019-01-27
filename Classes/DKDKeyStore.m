@@ -118,7 +118,7 @@ SingletonImplementations(DKDKeyStore, sharedInstance)
     NSDictionary *dict;
     id cKey;
     id obj;
-    MKMID *ID;
+    MKMAddress *address;
     MKMSymmetricKey *PW;
     
     BOOL changed = NO;
@@ -127,46 +127,50 @@ SingletonImplementations(DKDKeyStore, sharedInstance)
     // keys from contacts
     path = full_filepath(_currentUser.ID, DKD_KEYSTORE_ACCOUNTS_FILENAME);
     if (file_exists(path)) {
-        // load keys from contact
+        // load keys from contacts
         dict = [NSDictionary dictionaryWithContentsOfFile:path];
         for (cKey in dict) {
-            obj = [dict objectForKey:cKey];
-            // ID
-            ID = [MKMID IDWithID:cKey];
-            NSAssert(MKMNetwork_IsCommunicator(ID.type), @"account ID error");
+            // Address
+            address = [MKMAddress addressWithAddress:cKey];
+            NSAssert(MKMNetwork_IsCommunicator(address.network), @"account address error");
             // key
+            obj = [dict objectForKey:cKey];
             PW = [MKMSymmetricKey keyWithKey:obj];
             // update keys table
-            [self setCipherKey:PW fromAccount:ID];
+            [_keysFromAccounts setObject:PW forKey:address];
         }
         changed = YES;
     }
     
-    id gKey, eKey;
-    MKMID *gID, *mID;
-    KeysTableM *table;
+    id gKey, mKey;
+    MKMAddress *gAddr, *mAddr;
+    KeysTableM *gTable, *mTable;
     
     // keys from group.members
     path = full_filepath(_currentUser.ID, DKD_KEYSTORE_GROUPS_FILENAME);
     if (file_exists(path)) {
-        // load keys from contact
+        // load keys from group.members
         dict = [NSDictionary dictionaryWithContentsOfFile:path];
         for (gKey in dict) {
-            obj = [dict objectForKey:gKey];
-            // group ID
-            gID = [MKMID IDWithID:gKey];
-            NSAssert(MKMNetwork_IsGroup(gID.type), @"group ID error");
+            // group ID.address
+            gAddr = [MKMAddress addressWithAddress:gKey];
+            NSAssert(MKMNetwork_IsGroup(gAddr.network), @"group address error");
             // table
-            table = obj;
-            for (eKey in table) {
-                obj = [table objectForKey:eKey];
-                // member ID
-                mID = [MKMID IDWithID:eKey];
-                NSAssert(MKMNetwork_IsCommunicator(mID.type), @"member error");
+            gTable = [dict objectForKey:gKey];
+            for (mKey in gTable) {
+                // member ID.address
+                mAddr = [MKMAddress addressWithAddress:mKey];
+                NSAssert(MKMNetwork_IsCommunicator(mAddr.network), @"member address error");
                 // key
+                obj = [gTable objectForKey:mKey];
                 PW = [MKMSymmetricKey keyWithKey:obj];
                 // update keys table
-                [self setCipherKey:PW fromMember:mID inGroup:gID];
+                mTable = [_tablesFromGroups objectForKey:gAddr];
+                if (!mTable) {
+                    mTable = [[KeysTableM alloc] init];
+                    [_tablesFromGroups setObject:mTable forKey:gAddr];
+                }
+                [mTable setObject:PW forKey:mAddr];
             }
         }
         changed = YES;
