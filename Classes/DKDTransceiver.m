@@ -68,14 +68,6 @@ SingletonImplementations(DKDTransceiver, sharedInstance)
     }
 }
 
-- (DKDInstantMessage *)messageFromReceivedPackage:(const NSData *)data
-                                          forUser:(const MKMUser *)user {
-    NSString *json = [data UTF8String];
-    DKDReliableMessage *rMsg;
-    rMsg = [[DKDReliableMessage alloc] initWithJSONString:json];
-    return [self verifyAndDecryptMessage:rMsg forUser:user];
-}
-
 #pragma mark -
 
 - (DKDReliableMessage *)encryptAndSignContent:(const DKDMessageContent *)content

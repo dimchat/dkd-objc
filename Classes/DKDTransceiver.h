@@ -63,16 +63,6 @@ typedef void (^DKDTransceiverCompletionHandler)(const NSError * _Nullable error)
 - (BOOL)sendMessage:(const DKDInstantMessage *)iMsg
            callback:(nullable DKDTransceiverCallback)callback;
 
-/**
- Retrieve message from the received package
-
- @param data - received package
- @param user - current user
- @return InstantMessage
- */
-- (DKDInstantMessage *)messageFromReceivedPackage:(const NSData *)data
-                                          forUser:(const MKMUser *)user;
-
 #pragma mark -
 
 /**

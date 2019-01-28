@@ -53,5 +53,6 @@ FOUNDATION_EXPORT const unsigned char DaoKeDaoVersionString[];
 //-
 #import <DaoKeDao/DKDTransceiver.h>
 #import <DaoKeDao/DKDKeyStore.h>
+#import <DaoKeDao/DKDKeyStore+CacheFile.h>
 
 #endif /* ! __DAO_KE_DAO__ */
