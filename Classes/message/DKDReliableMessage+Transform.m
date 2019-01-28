@@ -17,12 +17,10 @@
 
 - (DKDSecureMessage *)verify {
     MKMID *sender = self.envelope.sender;
-    MKMID *receiver = self.envelope.receiver;
     NSAssert(MKMNetwork_IsCommunicator(sender.type), @"sender error");
     
     // 1. verify the signature with public key
-    MKMAccount *contact = MKMAccountWithID(sender);
-    MKMPublicKey *PK = contact.publicKey;
+    MKMPublicKey *PK = MKMPublicKeyForID(sender);
     if (!PK) {
         // first contact, try meta in message package
         MKMMeta *meta = self.meta;
@@ -36,26 +34,9 @@
     }
     
     // 2. create secure message
-    DKDSecureMessage *sMsg = nil;
-    if (MKMNetwork_IsPerson(receiver.type)) {
-        sMsg = [[DKDSecureMessage alloc] initWithData:self.data
-                                         encryptedKey:self.encryptedKey
-                                             envelope:self.envelope];
-        MKMID *group = self.group;
-        if (sMsg && group) {
-            sMsg.group = group; // copy group
-        }
-    } else if (MKMNetwork_IsGroup(receiver.type)) {
-        NSAssert(!self.group || [self.group isEqual:receiver], @"group error");
-        sMsg = [[DKDSecureMessage alloc] initWithData:self.data
-                                        encryptedKeys:self.encryptedKeys
-                                             envelope:self.envelope];
-    } else {
-        NSAssert(false, @"receiver error: %@", receiver);
-    }
-    
-    NSAssert(sMsg, @"verify message error: %@", self);
-    return sMsg;
+    NSMutableDictionary *mDict = [[NSMutableDictionary alloc] initWithDictionary:self];
+    [mDict removeObjectForKey:@"signature"];
+    return [[DKDSecureMessage alloc] initWithDictionary:mDict];
 }
 
 @end

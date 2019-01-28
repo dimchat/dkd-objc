@@ -7,6 +7,7 @@
 //
 
 #import "NSObject+JsON.h"
+#import "NSData+Crypto.h"
 
 #import "DKDEnvelope.h"
 #import "DKDMessageContent.h"
@@ -80,9 +81,14 @@ static inline DKDEncryptedKeyMap *pack_keys(const MKMGroup *group,
         return nil;
     }
     
-    // 3. encrypt 'key'
+    // 3. rebuild message info
+    NSMutableDictionary *mDict = [[NSMutableDictionary alloc] initWithDictionary:self];
+    // 3.1. replace content with data
+    [mDict removeObjectForKey:@"content"];
+    [mDict setObject:[CT base64Encode] forKey:@"data"];
+    
+    // 3.2. encrypt 'key'
     NSData *key = [scKey jsonData];
-    DKDSecureMessage *sMsg = nil;
     if (MKMNetwork_IsCommunicator(receiver.type)) {
         MKMAccount *contact = MKMAccountWithID(receiver);
         key = [contact.publicKey encrypt:key]; // pack_key()
@@ -90,9 +96,7 @@ static inline DKDEncryptedKeyMap *pack_keys(const MKMGroup *group,
             NSAssert(false, @"failed to encrypt key: %@", self);
             return nil;
         }
-        sMsg = [[DKDSecureMessage alloc] initWithData:CT
-                                         encryptedKey:key
-                                             envelope:self.envelope];
+        [mDict setObject:[key base64Encode] forKey:@"key"];
     } else if (MKMNetwork_IsGroup(receiver.type)) {
         NSAssert([group isEqual:receiver], @"error");
         DKDEncryptedKeyMap *keys;
@@ -101,15 +105,13 @@ static inline DKDEncryptedKeyMap *pack_keys(const MKMGroup *group,
             NSAssert(false, @"failed to pack keys: %@", self);
             return nil;
         }
-        sMsg = [[DKDSecureMessage alloc] initWithData:CT
-                                        encryptedKeys:keys
-                                             envelope:self.envelope];
+        [mDict setObject:keys forKey:@"keys"];
     } else {
         NSAssert(false, @"receiver error: %@", receiver);
     }
     
-    NSAssert(sMsg, @"encrypt message error: %@", self);
-    return sMsg;
+    // 4. create secure message
+    return [[DKDSecureMessage alloc] initWithDictionary:mDict];
 }
 
 @end

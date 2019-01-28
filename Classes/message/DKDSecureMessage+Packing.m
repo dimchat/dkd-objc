@@ -6,6 +6,8 @@
 //  Copyright © 2018 DIM Group. All rights reserved.
 //
 
+#import "NSData+Crypto.h"
+
 #import "DKDEnvelope.h"
 
 #import "DKDSecureMessage+Packing.h"
@@ -44,12 +46,12 @@ static inline BOOL check_group(const MKMID *grp, const MKMID *receiver) {
     NSMutableArray<DKDSecureMessage *> *mArray = nil;
     
     DKDEnvelope *env = self.envelope;
-    MKMID *sender = env.sender;
     MKMID *receiver = env.receiver;
-    NSDate *time = env.time;
-    NSData *data = self.data;
     
     if (MKMNetwork_IsGroup(receiver.type)) {
+        NSMutableDictionary *mDict = [[NSMutableDictionary alloc] initWithDictionary:self];
+        [mDict setObject:receiver forKey:@"group"];
+        
         DKDEncryptedKeyMap *keyMap = self.encryptedKeys;
         MKMGroup *group = MKMGroupWithID(receiver);
         mArray = [[NSMutableArray alloc] initWithCapacity:group.members.count];
@@ -57,21 +59,17 @@ static inline BOOL check_group(const MKMID *grp, const MKMID *receiver) {
         DKDSecureMessage *sMsg;
         NSData *key;
         for (MKMID *member in group.members) {
-            // 1. rebuild envelope
-            env = [[DKDEnvelope alloc] initWithSender:sender
-                                             receiver:member
-                                                 time:time];
+            // 1. change receiver to the group member
+            [mDict setObject:member forKey:@"receiver"];
             // 2. get encrypted key
             key = [keyMap encryptedKeyForID:member];
-            // 3. repack message
-            sMsg = [[DKDSecureMessage alloc] initWithData:data
-                                             encryptedKey:key
-                                                 envelope:env];
-            if (sMsg) {
-                // 3.1. save receiver as group in the message package
-                sMsg.group = receiver;
+            if (key) {
+                [mDict setObject:[key base64Encode] forKey:@"key"];
+            } else {
+                [mDict removeObjectForKey:@"key"];
             }
-            
+            // 3. repack message
+            sMsg = [[DKDSecureMessage alloc] initWithDictionary:mDict];
             [mArray addObject:sMsg];
         }
     } else {
@@ -85,10 +83,7 @@ static inline BOOL check_group(const MKMID *grp, const MKMID *receiver) {
     DKDSecureMessage *sMsg = nil;
     
     DKDEnvelope *env = self.envelope;
-    MKMID *sender = env.sender;
     MKMID *receiver = env.receiver;
-    NSDate *time = env.time;
-    NSData *data = self.data;
     
     if (MKMNetwork_IsCommunicator(receiver.type)) {
         if (!member || [member isEqual:receiver]) {
@@ -115,20 +110,18 @@ static inline BOOL check_group(const MKMID *grp, const MKMID *receiver) {
             return nil;
         }
         
-        // 1. rebuild envelope
-        env = [[DKDEnvelope alloc] initWithSender:sender
-                                         receiver:member
-                                             time:time];
+        NSMutableDictionary *mDict = [[NSMutableDictionary alloc] initWithDictionary:self];
+        // 1. change receiver to the group member
+        [mDict setObject:receiver forKey:@"group"];
+        [mDict setObject:member forKey:@"receiver"];
+        
         // 2. get encrypted key
         NSData *key = [self.encryptedKeys encryptedKeyForID:member];
-        // 3. repack message
-        sMsg = [[DKDSecureMessage alloc] initWithData:data
-                                         encryptedKey:key
-                                             envelope:env];
-        if (sMsg) {
-            // 3.1. save receiver as group in the message package
-            sMsg.group = receiver;
+        if (key) {
+            [mDict setObject:[key base64Encode] forKey:@"key"];
         }
+        // 3. repack message
+        sMsg = [[DKDSecureMessage alloc] initWithDictionary:mDict];
     } else {
         NSAssert(false, @"receiver type not supported");
     }

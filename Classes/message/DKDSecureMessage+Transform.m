@@ -7,6 +7,7 @@
 //
 
 #import "NSObject+JsON.h"
+#import "NSData+Crypto.h"
 
 #import "DKDEnvelope.h"
 #import "DKDMessageContent.h"
@@ -92,15 +93,16 @@
     }
     
     // 4. create instant message
-    DKDInstantMessage *iMsg;
-    iMsg = [[DKDInstantMessage alloc] initWithContent:content
-                                             envelope:self.envelope];
-    return iMsg;
+    NSMutableDictionary *mDict = [[NSMutableDictionary alloc] initWithDictionary:self];
+    [mDict removeObjectForKey:@"data"];
+    [mDict removeObjectForKey:@"key"];
+    [mDict removeObjectForKey:@"keys"];
+    [mDict setObject:content forKey:@"content"];
+    return [[DKDInstantMessage alloc] initWithDictionary:mDict];
 }
 
 - (DKDReliableMessage *)sign {
     MKMID *sender = self.envelope.sender;
-    MKMID *receiver = self.envelope.receiver;
     NSAssert(MKMNetwork_IsPerson(sender.type), @"sender error");
     MKMUser *user = MKMUserWithID(sender);
     
@@ -112,28 +114,9 @@
     }
     
     // 2. create reliable message
-    DKDReliableMessage *rMsg = nil;
-    if (MKMNetwork_IsCommunicator(receiver.type)) {
-        // personal message
-        rMsg = [[DKDReliableMessage alloc] initWithData:self.data
-                                              signature:CT
-                                           encryptedKey:self.encryptedKey envelope:self.envelope];
-        MKMID *group = self.group;
-        if (rMsg && group) {
-            rMsg.group = group; // copy group
-        }
-    } else if (MKMNetwork_IsGroup(receiver.type)) {
-        // group message
-        rMsg = [[DKDReliableMessage alloc] initWithData:self.data
-                                              signature:CT
-                                          encryptedKeys:self.encryptedKeys
-                                               envelope:self.envelope];
-    } else {
-        NSAssert(false, @"receiver error: %@", receiver);
-    }
-    
-    NSAssert(rMsg, @"sign message error: %@", self);
-    return rMsg;
+    NSMutableDictionary *mDict = [[NSMutableDictionary alloc] initWithDictionary:self];
+    [mDict setObject:[CT base64Encode] forKey:@"signature"];
+    return [[DKDReliableMessage alloc] initWithDictionary:mDict];
 }
 
 @end

@@ -22,6 +22,7 @@
 #import "DKDInstantMessage+Transform.h"
 #import "DKDSecureMessage+Transform.h"
 #import "DKDReliableMessage+Transform.h"
+#import "DKDReliableMessage+Meta.h"
 
 #import "DKDTransceiver.h"
 
@@ -121,7 +122,7 @@ SingletonImplementations(DKDTransceiver, sharedInstance)
             if (![receiver isEqual:user.ID]) {
                 // TODO: You can forward it to the true receiver,
                 //       or just ignore it.
-                NSAssert(false, @"This message is not for you!");
+                NSAssert(false, @"This message is for %@, not for you!", receiver);
                 return nil;
             }
         } else if (MKMNetwork_IsGroup(receiver.type)) {
@@ -132,6 +133,21 @@ SingletonImplementations(DKDTransceiver, sharedInstance)
                 NSAssert(false, @"This message is not for you!");
                 return nil;
             }
+        }
+    }
+    
+    // [Meta Protocol] check meta in first contact message
+    MKMID *sender = rMsg.envelope.sender;
+    MKMMeta *meta = MKMMetaForID(sender);
+    if (!meta) {
+        // first contact, try meta in message package
+        meta = rMsg.meta;
+        if ([meta matchID:sender]) {
+            MKMBarrack *barrack = [MKMBarrack sharedInstance];
+            [barrack saveMeta:meta forEntityID:sender];
+        } else {
+            NSAssert(false, @"meta not found for sender: %@", sender);
+            return nil;
         }
     }
     
