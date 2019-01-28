@@ -8,66 +8,21 @@
 
 #import "NSObject+Singleton.h"
 #import "NSObject+JsON.h"
-#import "NSDictionary+Binary.h"
+
+#import "DKDKeyStore+CacheFile.h"
 
 #import "DKDKeyStore.h"
 
-#define DKD_KEYSTORE_ACCOUNTS_FILENAME @"keystore_accounts.plist"
-#define DKD_KEYSTORE_GROUPS_FILENAME   @"keystore_groups.plist"
+typedef NSMutableDictionary<const MKMAddress *, MKMSymmetricKey *> KeyTableM;
+typedef NSMutableDictionary<const MKMAddress *, KeyTableM *> KeyTableTableM;
 
-static inline NSString *caches_directory(void) {
-    NSArray *paths;
-    paths = NSSearchPathForDirectoriesInDomains(NSCachesDirectory,
-                                                NSUserDomainMask, YES);
-    return paths.firstObject;
-}
+@interface DKDKeyStore ()
 
-/**
- Get full filepath to Caches Directory
+@property (strong, nonatomic) KeyTableM *keysForAccounts;
+@property (strong, nonatomic) KeyTableM *keysFromAccounts;
 
- @param ID - current user ID
- @param filename - "keystore_*.plist"
- @return "Library/Caches/{address}/keystore_*.plist"
- */
-static inline NSString *full_filepath(const MKMID *ID, NSString *filename) {
-    assert(ID.isValid);
-    // base directory: Library/Caches/{address}
-    NSString *dir = caches_directory();
-    MKMAddress *addr = ID.address;
-    if (addr) {
-        dir = [dir stringByAppendingPathComponent:addr];
-    }
-    
-    // check base directory exists
-    NSFileManager *fm = [NSFileManager defaultManager];
-    if (![fm fileExistsAtPath:dir isDirectory:nil]) {
-        NSError *error = nil;
-        // make sure directory exists
-        [fm createDirectoryAtPath:dir withIntermediateDirectories:YES
-                       attributes:nil error:&error];
-        assert(!error);
-    }
-    
-    // build filepath
-    return [dir stringByAppendingPathComponent:filename];
-}
-
-static inline BOOL file_exists(NSString *path) {
-    NSFileManager *fm = [NSFileManager defaultManager];
-    return [fm fileExistsAtPath:path];
-}
-
-typedef NSMutableDictionary<const MKMAddress *, MKMSymmetricKey *> KeysTableM;
-typedef NSMutableDictionary<const MKMAddress *, KeysTableM *> KeysTablesTableM;
-
-@interface DKDKeyStore () {
-    
-    KeysTableM *_keysForAccounts;
-    KeysTableM *_keysFromAccounts;
-    
-    KeysTableM *_keysForGroups;
-    KeysTablesTableM *_tablesFromGroups;
-}
+@property (strong, nonatomic) KeyTableM *keysForGroups;
+@property (strong, nonatomic) KeyTableTableM *tablesFromGroups;
 
 @property (nonatomic, getter=isDirty) BOOL dirty;
 
@@ -84,11 +39,11 @@ SingletonImplementations(DKDKeyStore, sharedInstance)
 
 - (instancetype)init {
     if (self = [super init]) {
-        _keysForAccounts = [[KeysTableM alloc] init];
-        _keysFromAccounts = [[KeysTableM alloc] init];
+        _keysForAccounts = [[KeyTableM alloc] init];
+        _keysFromAccounts = [[KeyTableM alloc] init];
         
-        _keysForGroups = [[KeysTableM alloc] init];
-        _tablesFromGroups = [[KeysTablesTableM alloc] init];
+        _keysForGroups = [[KeyTableM alloc] init];
+        _tablesFromGroups = [[KeyTableTableM alloc] init];
         
         _dirty = NO;
     }
@@ -98,7 +53,7 @@ SingletonImplementations(DKDKeyStore, sharedInstance)
 - (void)setCurrentUser:(MKMUser *)currentUser {
     if (![_currentUser isEqual:currentUser]) {
         // 1. save key store files for current user
-        [self _saveKeyStoreFiles];
+        [self flush];
         
         // 2. clear
         [self clearMemory];
@@ -107,101 +62,8 @@ SingletonImplementations(DKDKeyStore, sharedInstance)
         _currentUser = currentUser;
         
         // 4. load key store files for new user
-        [self _loadKeyStoreFiles];
+        [self reload];
     }
-}
-
-// inner function
-- (BOOL)_loadKeyStoreFiles {
-    NSString *path;
-    
-    NSDictionary *dict;
-    id cKey;
-    id obj;
-    MKMAddress *address;
-    MKMSymmetricKey *PW;
-    
-    BOOL changed = NO;
-    BOOL isDirty = _dirty; // save old flag
-    
-    // keys from contacts
-    path = full_filepath(_currentUser.ID, DKD_KEYSTORE_ACCOUNTS_FILENAME);
-    if (file_exists(path)) {
-        // load keys from contacts
-        dict = [NSDictionary dictionaryWithContentsOfFile:path];
-        for (cKey in dict) {
-            // Address
-            address = [MKMAddress addressWithAddress:cKey];
-            NSAssert(MKMNetwork_IsCommunicator(address.network), @"account address error");
-            // key
-            obj = [dict objectForKey:cKey];
-            PW = [MKMSymmetricKey keyWithKey:obj];
-            // update keys table
-            [_keysFromAccounts setObject:PW forKey:address];
-        }
-        changed = YES;
-    }
-    
-    id gKey, mKey;
-    MKMAddress *gAddr, *mAddr;
-    KeysTableM *gTable, *mTable;
-    
-    // keys from group.members
-    path = full_filepath(_currentUser.ID, DKD_KEYSTORE_GROUPS_FILENAME);
-    if (file_exists(path)) {
-        // load keys from group.members
-        dict = [NSDictionary dictionaryWithContentsOfFile:path];
-        for (gKey in dict) {
-            // group ID.address
-            gAddr = [MKMAddress addressWithAddress:gKey];
-            NSAssert(MKMNetwork_IsGroup(gAddr.network), @"group address error");
-            // table
-            gTable = [dict objectForKey:gKey];
-            for (mKey in gTable) {
-                // member ID.address
-                mAddr = [MKMAddress addressWithAddress:mKey];
-                NSAssert(MKMNetwork_IsCommunicator(mAddr.network), @"member address error");
-                // key
-                obj = [gTable objectForKey:mKey];
-                PW = [MKMSymmetricKey keyWithKey:obj];
-                // update keys table
-                mTable = [_tablesFromGroups objectForKey:gAddr];
-                if (!mTable) {
-                    mTable = [[KeysTableM alloc] init];
-                    [_tablesFromGroups setObject:mTable forKey:gAddr];
-                }
-                [mTable setObject:PW forKey:mAddr];
-            }
-        }
-        changed = YES;
-    }
-    
-    _dirty = isDirty; // restore the flag
-    return changed;
-}
-
-// inner function
-- (BOOL)_saveKeyStoreFiles {
-    if (!_dirty) {
-        // nothing changed
-        return NO;
-    }
-    NSString *path;
-    
-    // keys from contacts
-    path = full_filepath(_currentUser.ID, DKD_KEYSTORE_ACCOUNTS_FILENAME);
-    BOOL OK1 = [_keysFromAccounts writeToBinaryFile:path];
-    
-    // keys from group.members
-    path = full_filepath(_currentUser.ID, DKD_KEYSTORE_GROUPS_FILENAME);
-    BOOL OK2 = [_tablesFromGroups writeToBinaryFile:path];
-    
-    _dirty = NO;
-    return OK1 && OK2;
-}
-
-- (BOOL)flush {
-    return [self _saveKeyStoreFiles];
 }
 
 - (void)clearMemory {
@@ -267,7 +129,7 @@ SingletonImplementations(DKDKeyStore, sharedInstance)
                                  inGroup:(const MKMID *)group {
     NSAssert(MKMNetwork_IsCommunicator(ID.type), @"member ID error");
     NSAssert(MKMNetwork_IsGroup(group.type), @"group ID error");
-    KeysTableM *table = [_tablesFromGroups objectForKey:group.address];
+    KeyTableM *table = [_tablesFromGroups objectForKey:group.address];
     return [table objectForKey:ID.address];
 }
 
@@ -277,9 +139,9 @@ SingletonImplementations(DKDKeyStore, sharedInstance)
     NSAssert(key, @"cipher key cannot be empty");
     NSAssert(MKMNetwork_IsCommunicator(ID.type), @"member ID error");
     NSAssert(MKMNetwork_IsGroup(group.type), @"group ID error");
-    KeysTableM *table = [_tablesFromGroups objectForKey:group.address];
+    KeyTableM *table = [_tablesFromGroups objectForKey:group.address];
     if (!table) {
-        table = [[KeysTableM alloc] init];
+        table = [[KeyTableM alloc] init];
         [_tablesFromGroups setObject:table forKey:group.address];
     }
     if (key) {

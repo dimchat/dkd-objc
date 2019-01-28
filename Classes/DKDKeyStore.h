@@ -20,13 +20,6 @@ NS_ASSUME_NONNULL_BEGIN
 + (instancetype)sharedInstance;
 
 /**
- Persistent save cipher keys from accounts/group.members if changed
-
- @return YES when changed, or NO for nothing changed
- */
-- (BOOL)flush;
-
-/**
  Clear all keys in memory
  */
 - (void)clearMemory;
