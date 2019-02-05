@@ -36,23 +36,8 @@ NS_ASSUME_NONNULL_BEGIN
 // message
 #define DKDSystemCommand_Receipt   @"receipt"
 
-// account
-#define DKDSystemCommand_Register  @"register"
-#define DKDSystemCommand_Suicide   @"suicide"
-
-#pragma mark Group Command
-
-// group: founder/owner
-#define DKDGroupCommand_Found      @"found"
-#define DKDGroupCommand_Abdicate   @"abdicate"
-// group: member
-#define DKDGroupCommand_Invite     @"invite"
-#define DKDGroupCommand_Expel      @"expel"
-#define DKDGroupCommand_Join       @"join"
-#define DKDGroupCommand_Quit       @"quit"
-// group: administrator/assistant
-#define DKDGroupCommand_Hire       @"hire"
-#define DKDGroupCommand_Fire       @"fire"
-#define DKDGroupCommand_Resign     @"resign"
+// facebook
+#define DKDSystemCommand_Meta      @"meta"
+#define DKDSystemCommand_Profile   @"profile"
 
 NS_ASSUME_NONNULL_END

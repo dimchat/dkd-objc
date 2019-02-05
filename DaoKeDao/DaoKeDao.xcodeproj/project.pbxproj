@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		E9CF980621FF45480092DD8B /* DKDKeyStore+CacheFile.h in Headers */ = {isa = PBXBuildFile; fileRef = E9CF980421FF45480092DD8B /* DKDKeyStore+CacheFile.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		E9CF980721FF45480092DD8B /* DKDKeyStore+CacheFile.m in Sources */ = {isa = PBXBuildFile; fileRef = E9CF980521FF45480092DD8B /* DKDKeyStore+CacheFile.m */; };
+		E9DC2EF22209E435005EE45F /* DKDMessageContent+History.h in Headers */ = {isa = PBXBuildFile; fileRef = E9DC2EF02209E435005EE45F /* DKDMessageContent+History.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		E9DC2EF32209E435005EE45F /* DKDMessageContent+History.m in Sources */ = {isa = PBXBuildFile; fileRef = E9DC2EF12209E435005EE45F /* DKDMessageContent+History.m */; };
 		E9F3A9BB21CBC160009690F6 /* DaoKeDao.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E9F3A9B121CBC160009690F6 /* DaoKeDao.framework */; };
 		E9F3A9C021CBC160009690F6 /* DaoKeDaoTests.m in Sources */ = {isa = PBXBuildFile; fileRef = E9F3A9BF21CBC160009690F6 /* DaoKeDaoTests.m */; };
 		E9F3A9FB21CBC17E009690F6 /* DKDKeyStore.h in Headers */ = {isa = PBXBuildFile; fileRef = E9F3A9CC21CBC17E009690F6 /* DKDKeyStore.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -95,6 +97,8 @@
 /* Begin PBXFileReference section */
 		E9CF980421FF45480092DD8B /* DKDKeyStore+CacheFile.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "DKDKeyStore+CacheFile.h"; sourceTree = "<group>"; };
 		E9CF980521FF45480092DD8B /* DKDKeyStore+CacheFile.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "DKDKeyStore+CacheFile.m"; sourceTree = "<group>"; };
+		E9DC2EF02209E435005EE45F /* DKDMessageContent+History.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "DKDMessageContent+History.h"; sourceTree = "<group>"; };
+		E9DC2EF12209E435005EE45F /* DKDMessageContent+History.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "DKDMessageContent+History.m"; sourceTree = "<group>"; };
 		E9F3A9B121CBC160009690F6 /* DaoKeDao.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = DaoKeDao.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		E9F3A9B521CBC160009690F6 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		E9F3A9BA21CBC160009690F6 /* DaoKeDaoTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = DaoKeDaoTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -244,6 +248,8 @@
 				E9F3A9E621CBC17E009690F6 /* DKDMessageContent+Audio.m */,
 				E9F3A9DD21CBC17E009690F6 /* DKDMessageContent+Command.h */,
 				E9F3A9E721CBC17E009690F6 /* DKDMessageContent+Command.m */,
+				E9DC2EF02209E435005EE45F /* DKDMessageContent+History.h */,
+				E9DC2EF12209E435005EE45F /* DKDMessageContent+History.m */,
 				E9F3A9EB21CBC17E009690F6 /* DKDMessageContent+File.h */,
 				E9F3A9E121CBC17E009690F6 /* DKDMessageContent+File.m */,
 				E9F3A9D921CBC17E009690F6 /* DKDMessageContent+Forward.h */,
@@ -319,6 +325,7 @@
 				E9F3AA0A21CBC17F009690F6 /* DKDMessageContent+Audio.h in Headers */,
 				E9F3AA0521CBC17F009690F6 /* DKDMessageContent+Forward.h in Headers */,
 				E9F3AA0921CBC17F009690F6 /* DKDMessageContent+Command.h in Headers */,
+				E9DC2EF22209E435005EE45F /* DKDMessageContent+History.h in Headers */,
 				E9F3AA1821CBC17F009690F6 /* DKDMessageContent+Video.h in Headers */,
 				E9F3AA1421CBC17F009690F6 /* DKDMessageContent+Image.h in Headers */,
 				E9F3AA1721CBC17F009690F6 /* DKDMessageContent+File.h in Headers */,
@@ -461,6 +468,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				E9F3AA0E21CBC17F009690F6 /* DKDMessageContent+Video.m in Sources */,
+				E9DC2EF32209E435005EE45F /* DKDMessageContent+History.m in Sources */,
 				E9F3AA0B21CBC17F009690F6 /* DKDMessageContent.m in Sources */,
 				E9CF980721FF45480092DD8B /* DKDKeyStore+CacheFile.m in Sources */,
 				E9F3AA0D21CBC17F009690F6 /* DKDMessageContent+File.m in Sources */,

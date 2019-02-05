@@ -6,7 +6,7 @@
 //  Copyright © 2019 DIM Group. All rights reserved.
 //
 
-#import <DaoKeDao/DaoKeDao.h>
+#import "DKDKeyStore.h"
 
 NS_ASSUME_NONNULL_BEGIN
 

@@ -72,6 +72,7 @@ typedef NS_ENUM(UInt8, DKDMessageType) {
     DKDMessageType_Quote   = 0x37, // 0011 0111
     
     DKDMessageType_Command = 0x88, // 1000 1000
+    DKDMessageType_History = 0x89, // 1000 1001 (Entity history command)
     
     // top-secret message forward by proxy (Service Provider)
     DKDMessageType_Forward = 0xFF  // 1111 1111
