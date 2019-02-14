@@ -42,35 +42,34 @@ static inline BOOL check_group(const MKMID *grp, const MKMID *receiver) {
 
 #pragma mark -
 
-- (NSArray<DKDSecureMessage *> *)split {
-    NSMutableArray<DKDSecureMessage *> *mArray = nil;
+- (NSArray *)split {
+    NSMutableArray *mArray = nil;
     
     DKDEnvelope *env = self.envelope;
     MKMID *receiver = env.receiver;
     
     if (MKMNetwork_IsGroup(receiver.type)) {
-        NSMutableDictionary *mDict = [[NSMutableDictionary alloc] initWithDictionary:self];
-        [mDict setObject:receiver forKey:@"group"];
+        NSMutableDictionary *msg;
+        msg = [[NSMutableDictionary alloc] initWithDictionary:self];
+        [msg setObject:receiver forKey:@"group"];
         
         DKDEncryptedKeyMap *keyMap = self.encryptedKeys;
         MKMGroup *group = MKMGroupWithID(receiver);
         mArray = [[NSMutableArray alloc] initWithCapacity:group.members.count];
         
-        DKDSecureMessage *sMsg;
         NSData *key;
         for (MKMID *member in group.members) {
             // 1. change receiver to the group member
-            [mDict setObject:member forKey:@"receiver"];
+            [msg setObject:member forKey:@"receiver"];
             // 2. get encrypted key
             key = [keyMap encryptedKeyForID:member];
             if (key) {
-                [mDict setObject:[key base64Encode] forKey:@"key"];
+                [msg setObject:[key base64Encode] forKey:@"key"];
             } else {
-                [mDict removeObjectForKey:@"key"];
+                [msg removeObjectForKey:@"key"];
             }
             // 3. repack message
-            sMsg = [[DKDSecureMessage alloc] initWithDictionary:mDict];
-            [mArray addObject:sMsg];
+            [mArray addObject:[[[self class] alloc] initWithDictionary:msg]];
         }
     } else {
         NSAssert(false, @"only group message can be splitted");

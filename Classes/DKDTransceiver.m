@@ -48,12 +48,33 @@ SingletonImplementations(DKDTransceiver, sharedInstance)
                                              receiver:receiver
                                                  time:time];
     
-    return [self sendMessage:iMsg callback:callback];
+    return [self sendInstantMessage:iMsg
+                           callback:callback
+                        dispersedly:YES];
 }
 
-- (BOOL)sendMessage:(const DKDInstantMessage *)iMsg
-           callback:(nullable DKDTransceiverCallback)callback {
+- (BOOL)sendInstantMessage:(const DKDInstantMessage *)iMsg
+                  callback:(nullable DKDTransceiverCallback)callback
+               dispersedly:(BOOL)split {
     DKDReliableMessage *rMsg = [self encryptAndSignMessage:iMsg];
+    if (split && MKMNetwork_IsGroup(rMsg.envelope.receiver.address.network)) {
+        BOOL OK = YES;
+        NSArray *messages = [rMsg split];
+        for (rMsg in messages) {
+            if ([self sendReliableMessage:rMsg callback:callback]) {
+                //NSLog(@"group message sent to %@", rMsg.envelope.receiver);
+            } else {
+                OK = NO;
+            }
+        }
+        return OK;
+    } else {
+        return [self sendReliableMessage:rMsg callback:callback];
+    }
+}
+
+- (BOOL)sendReliableMessage:(const DKDReliableMessage *)rMsg
+                   callback:(DKDTransceiverCallback)callback {
     NSData *data = [rMsg jsonData];
     if (data) {
         NSAssert(_delegate, @"transceiver delegate not set");
@@ -63,7 +84,7 @@ SingletonImplementations(DKDTransceiver, sharedInstance)
                         !callback ?: callback(rMsg, error);
                     }];
     } else {
-        NSAssert(false, @"message data error: %@", iMsg);
+        NSAssert(false, @"message data error: %@", rMsg);
         return NO;
     }
 }

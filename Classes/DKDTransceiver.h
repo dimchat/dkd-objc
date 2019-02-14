@@ -58,10 +58,15 @@ typedef void (^DKDTransceiverCompletionHandler)(const NSError * _Nullable error)
 
  @param iMsg - instant message
  @param callback - callback function
+ @param split - if it's a group message, split it before sending out
  @return NO on data/delegate error
  */
-- (BOOL)sendMessage:(const DKDInstantMessage *)iMsg
-           callback:(nullable DKDTransceiverCallback)callback;
+- (BOOL)sendInstantMessage:(const DKDInstantMessage *)iMsg
+                  callback:(nullable DKDTransceiverCallback)callback
+               dispersedly:(BOOL)split;
+
+- (BOOL)sendReliableMessage:(const DKDReliableMessage *)rMsg
+                   callback:(nullable DKDTransceiverCallback)callback;
 
 #pragma mark -
 

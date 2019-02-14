@@ -23,9 +23,9 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  *  Split the group message to single person messages
  *
- *  @return SecureMessage
+ *  @return secure/reliable message(s)
  */
-- (NSArray<DKDSecureMessage *> *)split;
+- (NSArray *)split;
 
 /**
  *  Trim the group message for a member

@@ -23,6 +23,7 @@ NS_ASSUME_NONNULL_BEGIN
  *      sn   : 123,
  *
  *      command : "...", // command name
+ *      time    : 0,     // command timestamp
  *      extra   : info   // command parameters
  *  }
  */
