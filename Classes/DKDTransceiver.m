@@ -56,10 +56,15 @@ SingletonImplementations(DKDTransceiver, sharedInstance)
 - (BOOL)sendInstantMessage:(const DKDInstantMessage *)iMsg
                   callback:(nullable DKDTransceiverCallback)callback
                dispersedly:(BOOL)split {
+    MKMID *receiver = iMsg.envelope.receiver;
     DKDReliableMessage *rMsg = [self encryptAndSignMessage:iMsg];
-    if (split && MKMNetwork_IsGroup(rMsg.envelope.receiver.address.network)) {
-        BOOL OK = YES;
+    if (split && MKMNetwork_IsGroup(receiver.type)) {
         NSArray *messages = [rMsg split];
+        if (messages.count == 0) {
+            NSLog(@"failed to split msg, send it to group: %@", receiver);
+            return [self sendReliableMessage:rMsg callback:callback];
+        }
+        BOOL OK = YES;
         for (rMsg in messages) {
             if ([self sendReliableMessage:rMsg callback:callback]) {
                 //NSLog(@"group message sent to %@", rMsg.envelope.receiver);
