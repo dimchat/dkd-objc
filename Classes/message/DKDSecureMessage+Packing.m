@@ -14,7 +14,7 @@
 
 static inline BOOL check_group(const MKMID *grp, const MKMID *receiver) {
     assert(MKMNetwork_IsGroup(grp.type));
-    return [grp isEqual:receiver] || [MKMGroupWithID(grp) hasMember:receiver];
+    return [grp isEqual:receiver] || [MKMGroupWithID(grp) existsMember:receiver];
 }
 
 @implementation DKDSecureMessage (Packing)
@@ -94,7 +94,7 @@ static inline BOOL check_group(const MKMID *grp, const MKMID *receiver) {
         // 0. check member
         MKMGroup *group = MKMGroupWithID(receiver);
         if (member) {
-            if (![group hasMember:member]) {
+            if (![group existsMember:member]) {
                 NSAssert(false, @"not the group's member");
                 return nil;
             }

@@ -22,7 +22,7 @@ static inline MKMSymmetricKey *encrypt_key(const MKMID *receiver,
     MKMSymmetricKey *scKey = nil;
     
     if (group) {
-        assert([group isEqual:receiver] || [MKMGroupWithID(group) hasMember:receiver]);
+        assert([group isEqual:receiver] || [MKMGroupWithID(group) existsMember:receiver]);
         receiver = group;
     }
     
