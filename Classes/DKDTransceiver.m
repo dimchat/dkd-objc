@@ -145,7 +145,7 @@ SingletonImplementations(DKDTransceiver, sharedInstance)
             }
         } else if (MKMNetwork_IsGroup(receiver.type)) {
             MKMGroup *group = MKMGroupWithID(receiver);
-            if (![group isMember:user.ID]) {
+            if (![group hasMember:user.ID]) {
                 // TODO: You can forward it to the true receiver,
                 //       or just ignore it.
                 NSAssert(false, @"This message is not for you!");

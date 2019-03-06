@@ -79,7 +79,7 @@
     // or the message.receiver must be a member of this group
     NSAssert(!content.group ||
              [content.group isEqual:receiver] ||
-             [MKMGroupWithID(content.group) isMember:receiver],
+             [MKMGroupWithID(content.group) hasMember:receiver],
              @"group error");
     
     // 3. update encrypted key for contact/group.member
