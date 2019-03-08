@@ -12,8 +12,8 @@
 
 @interface DKDEnvelope ()
 
-@property (strong, nonatomic) MKMID *sender;
-@property (strong, nonatomic) MKMID *receiver;
+@property (strong, nonatomic) const MKMID *sender;
+@property (strong, nonatomic) const MKMID *receiver;
 
 @property (strong, nonatomic) NSDate *time;
 
@@ -75,7 +75,7 @@
     return env;
 }
 
-- (MKMID *)sender {
+- (const MKMID *)sender {
     if (!_sender) {
         id from = [_storeDictionary objectForKey:@"sender"];
         _sender = [MKMID IDWithID:from];
@@ -83,7 +83,7 @@
     return _sender;
 }
 
-- (MKMID *)receiver {
+- (const MKMID *)receiver {
     if (!_receiver) {
         id to = [_storeDictionary objectForKey:@"receiver"];
         _receiver = [MKMID IDWithID:to];

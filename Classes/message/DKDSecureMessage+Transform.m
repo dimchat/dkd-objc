@@ -24,8 +24,8 @@
 
 - (DKDInstantMessage *)decrypt {
     DKDKeyStore *store = [DKDKeyStore sharedInstance];
-    MKMID *sender = self.envelope.sender;
-    MKMID *receiver = self.envelope.receiver;
+    const MKMID *sender = self.envelope.sender;
+    const MKMID *receiver = self.envelope.receiver;
     
     // 1. symmetric key
     MKMSymmetricKey *scKey = nil;
@@ -44,7 +44,7 @@
             }
         } else {
             // 1.2. get passphrase from the Key Store
-            MKMID *group = self.group;
+            const MKMID *group = self.group;
             if (group) {
                 scKey = [store cipherKeyFromMember:sender inGroup:group];
             } else {
@@ -84,7 +84,7 @@
     
     // 3. update encrypted key for contact/group.member
     if (key) {
-        MKMID *group = content.group;
+        const MKMID *group = content.group;
         if (group) {
             [store setCipherKey:scKey fromMember:sender inGroup:receiver];
         } else {
@@ -102,7 +102,7 @@
 }
 
 - (DKDReliableMessage *)sign {
-    MKMID *sender = self.envelope.sender;
+    const MKMID *sender = self.envelope.sender;
     NSAssert(MKMNetwork_IsPerson(sender.type), @"sender error");
     MKMUser *user = MKMUserWithID(sender);
     

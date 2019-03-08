@@ -40,7 +40,7 @@ static inline NSUInteger serial_number(void) {
     DKDMessageType _type;
     NSUInteger _serialNumber;
     
-    MKMID *_group;
+    const MKMID *_group;
     __weak id<DKDMessageContentDelegate> _delegate;
 }
 
@@ -138,7 +138,7 @@ static inline NSUInteger serial_number(void) {
     _serialNumber = serialNumber;
 }
 
-- (MKMID *)group {
+- (const MKMID *)group {
     if (!_group) {
         MKMID *ID = [_storeDictionary objectForKey:@"group"];
         ID = [MKMID IDWithID:ID];
@@ -151,7 +151,7 @@ static inline NSUInteger serial_number(void) {
     return _group;
 }
 
-- (void)setGroup:(MKMID *)group {
+- (void)setGroup:(const MKMID *)group {
     if (![_group isEqual:group]) {
         if (group) {
             NSAssert(MKMNetwork_IsGroup(group.type), @"group ID error");

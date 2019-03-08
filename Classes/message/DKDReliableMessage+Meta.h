@@ -15,7 +15,7 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @interface DKDReliableMessage (Meta)
 
-@property (strong, nonatomic) MKMMeta *meta;
+@property (strong, nonatomic) const MKMMeta *meta;
 
 @end
 

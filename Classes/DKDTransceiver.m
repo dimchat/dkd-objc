@@ -56,7 +56,7 @@ SingletonImplementations(DKDTransceiver, sharedInstance)
 - (BOOL)sendInstantMessage:(const DKDInstantMessage *)iMsg
                   callback:(nullable DKDTransceiverCallback)callback
                dispersedly:(BOOL)split {
-    MKMID *receiver = iMsg.envelope.receiver;
+    const MKMID *receiver = iMsg.envelope.receiver;
     DKDReliableMessage *rMsg = [self encryptAndSignMessage:iMsg];
     if (split && MKMNetwork_IsGroup(receiver.type)) {
         NSArray *messages = [rMsg split];
@@ -135,7 +135,7 @@ SingletonImplementations(DKDTransceiver, sharedInstance)
     
     // 0. check with the current user
     if (user) {
-        MKMID *receiver = rMsg.envelope.receiver;
+        const MKMID *receiver = rMsg.envelope.receiver;
         if (MKMNetwork_IsPerson(receiver.type)) {
             if (![receiver isEqual:user.ID]) {
                 // TODO: You can forward it to the true receiver,
@@ -155,8 +155,8 @@ SingletonImplementations(DKDTransceiver, sharedInstance)
     }
     
     // [Meta Protocol] check meta in first contact message
-    MKMID *sender = rMsg.envelope.sender;
-    MKMMeta *meta = MKMMetaForID(sender);
+    const MKMID *sender = rMsg.envelope.sender;
+    const MKMMeta *meta = MKMMetaForID(sender);
     if (!meta) {
         // first contact, try meta in message package
         meta = rMsg.meta;

@@ -49,7 +49,7 @@ static NSString *s_directory = nil;
 // "Library/Caches/.ks/{address}/keystore_*.plist"
 - (NSString *)_pathWithID:(const MKMID *)ID filename:(NSString *)name {
     NSString *dir = self.directory;
-    dir = [dir stringByAppendingPathComponent:ID.address];
+    dir = [dir stringByAppendingPathComponent:(NSString *)ID.address];
     
     // check base directory exists
     NSFileManager *fm = [NSFileManager defaultManager];
@@ -69,7 +69,7 @@ static NSString *s_directory = nil;
         // nothing changed
         return NO;
     }
-    MKMID *ID = self.currentUser.ID;
+    const MKMID *ID = self.currentUser.ID;
     if (!ID.isValid) {
         NSAssert(self.currentUser == nil, @"Current user invalid: %@", self.currentUser);
         return NO;
@@ -90,7 +90,7 @@ static NSString *s_directory = nil;
 }
 
 - (BOOL)reload {
-    MKMID *ID = self.currentUser.ID;
+    const MKMID *ID = self.currentUser.ID;
     if (!ID.isValid) {
         NSAssert(self.currentUser == nil, @"Current user invalid: %@", self.currentUser);
         return NO;

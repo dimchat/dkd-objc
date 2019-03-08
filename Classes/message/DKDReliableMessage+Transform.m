@@ -16,14 +16,14 @@
 @implementation DKDReliableMessage (Transform)
 
 - (DKDSecureMessage *)verify {
-    MKMID *sender = self.envelope.sender;
+    const MKMID *sender = self.envelope.sender;
     NSAssert(MKMNetwork_IsCommunicator(sender.type), @"sender error");
     
     // 1. verify the signature with public key
     MKMPublicKey *PK = MKMPublicKeyForID(sender);
     if (!PK) {
         // first contact, try meta in message package
-        MKMMeta *meta = self.meta;
+        const MKMMeta *meta = self.meta;
         if ([meta matchID:sender]) {
             PK = meta.key;
         }

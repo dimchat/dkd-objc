@@ -67,8 +67,8 @@ static inline DKDEncryptedKeyMap *pack_keys(const MKMGroup *group,
 @implementation DKDInstantMessage (Transform)
 
 - (DKDSecureMessage *)encrypt {
-    MKMID *receiver = self.envelope.receiver;
-    MKMID *group = self.content.group;
+    const MKMID *receiver = self.envelope.receiver;
+    const MKMID *group = self.content.group;
     
     // 1. symmetric key
     MKMSymmetricKey *scKey = encrypt_key(receiver, group);

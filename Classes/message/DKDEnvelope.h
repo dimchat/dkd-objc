@@ -23,8 +23,8 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @interface DKDEnvelope : DKDDictionary
 
-@property (readonly, strong, nonatomic) MKMID *sender;
-@property (readonly, strong, nonatomic) MKMID *receiver;
+@property (readonly, strong, nonatomic) const MKMID *sender;
+@property (readonly, strong, nonatomic) const MKMID *receiver;
 
 @property (readonly, strong, nonatomic) NSDate *time;
 

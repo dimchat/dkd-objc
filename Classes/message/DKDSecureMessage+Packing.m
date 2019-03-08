@@ -19,7 +19,7 @@ static inline BOOL check_group(const MKMID *grp, const MKMID *receiver) {
 
 @implementation DKDSecureMessage (Packing)
 
-- (MKMID *)group {
+- (const MKMID *)group {
     MKMID *ID = [_storeDictionary objectForKey:@"group"];
     ID = [MKMID IDWithID:ID];
     if (MKMNetwork_IsGroup(ID.type)) {
@@ -31,7 +31,7 @@ static inline BOOL check_group(const MKMID *grp, const MKMID *receiver) {
     }
 }
 
-- (void)setGroup:(MKMID *)group {
+- (void)setGroup:(const MKMID *)group {
     if (group) {
         NSAssert(check_group(group, self.envelope.receiver), @"group error");
         [_storeDictionary setObject:group forKey:@"group"];
@@ -46,7 +46,7 @@ static inline BOOL check_group(const MKMID *grp, const MKMID *receiver) {
     NSMutableArray *mArray = nil;
     
     DKDEnvelope *env = self.envelope;
-    MKMID *receiver = env.receiver;
+    const MKMID *receiver = env.receiver;
     
     if (MKMNetwork_IsGroup(receiver.type)) {
         NSMutableDictionary *msg;
@@ -82,7 +82,7 @@ static inline BOOL check_group(const MKMID *grp, const MKMID *receiver) {
     DKDSecureMessage *sMsg = nil;
     
     DKDEnvelope *env = self.envelope;
-    MKMID *receiver = env.receiver;
+    const MKMID *receiver = env.receiver;
     
     if (MKMNetwork_IsCommunicator(receiver.type)) {
         if (!member || [member isEqual:receiver]) {
