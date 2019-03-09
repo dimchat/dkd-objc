@@ -86,7 +86,7 @@
     if (key) {
         const MKMID *group = content.group;
         if (group) {
-            [store setCipherKey:scKey fromMember:sender inGroup:receiver];
+            [store setCipherKey:scKey fromMember:sender inGroup:group];
         } else {
             [store setCipherKey:scKey fromAccount:sender];
         }

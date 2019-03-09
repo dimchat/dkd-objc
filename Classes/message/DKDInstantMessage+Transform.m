@@ -49,12 +49,13 @@ static inline MKMSymmetricKey *encrypt_key(const MKMID *receiver,
 
 static inline DKDEncryptedKeyMap *pack_keys(const MKMGroup *group,
                                             const NSData *json) {
+    NSArray *members = group.members;
     DKDEncryptedKeyMap *map;
-    map = [[DKDEncryptedKeyMap alloc] initWithCapacity:[group.members count]];
+    map = [[DKDEncryptedKeyMap alloc] initWithCapacity:members.count];
     
     MKMMember *member;
     NSData *data;
-    for (MKMID *ID in group.members) {
+    for (MKMID *ID in members) {
         member = MKMMemberWithID(ID, group.ID);
         assert(member.publicKey);
         data = [member.publicKey encrypt:json];

@@ -55,10 +55,11 @@ static inline BOOL check_group(const MKMID *grp, const MKMID *receiver) {
         
         DKDEncryptedKeyMap *keyMap = self.encryptedKeys;
         MKMGroup *group = MKMGroupWithID(receiver);
-        mArray = [[NSMutableArray alloc] initWithCapacity:group.members.count];
+        NSArray *members = group.members;
+        mArray = [[NSMutableArray alloc] initWithCapacity:members.count];
         
         NSData *key;
-        for (MKMID *member in group.members) {
+        for (MKMID *member in members) {
             // 1. change receiver to the group member
             [msg setObject:member forKey:@"receiver"];
             // 2. get encrypted key
@@ -101,12 +102,15 @@ static inline BOOL check_group(const MKMID *grp, const MKMID *receiver) {
         } else if (self.encryptedKeys.allKeys.count == 1) {
             // the only key is for you, maybe
             member = self.encryptedKeys.allKeys.firstObject;
-        } else if (group.members.count == 1) {
-            // you are the only member of this group
-            member = group.members.firstObject;
         } else {
-            NSAssert(false, @"who are you?");
-            return nil;
+            NSArray *members = group.members;
+            if (members.count == 1) {
+                // you are the only member of this group
+                member = members.firstObject;
+            } else {
+                NSAssert(false, @"who are you?");
+                return nil;
+            }
         }
         
         NSMutableDictionary *mDict = [[NSMutableDictionary alloc] initWithDictionary:self];

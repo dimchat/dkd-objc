@@ -61,7 +61,7 @@ static inline BOOL check_group(const MKMID *group, const MKMID *receiver) {
                        envelope:(const DKDEnvelope *)env {
     NSAssert(content, @"content cannot be empty");
     NSAssert(env, @"envelope cannot be empty");
-    NSAssert(check_group(content.group, env.receiver), @"group error");
+    NSAssert(check_group(content.group, env.receiver), @"group error: %@ not in %@", env.receiver, content.group);
     
     if (self = [super initWithEnvelope:env]) {
         // content
