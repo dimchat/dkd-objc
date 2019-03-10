@@ -61,7 +61,9 @@ static inline BOOL check_group(const MKMID *group, const MKMID *receiver) {
                        envelope:(const DKDEnvelope *)env {
     NSAssert(content, @"content cannot be empty");
     NSAssert(env, @"envelope cannot be empty");
-    NSAssert(check_group(content.group, env.receiver), @"group error: %@ not in %@", env.receiver, content.group);
+    NSAssert([[content objectForKey:@"command"] isEqualToString:@"invite"] ||
+             check_group(content.group, env.receiver),
+             @"group message error: %@ not in %@", env.receiver, content.group);
     
     if (self = [super initWithEnvelope:env]) {
         // content
@@ -94,10 +96,22 @@ static inline BOOL check_group(const MKMID *group, const MKMID *receiver) {
 
 - (DKDMessageContent *)content {
     if (!_content) {
-        DKDMessageContent *body = [_storeDictionary objectForKey:@"content"];
-        body = [DKDMessageContent contentWithContent:body];
-        NSAssert(check_group(body.group, self.envelope.receiver), @"error");
-        _content = body;
+        NSDictionary *dict = [_storeDictionary objectForKey:@"content"];
+        _content = [DKDMessageContent contentWithContent:dict];
+        
+//        NSAssert([[dict objectForKey:@"command"] isEqualToString:@"invite"] ||
+//                 check_group(_content.group, self.envelope.receiver),
+//                 @"group message content error: %@", self);
+        
+        if (_content != dict) {
+            if (_content) {
+                // replace the content object
+                [_storeDictionary setObject:_content forKey:@"content"];
+            } else {
+                NSAssert(false, @"content error: %@", dict);
+                //[_storeDictionary removeObjectForKey:@"content"];
+            }
+        }
     }
     return _content;
 }

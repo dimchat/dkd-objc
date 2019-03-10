@@ -77,16 +77,36 @@
 
 - (const MKMID *)sender {
     if (!_sender) {
-        id from = [_storeDictionary objectForKey:@"sender"];
+        NSString *from = [_storeDictionary objectForKey:@"sender"];
         _sender = [MKMID IDWithID:from];
+        
+        if (_sender != from) {
+            if (_sender) {
+                // replace the sender ID object
+                [_storeDictionary setObject:_sender forKey:@"sender"];
+            } else {
+                NSAssert(false, @"sender error: %@", from);
+                //[_storeDictionary removeObjectForKey:@"sender"];
+            }
+        }
     }
     return _sender;
 }
 
 - (const MKMID *)receiver {
     if (!_receiver) {
-        id to = [_storeDictionary objectForKey:@"receiver"];
+        NSString *to = [_storeDictionary objectForKey:@"receiver"];
         _receiver = [MKMID IDWithID:to];
+        
+        if (_receiver != to) {
+            if (_receiver) {
+                // replace the receiver ID object
+                [_storeDictionary setObject:_receiver forKey:@"receiver"];
+            } else {
+                NSAssert(false, @"receiver error: %@", to);
+                //[_storeDictionary removeObjectForKey:@"receiver"];
+            }
+        }
     }
     return _receiver;
 }

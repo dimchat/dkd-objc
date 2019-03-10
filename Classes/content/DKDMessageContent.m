@@ -140,12 +140,18 @@ static inline NSUInteger serial_number(void) {
 
 - (const MKMID *)group {
     if (!_group) {
-        MKMID *ID = [_storeDictionary objectForKey:@"group"];
-        ID = [MKMID IDWithID:ID];
-        if (MKMNetwork_IsGroup(ID.type)) {
-            _group = ID;
-        } else {
-            NSAssert(!ID, @"group ID error");
+        NSString *group = [_storeDictionary objectForKey:@"group"];
+        _group = [MKMID IDWithID:group];
+        NSAssert(!group || MKMNetwork_IsGroup(_group.type), @"group ID error: %@", _storeDictionary);
+        
+        if (_group != group) {
+            if (_group) {
+                // replace the group ID object
+                [_storeDictionary setObject:_group forKey:@"group"];
+            } else {
+                NSAssert(false, @"group error: %@", _group);
+                //[_storeDictionary removeObjectForKey:@"group"];
+            }
         }
     }
     return _group;

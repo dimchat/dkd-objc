@@ -24,15 +24,19 @@
 }
 
 - (DKDReliableMessage *)forwardMessage {
-    NSDictionary *msg = [_storeDictionary objectForKey:@"forward"];
-    if (!msg) {
-        msg = [_storeDictionary objectForKey:@"secret"];
-        if (!msg) {
-            msg = [_storeDictionary objectForKey:@"message"];
+    NSDictionary *forward = [_storeDictionary objectForKey:@"forward"];
+    DKDReliableMessage *msg = [DKDReliableMessage messageWithMessage:forward];
+    if (msg != forward) {
+        if (msg) {
+            // replace the message object
+            [_storeDictionary setObject:msg forKey:@"forward"];
+        } else {
+            NSAssert(false, @"forward message error: %@", forward);
+            //[_storeDictionary removeObjectForKey:key];
         }
     }
-    NSAssert(msg, @"data error: %@", _storeDictionary);
-    return [DKDReliableMessage messageWithMessage:msg];
+    NSAssert(msg, @"forward message not found: %@", self);
+    return msg;
 }
 
 @end

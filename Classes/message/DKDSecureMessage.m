@@ -136,8 +136,18 @@
 
 - (DKDEncryptedKeyMap *)encryptedKeys {
     if (!_encryptedKeys) {
-        id keys = [_storeDictionary objectForKey:@"keys"];
+        NSDictionary *keys = [_storeDictionary objectForKey:@"keys"];
         _encryptedKeys = [DKDEncryptedKeyMap mapWithMap:keys];
+        
+        if (_encryptedKeys != keys) {
+            if (_encryptedKeys) {
+                // replace the encrypted keys object
+                [_storeDictionary setObject:_encryptedKeys forKey:@"keys"];
+            } else {
+                NSAssert(false, @"encrypted keys error: %@", keys);
+                //[_storeDictionary removeObjectForKey:@"keys"];
+            }
+        }
     }
     return _encryptedKeys;
 }
