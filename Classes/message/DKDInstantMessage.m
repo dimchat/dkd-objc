@@ -17,25 +17,6 @@
 
 @end
 
-static inline BOOL check_group(const MKMID *group, const MKMID *receiver) {
-    if (MKMNetwork_IsCommunicator(receiver.type)) {
-        if (group) {
-            // if content.group exists,
-            // the envelope.receiver should be a member of the group
-            return [MKMGroupWithID(group) existsMember:receiver];
-        } else {
-            return YES;
-        }
-    } else if (MKMNetwork_IsGroup(receiver.type)) {
-        // if envelope.receiver is a group, it must equal to content.group,
-        // and it means that content.group cannot be empty
-        return [group isEqual:receiver];
-    } else {
-        assert(false);
-        return NO;
-    }
-}
-
 @implementation DKDInstantMessage
 
 - (instancetype)initWithEnvelope:(const DKDEnvelope *)env {
@@ -61,9 +42,10 @@ static inline BOOL check_group(const MKMID *group, const MKMID *receiver) {
                        envelope:(const DKDEnvelope *)env {
     NSAssert(content, @"content cannot be empty");
     NSAssert(env, @"envelope cannot be empty");
-    NSAssert([[content objectForKey:@"command"] isEqualToString:@"invite"] ||
-             check_group(content.group, env.receiver),
-             @"group message error: %@ not in %@", env.receiver, content.group);
+    // if the receiver is a group, it must equal to content.group
+    NSAssert(MKMNetwork_IsCommunicator(env.receiver.type) ||
+             [content.group isEqual:env.receiver],
+             @"group/receiver error: %@, %@", content.group, env.receiver);
     
     if (self = [super initWithEnvelope:env]) {
         // content
@@ -99,9 +81,10 @@ static inline BOOL check_group(const MKMID *group, const MKMID *receiver) {
         NSDictionary *dict = [_storeDictionary objectForKey:@"content"];
         _content = [DKDMessageContent contentWithContent:dict];
         
-//        NSAssert([[dict objectForKey:@"command"] isEqualToString:@"invite"] ||
-//                 check_group(_content.group, self.envelope.receiver),
-//                 @"group message content error: %@", self);
+        // if the receiver is a group, it must equal to content.group
+        NSAssert(MKMNetwork_IsCommunicator(self.envelope.receiver.type) ||
+                 [_content.group isEqual:self.envelope.receiver],
+                 @"group/receiver error: %@, %@", _content.group, self.envelope.receiver);
         
         if (_content != dict) {
             if (_content) {

@@ -114,7 +114,7 @@
 - (NSDate *)time {
     if (!_time) {
         NSNumber *timestamp = [_storeDictionary objectForKey:@"time"];
-        NSAssert(timestamp, @"error: %@", _storeDictionary);
+        NSAssert(timestamp, @"time error: %@", _storeDictionary);
         _time = NSDateFromNumber(timestamp);
     }
     return _time;

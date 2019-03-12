@@ -40,7 +40,7 @@
                 NSString *json = [key UTF8String];
                 scKey = [[MKMSymmetricKey alloc] initWithJSONString:json];
             } else {
-                NSAssert(false, @"decrypt key failed");
+                NSAssert(false, @"decrypt key failed: %@", self);
             }
         } else {
             // 1.2. get passphrase from the Key Store
@@ -55,7 +55,7 @@
         NSAssert(false, @"trim group message for a member first");
         return nil;
     } else {
-        NSAssert(false, @"receiver type not supported");
+        NSAssert(false, @"receiver type not supported: %@", receiver);
         return nil;
     }
     NSAssert(scKey, @"failed to get decrypt key for receiver: %@", receiver);
@@ -72,15 +72,13 @@
     
     // 2.1. Check group
     // if message.group exists, it must equal to content.group
-    NSAssert(!self.group ||
-             [content.group isEqual:self.group],
-             @"error");
+    NSAssert(!self.group || [self.group isEqual:content.group],
+             @"group error: %@, %@", self.group, content.group);
     // if content.group exists, it should equal to the message.receiver
     // or the message.receiver must be a member of this group
-    NSAssert(!content.group ||
-             [content.group isEqual:receiver] ||
-             [MKMGroupWithID(content.group) existsMember:receiver],
-             @"group error");
+    NSAssert(MKMNetwork_IsCommunicator(receiver.type) ||
+             [content.group isEqual:receiver],
+             @"group/receiver error: %@, %@", content.group, receiver);
     
     // 3. update encrypted key for contact/group.member
     if (key) {
@@ -103,7 +101,7 @@
 
 - (DKDReliableMessage *)sign {
     const MKMID *sender = self.envelope.sender;
-    NSAssert(MKMNetwork_IsPerson(sender.type), @"sender error");
+    NSAssert(MKMNetwork_IsPerson(sender.type), @"sender error: %@", sender);
     MKMUser *user = MKMUserWithID(sender);
     
     // 1. sign the content data with user's private key

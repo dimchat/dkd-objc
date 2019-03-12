@@ -77,14 +77,14 @@ SingletonImplementations(DKDKeyStore, sharedInstance)
 #pragma mark - Cipher key to encpryt message for account(contact)
 
 - (MKMSymmetricKey *)cipherKeyForAccount:(const MKMID *)ID {
-    NSAssert(MKMNetwork_IsCommunicator(ID.type), @"account ID error");
+    NSAssert(MKMNetwork_IsCommunicator(ID.type), @"account ID error: %@", ID);
     return [_keysForAccounts objectForKey:ID.address];
 }
 
 - (void)setCipherKey:(MKMSymmetricKey *)key
           forAccount:(const MKMID *)ID {
     NSAssert(key, @"cipher key cannot be empty");
-    NSAssert(MKMNetwork_IsCommunicator(ID.type), @"account ID error");
+    NSAssert(MKMNetwork_IsCommunicator(ID.type), @"account ID error: %@", ID);
     if (key) {
         [_keysForAccounts setObject:key forKey:ID.address];
     }
@@ -93,14 +93,14 @@ SingletonImplementations(DKDKeyStore, sharedInstance)
 #pragma mark - Cipher key from account(contact) to decrypt message
 
 - (MKMSymmetricKey *)cipherKeyFromAccount:(const MKMID *)ID {
-    NSAssert(MKMNetwork_IsCommunicator(ID.type), @"account ID error");
+    NSAssert(MKMNetwork_IsCommunicator(ID.type), @"account ID error: %@", ID);
     return [_keysFromAccounts objectForKey:ID.address];
 }
 
 - (void)setCipherKey:(MKMSymmetricKey *)key
          fromAccount:(const MKMID *)ID {
     NSAssert(key, @"cipher key cannot be empty");
-    NSAssert(MKMNetwork_IsCommunicator(ID.type), @"account ID error");
+    NSAssert(MKMNetwork_IsCommunicator(ID.type), @"account ID error: %@", ID);
     if (key) {
         [_keysFromAccounts setObject:key forKey:ID.address];
         _dirty = YES;
@@ -110,14 +110,14 @@ SingletonImplementations(DKDKeyStore, sharedInstance)
 #pragma mark - Cipher key to encrypt message for all group members
 
 - (MKMSymmetricKey *)cipherKeyForGroup:(const MKMID *)ID {
-    NSAssert(MKMNetwork_IsGroup(ID.type), @"group ID error");
+    NSAssert(MKMNetwork_IsGroup(ID.type), @"group ID error: %@", ID);
     return [_keysForGroups objectForKey:ID.address];
 }
 
 - (void)setCipherKey:(MKMSymmetricKey *)key
             forGroup:(const MKMID *)ID {
     NSAssert(key, @"cipher key cannot be empty");
-    NSAssert(MKMNetwork_IsGroup(ID.type), @"group ID error");
+    NSAssert(MKMNetwork_IsGroup(ID.type), @"group ID error: %@", ID);
     if (key) {
         [_keysForGroups setObject:key forKey:ID.address];
     }
@@ -127,8 +127,8 @@ SingletonImplementations(DKDKeyStore, sharedInstance)
 
 - (MKMSymmetricKey *)cipherKeyFromMember:(const MKMID *)ID
                                  inGroup:(const MKMID *)group {
-    NSAssert(MKMNetwork_IsCommunicator(ID.type), @"member ID error");
-    NSAssert(MKMNetwork_IsGroup(group.type), @"group ID error");
+    NSAssert(MKMNetwork_IsCommunicator(ID.type), @"member ID error: %@", ID);
+    NSAssert(MKMNetwork_IsGroup(group.type), @"group ID error: %@", group);
     KeyTableM *table = [_tablesFromGroups objectForKey:group.address];
     return [table objectForKey:ID.address];
 }
@@ -137,8 +137,8 @@ SingletonImplementations(DKDKeyStore, sharedInstance)
           fromMember:(const MKMID *)ID
              inGroup:(const MKMID *)group {
     NSAssert(key, @"cipher key cannot be empty");
-    NSAssert(MKMNetwork_IsCommunicator(ID.type), @"member ID error");
-    NSAssert(MKMNetwork_IsGroup(group.type), @"group ID error");
+    NSAssert(MKMNetwork_IsCommunicator(ID.type), @"member ID error: %@", ID);
+    NSAssert(MKMNetwork_IsGroup(group.type), @"group ID error: %@", group);
     KeyTableM *table = [_tablesFromGroups objectForKey:group.address];
     if (!table) {
         table = [[KeyTableM alloc] init];

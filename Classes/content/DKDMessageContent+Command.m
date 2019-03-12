@@ -11,7 +11,7 @@
 @implementation DKDMessageContent (Command)
 
 - (instancetype)initWithCommand:(const NSString *)cmd {
-    NSAssert(cmd, @"command name cannot be empty");
+    NSAssert(cmd.length > 0, @"command name cannot be empty");
     if (self = [self initWithType:DKDMessageType_Command]) {
         // command
         if (cmd) {

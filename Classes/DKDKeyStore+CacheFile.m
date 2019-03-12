@@ -116,7 +116,7 @@ static NSString *s_directory = nil;
         for (cKey in dict) {
             // Address
             address = [MKMAddress addressWithAddress:cKey];
-            NSAssert(MKMNetwork_IsCommunicator(address.network), @"account address error");
+            NSAssert(MKMNetwork_IsCommunicator(address.network), @"account address error: %@", address);
             // key
             obj = [dict objectForKey:cKey];
             PW = [MKMSymmetricKey keyWithKey:obj];
@@ -138,13 +138,13 @@ static NSString *s_directory = nil;
         for (gKey in dict) {
             // group ID.address
             gAddr = [MKMAddress addressWithAddress:gKey];
-            NSAssert(MKMNetwork_IsGroup(gAddr.network), @"group address error");
+            NSAssert(MKMNetwork_IsGroup(gAddr.network), @"group address error: %@", gAddr);
             // table
             gTable = [dict objectForKey:gKey];
             for (mKey in gTable) {
                 // member ID.address
                 mAddr = [MKMAddress addressWithAddress:mKey];
-                NSAssert(MKMNetwork_IsCommunicator(mAddr.network), @"member address error");
+                NSAssert(MKMNetwork_IsCommunicator(mAddr.network), @"member address error: %@", mAddr);
                 // key
                 obj = [gTable objectForKey:mKey];
                 PW = [MKMSymmetricKey keyWithKey:obj];

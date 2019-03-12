@@ -17,7 +17,7 @@
 
 - (DKDSecureMessage *)verify {
     const MKMID *sender = self.envelope.sender;
-    NSAssert(MKMNetwork_IsCommunicator(sender.type), @"sender error");
+    NSAssert(MKMNetwork_IsCommunicator(sender.type), @"sender error: %@", sender);
     
     // 1. verify the signature with public key
     MKMPublicKey *PK = MKMPublicKeyForID(sender);

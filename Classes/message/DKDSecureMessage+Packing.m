@@ -12,28 +12,31 @@
 
 #import "DKDSecureMessage+Packing.h"
 
-static inline BOOL check_group(const MKMID *grp, const MKMID *receiver) {
-    assert(MKMNetwork_IsGroup(grp.type));
-    return [grp isEqual:receiver] || [MKMGroupWithID(grp) existsMember:receiver];
-}
-
 @implementation DKDSecureMessage (Packing)
 
-- (const MKMID *)group {
-    MKMID *ID = [_storeDictionary objectForKey:@"group"];
-    ID = [MKMID IDWithID:ID];
-    if (MKMNetwork_IsGroup(ID.type)) {
-        NSAssert(check_group(ID, self.envelope.receiver), @"group error");
+- (nullable const MKMID *)group {
+    NSString *str = [_storeDictionary objectForKey:@"group"];
+    if (str) {
+        MKMID *ID = [MKMID IDWithID:str];
+        if (ID != str) {
+            if (ID) {
+                // replace group ID object
+                [_storeDictionary setObject:ID forKey:@"group"];
+            } else {
+                NSAssert(false, @"group ID error: %@", str);
+                //[_storeDictionary removeObjectForKey:@"group"];
+            }
+        }
+        NSAssert(MKMNetwork_IsGroup(ID.type), @"group error: %@", str);
         return ID;
     } else {
-        NSAssert(!ID, @"group ID error");
         return nil;
     }
 }
 
 - (void)setGroup:(const MKMID *)group {
     if (group) {
-        NSAssert(check_group(group, self.envelope.receiver), @"group error");
+        NSAssert(MKMNetwork_IsGroup(group.type), @"group error: %@", group);
         [_storeDictionary setObject:group forKey:@"group"];
     } else {
         [_storeDictionary removeObjectForKey:@"group"];
@@ -89,7 +92,7 @@ static inline BOOL check_group(const MKMID *grp, const MKMID *receiver) {
         if (!member || [member isEqual:receiver]) {
             sMsg = self;
         } else {
-            NSAssert(false, @"receiver not match");
+            NSAssert(false, @"receiver not match: %@, %@", member, receiver);
         }
     } else if (MKMNetwork_IsGroup(receiver.type)) {
         // 0. check member
@@ -126,7 +129,7 @@ static inline BOOL check_group(const MKMID *grp, const MKMID *receiver) {
         // 3. repack message
         sMsg = [[DKDSecureMessage alloc] initWithDictionary:mDict];
     } else {
-        NSAssert(false, @"receiver type not supported");
+        NSAssert(false, @"receiver type not supported: %@", receiver);
     }
     
     return sMsg;

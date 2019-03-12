@@ -76,12 +76,12 @@
         // sender
         MKMID *sender = [_storeDictionary objectForKey:@"sender"];
         sender = [MKMID IDWithID:sender];
-        NSAssert(sender.isValid, @"sender error");
+        NSAssert(sender.isValid, @"sender error: %@", sender);
         
         // receiver
         MKMID *receier = [_storeDictionary objectForKey:@"receiver"];
         receier = [MKMID IDWithID:receier];
-        NSAssert(receier.isValid, @"receiver error");
+        NSAssert(receier.isValid, @"receiver error: %@", receier);
         
         // time
         NSNumber *timestamp = [_storeDictionary objectForKey:@"time"];

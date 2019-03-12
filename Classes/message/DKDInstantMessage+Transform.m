@@ -22,7 +22,7 @@ static inline MKMSymmetricKey *encrypt_key(const MKMID *receiver,
     MKMSymmetricKey *scKey = nil;
     
     if (group) {
-        assert([group isEqual:receiver] || [MKMGroupWithID(group) existsMember:receiver]);
+        assert(MKMNetwork_IsGroup(group.type));
         receiver = group;
     }
     
@@ -99,7 +99,7 @@ static inline DKDEncryptedKeyMap *pack_keys(const MKMGroup *group,
         }
         [mDict setObject:[key base64Encode] forKey:@"key"];
     } else if (MKMNetwork_IsGroup(receiver.type)) {
-        NSAssert([group isEqual:receiver], @"error");
+        NSAssert([group isEqual:receiver], @"group/receiver error: %@, %@", group, receiver);
         DKDEncryptedKeyMap *keys;
         keys = pack_keys(MKMGroupWithID(receiver), key); // pack_keys()
         if (!keys) {

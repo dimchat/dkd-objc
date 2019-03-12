@@ -133,25 +133,27 @@ static inline NSUInteger serial_number(void) {
 }
 
 - (void)setSerialNumber:(NSUInteger)serialNumber {
-    NSAssert(serialNumber != 0, @"serian number error");
+    NSAssert(serialNumber != 0, @"serian number cannot be ZERO");
     [_storeDictionary setObject:@(serialNumber) forKey:@"sn"];
     _serialNumber = serialNumber;
 }
 
 - (const MKMID *)group {
     if (!_group) {
-        NSString *group = [_storeDictionary objectForKey:@"group"];
-        _group = [MKMID IDWithID:group];
-        NSAssert(!group || MKMNetwork_IsGroup(_group.type), @"group ID error: %@", _storeDictionary);
-        
-        if (_group != group) {
-            if (_group) {
-                // replace the group ID object
-                [_storeDictionary setObject:_group forKey:@"group"];
-            } else {
-                NSAssert(false, @"group error: %@", _group);
-                //[_storeDictionary removeObjectForKey:@"group"];
+        NSString *str = [_storeDictionary objectForKey:@"group"];
+        if (str) {
+            MKMID *ID = [MKMID IDWithID:str];
+            if (ID != str) {
+                if (ID) {
+                    // replace group ID object
+                    [_storeDictionary setObject:ID forKey:@"group"];
+                } else {
+                    NSAssert(false, @"group ID error: %@", str);
+                    //[_storeDictionary removeObjectForKey:@"group"];
+                }
             }
+            NSAssert(MKMNetwork_IsGroup(ID.type), @"group error: %@", str);
+            _group = ID;
         }
     }
     return _group;
@@ -160,7 +162,7 @@ static inline NSUInteger serial_number(void) {
 - (void)setGroup:(const MKMID *)group {
     if (![_group isEqual:group]) {
         if (group) {
-            NSAssert(MKMNetwork_IsGroup(group.type), @"group ID error");
+            NSAssert(MKMNetwork_IsGroup(group.type), @"group error: %@", group);
             [_storeDictionary setObject:group forKey:@"group"];
         } else {
             [_storeDictionary removeObjectForKey:@"group"];

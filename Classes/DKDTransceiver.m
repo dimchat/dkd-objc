@@ -104,8 +104,8 @@ SingletonImplementations(DKDTransceiver, sharedInstance)
                                        sender:(const MKMID *)sender
                                      receiver:(const MKMID *)receiver
                                          time:(nullable const NSDate *)time {
-    NSAssert(MKMNetwork_IsPerson(sender.type), @"sender error");
-    NSAssert(receiver.isValid, @"receiver error");
+    NSAssert(MKMNetwork_IsPerson(sender.type), @"sender error: %@", sender);
+    NSAssert(receiver.isValid, @"receiver error: %@", receiver);
     
     // make instant message
     DKDInstantMessage *iMsg;
@@ -179,7 +179,7 @@ SingletonImplementations(DKDTransceiver, sharedInstance)
     
     // 1.1. trim for user
     sMsg = [sMsg trimForMember:user.ID];
-    NSAssert(MKMNetwork_IsPerson(sMsg.envelope.receiver.type), @"error");
+    NSAssert(MKMNetwork_IsPerson(sMsg.envelope.receiver.type), @"receiver error: %@", sMsg.envelope.receiver);
     
     // 2. decrypt 'data' to 'content'
     DKDInstantMessage *iMsg = [sMsg decrypt];

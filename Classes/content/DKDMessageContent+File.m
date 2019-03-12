@@ -15,7 +15,7 @@
 
 - (instancetype)initWithFileData:(const NSData *)data
                         filename:(nullable const NSString *)name {
-    NSAssert(data, @"file data cannot be empty");
+    NSAssert(data.length > 0, @"file data cannot be empty");
     if (self = [self initWithType:DKDMessageType_File]) {
         // url or data
         NSAssert(self.delegate, @"message content delegate not set");

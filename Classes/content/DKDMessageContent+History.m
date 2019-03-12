@@ -13,7 +13,7 @@
 @implementation DKDMessageContent (HistoryCommand)
 
 - (instancetype)initWithHistoryCommand:(const NSString *)cmd {
-    NSAssert(cmd, @"command name cannot be empty");
+    NSAssert(cmd.length > 0, @"command name cannot be empty");
     if (self = [self initWithType:DKDMessageType_History]) {
         // command
         if (cmd) {
@@ -29,7 +29,7 @@
 
 - (NSDate *)time {
     NSNumber *timestamp = [_storeDictionary objectForKey:@"time"];
-    NSAssert(timestamp, @"error: %@", _storeDictionary);
+    NSAssert(timestamp, @"time error: %@", _storeDictionary);
     return NSDateFromNumber(timestamp);
 }
 
