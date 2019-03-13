@@ -66,10 +66,6 @@ SingletonImplementations(DKDTransceiver, sharedInstance)
         }
         BOOL OK = YES;
         for (rMsg in messages) {
-            if ([rMsg.envelope.receiver isEqual:rMsg.envelope.sender]) {
-                // ignore message to the sender itself
-                continue;
-            }
             if ([self sendReliableMessage:rMsg callback:callback]) {
                 //NSLog(@"group message sent to %@", rMsg.envelope.receiver);
             } else {
