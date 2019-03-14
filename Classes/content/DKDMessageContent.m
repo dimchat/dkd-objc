@@ -17,22 +17,6 @@ static inline NSUInteger serial_number(void) {
         sn = arc4random();
     }
     return sn;
-//    // last serial number
-//    static NSUInteger serialNumber = 0;
-//    static dispatch_once_t onceToken;
-//    dispatch_once(&onceToken, ^{
-//        NSDate *now = [[NSDate alloc] init];
-//        serialNumber = [now timeIntervalSince1970] - 1;
-//    });
-//    // get new serial number with current timestamp
-//    NSDate *now = [[NSDate alloc] init];
-//    NSUInteger timestamp = [now timeIntervalSince1970];
-//    if (serialNumber < timestamp) {
-//        serialNumber = timestamp;
-//    } else {
-//        ++serialNumber;
-//    }
-//    return serialNumber;
 }
 
 @interface DKDMessageContent () {
@@ -40,7 +24,7 @@ static inline NSUInteger serial_number(void) {
     DKDMessageType _type;
     NSUInteger _serialNumber;
     
-    const MKMID *_group;
+    const NSString *_group;
     __weak id<DKDMessageContentDelegate> _delegate;
 }
 
@@ -138,31 +122,16 @@ static inline NSUInteger serial_number(void) {
     _serialNumber = serialNumber;
 }
 
-- (const MKMID *)group {
+- (const NSString *)group {
     if (!_group) {
-        NSString *str = [_storeDictionary objectForKey:@"group"];
-        if (str) {
-            MKMID *ID = [MKMID IDWithID:str];
-            if (ID != str) {
-                if (ID) {
-                    // replace group ID object
-                    [_storeDictionary setObject:ID forKey:@"group"];
-                } else {
-                    NSAssert(false, @"group ID error: %@", str);
-                    //[_storeDictionary removeObjectForKey:@"group"];
-                }
-            }
-            NSAssert(MKMNetwork_IsGroup(ID.type), @"group error: %@", str);
-            _group = ID;
-        }
+        _group = [_storeDictionary objectForKey:@"group"];
     }
     return _group;
 }
 
-- (void)setGroup:(const MKMID *)group {
+- (void)setGroup:(const NSString *)group {
     if (![_group isEqual:group]) {
         if (group) {
-            NSAssert(MKMNetwork_IsGroup(group.type), @"group error: %@", group);
             [_storeDictionary setObject:group forKey:@"group"];
         } else {
             [_storeDictionary removeObjectForKey:@"group"];

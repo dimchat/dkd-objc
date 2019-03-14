@@ -89,7 +89,7 @@ typedef NS_ENUM(UInt8, DKDMessageType) {
 @property (readonly, nonatomic) NSUInteger serialNumber;
 
 // Group ID for group message
-@property (strong, nonatomic, nullable) const MKMID *group;
+@property (strong, nonatomic, nullable) const NSString *group;
 
 // delegate to upload/download file data
 @property (weak, nonatomic, nullable) id<DKDMessageContentDelegate> delegate;

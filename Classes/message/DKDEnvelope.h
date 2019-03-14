@@ -10,8 +10,6 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@class MKMID;
-
 /**
  *  Envelope for message
  *
@@ -23,15 +21,15 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @interface DKDEnvelope : DKDDictionary
 
-@property (readonly, strong, nonatomic) const MKMID *sender;
-@property (readonly, strong, nonatomic) const MKMID *receiver;
+@property (readonly, strong, nonatomic) const NSString *sender;
+@property (readonly, strong, nonatomic) const NSString *receiver;
 
 @property (readonly, strong, nonatomic) NSDate *time;
 
 + (instancetype)envelopeWithEnvelope:(id)env;
 
-- (instancetype)initWithSender:(const MKMID *)from
-                      receiver:(const MKMID *)to
+- (instancetype)initWithSender:(const NSString *)from
+                      receiver:(const NSString *)to
                           time:(nullable const NSDate *)time
 NS_DESIGNATED_INITIALIZER;
 

@@ -27,8 +27,8 @@
 }
 
 - (instancetype)initWithContent:(const DKDMessageContent *)content
-                         sender:(const MKMID *)from
-                       receiver:(const MKMID *)to
+                         sender:(const NSString *)from
+                       receiver:(const NSString *)to
                            time:(nullable const NSDate *)time {
     DKDEnvelope *env = [[DKDEnvelope alloc] initWithSender:from
                                                   receiver:to
@@ -42,10 +42,6 @@
                        envelope:(const DKDEnvelope *)env {
     NSAssert(content, @"content cannot be empty");
     NSAssert(env, @"envelope cannot be empty");
-    // if the receiver is a group, it must equal to content.group
-    NSAssert(MKMNetwork_IsCommunicator(env.receiver.type) ||
-             [content.group isEqual:env.receiver],
-             @"group/receiver error: %@, %@", content.group, env.receiver);
     
     if (self = [super initWithEnvelope:env]) {
         // content
@@ -80,12 +76,6 @@
     if (!_content) {
         NSDictionary *dict = [_storeDictionary objectForKey:@"content"];
         _content = [DKDMessageContent contentWithContent:dict];
-        
-        // if the receiver is a group, it must equal to content.group
-        NSAssert(MKMNetwork_IsCommunicator(self.envelope.receiver.type) ||
-                 [_content.group isEqual:self.envelope.receiver],
-                 @"group/receiver error: %@, %@", _content.group, self.envelope.receiver);
-        
         if (_content != dict) {
             if (_content) {
                 // replace the content object

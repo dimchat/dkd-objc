@@ -29,8 +29,8 @@ NS_ASSUME_NONNULL_BEGIN
 @property (readonly, strong, nonatomic) DKDMessageContent *content;
 
 - (instancetype)initWithContent:(const DKDMessageContent *)content
-                         sender:(const MKMID *)from
-                       receiver:(const MKMID *)to
+                         sender:(const NSString *)from
+                       receiver:(const NSString *)to
                            time:(nullable const NSDate *)time;
 
 - (instancetype)initWithContent:(const DKDMessageContent *)content

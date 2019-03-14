@@ -10,12 +10,11 @@
 
 @implementation DKDReliableMessage (Meta)
 
-- (const MKMMeta *)meta {
-    id dict = [_storeDictionary objectForKey:@"meta"];
-    return [MKMMeta metaWithMeta:dict];
+- (const NSDictionary *)meta {
+    return [_storeDictionary objectForKey:@"meta"];
 }
 
-- (void)setMeta:(const MKMMeta *)meta {
+- (void)setMeta:(const NSDictionary *)meta {
     if (meta) {
         [_storeDictionary setObject:meta forKey:@"meta"];
     } else {

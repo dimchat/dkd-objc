@@ -86,9 +86,9 @@ NS_DESIGNATED_INITIALIZER;
 
 + (instancetype)mapWithMap:(id)map;
 
-- (NSData *)encryptedKeyForID:(const MKMID *)ID;
+- (NSData *)encryptedKeyForID:(const NSString *)ID;
 
-- (void)setEncryptedKey:(NSData *)key forID:(const MKMID *)ID;
+- (void)setEncryptedKey:(NSData *)key forID:(const NSString *)ID;
 
 @end
 

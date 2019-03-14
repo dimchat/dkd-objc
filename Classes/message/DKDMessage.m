@@ -33,8 +33,8 @@
     }
 }
 
-- (instancetype)initWithSender:(const MKMID *)from
-                      receiver:(const MKMID *)to
+- (instancetype)initWithSender:(const NSString *)from
+                      receiver:(const NSString *)to
                           time:(nullable const NSDate *)time {
     DKDEnvelope *env = [[DKDEnvelope alloc] initWithSender:from
                                                   receiver:to
@@ -74,14 +74,10 @@
 - (DKDEnvelope *)envelope {
     if (!_envelope) {
         // sender
-        MKMID *sender = [_storeDictionary objectForKey:@"sender"];
-        sender = [MKMID IDWithID:sender];
-        NSAssert(sender.isValid, @"sender error: %@", sender);
+        NSString *sender = [_storeDictionary objectForKey:@"sender"];
         
         // receiver
-        MKMID *receier = [_storeDictionary objectForKey:@"receiver"];
-        receier = [MKMID IDWithID:receier];
-        NSAssert(receier.isValid, @"receiver error: %@", receier);
+        NSString *receier = [_storeDictionary objectForKey:@"receiver"];
         
         // time
         NSNumber *timestamp = [_storeDictionary objectForKey:@"time"];

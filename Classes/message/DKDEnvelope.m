@@ -12,8 +12,8 @@
 
 @interface DKDEnvelope ()
 
-@property (strong, nonatomic) const MKMID *sender;
-@property (strong, nonatomic) const MKMID *receiver;
+@property (strong, nonatomic) const NSString *sender;
+@property (strong, nonatomic) const NSString *receiver;
 
 @property (strong, nonatomic) NSDate *time;
 
@@ -35,8 +35,8 @@
 }
 
 /* designated initializer */
-- (instancetype)initWithSender:(const MKMID *)from
-                      receiver:(const MKMID *)to
+- (instancetype)initWithSender:(const NSString *)from
+                      receiver:(const NSString *)to
                           time:(nullable const NSDate *)time {
     if (!time) {
         // now()
@@ -47,8 +47,8 @@
                            @"time"    :NSNumberFromDate(time),
                            };
     if (self = [super initWithDictionary:dict]) {
-        _sender = [from copy];
-        _receiver = [to copy];
+        _sender = from;
+        _receiver = to;
         _time = [time copy];
     }
     return self;
@@ -75,38 +75,16 @@
     return env;
 }
 
-- (const MKMID *)sender {
+- (const NSString *)sender {
     if (!_sender) {
-        NSString *from = [_storeDictionary objectForKey:@"sender"];
-        _sender = [MKMID IDWithID:from];
-        
-        if (_sender != from) {
-            if (_sender) {
-                // replace the sender ID object
-                [_storeDictionary setObject:_sender forKey:@"sender"];
-            } else {
-                NSAssert(false, @"sender error: %@", from);
-                //[_storeDictionary removeObjectForKey:@"sender"];
-            }
-        }
+        _sender = [_storeDictionary objectForKey:@"sender"];
     }
     return _sender;
 }
 
-- (const MKMID *)receiver {
+- (const NSString *)receiver {
     if (!_receiver) {
-        NSString *to = [_storeDictionary objectForKey:@"receiver"];
-        _receiver = [MKMID IDWithID:to];
-        
-        if (_receiver != to) {
-            if (_receiver) {
-                // replace the receiver ID object
-                [_storeDictionary setObject:_receiver forKey:@"receiver"];
-            } else {
-                NSAssert(false, @"receiver error: %@", to);
-                //[_storeDictionary removeObjectForKey:@"receiver"];
-            }
-        }
+        _receiver = [_storeDictionary objectForKey:@"receiver"];
     }
     return _receiver;
 }

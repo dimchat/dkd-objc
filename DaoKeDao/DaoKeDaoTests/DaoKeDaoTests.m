@@ -12,8 +12,6 @@
 
 #import "NSObject+JsON.h"
 
-#import "MKMImmortals.h"
-
 @interface DaoKeDaoTests : XCTestCase
 
 @end
@@ -40,12 +38,24 @@
     }];
 }
 
-- (void)testMessage {
+- (void)testContent {
+    NSDictionary *dict = @{@"type": @(1),
+                           @"sn"  : @(3069910943),
+                           @"text": @"Hey guy!",
+                           };
+    DKDMessageContent *text;
+    text = [[DKDMessageContent alloc] initWithDictionary:dict];
+    NSLog(@"text: %@", text);
+    NSLog(@"json: %@", [text jsonString]);
     
-    MKMImmortals *immortals = [[MKMImmortals alloc] init];
-    MKMFacebook().userDelegate = immortals;
-    MKMFacebook().accountDelegate = immortals;
-    DKDTransceiver *trans = [DKDTransceiver sharedInstance];
+    NSString *json = @"{\"type\":1,\"sn\":3069910943,\"text\":\"Hey guy!\"}";
+    NSLog(@"string: %@", json);
+    text = [[DKDMessageContent alloc] initWithJSONString:json];
+    NSLog(@"text: %@", text);
+    NSLog(@"json: %@", [text jsonString]);
+}
+
+- (void)testMessage {
     
     DKDMessageContent *text;
     text = [[DKDMessageContent alloc] initWithText:@"Hey guy!"];
@@ -53,8 +63,8 @@
     NSLog(@"json: %@", [text jsonString]);
     NSAssert(text.type == DKDMessageType_Text, @"msg type error");
     
-    MKMID *ID1 = [MKMID IDWithID:MKM_IMMORTAL_HULK_ID];
-    MKMID *ID2 = [MKMID IDWithID:MKM_MONKEY_KING_ID];
+    NSString *ID1 = @"hulk@4YeVEN3aUnvC1DNUufCq1bs9zoBSJTzVEj";
+    NSString *ID2 = @"moki@4WDfe3zZ4T7opFSi3iDAKiuTnUHjxmXekk";
     
     DKDInstantMessage *iMsg;
     iMsg = [[DKDInstantMessage alloc] initWithContent:text
@@ -63,18 +73,6 @@
                                                  time:nil];
     NSLog(@"instant msg: %@", iMsg);
     NSLog(@"json: %@", [iMsg jsonString]);
-    
-    DKDReliableMessage *rMsg;
-    rMsg = [trans encryptAndSignMessage:iMsg];
-    NSLog(@"reliable msg: %@", rMsg);
-    NSLog(@"json: %@", [rMsg jsonString]);
-    
-    MKMUser *user = MKMUserWithID(ID2);
-    DKDInstantMessage *recv = [trans verifyAndDecryptMessage:rMsg forUser:user];
-    NSLog(@"receive msg: %@", recv);
-    NSLog(@"json: %@", [recv jsonString]);
-    
-    NSAssert([recv isEqual:iMsg], @"msg packing error");
 }
 
 @end

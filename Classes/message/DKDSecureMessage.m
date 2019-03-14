@@ -124,9 +124,8 @@
         if (key) {
             _encryptedKey = [key base64Decode];
         } else {
-            const MKMID *ID = self.envelope.receiver;
-            NSAssert(MKMNetwork_IsCommunicator(ID.type), @"receiver error: %@", ID);
             // get from the key map
+            const NSString *ID = self.envelope.receiver;
             DKDEncryptedKeyMap *keyMap = self.encryptedKeys;
             return [keyMap encryptedKeyForID:ID];
         }
@@ -174,12 +173,12 @@
     //[super setObject:anObject forKey:aKey];
 }
 
-- (NSData *)encryptedKeyForID:(const MKMID *)ID {
+- (NSData *)encryptedKeyForID:(const NSString *)ID {
     NSString *encode = [_storeDictionary objectForKey:ID];
     return [encode base64Decode];
 }
 
-- (void)setEncryptedKey:(NSData *)key forID:(const MKMID *)ID {
+- (void)setEncryptedKey:(NSData *)key forID:(const NSString *)ID {
     if (key) {
         NSString *encode = [key base64Encode];
         [_storeDictionary setObject:encode forKey:ID];
