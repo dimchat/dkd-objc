@@ -110,3 +110,21 @@
 }
 
 @end
+
+#pragma mark -
+
+@implementation DKDReliableMessage (Meta)
+
+- (const NSDictionary *)meta {
+    return [_storeDictionary objectForKey:@"meta"];
+}
+
+- (void)setMeta:(const NSDictionary *)meta {
+    if (meta) {
+        [_storeDictionary setObject:meta forKey:@"meta"];
+    } else {
+        [_storeDictionary removeObjectForKey:@"meta"];
+    }
+}
+
+@end

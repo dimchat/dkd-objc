@@ -10,7 +10,6 @@
 #import "NSString+Crypto.h"
 
 #import "DKDEnvelope.h"
-#import "DKDInstantMessage.h"
 
 #import "DKDSecureMessage.h"
 
@@ -168,9 +167,15 @@
     }
 }
 
-- (void) setObject:(id)anObject forKey:(const NSString *)aKey {
+- (void)setObject:(id)anObject forKey:(const NSString *)aKey {
     NSAssert(false, @"DON'T call me");
     //[super setObject:anObject forKey:aKey];
+}
+
+- (id)objectForKey:(const NSString *)aKey {
+    NSAssert(false, @"DON'T call me");
+    //return [super objectForKey:aKey];
+    return nil;
 }
 
 - (NSData *)encryptedKeyForID:(const NSString *)ID {

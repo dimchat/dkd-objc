@@ -49,4 +49,15 @@ NS_DESIGNATED_INITIALIZER;
 
 @end
 
+#pragma mark -
+
+/**
+ *  Extends for the first message package of 'Handshake' protocol
+ */
+@interface DKDReliableMessage (Meta)
+
+@property (strong, nonatomic) const NSDictionary *meta;
+
+@end
+
 NS_ASSUME_NONNULL_END
