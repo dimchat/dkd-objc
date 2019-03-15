@@ -142,7 +142,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 // group message
 - (nullable DKDSecureMessage *)encryptWithKey:(NSDictionary *)password
-                              forGroupMembers:(NSArray<NSString *> *)members;
+                                   forMembers:(NSArray<NSString *> *)members;
 
 @end
 

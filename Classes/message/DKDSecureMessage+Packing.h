@@ -25,7 +25,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  *  @return secure/reliable message(s)
  */
-- (NSArray *)splitForGroupMembers:(const NSArray<const NSString *> *)members;
+- (NSArray *)splitForMembers:(const NSArray<const NSString *> *)members;
 
 /**
  *  Trim the group message for a member
