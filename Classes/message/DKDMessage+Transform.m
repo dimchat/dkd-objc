@@ -124,6 +124,10 @@
 
 - (nullable DKDInstantMessage *)decryptForMember:(const NSString *)ID {
     NSData *key = [self.encryptedKeys encryptedKeyForID:ID];
+    if (!key) {
+        // trimmed?
+        key = self.encryptedKey;
+    }
     // decrypt
     NSDictionary *dict = [self _prepareDataWithKeyData:key receiver:ID];
     if (!dict) {

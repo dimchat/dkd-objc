@@ -172,11 +172,11 @@
     //[super setObject:anObject forKey:aKey];
 }
 
-- (id)objectForKey:(const NSString *)aKey {
-    NSAssert(false, @"DON'T call me");
-    //return [super objectForKey:aKey];
-    return nil;
-}
+//- (id)objectForKey:(const NSString *)aKey {
+//    NSAssert(false, @"DON'T call me");
+//    //return [super objectForKey:aKey];
+//    return nil;
+//}
 
 - (NSData *)encryptedKeyForID:(const NSString *)ID {
     NSString *encode = [_storeDictionary objectForKey:ID];
