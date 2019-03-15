@@ -14,9 +14,9 @@
 
 @implementation DKDInstantMessage (ToSecureMessage)
 
-- (nullable NSMutableDictionary *)_prepareDataWithKey:(const NSDictionary *)PW {
-    NSData *data;
-    data = [_delegate message:self encryptContent:self.content withKey:PW];
+- (nullable NSMutableDictionary *)_prepareDataWithKey:(NSDictionary *)PW {
+    DKDMessageContent *content = self.content;
+    NSData *data = [_delegate message:self encryptContent:content withKey:PW];
     if (!data) {
         NSAssert(false, @"failed to encrypt content with key: %@", PW);
         return nil;
@@ -27,7 +27,7 @@
     return mDict;
 }
 
-- (nullable DKDSecureMessage *)encryptWithKey:(const NSDictionary *)password {
+- (nullable DKDSecureMessage *)encryptWithKey:(NSDictionary *)password {
     NSAssert(_delegate, @"message delegate not set yet");
     // 1. encrypt 'content' to 'data'
     NSMutableDictionary *mDict;
@@ -50,7 +50,7 @@
     return [[DKDSecureMessage alloc] initWithDictionary:mDict];
 }
 
-- (nullable DKDSecureMessage *)encryptWithKey:(const NSDictionary *)password
+- (nullable DKDSecureMessage *)encryptWithKey:(NSDictionary *)password
                               forGroupMembers:(NSArray<NSString *> *)members {
     NSAssert(_delegate, @"message delegate not set yet");
     // 1. encrypt 'content' to 'data'

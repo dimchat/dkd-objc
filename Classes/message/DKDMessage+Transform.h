@@ -47,19 +47,19 @@ NS_ASSUME_NONNULL_BEGIN
  */
 - (nullable NSData *)message:(const DKDInstantMessage *)iMsg
               encryptContent:(const DKDMessageContent *)content
-                     withKey:(const NSDictionary *)password;
+                     withKey:(NSDictionary *)password;
 
 /**
  *  Encrypt the symmetric key with receiver's public key
  *
  *  @param iMsg - instant message object
  *  @param password - symmetric key to be encrypted
- *  @param ID - receiver
+ *  @param receiver - receiver ID string
  *  @return encrypted key data
  */
 - (nullable NSData *)message:(const DKDInstantMessage *)iMsg
                   encryptKey:(const NSDictionary *)password
-                 forReceiver:(const NSString *)ID;
+                 forReceiver:(const NSString *)receiver;
 
 @end
 
@@ -70,12 +70,12 @@ NS_ASSUME_NONNULL_BEGIN
  *
  *  @param sMsg - secure message object
  *  @param key - encrypted key data
- *  @param ID - receiver
+ *  @param receiver - receiver ID string
  *  @return symmetric key
  */
 - (nullable NSDictionary *)message:(const DKDSecureMessage *)sMsg
                     decryptKeyData:(nullable const NSData *)key
-                       forReceiver:(const NSString *)ID;
+                       forReceiver:(const NSString *)receiver;
 
 /**
  *  Decrypt encrypted data to message.content with symmetric key
@@ -94,12 +94,12 @@ NS_ASSUME_NONNULL_BEGIN
  *
  *  @param sMsg - secure message object
  *  @param data - encrypted message data
- *  @param ID - sender
+ *  @param sender - sender ID string
  *  @return signature
  */
 - (nullable NSData *)message:(const DKDSecureMessage *)sMsg
                     signData:(const NSData *)data
-                   forSender:(const NSString *)ID;
+                   forSender:(const NSString *)sender;
 
 @end
 
@@ -111,13 +111,13 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param rMsg - reliable message object
  *  @param data - message data
  *  @param signature - signature for message data
- *  @param ID - sender
+ *  @param sender - sender ID string
  *  @return YES on signature match
  */
 - (BOOL)message:(const DKDReliableMessage *)rMsg
      verifyData:(const NSData *)data
   withSignature:(const NSData *)signature
-      forSender:(const NSString *)ID;
+      forSender:(const NSString *)sender;
 
 @end
 
@@ -138,10 +138,10 @@ NS_ASSUME_NONNULL_BEGIN
 @interface DKDInstantMessage (ToSecureMessage)
 
 // personal message
-- (nullable DKDSecureMessage *)encryptWithKey:(const NSDictionary *)password;
+- (nullable DKDSecureMessage *)encryptWithKey:(NSDictionary *)password;
 
 // group message
-- (nullable DKDSecureMessage *)encryptWithKey:(const NSDictionary *)password
+- (nullable DKDSecureMessage *)encryptWithKey:(NSDictionary *)password
                               forGroupMembers:(NSArray<NSString *> *)members;
 
 @end
