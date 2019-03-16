@@ -70,12 +70,16 @@ NS_ASSUME_NONNULL_BEGIN
  *
  *  @param sMsg - secure message object
  *  @param key - encrypted key data
+ *  @param sender - sender/member ID string
  *  @param receiver - receiver ID string
+ *  @param group - if it's a group message, offer group ID here
  *  @return symmetric key
  */
 - (nullable NSDictionary *)message:(const DKDSecureMessage *)sMsg
                     decryptKeyData:(nullable const NSData *)key
-                       forReceiver:(const NSString *)receiver;
+                        fromSender:(const NSString *)sender
+                        toReceiver:(const NSString *)receiver
+                           inGroup:(nullable const NSString *)group;
 
 /**
  *  Decrypt encrypted data to message.content with symmetric key

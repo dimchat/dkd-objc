@@ -82,12 +82,17 @@
 
 @implementation DKDSecureMessage (ToInstantMessage)
 
-- (nullable NSMutableDictionary *)_prepareDataWithKeyData:(const NSData *)key
-                                                 receiver:(const NSString *)ID {
+- (nullable DKDInstantMessage *)decryptWithKeyData:(const NSData *)key
+                                              from:(const NSString *)sender
+                                                to:(const NSString *)receiver
+                                             group:(nullable const NSString *)grp {
     NSAssert(_delegate, @"message delegate not set yet");
     // 1. decrypt 'key' to symmetric key
-    NSDictionary *PW;
-    PW = [_delegate message:self decryptKeyData:key forReceiver:ID];
+    NSDictionary *PW = [_delegate message:self
+                           decryptKeyData:key
+                               fromSender:sender
+                               toReceiver:receiver
+                                  inGroup:grp];
     if (!PW) {
         NSLog(@"failed to decrypt symmetric key: %@", self);
         return nil;
@@ -106,36 +111,47 @@
     [mDict removeObjectForKey:@"key"];
     [mDict removeObjectForKey:@"data"];
     [mDict setObject:content forKey:@"content"];
-    return mDict;
+    return [[DKDInstantMessage alloc] initWithDictionary:mDict];
 }
 
 - (nullable DKDInstantMessage *)decrypt {
+    const NSString *sender = self.envelope.sender;
+    const NSString *receiver = self.envelope.receiver;
+    const NSString *grp = [self objectForKey:@"group"];
+    NSAssert(!grp, @"group message must be decrypted with member ID");
     NSData *key = self.encryptedKey;
-    const NSString *ID = self.envelope.receiver;
     // decrypt
-    NSDictionary *dict = [self _prepareDataWithKeyData:key receiver:ID];
-    if (!dict) {
-        NSAssert(false, @"failed to decrypt message: %@", self);
-        return nil;
-    }
-    // pack message
-    return [[DKDInstantMessage alloc] initWithDictionary:dict];
+    return [self decryptWithKeyData:key from:sender to:receiver group:grp];
 }
 
-- (nullable DKDInstantMessage *)decryptForMember:(const NSString *)ID {
-    NSData *key = [self.encryptedKeys encryptedKeyForID:ID];
+- (nullable DKDInstantMessage *)decryptForMember:(const NSString *)member {
+    const NSString *sender = self.envelope.sender;
+    const NSString *receiver = self.envelope.receiver;
+    const NSString *grp = [self objectForKey:@"group"];
+    // check group
+    if (grp) {
+        // if 'group' exists and the 'receiver' is a group ID too,
+        // they must be equal; or the 'receiver' must equal to member
+        NSAssert([grp isEqual:receiver] || [receiver isEqual:member],
+                 @"receiver error: %@", receiver);
+        // and the 'group' must not equal to member of course
+        NSAssert(![grp isEqual:member],
+                 @"member error: %@", member);
+    } else {
+        // if 'group' not exists, the 'receiver' must be a group ID, and
+        // it is not equal to the member of course
+        NSAssert(![receiver isEqual:member],
+                 @"group error: %@, %@", member, self);
+        grp = receiver;
+    }
+    // check key(s)
+    NSData *key = [self.encryptedKeys encryptedKeyForID:member];
     if (!key) {
         // trimmed?
         key = self.encryptedKey;
     }
     // decrypt
-    NSDictionary *dict = [self _prepareDataWithKeyData:key receiver:ID];
-    if (!dict) {
-        NSAssert(false, @"failed to decrypt message: %@", self);
-        return nil;
-    }
-    // pack message
-    return [[DKDInstantMessage alloc] initWithDictionary:dict];
+    return [self decryptWithKeyData:key from:sender to:member group:grp];
 }
 
 @end
