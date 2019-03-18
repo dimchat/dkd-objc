@@ -51,7 +51,7 @@
 }
 
 - (nullable DKDSecureMessage *)encryptWithKey:(NSDictionary *)password
-                                   forMembers:(NSArray *)members {
+                                   forMembers:(const NSArray *)members {
     NSAssert(_delegate, @"message delegate not set yet");
     // 1. encrypt 'content' to 'data'
     NSMutableDictionary *mDict;
@@ -59,6 +59,7 @@
     if (!mDict) {
         return nil;
     }
+    members = [members copy];
     
     // 2. encrypt password to 'keys'
     NSMutableDictionary *keyMap;

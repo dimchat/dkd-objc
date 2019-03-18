@@ -27,6 +27,7 @@
 #pragma mark -
 
 - (NSArray *)splitForMembers:(const NSArray<const NSString *> *)members {
+    members = [members copy];
     NSMutableArray *mArray = [[NSMutableArray alloc] initWithCapacity:members.count];
     
     const NSString *receiver = self.envelope.receiver;

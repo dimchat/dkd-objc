@@ -14,7 +14,8 @@ NS_ASSUME_NONNULL_BEGIN
 @class DKDInstantMessage;
 
 /**
- *  Instant Message encrypted by a symmetric key
+ *  Secure Message
+ *      Instant Message encrypted by a symmetric key
  *
  *      data format: {
  *          //-- envelope
