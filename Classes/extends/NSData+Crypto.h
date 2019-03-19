@@ -16,4 +16,10 @@ NS_ASSUME_NONNULL_BEGIN
 
 @end
 
+@interface NSData (Hash)
+
+- (NSData *)sha256;
+
+@end
+
 NS_ASSUME_NONNULL_END
