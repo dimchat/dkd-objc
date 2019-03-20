@@ -91,9 +91,10 @@
     return self;
 }
 
-- (id)mutableCopy {
-    return [self copy];
-}
+// NOTICE: no need to implements mutable copy here
+//- (id)mutableCopy {
+//    return [self copy];
+//}
 
 - (void)removeObjectForKey:(const NSString *)aKey {
     [_storeDictionary removeObjectForKey:aKey];
