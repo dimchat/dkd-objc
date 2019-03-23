@@ -9,6 +9,7 @@
 #import "NSData+Crypto.h"
 
 #import "DKDEnvelope.h"
+#import "DKDMessageContent.h"
 
 #import "DKDMessage+Transform.h"
 
@@ -59,7 +60,6 @@
     if (!mDict) {
         return nil;
     }
-    members = [members copy];
     
     // 2. encrypt password to 'keys'
     NSMutableDictionary *keyMap;
@@ -73,6 +73,13 @@
     }
     if (keyMap.count > 0) {
         [mDict setObject:keyMap forKey:@"keys"];
+        // group ID
+        const NSString *group = self.content.group;
+        if (group) {
+            [mDict setObject:group forKey:@"group"];
+        } else {
+            NSAssert(false, @"group message error: %@", self);
+        }
     }
     
     // 3. pack message
