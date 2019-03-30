@@ -29,7 +29,7 @@
 
 - (NSDate *)time {
     NSNumber *timestamp = [_storeDictionary objectForKey:@"time"];
-    NSAssert(timestamp, @"time error: %@", _storeDictionary);
+    NSAssert(timestamp != nil, @"time error: %@", _storeDictionary);
     return NSDateFromNumber(timestamp);
 }
 
