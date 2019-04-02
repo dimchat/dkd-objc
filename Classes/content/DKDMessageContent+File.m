@@ -15,14 +15,10 @@
 
 - (instancetype)initWithFileData:(const NSData *)data
                         filename:(nullable const NSString *)name {
-    NSAssert(data.length > 0, @"file data cannot be empty");
+    //NSAssert(data.length > 0, @"file data cannot be empty");
     if (self = [self initWithType:DKDMessageType_File]) {
-        // url or data
-        NSAssert(self.delegate, @"message content delegate not set");
-        NSURL *url = [self.delegate URLForFileData:data filename:name];
-        if (url) {
-            [_storeDictionary setObject:url forKey:@"URL"];
-        } else if (data) {
+        // file data
+        if (data) {
             NSString *content = [data base64Encode];
             [_storeDictionary setObject:content forKey:@"data"];
         }
@@ -35,7 +31,7 @@
     return self;
 }
 
-- (NSURL *)URL {
+- (nullable NSURL *)URL {
     id url = [_storeDictionary objectForKey:@"URL"];
     if ([url isKindOfClass:[NSURL class]]) {
         return url;
@@ -54,24 +50,16 @@
     }
 }
 
-- (NSData *)fileData {
-    NSData *data = nil;
+- (nullable NSData *)fileData {
     NSString *content = [_storeDictionary objectForKey:@"data"];
     if (content) {
         // decode file data
-        data = [content base64Decode];
-    } else {
-        // get file data from URL
-        NSURL *url = [self URL];
-        NSAssert(url, @"URL not found");
-        NSAssert(self.delegate, @"message content delegate not set");
-        data = [self.delegate dataWithContentsOfURL:url];
+        return [content base64Decode];
     }
-    NSAssert(data, @"failed to get file data");
-    return data;
+    return nil;
 }
 
-- (NSString *)filename {
+- (nullable NSString *)filename {
     return [_storeDictionary objectForKey:@"filename"];
 }
 

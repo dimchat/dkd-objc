@@ -78,8 +78,6 @@ typedef NS_ENUM(UInt8, DKDMessageType) {
     DKDMessageType_Forward = 0xFF  // 1111 1111
 };
 
-@protocol DKDMessageContentDelegate;
-
 @interface DKDMessageContent : DKDDictionary
 
 // message type: text, image, ...
@@ -91,9 +89,6 @@ typedef NS_ENUM(UInt8, DKDMessageType) {
 // Group ID for group message
 @property (strong, nonatomic, nullable) const NSString *group;
 
-// delegate to upload/download file data
-@property (weak, nonatomic, nullable) id<DKDMessageContentDelegate> delegate;
-
 + (instancetype)contentWithContent:(id)content;
 
 - (instancetype)initWithDictionary:(NSDictionary *)dict
@@ -101,30 +96,6 @@ NS_DESIGNATED_INITIALIZER;
 
 - (instancetype)initWithType:(DKDMessageType)type
 NS_DESIGNATED_INITIALIZER;
-
-@end
-
-#pragma mark - Delegate
-
-@protocol DKDMessageContentDelegate <NSObject>
-
-/**
- Upload the file data and return the CDN URL
- 
- @param data - file data
- @param name - filename
- @return URL to the online resource
- */
-- (NSURL *)URLForFileData:(const NSData *)data
-                 filename:(nullable const NSString *)name;
-
-/**
- Download file data from the CDN URL
- 
- @param URL - URL to the online resource
- @return file data
- */
-- (NSData *)dataWithContentsOfURL:(NSURL *)URL;
 
 @end
 

@@ -25,7 +25,6 @@ static inline NSUInteger serial_number(void) {
     NSUInteger _serialNumber;
     
     const NSString *_group;
-    __weak id<DKDMessageContentDelegate> _delegate;
 }
 
 @property (nonatomic) DKDMessageType type;
@@ -61,8 +60,6 @@ static inline NSUInteger serial_number(void) {
         _type = DKDMessageType_Unknown;
         _serialNumber = 0;
         _group = nil;
-        
-        _delegate = nil;
     }
     return self;
 }
@@ -77,8 +74,6 @@ static inline NSUInteger serial_number(void) {
         _type = type;
         _serialNumber = sn;
         _group = nil;
-        
-        _delegate = nil;
     }
     return self;
 }
@@ -89,7 +84,6 @@ static inline NSUInteger serial_number(void) {
         //content.type = _type;
         //content.serialNumber = _serialNumber;
         //content.group = _group;
-        content.delegate = _delegate;
     }
     return content;
 }
