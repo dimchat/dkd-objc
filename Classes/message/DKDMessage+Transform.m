@@ -9,7 +9,7 @@
 #import "NSData+Crypto.h"
 
 #import "DKDEnvelope.h"
-#import "DKDMessageContent.h"
+#import "DKDMessageContent+File.h"
 
 #import "DKDMessage+Transform.h"
 
@@ -17,6 +17,19 @@
 
 - (nullable NSMutableDictionary *)_prepareDataWithKey:(NSDictionary *)PW {
     DKDMessageContent *content = self.content;
+    // 1. check file data
+    NSData *fileData = content.fileData;
+    if (fileData != nil/* && content.URL == nil*/) {
+        //NSAssert(false, @"should encrypt message content with file data, replace it with a URL first");
+        NSString *filename = content.filename;
+        NSURL *url = [_delegate message:self upload:fileData filename:filename withKey:PW];
+        if (url) {
+            // replace 'data' with 'URL'
+            [content setObject:url forKey:@"URL"];
+            [content removeObjectForKey:@"data"];
+        }
+    }
+    // 2. encrypt message content
     NSData *data = [_delegate message:self encryptContent:content withKey:PW];
     if (!data) {
         NSAssert(false, @"failed to encrypt content with key: %@", PW);
@@ -90,10 +103,10 @@
 
 @implementation DKDSecureMessage (ToInstantMessage)
 
-- (nullable DKDInstantMessage *)decryptWithKeyData:(const NSData *)key
-                                              from:(const NSString *)sender
-                                                to:(const NSString *)receiver
-                                             group:(nullable const NSString *)grp {
+- (nullable DKDInstantMessage *)_decryptWithKeyData:(const NSData *)key
+                                               from:(const NSString *)sender
+                                                 to:(const NSString *)receiver
+                                              group:(nullable const NSString *)grp {
     NSAssert(_delegate, @"message delegate not set yet");
     // 1. decrypt 'key' to symmetric key
     NSDictionary *PW = [_delegate message:self
@@ -119,7 +132,19 @@
     [mDict removeObjectForKey:@"key"];
     [mDict removeObjectForKey:@"data"];
     [mDict setObject:content forKey:@"content"];
-    return [[DKDInstantMessage alloc] initWithDictionary:mDict];
+    DKDInstantMessage *iMsg = [[DKDInstantMessage alloc] initWithDictionary:mDict];
+    
+    // 4. check file data
+    NSURL *url = content.URL;
+    if (url != nil && content.fileData == nil) {
+        NSData *fileData = [_delegate message:iMsg download:url withKey:PW];
+        if (fileData) {
+            [content setObject:[fileData base64Encode] forKey:@"data"];
+            [content removeObjectForKey:@"URL"];
+        }
+    }
+    
+    return iMsg;
 }
 
 - (nullable DKDInstantMessage *)decrypt {
@@ -129,7 +154,7 @@
     NSAssert(!grp, @"group message must be decrypted with member ID");
     NSData *key = self.encryptedKey;
     // decrypt
-    return [self decryptWithKeyData:key from:sender to:receiver group:grp];
+    return [self _decryptWithKeyData:key from:sender to:receiver group:grp];
 }
 
 - (nullable DKDInstantMessage *)decryptForMember:(const NSString *)member {
@@ -159,7 +184,7 @@
         key = self.encryptedKey;
     }
     // decrypt
-    return [self decryptWithKeyData:key from:sender to:member group:grp];
+    return [self _decryptWithKeyData:key from:sender to:member group:grp];
 }
 
 @end

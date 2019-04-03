@@ -38,6 +38,26 @@ NS_ASSUME_NONNULL_BEGIN
 @protocol DKDInstantMessageDelegate <DKDMessageDelegate>
 
 /**
+ *  Upload the message.content.data to CDN and return the URL
+ *
+ *  @param iMsg - instant message object
+ *  @param data - content.data
+ *  @param name - content.filename
+ *  @return URL to download the file data
+ */
+- (NSURL *)message:(const DKDInstantMessage *)iMsg
+            upload:(const NSData *)data
+          filename:(nullable const NSString *)name
+           withKey:(NSDictionary *)password;
+
+/**
+ *  Download file data from the URL
+ */
+- (nullable NSData *)message:(const DKDInstantMessage *)iMsg
+                    download:(const NSURL *)url
+                     withKey:(NSDictionary *)password;
+
+/**
  *  Encrypt the message.content to message.data with symmetric key
  *
  *  @param iMsg - instant message object
