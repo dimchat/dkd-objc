@@ -13,17 +13,17 @@ NS_ASSUME_NONNULL_BEGIN
 @interface DKDMessageContent (Image)
 
 @property (readonly, strong, nonatomic) NSData *imageData;
-@property (readonly, strong, nonatomic, nullable) NSData *snapshot;
+@property (readonly, strong, nonatomic, nullable) NSData *thumbnail;
 
 /**
  *  Image message: {
  *      type : 0x12,
  *      sn   : 123,
  *
- *      URL      : "http://", // upload to CDN
- *      data     : "...",     // if (!URL) base64_encode(image)
- *      snapshot : "...",     // base64_encode(smallImage)
- *      filename : "..."
+ *      URL       : "http://", // upload to CDN
+ *      data      : "...",     // if (!URL) base64_encode(image)
+ *      thumbnail : "...",     // base64_encode(smallImage)
+ *      filename  : "..."
  *  }
  */
 - (instancetype)initWithImageData:(const NSData *)data

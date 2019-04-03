@@ -36,14 +36,7 @@
     if ([url isKindOfClass:[NSURL class]]) {
         return url;
     } else if ([url isKindOfClass:[NSString class]]) {
-        url = [NSURL URLWithString:url];
-        if (url) {
-            [_storeDictionary setObject:url forKey:@"URL"];
-        } else {
-            NSAssert(false, @"URL error: %@", self);
-            //[_storeDictionary removeObjectForKey:@"URL"];
-        }
-        return url;
+        return [NSURL URLWithString:url];
     } else {
         NSAssert(!url, @"URL error: %@", url);
         return nil;

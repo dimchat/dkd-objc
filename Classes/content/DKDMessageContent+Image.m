@@ -26,7 +26,7 @@
         // type
         self.type = DKDMessageType_Image;
         
-        // TODO: snapshot
+        // TODO: thumbnail
     }
     return self;
 }
@@ -35,9 +35,9 @@
     return [self fileData];
 }
 
-- (nullable NSData *)snapshot {
-    NSString *ss = [_storeDictionary objectForKey:@"snapshot"];
-    return [ss base64Decode];
+- (nullable NSData *)thumbnail {
+    NSString *small = [_storeDictionary objectForKey:@"thumbnail"];
+    return [small base64Decode];
 }
 
 @end

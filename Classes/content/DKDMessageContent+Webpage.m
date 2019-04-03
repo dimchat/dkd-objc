@@ -21,7 +21,7 @@
     if (self = [self initWithType:DKDMessageType_Page]) {
         // url
         if (url) {
-            [_storeDictionary setObject:url forKey:@"URL"];
+            [_storeDictionary setObject:[url absoluteString] forKey:@"URL"];
         }
         
         // title

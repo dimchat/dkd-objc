@@ -27,7 +27,7 @@ NS_ASSUME_NONNULL_BEGIN
  *      DKDMessageType_Image indicates this is an image, it may send the image
  *      data directly(encrypt the image data with Base64), but we suggest to
  *      include a URL for this image just like the 'File' message, of course
- *      you can get a snapshot of this image here.
+ *      you can get a thumbnail of this image here.
  *
  *      DKDMessageType_Audio indicates this is a voice message, you can get
  *      a URL to retrieve the voice data just like the 'File' message.

@@ -25,7 +25,7 @@
         NSURL *url = [_delegate message:self upload:fileData filename:filename withKey:PW];
         if (url) {
             // replace 'data' with 'URL'
-            [content setObject:url forKey:@"URL"];
+            [content setObject:[url absoluteString] forKey:@"URL"];
             [content removeObjectForKey:@"data"];
         }
     }

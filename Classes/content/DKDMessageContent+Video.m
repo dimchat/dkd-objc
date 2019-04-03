@@ -6,6 +6,8 @@
 //  Copyright © 2018 DIM Group. All rights reserved.
 //
 
+#import "NSString+Crypto.h"
+
 #import "DKDMessageContent+File.h"
 
 #import "DKDMessageContent+Video.h"
@@ -31,6 +33,11 @@
 
 - (NSData *)videoData {
     return [self fileData];
+}
+
+- (nullable NSData *)snapshot {
+    NSString *ss = [_storeDictionary objectForKey:@"snapshot"];
+    return [ss base64Decode];
 }
 
 @end
