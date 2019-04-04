@@ -12,8 +12,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface DKDMessageContent (Image)
 
-@property (readonly, strong, nonatomic) NSData *imageData;
-@property (readonly, strong, nonatomic, nullable) NSData *thumbnail;
+@property (strong, nonatomic) const NSData *imageData;
+@property (readonly, strong, nonatomic, nullable) const NSData *thumbnail;
 
 /**
  *  Image message: {

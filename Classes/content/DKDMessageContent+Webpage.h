@@ -12,7 +12,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface DKDMessageContent (Webpage)
 
-//@property (readonly, strong, nonatomic) NSURL *URL;
+//@property (strong, nonatomic) NSURL *URL;
 @property (readonly, strong, nonatomic, nullable) NSString *title;
 @property (readonly, strong, nonatomic, nullable) NSString *desc;
 @property (readonly, strong, nonatomic, nullable) NSData *icon;

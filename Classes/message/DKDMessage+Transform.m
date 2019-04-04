@@ -17,18 +17,30 @@
 
 - (nullable NSMutableDictionary *)_prepareDataWithKey:(NSDictionary *)PW {
     DKDMessageContent *content = self.content;
-    // 1. check file data
-    NSData *fileData = content.fileData;
-    if (fileData != nil/* && content.URL == nil*/) {
-        //NSAssert(false, @"should encrypt message content with file data, replace it with a URL first");
-        NSString *filename = content.filename;
-        NSURL *url = [_delegate message:self upload:fileData filename:filename withKey:PW];
-        if (url) {
-            // replace 'data' with 'URL'
-            [content setObject:[url absoluteString] forKey:@"URL"];
-            [content removeObjectForKey:@"data"];
+    // 1. check attachment for File/Image/Audio/Video message content
+    switch (content.type) {
+        case DKDMessageType_File:
+        case DKDMessageType_Image:
+        case DKDMessageType_Audio:
+        case DKDMessageType_Video:
+        {
+            NSAssert(content.fileData != nil, @"content.fileData should not be empty");
+            NSAssert(content.URL == nil, @"content.URL exists, already uploaded?");
+            
+            NSString *filename = content.filename;
+            NSURL *url = [_delegate message:self upload:content.fileData filename:filename withKey:PW];
+            if (url) {
+                // replace 'data' with 'URL'
+                content.URL = url;
+                content.fileData = nil;
+            }
         }
+            break;
+            
+        default:
+            break;
     }
+    
     // 2. encrypt message content
     NSData *data = [_delegate message:self encryptContent:content withKey:PW];
     if (!data) {
@@ -134,14 +146,29 @@
     [mDict setObject:content forKey:@"content"];
     DKDInstantMessage *iMsg = [[DKDInstantMessage alloc] initWithDictionary:mDict];
     
-    // 4. check file data
-    NSURL *url = content.URL;
-    if (url != nil && content.fileData == nil) {
-        NSData *fileData = [_delegate message:iMsg download:url withKey:PW];
-        if (fileData) {
-            [content setObject:[fileData base64Encode] forKey:@"data"];
-            [content removeObjectForKey:@"URL"];
+    // 4. check attachment for File/Image/Audio/Video message content
+    switch (content.type) {
+        case DKDMessageType_File:
+        case DKDMessageType_Image:
+        case DKDMessageType_Audio:
+        case DKDMessageType_Video:
+        {
+            NSAssert(content.URL != nil, @"content.URL should not be empty");
+            NSAssert(content.fileData == nil, @"content.fileData already download");
+            
+            NSData *fileData = [_delegate message:iMsg download:content.URL withKey:PW];
+            if (fileData) {
+                content.fileData = fileData;
+                content.URL = nil;
+            } else {
+                // save the symmetric key for decrypte file data later
+                [content setObject:PW forKey:@"key"];
+            }
         }
+            break;
+            
+        default:
+            break;
     }
     
     return iMsg;

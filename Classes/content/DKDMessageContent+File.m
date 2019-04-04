@@ -15,41 +15,54 @@
 
 - (instancetype)initWithFileData:(const NSData *)data
                         filename:(nullable const NSString *)name {
-    //NSAssert(data.length > 0, @"file data cannot be empty");
+    NSAssert(data.length > 0, @"file data cannot be empty");
     if (self = [self initWithType:DKDMessageType_File]) {
-        // file data
-        if (data) {
-            NSString *content = [data base64Encode];
-            [_storeDictionary setObject:content forKey:@"data"];
-        }
         
         // filename
         if (name) {
             [_storeDictionary setObject:name forKey:@"filename"];
         }
+        
+        // file data
+        self.fileData = data;
     }
     return self;
 }
 
 - (nullable NSURL *)URL {
-    id url = [_storeDictionary objectForKey:@"URL"];
-    if ([url isKindOfClass:[NSURL class]]) {
-        return url;
-    } else if ([url isKindOfClass:[NSString class]]) {
-        return [NSURL URLWithString:url];
+    NSString *string = [_storeDictionary objectForKey:@"URL"];
+    if (string) {
+        return [NSURL URLWithString:string];
+    }
+    return nil;
+}
+
+- (void)setURL:(NSURL *)URL {
+    NSString *string = [URL absoluteString];
+    if (string) {
+        [_storeDictionary setObject:string forKey:@"URL"];
     } else {
-        NSAssert(!url, @"URL error: %@", url);
-        return nil;
+        [_storeDictionary removeObjectForKey:@"URL"];
     }
 }
 
-- (nullable NSData *)fileData {
-    NSString *content = [_storeDictionary objectForKey:@"data"];
-    if (content) {
-        // decode file data
-        return [content base64Decode];
+- (nullable const NSData *)fileData {
+    return _attachment;
+}
+
+- (void)setFileData:(const NSData *)fileData {
+    _attachment = fileData;
+    
+    // update filename with MD5 string
+    if (fileData.length > 0) {
+        NSString *filename = [[fileData md5] hexEncode];
+        NSString *ext = [[self.filename pathExtension] lowercaseString];
+        if (ext.length > 0) {
+            filename = [NSString stringWithFormat:@"%@.%@", filename, ext];
+        }
+        //NSAssert([self.filename isEqualToString:filename], @"filename error");
+        [_storeDictionary setObject:filename forKey:@"filename"];
     }
-    return nil;
 }
 
 - (nullable NSString *)filename {

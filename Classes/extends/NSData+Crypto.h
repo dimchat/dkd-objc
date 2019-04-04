@@ -12,11 +12,15 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface NSData (Encode)
 
+- (NSString *)hexEncode;
+
 - (NSString *)base64Encode;
 
 @end
 
 @interface NSData (Hash)
+
+- (NSData *)md5;
 
 - (NSData *)sha256;
 

@@ -78,7 +78,10 @@ typedef NS_ENUM(UInt8, DKDMessageType) {
     DKDMessageType_Forward = 0xFF  // 1111 1111
 };
 
-@interface DKDMessageContent : DKDDictionary
+@interface DKDMessageContent : DKDDictionary {
+    
+    id _attachment; // file data, or something else
+}
 
 // message type: text, image, ...
 @property (readonly, nonatomic) DKDMessageType type;

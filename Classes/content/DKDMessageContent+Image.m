@@ -31,11 +31,15 @@
     return self;
 }
 
-- (NSData *)imageData {
+- (const NSData *)imageData {
     return [self fileData];
 }
 
-- (nullable NSData *)thumbnail {
+- (void)setImageData:(const NSData *)imageData {
+    self.fileData = imageData;
+}
+
+- (nullable const NSData *)thumbnail {
     NSString *small = [_storeDictionary objectForKey:@"thumbnail"];
     return [small base64Decode];
 }

@@ -29,8 +29,12 @@
     return self;
 }
 
-- (NSData *)audioData {
+- (const NSData *)audioData {
     return [self fileData];
+}
+
+- (void)setAudioData:(const NSData *)audioData {
+    self.fileData = audioData;
 }
 
 @end

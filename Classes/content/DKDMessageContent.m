@@ -30,6 +30,8 @@ static inline NSUInteger serial_number(void) {
 @property (nonatomic) DKDMessageType type;
 @property (nonatomic) NSUInteger serialNumber;
 
+@property (strong, nonatomic) id attachment;
+
 @end
 
 @implementation DKDMessageContent
@@ -84,6 +86,7 @@ static inline NSUInteger serial_number(void) {
         //content.type = _type;
         //content.serialNumber = _serialNumber;
         //content.group = _group;
+        content.attachment = _attachment;
     }
     return content;
 }

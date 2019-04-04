@@ -31,11 +31,15 @@
     return self;
 }
 
-- (NSData *)videoData {
+- (const NSData *)videoData {
     return [self fileData];
 }
 
-- (nullable NSData *)snapshot {
+- (void)setVideoData:(const NSData *)videoData {
+    self.fileData = videoData;
+}
+
+- (nullable const NSData *)snapshot {
     NSString *ss = [_storeDictionary objectForKey:@"snapshot"];
     return [ss base64Decode];
 }

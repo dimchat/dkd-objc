@@ -12,8 +12,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface DKDMessageContent (Video)
 
-@property (readonly, strong, nonatomic) NSData *videoData;
-@property (readonly, strong, nonatomic, nullable) NSData *snapshot;
+@property (strong, nonatomic) const NSData *videoData;
+@property (readonly, strong, nonatomic, nullable) const NSData *snapshot;
 
 /**
  *  Video message: {
