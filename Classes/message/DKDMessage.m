@@ -84,9 +84,13 @@
         //NSAssert(timestamp.doubleValue > 0, @"time error");
         NSDate *time = NSDateFromNumber(timestamp);
         
-        _envelope = [[DKDEnvelope alloc] initWithSender:sender
-                                               receiver:receier
-                                                   time:time];
+        if (sender.length > 0 && receier.length > 0) {
+            _envelope = [[DKDEnvelope alloc] initWithSender:sender
+                                                   receiver:receier
+                                                       time:time];
+        } else {
+            NSAssert(false, @"envelope error: %@", self);
+        }
     }
     return _envelope;
 }
