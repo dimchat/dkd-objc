@@ -162,7 +162,7 @@
                 content.URL = nil;
             } else {
                 // save the symmetric key for decrypte file data later
-                [content setObject:PW forKey:@"key"];
+                [content setObject:PW forKey:@"password"];
             }
         }
             break;

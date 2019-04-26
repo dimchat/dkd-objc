@@ -23,6 +23,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  *  Split the group message to single person messages
  *
+ *  @param members - group members
  *  @return secure/reliable message(s)
  */
 - (NSArray *)splitForMembers:(const NSArray<const NSString *> *)members;

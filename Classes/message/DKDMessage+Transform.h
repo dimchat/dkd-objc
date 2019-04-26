@@ -43,6 +43,7 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param iMsg - instant message object
  *  @param data - content.data
  *  @param name - content.filename
+ *  @param password - SymmetricKey to decrypt the content.data
  *  @return URL to download the file data
  */
 - (NSURL *)message:(const DKDInstantMessage *)iMsg
@@ -52,6 +53,11 @@ NS_ASSUME_NONNULL_BEGIN
 
 /**
  *  Download file data from the URL
+ *
+ *  @param iMsg - instant message object
+ *  @param url - URL to download the file data
+ *  @param password - SymmetricKey to decrypt the file data
+ *  @return decrypted file data
  */
 - (nullable NSData *)message:(const DKDInstantMessage *)iMsg
                     download:(const NSURL *)url
