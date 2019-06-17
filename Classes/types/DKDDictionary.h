@@ -16,8 +16,6 @@ NS_ASSUME_NONNULL_BEGIN
     NSMutableDictionary<const NSString *, id> *_storeDictionary;
 }
 
-- (instancetype)initWithJSONString:(const NSString *)jsonString;
-
 - (instancetype)initWithDictionary:(NSDictionary *)dict
 NS_DESIGNATED_INITIALIZER;
 

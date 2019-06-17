@@ -9,37 +9,15 @@
 #import "NSData+Crypto.h"
 
 #import "DKDEnvelope.h"
-#import "DKDMessageContent+File.h"
+#import "DKDContent.h"
 
 #import "DKDMessage+Transform.h"
 
 @implementation DKDInstantMessage (ToSecureMessage)
 
 - (nullable NSMutableDictionary *)_prepareDataWithKey:(NSDictionary *)PW {
-    DKDMessageContent *content = self.content;
+    DKDContent *content = self.content;
     // 1. check attachment for File/Image/Audio/Video message content
-    switch (content.type) {
-        case DKDMessageType_File:
-        case DKDMessageType_Image:
-        case DKDMessageType_Audio:
-        case DKDMessageType_Video:
-        {
-            NSAssert(content.fileData != nil, @"content.fileData should not be empty");
-            NSAssert(content.URL == nil, @"content.URL exists, already uploaded?");
-            
-            NSString *filename = content.filename;
-            NSURL *url = [_delegate message:self upload:content.fileData filename:filename withKey:PW];
-            if (url) {
-                // replace 'data' with 'URL'
-                content.URL = url;
-                content.fileData = nil;
-            }
-        }
-            break;
-            
-        default:
-            break;
-    }
     
     // 2. encrypt message content
     NSData *data = [_delegate message:self encryptContent:content withKey:PW];
@@ -132,7 +110,7 @@
     }
     
     // 2. decrypt 'data' to 'content'
-    DKDMessageContent *content;
+    DKDContent *content;
     content = [_delegate message:self decryptData:self.data withKey:PW];
     if (!content) {
         NSLog(@"failed to decrypt message data: %@", self);
@@ -147,29 +125,6 @@
     DKDInstantMessage *iMsg = [[DKDInstantMessage alloc] initWithDictionary:mDict];
     
     // 4. check attachment for File/Image/Audio/Video message content
-    switch (content.type) {
-        case DKDMessageType_File:
-        case DKDMessageType_Image:
-        case DKDMessageType_Audio:
-        case DKDMessageType_Video:
-        {
-            NSAssert(content.URL != nil, @"content.URL should not be empty");
-            NSAssert(content.fileData == nil, @"content.fileData already download");
-            
-            NSData *fileData = [_delegate message:iMsg download:content.URL withKey:PW];
-            if (fileData) {
-                content.fileData = fileData;
-                content.URL = nil;
-            } else {
-                // save the symmetric key for decrypte file data later
-                [content setObject:PW forKey:@"password"];
-            }
-        }
-            break;
-            
-        default:
-            break;
-    }
     
     return iMsg;
 }

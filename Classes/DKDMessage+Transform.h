@@ -33,35 +33,35 @@ NS_ASSUME_NONNULL_BEGIN
  *  signature = sender.private_key.sign(data)
  */
 
-@class DKDMessageContent;
+@class DKDContent;
 
 @protocol DKDInstantMessageDelegate <DKDMessageDelegate>
 
-/**
- *  Upload the message.content.data to CDN and return the URL
- *
- *  @param iMsg - instant message object
- *  @param data - content.data
- *  @param name - content.filename
- *  @param password - SymmetricKey to decrypt the content.data
- *  @return URL to download the file data
- */
-- (NSURL *)message:(const DKDInstantMessage *)iMsg
-            upload:(const NSData *)data
-          filename:(nullable const NSString *)name
-           withKey:(NSDictionary *)password;
-
-/**
- *  Download file data from the URL
- *
- *  @param iMsg - instant message object
- *  @param url - URL to download the file data
- *  @param password - SymmetricKey to decrypt the file data
- *  @return decrypted file data
- */
-- (nullable NSData *)message:(const DKDInstantMessage *)iMsg
-                    download:(const NSURL *)url
-                     withKey:(NSDictionary *)password;
+///**
+// *  Upload the message.content.data to CDN and return the URL
+// *
+// *  @param iMsg - instant message object
+// *  @param data - content.data
+// *  @param name - content.filename
+// *  @param password - SymmetricKey to decrypt the content.data
+// *  @return URL to download the file data
+// */
+//- (NSURL *)message:(const DKDInstantMessage *)iMsg
+//            upload:(const NSData *)data
+//          filename:(nullable const NSString *)name
+//           withKey:(NSDictionary *)password;
+//
+///**
+// *  Download file data from the URL
+// *
+// *  @param iMsg - instant message object
+// *  @param url - URL to download the file data
+// *  @param password - SymmetricKey to decrypt the file data
+// *  @return decrypted file data
+// */
+//- (nullable NSData *)message:(const DKDInstantMessage *)iMsg
+//                    download:(const NSURL *)url
+//                     withKey:(NSDictionary *)password;
 
 /**
  *  Encrypt the message.content to message.data with symmetric key
@@ -72,7 +72,7 @@ NS_ASSUME_NONNULL_BEGIN
  *  @return encrypted message content data
  */
 - (nullable NSData *)message:(const DKDInstantMessage *)iMsg
-              encryptContent:(const DKDMessageContent *)content
+              encryptContent:(const DKDContent *)content
                      withKey:(NSDictionary *)password;
 
 /**
@@ -115,9 +115,9 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param password - symmetric key
  *  @return message content
  */
-- (nullable DKDMessageContent *)message:(const DKDSecureMessage *)sMsg
-                            decryptData:(const NSData *)data
-                                withKey:(const NSDictionary *)password;
+- (nullable DKDContent *)message:(const DKDSecureMessage *)sMsg
+                     decryptData:(const NSData *)data
+                         withKey:(const NSDictionary *)password;
 
 /**
  *  Sign the message data(encrypted) with sender's private key

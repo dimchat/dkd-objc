@@ -7,13 +7,13 @@
 //
 
 #import "DKDEnvelope.h"
-#import "DKDMessageContent.h"
+#import "DKDContent.h"
 
 #import "DKDInstantMessage.h"
 
 @interface DKDInstantMessage ()
 
-@property (strong, nonatomic) DKDMessageContent *content;
+@property (strong, nonatomic) DKDContent *content;
 
 @end
 
@@ -21,12 +21,12 @@
 
 - (instancetype)initWithEnvelope:(const DKDEnvelope *)env {
     NSAssert(false, @"DON'T call me");
-    DKDMessageContent *content = nil;
+    DKDContent *content = nil;
     self = [self initWithContent:content envelope:env];
     return self;
 }
 
-- (instancetype)initWithContent:(const DKDMessageContent *)content
+- (instancetype)initWithContent:(const DKDContent *)content
                          sender:(const NSString *)from
                        receiver:(const NSString *)to
                            time:(nullable const NSDate *)time {
@@ -38,7 +38,7 @@
 }
 
 /* designated initializer */
-- (instancetype)initWithContent:(const DKDMessageContent *)content
+- (instancetype)initWithContent:(const DKDContent *)content
                        envelope:(const DKDEnvelope *)env {
     NSAssert(content, @"content cannot be empty");
     NSAssert(env, @"envelope cannot be empty");
@@ -72,10 +72,10 @@
     return iMsg;
 }
 
-- (DKDMessageContent *)content {
+- (DKDContent *)content {
     if (!_content) {
         NSDictionary *dict = [_storeDictionary objectForKey:@"content"];
-        _content = [DKDMessageContent contentWithContent:dict];
+        _content = [DKDContent contentWithContent:dict];
         if (_content != dict) {
             if (_content) {
                 // replace the content object

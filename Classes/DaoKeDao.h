@@ -22,21 +22,10 @@ FOUNDATION_EXPORT const unsigned char DaoKeDaoVersionString[];
 // Types
 //#import <DaoKeDao/DKDDictionary.h>
 
-// Content
-#import <DaoKeDao/DKDMessageContent.h>
-#import <DaoKeDao/DKDMessageContent+Text.h>
-#import <DaoKeDao/DKDMessageContent+File.h>
-#import <DaoKeDao/DKDMessageContent+Image.h>
-#import <DaoKeDao/DKDMessageContent+Audio.h>
-#import <DaoKeDao/DKDMessageContent+Video.h>
-#import <DaoKeDao/DKDMessageContent+Webpage.h>
-#import <DaoKeDao/DKDMessageContent+Quote.h>
-#import <DaoKeDao/DKDMessageContent+Command.h>
-#import <DaoKeDao/DKDMessageContent+History.h>
-#import <DaoKeDao/DKDMessageContent+Forward.h>
+#import <DaoKeDao/DKDEnvelope.h>
+#import <DaoKeDao/DKDContent.h>
 
 // Message
-#import <DaoKeDao/DKDEnvelope.h>
 #import <DaoKeDao/DKDMessage.h>
 #import <DaoKeDao/DKDInstantMessage.h>
 #import <DaoKeDao/DKDSecureMessage.h>

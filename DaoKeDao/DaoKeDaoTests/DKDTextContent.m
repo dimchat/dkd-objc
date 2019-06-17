@@ -1,14 +1,14 @@
 //
-//  DKDMessageContent+Text.m
-//  DaoKeDao
+//  DKDTextContent.m
+//  DaoKeDaoTests
 //
-//  Created by Albert Moky on 2018/11/27.
-//  Copyright © 2018 DIM Group. All rights reserved.
+//  Created by Albert Moky on 2019/6/17.
+//  Copyright © 2019 DIM Group. All rights reserved.
 //
 
-#import "DKDMessageContent+Text.h"
+#import "DKDTextContent.h"
 
-@implementation DKDMessageContent (Text)
+@implementation DKDTextContent
 
 - (instancetype)initWithText:(const NSString *)text {
     NSAssert(text, @"text cannot be empty");

@@ -10,7 +10,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@class DKDMessageContent;
+@class DKDContent;
 
 /**
  *  Instant Message
@@ -26,14 +26,14 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @interface DKDInstantMessage : DKDMessage
 
-@property (readonly, strong, nonatomic) DKDMessageContent *content;
+@property (readonly, strong, nonatomic) DKDContent *content;
 
-- (instancetype)initWithContent:(const DKDMessageContent *)content
+- (instancetype)initWithContent:(const DKDContent *)content
                          sender:(const NSString *)from
                        receiver:(const NSString *)to
                            time:(nullable const NSDate *)time;
 
-- (instancetype)initWithContent:(const DKDMessageContent *)content
+- (instancetype)initWithContent:(const DKDContent *)content
                        envelope:(const DKDEnvelope *)env
 NS_DESIGNATED_INITIALIZER;
 

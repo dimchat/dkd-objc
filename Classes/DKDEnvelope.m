@@ -26,8 +26,6 @@
         return env;
     } else if ([env isKindOfClass:[NSDictionary class]]) {
         return [[self alloc] initWithDictionary:env];
-    } else if ([env isKindOfClass:[NSString class]]) {
-        return [[self alloc] initWithJSONString:env];
     } else {
         NSAssert(!env, @"unexpected envelope: %@", env);
         return nil;

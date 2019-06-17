@@ -25,8 +25,6 @@
         return msg;
     } else if ([msg isKindOfClass:[NSDictionary class]]) {
         return [[self alloc] initWithDictionary:msg];
-    } else if ([msg isKindOfClass:[NSString class]]) {
-        return [[self alloc] initWithJSONString:msg];
     } else {
         NSAssert(!msg, @"unexpected message: %@", msg);
         return nil;

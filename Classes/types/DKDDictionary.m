@@ -6,18 +6,9 @@
 //  Copyright © 2018 DIM Group. All rights reserved.
 //
 
-#import "NSObject+JsON.h"
-
 #import "DKDDictionary.h"
 
 @implementation DKDDictionary
-
-- (instancetype)initWithJSONString:(const NSString *)jsonString {
-    NSData *data = [jsonString data];
-    NSDictionary *dict = [data jsonDictionary];
-    self = [self initWithDictionary:dict];
-    return self;
-}
 
 /* designated initializer */
 - (instancetype)initWithDictionary:(NSDictionary *)dict {

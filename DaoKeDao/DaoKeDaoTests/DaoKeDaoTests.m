@@ -9,6 +9,7 @@
 #import <XCTest/XCTest.h>
 
 #import <DaoKeDao/DaoKeDao.h>
+#import "DKDTextContent.h"
 
 #import "NSObject+JsON.h"
 
@@ -43,22 +44,24 @@
                            @"sn"  : @(3069910943),
                            @"text": @"Hey guy!",
                            };
-    DKDMessageContent *text;
-    text = [[DKDMessageContent alloc] initWithDictionary:dict];
+    DKDContent *text;
+    text = [[DKDContent alloc] initWithDictionary:dict];
     NSLog(@"text: %@", text);
     NSLog(@"json: %@", [text jsonString]);
     
     NSString *json = @"{\"type\":1,\"sn\":3069910943,\"text\":\"Hey guy!\"}";
     NSLog(@"string: %@", json);
-    text = [[DKDMessageContent alloc] initWithJSONString:json];
+    NSData *data = [json data];
+    NSDictionary *content = [data jsonDictionary];
+    text = [DKDContent contentWithContent:content];
     NSLog(@"text: %@", text);
     NSLog(@"json: %@", [text jsonString]);
 }
 
 - (void)testMessage {
     
-    DKDMessageContent *text;
-    text = [[DKDMessageContent alloc] initWithText:@"Hey guy!"];
+    DKDContent *text;
+    text = [[DKDTextContent alloc] initWithText:@"Hey guy!"];
     NSLog(@"text: %@", text);
     NSLog(@"json: %@", [text jsonString]);
     NSAssert(text.type == DKDMessageType_Text, @"msg type error");
