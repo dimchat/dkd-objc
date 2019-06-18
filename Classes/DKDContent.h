@@ -34,18 +34,22 @@ NS_ASSUME_NONNULL_BEGIN
 // Group ID for group message
 @property (strong, nonatomic, nullable) const NSString *group;
 
-//
-//  Runtime
-//
-+ (void)registerClass:(nullable Class)clazz forType:(NSUInteger)type;
-
-+ (instancetype)contentWithContent:(id)content;
-
 - (instancetype)initWithDictionary:(NSDictionary *)dict
 NS_DESIGNATED_INITIALIZER;
 
 - (instancetype)initWithType:(UInt8)type
 NS_DESIGNATED_INITIALIZER;
+
+@end
+
+// convert Dictionary to Content
+#define DKDContentFromDictionary(content)  [DKDContent getInstance:(content)]
+
+@interface DKDContent (Runtime)
+
++ (void)registerClass:(nullable Class)contentClass forType:(NSUInteger)type;
+
++ (nullable instancetype)getInstance:(id)content;
 
 @end
 

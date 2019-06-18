@@ -42,4 +42,10 @@ NS_DESIGNATED_INITIALIZER;
 
 @end
 
+// convert Dictionary to InstantMessage
+#define DKDInstantMessageFromDictionary(msg)  [DKDInstantMessage getInstance:(msg)]
+
+// create InstantMessage
+#define DKDInstantMessageCreate(content, from, to, when) [[DKDInstantMessage alloc] initWithContent:(content) sender:(from) receiver:(to) time:(when)]
+
 NS_ASSUME_NONNULL_END

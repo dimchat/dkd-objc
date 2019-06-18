@@ -44,8 +44,7 @@
                            @"sn"  : @(3069910943),
                            @"text": @"Hey guy!",
                            };
-    DKDContent *text;
-    text = [[DKDContent alloc] initWithDictionary:dict];
+    DKDContent *text = DKDContentFromDictionary(dict);
     NSLog(@"text: %@", text);
     NSLog(@"json: %@", [text jsonString]);
     
@@ -53,7 +52,7 @@
     NSLog(@"string: %@", json);
     NSData *data = [json data];
     NSDictionary *content = [data jsonDictionary];
-    text = [DKDContent contentWithContent:content];
+    text = DKDContentFromDictionary(content);
     NSLog(@"text: %@", text);
     NSLog(@"json: %@", [text jsonString]);
 }
@@ -69,11 +68,7 @@
     NSString *ID1 = @"hulk@4YeVEN3aUnvC1DNUufCq1bs9zoBSJTzVEj";
     NSString *ID2 = @"moki@4WDfe3zZ4T7opFSi3iDAKiuTnUHjxmXekk";
     
-    DKDInstantMessage *iMsg;
-    iMsg = [[DKDInstantMessage alloc] initWithContent:text
-                                               sender:ID1
-                                             receiver:ID2
-                                                 time:nil];
+    DKDInstantMessage *iMsg = DKDInstantMessageCreate(text, ID1, ID2, nil);
     NSLog(@"instant msg: %@", iMsg);
     NSLog(@"json: %@", [iMsg jsonString]);
 }

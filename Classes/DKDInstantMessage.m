@@ -30,9 +30,7 @@
                          sender:(const NSString *)from
                        receiver:(const NSString *)to
                            time:(nullable const NSDate *)time {
-    DKDEnvelope *env = [[DKDEnvelope alloc] initWithSender:from
-                                                  receiver:to
-                                                      time:time];
+    DKDEnvelope *env = DKDEnvelopeCreate(from, to, time);
     self = [self initWithContent:content envelope:env];
     return self;
 }
@@ -75,7 +73,7 @@
 - (DKDContent *)content {
     if (!_content) {
         NSDictionary *dict = [_storeDictionary objectForKey:@"content"];
-        _content = [DKDContent contentWithContent:dict];
+        _content = DKDContentFromDictionary(dict);
         if (_content != dict) {
             if (_content) {
                 // replace the content object

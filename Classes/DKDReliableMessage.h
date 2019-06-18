@@ -49,6 +49,9 @@ NS_DESIGNATED_INITIALIZER;
 
 @end
 
+// convert Dictionary to ReliableMessage
+#define DKDReliableMessageFromDictionary(msg) [DKDReliableMessage getInstance:(msg)]
+
 #pragma mark -
 
 /**

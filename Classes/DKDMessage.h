@@ -37,8 +37,6 @@ NS_ASSUME_NONNULL_BEGIN
 // delegate to transform message
 @property (weak, nonatomic, nullable) __kindof id<DKDMessageDelegate> delegate;
 
-+ (instancetype)messageWithMessage:(id)msg;
-
 - (instancetype)initWithSender:(const NSString *)from
                       receiver:(const NSString *)to
                           time:(nullable const NSDate *)time;
@@ -48,6 +46,15 @@ NS_DESIGNATED_INITIALIZER;
 
 - (instancetype)initWithDictionary:(NSDictionary *)dict
 NS_DESIGNATED_INITIALIZER;
+
+@end
+
+// convert Dictionary to Message
+#define DKDMessageFromDictionary(message)  [DKDMessage getInstance:(message)]
+
+@interface DKDMessage (Runtime)
+
++ (nullable instancetype)getInstance:(id)msg;
 
 @end
 

@@ -74,6 +74,9 @@ NS_DESIGNATED_INITIALIZER;
 
 @end
 
+// convert Dictionary to SecureMessage
+#define DKDSecureMessageFromDictionary(msg)   [DKDSecureMessage getInstance:(msg)]
+
 #pragma mark -
 
 /**

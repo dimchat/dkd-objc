@@ -15,22 +15,11 @@
 @property (strong, nonatomic) const NSString *sender;
 @property (strong, nonatomic) const NSString *receiver;
 
-@property (strong, nonatomic) NSDate *time;
+@property (strong, nonatomic) const NSDate *time;
 
 @end
 
 @implementation DKDEnvelope
-
-+ (instancetype)envelopeWithEnvelope:(id)env {
-    if ([env isKindOfClass:[DKDEnvelope class]]) {
-        return env;
-    } else if ([env isKindOfClass:[NSDictionary class]]) {
-        return [[self alloc] initWithDictionary:env];
-    } else {
-        NSAssert(!env, @"unexpected envelope: %@", env);
-        return nil;
-    }
-}
 
 /* designated initializer */
 - (instancetype)initWithSender:(const NSString *)from
@@ -47,7 +36,7 @@
     if (self = [super initWithDictionary:dict]) {
         _sender = from;
         _receiver = to;
-        _time = [time copy];
+        _time = time;
     }
     return self;
 }
@@ -55,45 +44,29 @@
 /* designated initializer */
 - (instancetype)initWithDictionary:(NSDictionary *)dict {
     if (self = [super initWithDictionary:dict]) {
-        // lazy
-        _sender = nil;
-        _receiver = nil;
-        _time = nil;
+        _sender = [_storeDictionary objectForKey:@"sender"];
+        _receiver = [_storeDictionary objectForKey:@"receiver"];
+        NSNumber *timestamp = [_storeDictionary objectForKey:@"time"];
+        _time = NSDateFromNumber(timestamp);
     }
     return self;
 }
 
-- (id)copyWithZone:(NSZone *)zone {
-    DKDEnvelope *env = [super copyWithZone:zone];
-    if (env) {
-        env.sender = _sender;
-        env.receiver = _receiver;
-        env.time = _time;
-    }
-    return env;
-}
+@end
 
-- (const NSString *)sender {
-    if (!_sender) {
-        _sender = [_storeDictionary objectForKey:@"sender"];
-    }
-    return _sender;
-}
+@implementation DKDEnvelope (Runtime)
 
-- (const NSString *)receiver {
-    if (!_receiver) {
-        _receiver = [_storeDictionary objectForKey:@"receiver"];
++ (nullable instancetype)getInstance:(id)env {
+    if (!env) {
+        return nil;
     }
-    return _receiver;
-}
-
-- (NSDate *)time {
-    if (!_time) {
-        NSNumber *timestamp = [_storeDictionary objectForKey:@"time"];
-        NSAssert(timestamp != nil, @"time error: %@", _storeDictionary);
-        _time = NSDateFromNumber(timestamp);
+    if ([env isKindOfClass:[DKDEnvelope class]]) {
+        return env;
     }
-    return _time;
+    NSAssert([env isKindOfClass:[NSDictionary class]],
+             @"envelope should be a dictionary: %@", env);
+    // create instance
+    return [[self alloc] initWithDictionary:env];
 }
 
 @end

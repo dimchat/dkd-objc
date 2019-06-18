@@ -33,49 +33,6 @@ static inline NSUInteger serial_number(void) {
 
 @implementation DKDContent
 
-typedef NSMutableDictionary<const NSNumber *, Class> MKMContentClassMap;
-
-static MKMContentClassMap *s_contentClasses = nil;
-
-+ (MKMContentClassMap *)contentClasses {
-    static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{
-        s_contentClasses = [[NSMutableDictionary alloc] init];
-    });
-    return s_contentClasses;
-}
-
-+ (void)registerClass:(nullable Class)clazz forType:(NSUInteger)type {
-    NSAssert([clazz isSubclassOfClass:self], @"class error: %@", clazz);
-    if (clazz) {
-        [[self contentClasses] setObject:clazz forKey:@(type)];
-    } else {
-        [[self contentClasses] removeObjectForKey:@(type)];
-    }
-}
-
-+ (nullable Class)classForType:(const NSNumber *)type {
-    return [[self contentClasses] objectForKey:type];
-}
-
-+ (instancetype)contentWithContent:(id)content {
-    if ([content isKindOfClass:[DKDContent class]]) {
-        return content;
-    } else if ([content isKindOfClass:[NSDictionary class]]) {
-        // get class by content type
-        NSNumber *type = [content objectForKey:@"type"];
-        Class clazz = [[self class] classForType:type];
-        if (clazz) {
-            return [[clazz alloc] initWithDictionary:content];
-        } else {
-            return [[self alloc] initWithDictionary:content];
-        }
-    } else {
-        NSAssert(!content, @"unexpected message content: %@", content);
-        return nil;
-    }
-}
-
 - (instancetype)init {
     NSAssert(false, @"DON'T call me");
     self = [self initWithType:0];
@@ -119,6 +76,58 @@ static MKMContentClassMap *s_contentClasses = nil;
             [_storeDictionary removeObjectForKey:@"group"];
         }
         _group = group;
+    }
+}
+
+@end
+
+static NSMutableDictionary<NSNumber *, Class> *content_classes(void) {
+    static NSMutableDictionary<NSNumber *, Class> *classes = nil;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        classes = [[NSMutableDictionary alloc] init];
+        // Text
+        // Image
+        // Command
+        // ...
+    });
+    return classes;
+}
+
+@implementation DKDContent (Runtime)
+
++ (void)registerClass:(nullable Class)contentClass forType:(NSUInteger)type {
+    NSAssert(![contentClass isEqual:self], @"only subclass");
+    NSAssert([contentClass isSubclassOfClass:self], @"class error: %@", contentClass);
+    if (contentClass) {
+        [content_classes() setObject:contentClass forKey:@(type)];
+    } else {
+        [content_classes() removeObjectForKey:@(type)];
+    }
+}
+
++ (nullable instancetype)getInstance:(id)content {
+    if (!content) {
+        return nil;
+    }
+    if ([content isKindOfClass:[DKDContent class]]) {
+        // return Content object directly
+        return content;
+    }
+    NSAssert([content isKindOfClass:[NSDictionary class]],
+             @"content should be a dictionary: %@", content);
+    if (![self isEqual:[DKDContent class]]) {
+        // subclass
+        NSAssert([self isSubclassOfClass:[DKDContent class]], @"content class error");
+        return [[self alloc] initWithDictionary:content];
+    }
+    // create instance by subclass with meta version
+    NSNumber *type = [content objectForKey:@"type"];
+    Class clazz = [content_classes() objectForKey:type];
+    if (clazz) {
+        return [clazz getInstance:content];
+    } else {
+        return [[self alloc] initWithDictionary:content];
     }
 }
 

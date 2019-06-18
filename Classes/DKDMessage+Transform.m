@@ -58,8 +58,7 @@
                                    forMembers:(const NSArray *)members {
     NSAssert(_delegate, @"message delegate not set yet");
     // 1. encrypt 'content' to 'data'
-    NSMutableDictionary *mDict;
-    mDict = [self _prepareDataWithKey:password];
+    NSMutableDictionary *mDict = [self _prepareDataWithKey:password];
     if (!mDict) {
         return nil;
     }

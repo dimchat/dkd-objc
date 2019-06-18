@@ -9,6 +9,9 @@
 #import "NSDate+Timestamp.h"
 
 #import "DKDEnvelope.h"
+#import "DKDInstantMessage.h"
+#import "DKDSecureMessage.h"
+#import "DKDReliableMessage.h"
 
 #import "DKDMessage.h"
 
@@ -34,9 +37,7 @@
 - (instancetype)initWithSender:(const NSString *)from
                       receiver:(const NSString *)to
                           time:(nullable const NSDate *)time {
-    DKDEnvelope *env = [[DKDEnvelope alloc] initWithSender:from
-                                                  receiver:to
-                                                      time:time];
+    DKDEnvelope *env = DKDEnvelopeCreate(from, to, time);
     self = [self initWithEnvelope:env];
     return self;
 }
@@ -44,7 +45,7 @@
 /* designated initializer */
 - (instancetype)initWithEnvelope:(const DKDEnvelope *)env {
     NSAssert(env, @"envelope cannot be empty");
-    DKDEnvelope *envelope = [DKDEnvelope envelopeWithEnvelope:env];
+    DKDEnvelope *envelope = DKDEnvelopeFromDictionary(env);
     if (self = [super initWithDictionary:envelope]) {
         // envelope
         _envelope = envelope;
@@ -83,14 +84,41 @@
         NSDate *time = NSDateFromNumber(timestamp);
         
         if (sender.length > 0 && receier.length > 0) {
-            _envelope = [[DKDEnvelope alloc] initWithSender:sender
-                                                   receiver:receier
-                                                       time:time];
+            _envelope = DKDEnvelopeCreate(sender, receier, time);
         } else {
             NSAssert(false, @"envelope error: %@", self);
         }
     }
     return _envelope;
+}
+
+@end
+
+@implementation DKDMessage (Runtime)
+
++ (nullable instancetype)getInstance:(id)msg {
+    if (!msg) {
+        return nil;
+    }
+    if ([msg isKindOfClass:[DKDMessage class]]) {
+        // return Message object directly
+        return msg;
+    }
+    // create instance by subclass
+    NSDictionary *content = [msg objectForKey:@"content"];
+    if (content) {
+        return [[DKDInstantMessage alloc] initWithDictionary:msg];
+    }
+    NSString *signature = [msg objectForKey:@"signature"];
+    if (signature) {
+        return [[DKDReliableMessage alloc] initWithDictionary:msg];
+    }
+    NSString *data = [msg objectForKey:@"data"];
+    if (data) {
+        return [[DKDSecureMessage alloc] initWithDictionary:msg];
+    }
+    NSAssert(false, @"message error: %@", msg);
+    return [[DKDMessage alloc] initWithDictionary:msg];
 }
 
 @end
