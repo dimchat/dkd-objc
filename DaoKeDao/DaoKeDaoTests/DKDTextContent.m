@@ -10,7 +10,7 @@
 
 @implementation DKDTextContent
 
-- (instancetype)initWithText:(const NSString *)text {
+- (instancetype)initWithText:(NSString *)text {
     NSAssert(text, @"text cannot be empty");
     if (self = [self initWithType:DKDMessageType_Text]) {
         // text

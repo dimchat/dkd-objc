@@ -18,7 +18,7 @@ NS_ASSUME_NONNULL_BEGIN
  *      the 'receiver' will be changed to a member ID, and
  *      the group ID will be saved as 'group'.
  */
-@property (strong, nonatomic, nullable) const NSString *group;
+@property (strong, nonatomic, nullable) NSString *group;
 
 /**
  *  Split the group message to single person messages
@@ -26,7 +26,7 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param members - group members
  *  @return secure/reliable message(s)
  */
-- (NSArray *)splitForMembers:(const NSArray<const NSString *> *)members;
+- (NSArray *)splitForMembers:(NSArray<NSString *> *)members;
 
 /**
  *  Trim the group message for a member
@@ -34,7 +34,7 @@ NS_ASSUME_NONNULL_BEGIN
  * @param member - group member ID
  * @return SecureMessage
  */
-- (DKDSecureMessage *)trimForMember:(const NSString *)member;
+- (DKDSecureMessage *)trimForMember:(NSString *)member;
 
 @end
 

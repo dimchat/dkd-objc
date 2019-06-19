@@ -46,9 +46,9 @@ NS_ASSUME_NONNULL_BEGIN
 // *  @param password - SymmetricKey to decrypt the content.data
 // *  @return URL to download the file data
 // */
-//- (NSURL *)message:(const DKDInstantMessage *)iMsg
-//            upload:(const NSData *)data
-//          filename:(nullable const NSString *)name
+//- (NSURL *)message:(DKDInstantMessage *)iMsg
+//            upload:(NSData *)data
+//          filename:(nullable NSString *)name
 //           withKey:(NSDictionary *)password;
 //
 ///**
@@ -59,8 +59,8 @@ NS_ASSUME_NONNULL_BEGIN
 // *  @param password - SymmetricKey to decrypt the file data
 // *  @return decrypted file data
 // */
-//- (nullable NSData *)message:(const DKDInstantMessage *)iMsg
-//                    download:(const NSURL *)url
+//- (nullable NSData *)message:(DKDInstantMessage *)iMsg
+//                    download:(NSURL *)url
 //                     withKey:(NSDictionary *)password;
 
 /**
@@ -71,8 +71,8 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param password - symmetric key
  *  @return encrypted message content data
  */
-- (nullable NSData *)message:(const DKDInstantMessage *)iMsg
-              encryptContent:(const DKDContent *)content
+- (nullable NSData *)message:(DKDInstantMessage *)iMsg
+              encryptContent:(DKDContent *)content
                      withKey:(NSDictionary *)password;
 
 /**
@@ -83,9 +83,9 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param receiver - receiver ID string
  *  @return encrypted key data
  */
-- (nullable NSData *)message:(const DKDInstantMessage *)iMsg
-                  encryptKey:(const NSDictionary *)password
-                 forReceiver:(const NSString *)receiver;
+- (nullable NSData *)message:(DKDInstantMessage *)iMsg
+                  encryptKey:(NSDictionary *)password
+                 forReceiver:(NSString *)receiver;
 
 @end
 
@@ -101,11 +101,11 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param group - if it's a group message, offer group ID here
  *  @return symmetric key
  */
-- (nullable NSDictionary *)message:(const DKDSecureMessage *)sMsg
-                    decryptKeyData:(nullable const NSData *)key
-                        fromSender:(const NSString *)sender
-                        toReceiver:(const NSString *)receiver
-                           inGroup:(nullable const NSString *)group;
+- (nullable NSDictionary *)message:(DKDSecureMessage *)sMsg
+                    decryptKeyData:(nullable NSData *)key
+                        fromSender:(NSString *)sender
+                        toReceiver:(NSString *)receiver
+                           inGroup:(nullable NSString *)group;
 
 /**
  *  Decrypt encrypted data to message.content with symmetric key
@@ -115,9 +115,9 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param password - symmetric key
  *  @return message content
  */
-- (nullable DKDContent *)message:(const DKDSecureMessage *)sMsg
-                     decryptData:(const NSData *)data
-                         withKey:(const NSDictionary *)password;
+- (nullable DKDContent *)message:(DKDSecureMessage *)sMsg
+                     decryptData:(NSData *)data
+                         withKey:(NSDictionary *)password;
 
 /**
  *  Sign the message data(encrypted) with sender's private key
@@ -127,9 +127,9 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param sender - sender ID string
  *  @return signature
  */
-- (nullable NSData *)message:(const DKDSecureMessage *)sMsg
-                    signData:(const NSData *)data
-                   forSender:(const NSString *)sender;
+- (nullable NSData *)message:(DKDSecureMessage *)sMsg
+                    signData:(NSData *)data
+                   forSender:(NSString *)sender;
 
 @end
 
@@ -144,10 +144,10 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param sender - sender ID string
  *  @return YES on signature match
  */
-- (BOOL)message:(const DKDReliableMessage *)rMsg
-     verifyData:(const NSData *)data
-  withSignature:(const NSData *)signature
-      forSender:(const NSString *)sender;
+- (BOOL)message:(DKDReliableMessage *)rMsg
+     verifyData:(NSData *)data
+  withSignature:(NSData *)signature
+      forSender:(NSString *)sender;
 
 @end
 
@@ -172,7 +172,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 // group message
 - (nullable DKDSecureMessage *)encryptWithKey:(NSDictionary *)password
-                                   forMembers:(const NSArray<NSString *> *)members;
+                                   forMembers:(NSArray<NSString *> *)members;
 
 @end
 
@@ -194,7 +194,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (nullable DKDInstantMessage *)decrypt;
 
 // group message
-- (nullable DKDInstantMessage *)decryptForMember:(const NSString *)ID;
+- (nullable DKDInstantMessage *)decryptForMember:(NSString *)ID;
 
 @end
 

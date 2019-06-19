@@ -12,11 +12,11 @@
 
 @implementation DKDSecureMessage (Packing)
 
-- (nullable const NSString *)group {
+- (nullable NSString *)group {
     return [_storeDictionary objectForKey:@"group"];
 }
 
-- (void)setGroup:(const NSString *)group {
+- (void)setGroup:(NSString *)group {
     if (group) {
         [_storeDictionary setObject:group forKey:@"group"];
     } else {
@@ -26,11 +26,11 @@
 
 #pragma mark -
 
-- (NSArray *)splitForMembers:(const NSArray<const NSString *> *)members {
+- (NSArray *)splitForMembers:(NSArray<NSString *> *)members {
     members = [members copy];
     NSMutableArray *mArray = [[NSMutableArray alloc] initWithCapacity:members.count];
     
-    const NSString *receiver = self.envelope.receiver;
+    NSString *receiver = self.envelope.receiver;
     
     NSMutableDictionary *msg;
     msg = [[NSMutableDictionary alloc] initWithDictionary:self];
@@ -56,7 +56,7 @@
     return mArray;
 }
 
-- (DKDSecureMessage *)trimForMember:(const NSString *)member {
+- (DKDSecureMessage *)trimForMember:(NSString *)member {
     NSMutableDictionary *mDict = [self mutableCopy];
     
     NSDictionary *keys = [mDict objectForKey:@"keys"];

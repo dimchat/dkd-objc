@@ -21,14 +21,14 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @interface DKDEnvelope : DKDDictionary
 
-@property (readonly, strong, nonatomic) const NSString *sender;
-@property (readonly, strong, nonatomic) const NSString *receiver;
+@property (readonly, strong, nonatomic) NSString *sender;
+@property (readonly, strong, nonatomic) NSString *receiver;
 
-@property (readonly, strong, nonatomic) const NSDate *time;
+@property (readonly, strong, nonatomic) NSDate *time;
 
-- (instancetype)initWithSender:(const NSString *)from
-                      receiver:(const NSString *)to
-                          time:(nullable const NSDate *)time
+- (instancetype)initWithSender:(NSString *)from
+                      receiver:(NSString *)to
+                          time:(nullable NSDate *)time
 NS_DESIGNATED_INITIALIZER;
 
 - (instancetype)initWithDictionary:(NSDictionary *)dict

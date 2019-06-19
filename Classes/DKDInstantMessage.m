@@ -19,36 +19,32 @@
 
 @implementation DKDInstantMessage
 
-- (instancetype)initWithEnvelope:(const DKDEnvelope *)env {
+- (instancetype)initWithEnvelope:(DKDEnvelope *)env {
     NSAssert(false, @"DON'T call me");
     DKDContent *content = nil;
-    self = [self initWithContent:content envelope:env];
-    return self;
+    return [self initWithContent:content envelope:env];
 }
 
-- (instancetype)initWithContent:(const DKDContent *)content
-                         sender:(const NSString *)from
-                       receiver:(const NSString *)to
-                           time:(nullable const NSDate *)time {
+- (instancetype)initWithContent:(DKDContent *)content
+                         sender:(NSString *)from
+                       receiver:(NSString *)to
+                           time:(nullable NSDate *)time {
     DKDEnvelope *env = DKDEnvelopeCreate(from, to, time);
-    self = [self initWithContent:content envelope:env];
-    return self;
+    return [self initWithContent:content envelope:env];
 }
 
 /* designated initializer */
-- (instancetype)initWithContent:(const DKDContent *)content
-                       envelope:(const DKDEnvelope *)env {
+- (instancetype)initWithContent:(DKDContent *)content
+                       envelope:(DKDEnvelope *)env {
     NSAssert(content, @"content cannot be empty");
     NSAssert(env, @"envelope cannot be empty");
     
     if (self = [super initWithEnvelope:env]) {
         // content
         if (content) {
-            _content = [content copy];
-            [_storeDictionary setObject:_content forKey:@"content"];
-        } else {
-            _content = nil;
+            [_storeDictionary setObject:content forKey:@"content"];
         }
+        _content = content;
     }
     return self;
 }
@@ -56,8 +52,8 @@
 /* designated initializer */
 - (instancetype)initWithDictionary:(NSDictionary *)dict {
     if (self = [super initWithDictionary:dict]) {
-        // content
-        _content = nil; // lazy
+        // lazy
+        _content = nil;
     }
     return self;
 }
@@ -74,14 +70,12 @@
     if (!_content) {
         NSDictionary *dict = [_storeDictionary objectForKey:@"content"];
         _content = DKDContentFromDictionary(dict);
+        
         if (_content != dict) {
-            if (_content) {
-                // replace the content object
-                [_storeDictionary setObject:_content forKey:@"content"];
-            } else {
-                NSAssert(false, @"content error: %@", dict);
-                //[_storeDictionary removeObjectForKey:@"content"];
-            }
+            // replace the content object
+            NSAssert([_content isKindOfClass:[DKDContent class]],
+                     @"content error: %@", dict);
+            [_storeDictionary setObject:_content forKey:@"content"];
         }
     }
     return _content;

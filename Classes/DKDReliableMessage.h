@@ -32,16 +32,16 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (readonly, strong, nonatomic) NSData *signature;
 
-- (instancetype)initWithData:(const NSData *)content
-                   signature:(const NSData *)CT
-                encryptedKey:(nullable const NSData *)key
-                    envelope:(const DKDEnvelope *)env
+- (instancetype)initWithData:(NSData *)content
+                   signature:(NSData *)CT
+                encryptedKey:(nullable NSData *)key
+                    envelope:(DKDEnvelope *)env
 NS_DESIGNATED_INITIALIZER;
 
-- (instancetype)initWithData:(const NSData *)content
-                   signature:(const NSData *)CT
-               encryptedKeys:(nullable const DKDEncryptedKeyMap *)keys
-                    envelope:(const DKDEnvelope *)env
+- (instancetype)initWithData:(NSData *)content
+                   signature:(NSData *)CT
+               encryptedKeys:(nullable DKDEncryptedKeyMap *)keys
+                    envelope:(DKDEnvelope *)env
 NS_DESIGNATED_INITIALIZER;
 
 - (instancetype)initWithDictionary:(NSDictionary *)dict
@@ -59,7 +59,7 @@ NS_DESIGNATED_INITIALIZER;
  */
 @interface DKDReliableMessage (Meta)
 
-@property (strong, nonatomic) const NSDictionary *meta;
+@property (strong, nonatomic) NSDictionary *meta;
 
 @end
 

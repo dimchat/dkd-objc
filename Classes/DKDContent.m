@@ -21,13 +21,11 @@ static inline NSUInteger serial_number(void) {
 
 @interface DKDContent () {
     
-    UInt8 _type;
-    NSUInteger _serialNumber;
-    
-    const NSString *_group;
+    NSString *_group;
 }
 
 @property (nonatomic) UInt8 type;
+@property (nonatomic) NSUInteger serialNumber;
 
 @end
 
@@ -35,19 +33,7 @@ static inline NSUInteger serial_number(void) {
 
 - (instancetype)init {
     NSAssert(false, @"DON'T call me");
-    self = [self initWithType:0];
-    return self;
-}
-
-/* designated initializer */
-- (instancetype)initWithDictionary:(NSDictionary *)dict {
-    if (self = [super initWithDictionary:dict]) {
-        // content type
-        _type = [[dict objectForKey:@"type"] unsignedIntegerValue];
-        _serialNumber = [[dict objectForKey:@"sn"] unsignedIntegerValue];
-        _group = [dict objectForKey:@"group"];
-    }
-    return self;
+    return [self initWithType:0];
 }
 
 /* designated initializer */
@@ -64,11 +50,52 @@ static inline NSUInteger serial_number(void) {
     return self;
 }
 
-- (const NSString *)group {
+/* designated initializer */
+- (instancetype)initWithDictionary:(NSDictionary *)dict {
+    if (self = [super initWithDictionary:dict]) {
+        // lazy
+        _type = 0;
+        _serialNumber = 0;
+        _group = nil;
+    }
+    return self;
+}
+
+- (id)copyWithZone:(NSZone *)zone {
+    DKDContent *content = [[self class] allocWithZone:zone];
+    content = [content initWithDictionary:_storeDictionary];
+    if (content) {
+        content.type = _type;
+        content.serialNumber = _serialNumber;
+        //content.group = _group;
+    }
+    return content;
+}
+
+- (UInt8)type {
+    if (_type == 0) {
+        NSNumber *type = [_storeDictionary objectForKey:@"type"];
+        _type = [type unsignedIntegerValue];
+    }
+    return _type;
+}
+
+- (NSUInteger)serialNumber {
+    if (_serialNumber == 0) {
+        NSNumber *sn = [_storeDictionary objectForKey:@"sn"];
+        _serialNumber = [sn unsignedIntegerValue];
+    }
+    return _serialNumber;
+}
+
+- (NSString *)group {
+    if (!_group) {
+        _group = [_storeDictionary objectForKey:@"group"];
+    }
     return _group;
 }
 
-- (void)setGroup:(const NSString *)group {
+- (void)setGroup:(NSString *)group {
     if (![_group isEqual:group]) {
         if (group) {
             [_storeDictionary setObject:group forKey:@"group"];

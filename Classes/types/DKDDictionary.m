@@ -20,8 +20,7 @@
 
 - (instancetype)init {
     NSMutableDictionary *dict = [[NSMutableDictionary alloc] init];
-    self = [self initWithDictionary:dict];
-    return self;
+    return [self initWithDictionary:dict];
 }
 
 - (instancetype)initWithObjects:(const id _Nonnull [_Nullable])objects
@@ -31,15 +30,13 @@
     dict = [[NSMutableDictionary alloc] initWithObjects:objects
                                                 forKeys:keys
                                                   count:cnt];
-    self = [self initWithDictionary:dict];
-    return self;
+    return [self initWithDictionary:dict];
 }
 
 - (nullable instancetype)initWithCoder:(NSCoder *)aDecoder {
     NSMutableDictionary *dict;
     dict = [[NSMutableDictionary alloc] initWithCoder:aDecoder];
-    self = [self initWithDictionary:dict];
-    return self;
+    return [self initWithDictionary:dict];
 }
 
 - (id)copyWithZone:(NSZone *)zone {
@@ -59,7 +56,7 @@
     return [_storeDictionary count];
 }
 
-- (id)objectForKey:(const NSString *)aKey {
+- (id)objectForKey:(NSString *)aKey {
     return [_storeDictionary objectForKey:aKey];
 }
 
@@ -87,11 +84,11 @@
 //    return [self copy];
 //}
 
-- (void)removeObjectForKey:(const NSString *)aKey {
+- (void)removeObjectForKey:(NSString *)aKey {
     [_storeDictionary removeObjectForKey:aKey];
 }
 
-- (void)setObject:(id)anObject forKey:(const NSString *)aKey {
+- (void)setObject:(id)anObject forKey:(NSString *)aKey {
     [_storeDictionary setObject:anObject forKey:aKey];
 }
 

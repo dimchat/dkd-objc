@@ -23,31 +23,19 @@
 
 @implementation DKDMessage
 
-+ (instancetype)messageWithMessage:(id)msg {
-    if ([msg isKindOfClass:[DKDMessage class]]) {
-        return msg;
-    } else if ([msg isKindOfClass:[NSDictionary class]]) {
-        return [[self alloc] initWithDictionary:msg];
-    } else {
-        NSAssert(!msg, @"unexpected message: %@", msg);
-        return nil;
-    }
-}
-
-- (instancetype)initWithSender:(const NSString *)from
-                      receiver:(const NSString *)to
-                          time:(nullable const NSDate *)time {
+- (instancetype)initWithSender:(NSString *)from
+                      receiver:(NSString *)to
+                          time:(nullable NSDate *)time {
     DKDEnvelope *env = DKDEnvelopeCreate(from, to, time);
-    self = [self initWithEnvelope:env];
-    return self;
+    return [self initWithEnvelope:env];
 }
 
 /* designated initializer */
-- (instancetype)initWithEnvelope:(const DKDEnvelope *)env {
+- (instancetype)initWithEnvelope:(DKDEnvelope *)env {
     NSAssert(env, @"envelope cannot be empty");
     DKDEnvelope *envelope = DKDEnvelopeFromDictionary(env);
     if (self = [super initWithDictionary:envelope]) {
-        // envelope
+        _delegate = nil;
         _envelope = envelope;
     }
     return self;
@@ -56,7 +44,7 @@
 /* designated initializer */
 - (instancetype)initWithDictionary:(NSDictionary *)dict {
     if (self = [super initWithDictionary:dict]) {
-        // envelope
+        _delegate = nil;
         _envelope = nil; // lazy
     }
     return self;
@@ -65,6 +53,7 @@
 - (id)copyWithZone:(NSZone *)zone {
     DKDMessage *msg = [super copyWithZone:zone];
     if (msg) {
+        msg.delegate = _delegate;
         msg.envelope = _envelope;
     }
     return self;
@@ -118,7 +107,7 @@
         return [[DKDSecureMessage alloc] initWithDictionary:msg];
     }
     NSAssert(false, @"message error: %@", msg);
-    return [[DKDMessage alloc] initWithDictionary:msg];
+    return [[self alloc] initWithDictionary:msg];
 }
 
 @end

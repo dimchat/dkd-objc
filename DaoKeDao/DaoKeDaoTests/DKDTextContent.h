@@ -43,7 +43,7 @@ typedef NS_ENUM(UInt8, DKDMessageType) {
  *      text : "..."
  *  }
  */
-- (instancetype)initWithText:(const NSString *)text;
+- (instancetype)initWithText:(NSString *)text;
 
 @end
 

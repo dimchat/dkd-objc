@@ -37,11 +37,11 @@ NS_ASSUME_NONNULL_BEGIN
 // delegate to transform message
 @property (weak, nonatomic, nullable) __kindof id<DKDMessageDelegate> delegate;
 
-- (instancetype)initWithSender:(const NSString *)from
-                      receiver:(const NSString *)to
-                          time:(nullable const NSDate *)time;
+- (instancetype)initWithSender:(NSString *)from
+                      receiver:(NSString *)to
+                          time:(nullable NSDate *)time;
 
-- (instancetype)initWithEnvelope:(const DKDEnvelope *)env
+- (instancetype)initWithEnvelope:(DKDEnvelope *)env
 NS_DESIGNATED_INITIALIZER;
 
 - (instancetype)initWithDictionary:(NSDictionary *)dict

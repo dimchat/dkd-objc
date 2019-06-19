@@ -12,19 +12,18 @@
 
 @interface DKDEnvelope ()
 
-@property (strong, nonatomic) const NSString *sender;
-@property (strong, nonatomic) const NSString *receiver;
-
-@property (strong, nonatomic) const NSDate *time;
+@property (strong, nonatomic) NSString *sender;
+@property (strong, nonatomic) NSString *receiver;
+@property (strong, nonatomic) NSDate *time;
 
 @end
 
 @implementation DKDEnvelope
 
 /* designated initializer */
-- (instancetype)initWithSender:(const NSString *)from
-                      receiver:(const NSString *)to
-                          time:(nullable const NSDate *)time {
+- (instancetype)initWithSender:(NSString *)from
+                      receiver:(NSString *)to
+                          time:(nullable NSDate *)time {
     if (!time) {
         // now()
         time = [[NSDate alloc] init];
@@ -44,12 +43,45 @@
 /* designated initializer */
 - (instancetype)initWithDictionary:(NSDictionary *)dict {
     if (self = [super initWithDictionary:dict]) {
+        // lazy
+        _sender = nil;
+        _receiver = nil;
+        _time = nil;
+    }
+    return self;
+}
+
+- (id)copyWithZone:(NSZone *)zone {
+    DKDEnvelope *envelope = [[self class] allocWithZone:zone];
+    envelope = [envelope initWithDictionary:_storeDictionary];
+    if (envelope) {
+        envelope.sender = _sender;
+        envelope.receiver = _receiver;
+        envelope.time = _time;
+    }
+    return envelope;
+}
+
+- (NSString *)sender {
+    if (!_sender) {
         _sender = [_storeDictionary objectForKey:@"sender"];
+    }
+    return _sender;
+}
+
+- (NSString *)receiver {
+    if (!_receiver) {
         _receiver = [_storeDictionary objectForKey:@"receiver"];
+    }
+    return _receiver;
+}
+
+- (NSDate *)time {
+    if (!_time) {
         NSNumber *timestamp = [_storeDictionary objectForKey:@"time"];
         _time = NSDateFromNumber(timestamp);
     }
-    return self;
+    return _time;
 }
 
 @end

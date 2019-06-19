@@ -51,9 +51,9 @@ NS_ASSUME_NONNULL_BEGIN
  @param key - Symmetic key encrypted with receiver's PK
  @return SecureMessage object
  */
-- (instancetype)initWithData:(const NSData *)content
-                encryptedKey:(nullable const NSData *)key
-                    envelope:(const DKDEnvelope *)env
+- (instancetype)initWithData:(NSData *)content
+                encryptedKey:(nullable NSData *)key
+                    envelope:(DKDEnvelope *)env
 NS_DESIGNATED_INITIALIZER;
 
 /**
@@ -64,9 +64,9 @@ NS_DESIGNATED_INITIALIZER;
  @param keys - Symmetic keys encrypted with group members' PKs
  @return SecureMessage object
  */
-- (instancetype)initWithData:(const NSData *)content
-               encryptedKeys:(nullable const DKDEncryptedKeyMap *)keys
-                    envelope:(const DKDEnvelope *)env
+- (instancetype)initWithData:(NSData *)content
+               encryptedKeys:(nullable DKDEncryptedKeyMap *)keys
+                    envelope:(DKDEnvelope *)env
 NS_DESIGNATED_INITIALIZER;
 
 - (instancetype)initWithDictionary:(NSDictionary *)dict
@@ -88,12 +88,19 @@ NS_DESIGNATED_INITIALIZER;
  */
 @interface DKDEncryptedKeyMap : DKDDictionary
 
-+ (instancetype)mapWithMap:(id)map;
+- (NSData *)encryptedKeyForID:(NSString *)ID;
 
-- (NSData *)encryptedKeyForID:(const NSString *)ID;
-
-- (void)setEncryptedKey:(NSData *)key forID:(const NSString *)ID;
+- (void)setEncryptedKey:(NSData *)key forID:(NSString *)ID;
 
 @end
+
+@interface DKDEncryptedKeyMap (Runtime)
+
++ (nullable instancetype)getInstance:(id)map;
+
+@end
+
+// convert Dictionary to KeyMap
+#define DKDEncryptedKeyMapFromDictionary(map) [DKDEncryptedKeyMap getInstance:(map)]
 
 NS_ASSUME_NONNULL_END

@@ -32,7 +32,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (readonly, nonatomic) NSUInteger serialNumber;
 
 // Group ID for group message
-@property (strong, nonatomic, nullable) const NSString *group;
+@property (strong, nonatomic, nullable) NSString *group;
 
 - (instancetype)initWithDictionary:(NSDictionary *)dict
 NS_DESIGNATED_INITIALIZER;

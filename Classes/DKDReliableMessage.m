@@ -19,35 +19,33 @@
 
 @implementation DKDReliableMessage
 
-- (instancetype)initWithData:(const NSData *)content
-                encryptedKey:(nullable const NSData *)key
-                    envelope:(const DKDEnvelope *)env {
+- (instancetype)initWithData:(NSData *)content
+                encryptedKey:(nullable NSData *)key
+                    envelope:(DKDEnvelope *)env {
     NSAssert(false, @"DON'T call me");
     NSData *CT = nil;
-    self = [self initWithData:content
+    return [self initWithData:content
                     signature:CT
                  encryptedKey:key
                      envelope:env];
-    return self;
 }
 
-- (instancetype)initWithData:(const NSData *)content
-               encryptedKeys:(nullable const DKDEncryptedKeyMap *)keys
-                    envelope:(const DKDEnvelope *)env {
+- (instancetype)initWithData:(NSData *)content
+               encryptedKeys:(nullable DKDEncryptedKeyMap *)keys
+                    envelope:(DKDEnvelope *)env {
     NSAssert(false, @"DON'T call me");
     NSData *CT = nil;
-    self = [self initWithData:content
+    return [self initWithData:content
                     signature:CT
                 encryptedKeys:keys
                      envelope:env];
-    return self;
 }
 
 /* designated initializer */
-- (instancetype)initWithData:(const NSData *)content
-                   signature:(const NSData *)CT
-                encryptedKey:(nullable const NSData *)key
-                    envelope:(const DKDEnvelope *)env {
+- (instancetype)initWithData:(NSData *)content
+                   signature:(NSData *)CT
+                encryptedKey:(nullable NSData *)key
+                    envelope:(DKDEnvelope *)env {
     NSAssert(CT, @"signature cannot be empty");
     if (self = [super initWithData:content
                       encryptedKey:key
@@ -55,19 +53,17 @@
         // signature
         if (CT) {
             [_storeDictionary setObject:[CT base64Encode] forKey:@"signature"];
-            _signature = [CT copy];
-        } else {
-            _signature = nil;
         }
+        _signature = CT;
     }
     return self;
 }
 
 /* designated initializer */
-- (instancetype)initWithData:(const NSData *)content
-                   signature:(const NSData *)CT
-               encryptedKeys:(nullable const DKDEncryptedKeyMap *)keys
-                    envelope:(const DKDEnvelope *)env {
+- (instancetype)initWithData:(NSData *)content
+                   signature:(NSData *)CT
+               encryptedKeys:(nullable DKDEncryptedKeyMap *)keys
+                    envelope:(DKDEnvelope *)env {
     NSAssert(CT, @"signature cannot be empty");
     if (self = [super initWithData:content
                      encryptedKeys:keys
@@ -75,10 +71,8 @@
         // signature
         if (CT) {
             [_storeDictionary setObject:[CT base64Encode] forKey:@"signature"];
-            _signature = [CT copy];
-        } else {
-            _signature = nil;
         }
+        _signature = CT;
     }
     return self;
 }
@@ -115,11 +109,11 @@
 
 @implementation DKDReliableMessage (Meta)
 
-- (const NSDictionary *)meta {
+- (NSDictionary *)meta {
     return [_storeDictionary objectForKey:@"meta"];
 }
 
-- (void)setMeta:(const NSDictionary *)meta {
+- (void)setMeta:(NSDictionary *)meta {
     if (meta) {
         [_storeDictionary setObject:meta forKey:@"meta"];
     } else {

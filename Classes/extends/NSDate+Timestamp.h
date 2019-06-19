@@ -10,8 +10,8 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-NSNumber *NSNumberFromDate(const NSDate *date);
+NSNumber *NSNumberFromDate(NSDate *date);
 
-NSDate *NSDateFromNumber(const NSNumber *timestamp);
+NSDate *NSDateFromNumber(NSNumber *timestamp);
 
 NS_ASSUME_NONNULL_END

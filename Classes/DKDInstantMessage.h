@@ -28,13 +28,13 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (readonly, strong, nonatomic) DKDContent *content;
 
-- (instancetype)initWithContent:(const DKDContent *)content
-                         sender:(const NSString *)from
-                       receiver:(const NSString *)to
-                           time:(nullable const NSDate *)time;
+- (instancetype)initWithContent:(DKDContent *)content
+                         sender:(NSString *)from
+                       receiver:(NSString *)to
+                           time:(nullable NSDate *)time;
 
-- (instancetype)initWithContent:(const DKDContent *)content
-                       envelope:(const DKDEnvelope *)env
+- (instancetype)initWithContent:(DKDContent *)content
+                       envelope:(DKDEnvelope *)env
 NS_DESIGNATED_INITIALIZER;
 
 - (instancetype)initWithDictionary:(NSDictionary *)dict
