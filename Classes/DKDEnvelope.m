@@ -93,6 +93,7 @@
         return nil;
     }
     if ([env isKindOfClass:[DKDEnvelope class]]) {
+        // return Envelope object directly
         return env;
     }
     NSAssert([env isKindOfClass:[NSDictionary class]],

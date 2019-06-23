@@ -33,10 +33,20 @@
 /* designated initializer */
 - (instancetype)initWithEnvelope:(DKDEnvelope *)env {
     NSAssert(env, @"envelope cannot be empty");
-    DKDEnvelope *envelope = DKDEnvelopeFromDictionary(env);
-    if (self = [super initWithDictionary:envelope]) {
+    NSDictionary *dict;
+    if (env.time) {
+        dict = @{@"sender": env.sender,
+                 @"receiver": env.receiver,
+                 @"time": [env objectForKey:@"time"],
+                 };
+    } else {
+        dict = @{@"sender": env.sender,
+                 @"receiver": env.receiver,
+                 };
+    }
+    if (self = [super initWithDictionary:dict]) {
         _delegate = nil;
-        _envelope = envelope;
+        _envelope = env;
     }
     return self;
 }
