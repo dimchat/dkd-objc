@@ -21,6 +21,8 @@ static inline NSUInteger serial_number(void) {
 
 @interface DKDContent () {
     
+    UInt8 _type;
+    NSUInteger _serialNumber;
     NSString *_group;
 }
 
@@ -53,10 +55,14 @@ static inline NSUInteger serial_number(void) {
 /* designated initializer */
 - (instancetype)initWithDictionary:(NSDictionary *)dict {
     if (self = [super initWithDictionary:dict]) {
-        // lazy
-        _type = 0;
-        _serialNumber = 0;
-        _group = nil;
+        // content type
+        NSNumber *type = [_storeDictionary objectForKey:@"type"];
+        _type = [type unsignedIntegerValue];
+        // serial number
+        NSNumber *sn = [_storeDictionary objectForKey:@"sn"];
+        _serialNumber = [sn unsignedIntegerValue];
+        // group ID
+        _group = [_storeDictionary objectForKey:@"group"];
     }
     return self;
 }
@@ -65,34 +71,18 @@ static inline NSUInteger serial_number(void) {
     DKDContent *content = [[self class] allocWithZone:zone];
     content = [content initWithDictionary:_storeDictionary];
     if (content) {
-        content.type = _type;
+        //content.type = _type;
         content.serialNumber = _serialNumber;
         //content.group = _group;
     }
     return content;
 }
 
-- (UInt8)type {
-    if (_type == 0) {
-        NSNumber *type = [_storeDictionary objectForKey:@"type"];
-        _type = [type unsignedIntegerValue];
+- (void)setType:(UInt8)type {
+    if (_type != type) {
+        [_storeDictionary setObject:@(type) forKey:@"type"];
+        _type = type;
     }
-    return _type;
-}
-
-- (NSUInteger)serialNumber {
-    if (_serialNumber == 0) {
-        NSNumber *sn = [_storeDictionary objectForKey:@"sn"];
-        _serialNumber = [sn unsignedIntegerValue];
-    }
-    return _serialNumber;
-}
-
-- (NSString *)group {
-    if (!_group) {
-        _group = [_storeDictionary objectForKey:@"group"];
-    }
-    return _group;
 }
 
 - (void)setGroup:(NSString *)group {
