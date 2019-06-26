@@ -68,8 +68,7 @@ static inline NSUInteger serial_number(void) {
 }
 
 - (id)copyWithZone:(NSZone *)zone {
-    DKDContent *content = [[self class] allocWithZone:zone];
-    content = [content initWithDictionary:_storeDictionary];
+    DKDContent *content = [super copyWithZone:zone];
     if (content) {
         //content.type = _type;
         content.serialNumber = _serialNumber;

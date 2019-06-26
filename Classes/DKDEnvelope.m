@@ -52,8 +52,7 @@
 }
 
 - (id)copyWithZone:(NSZone *)zone {
-    DKDEnvelope *envelope = [[self class] allocWithZone:zone];
-    envelope = [envelope initWithDictionary:_storeDictionary];
+    DKDEnvelope *envelope = [super copyWithZone:zone];
     if (envelope) {
         envelope.sender = _sender;
         envelope.receiver = _receiver;
