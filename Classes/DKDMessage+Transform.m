@@ -94,15 +94,13 @@
 
 - (nullable DKDInstantMessage *)_decryptWithKey:(NSData *)key
                                            from:(NSString *)sender
-                                             to:(NSString *)receiver
-                                          group:(nullable NSString *)grp {
+                                             to:(NSString *)receiver {
     NSAssert(_delegate, @"message delegate not set yet");
     // 1. decrypt 'key' to symmetric key
     NSDictionary *PW = [_delegate message:self
                            decryptKeyData:key
-                               fromSender:sender
-                               toReceiver:receiver
-                                  inGroup:grp];
+                                     from:sender
+                                       to:receiver];
     if (!PW) {
         NSLog(@"failed to decrypt symmetric key: %@", self);
         return nil;
@@ -132,11 +130,11 @@
 - (nullable DKDInstantMessage *)decrypt {
     NSString *sender = self.envelope.sender;
     NSString *receiver = self.envelope.receiver;
-    NSString *grp = [self objectForKey:@"group"];
-    NSAssert(!grp, @"group message must be decrypted with member ID");
+    NSAssert(![self objectForKey:@"group"],
+             @"group message must be decrypted with member ID");
     NSData *key = self.encryptedKey;
-    // decrypt
-    return [self _decryptWithKey:key from:sender to:receiver group:grp];
+    // decrypt content by symmetric key with direction
+    return [self _decryptWithKey:key from:sender to:receiver];
 }
 
 - (nullable DKDInstantMessage *)decryptForMember:(NSString *)member {
@@ -166,7 +164,7 @@
         key = self.encryptedKey;
     }
     // decrypt
-    return [self _decryptWithKey:key from:sender to:member group:grp];
+    return [self _decryptWithKey:key from:sender to:grp];
 }
 
 @end
