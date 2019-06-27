@@ -75,7 +75,9 @@ NS_DESIGNATED_INITIALIZER;
 @end
 
 // convert Dictionary to SecureMessage
-#define DKDSecureMessageFromDictionary(msg)   [DKDSecureMessage getInstance:(msg)]
+#define DKDSecureMessageFromDictionary(msg)                                    \
+            [DKDSecureMessage getInstance:(msg)]                               \
+                                 /* EOF 'DKDSecureMessageFromDictionary(msg)' */
 
 #pragma mark -
 
@@ -101,6 +103,8 @@ NS_DESIGNATED_INITIALIZER;
 @end
 
 // convert Dictionary to KeyMap
-#define DKDEncryptedKeyMapFromDictionary(map) [DKDEncryptedKeyMap getInstance:(map)]
+#define DKDEncryptedKeyMapFromDictionary(map)                                  \
+            [DKDEncryptedKeyMap getInstance:(map)]                             \
+                               /* EOF 'DKDEncryptedKeyMapFromDictionary(map)' */
 
 NS_ASSUME_NONNULL_END

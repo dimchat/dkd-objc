@@ -50,7 +50,9 @@ NS_DESIGNATED_INITIALIZER;
 @end
 
 // convert Dictionary to Message
-#define DKDMessageFromDictionary(message)  [DKDMessage getInstance:(message)]
+#define DKDMessageFromDictionary(msg)                                          \
+            [DKDMessage getInstance:(msg)]                                     \
+                                       /* EOF 'DKDMessageFromDictionary(msg)' */
 
 @interface DKDMessage (Runtime)
 

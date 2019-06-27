@@ -37,10 +37,14 @@ NS_DESIGNATED_INITIALIZER;
 @end
 
 // convert Dictionary to Envelope
-#define DKDEnvelopeFromDictionary(env)     [DKDEnvelope getInstance:(env)]
+#define DKDEnvelopeFromDictionary(env)                                         \
+            [DKDEnvelope getInstance:(env)]                                    \
+                                      /* EOF 'DKDEnvelopeFromDictionary(env)' */
 
 // create Envelope
-#define DKDEnvelopeCreate(from, to, when)  [[DKDEnvelope alloc] initWithSender:(from) receiver:(to) time:(when)]
+#define DKDEnvelopeCreate(from, to, when)                                      \
+            [[DKDEnvelope alloc] initWithSender:(from) receiver:(to) time:(when)]\
+                                   /* EOF 'DKDEnvelopeCreate(from, to, when)' */
 
 @interface DKDEnvelope (Runtime)
 

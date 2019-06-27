@@ -43,7 +43,9 @@ NS_DESIGNATED_INITIALIZER;
 @end
 
 // convert Dictionary to Content
-#define DKDContentFromDictionary(content)  [DKDContent getInstance:(content)]
+#define DKDContentFromDictionary(content)                                      \
+            [DKDContent getInstance:(content)]                                 \
+                                   /* EOF 'DKDContentFromDictionary(content)' */
 
 @interface DKDContent (Runtime)
 
