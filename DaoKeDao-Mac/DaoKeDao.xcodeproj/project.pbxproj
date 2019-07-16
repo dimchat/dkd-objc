@@ -9,13 +9,7 @@
 /* Begin PBXBuildFile section */
 		E9BBC01722427DBD00E6ACDA /* DaoKeDao.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E9BBC00D22427DBC00E6ACDA /* DaoKeDao.framework */; };
 		E9BBC01C22427DBD00E6ACDA /* DaoKeDaoTests.m in Sources */ = {isa = PBXBuildFile; fileRef = E9BBC01B22427DBD00E6ACDA /* DaoKeDaoTests.m */; };
-		E9BBC10922427E5700E6ACDA /* NSData+Crypto.h in Headers */ = {isa = PBXBuildFile; fileRef = E9BBC0D722427E5700E6ACDA /* NSData+Crypto.h */; };
-		E9BBC10A22427E5700E6ACDA /* NSString+Crypto.mm in Sources */ = {isa = PBXBuildFile; fileRef = E9BBC0D822427E5700E6ACDA /* NSString+Crypto.mm */; };
-		E9BBC10B22427E5700E6ACDA /* NSObject+JsON.m in Sources */ = {isa = PBXBuildFile; fileRef = E9BBC0D922427E5700E6ACDA /* NSObject+JsON.m */; };
 		E9BBC10C22427E5700E6ACDA /* NSDate+Timestamp.h in Headers */ = {isa = PBXBuildFile; fileRef = E9BBC0DA22427E5700E6ACDA /* NSDate+Timestamp.h */; };
-		E9BBC10D22427E5700E6ACDA /* NSData+Crypto.mm in Sources */ = {isa = PBXBuildFile; fileRef = E9BBC0DB22427E5700E6ACDA /* NSData+Crypto.mm */; };
-		E9BBC10E22427E5700E6ACDA /* NSObject+JsON.h in Headers */ = {isa = PBXBuildFile; fileRef = E9BBC0DC22427E5700E6ACDA /* NSObject+JsON.h */; };
-		E9BBC10F22427E5700E6ACDA /* NSString+Crypto.h in Headers */ = {isa = PBXBuildFile; fileRef = E9BBC0DD22427E5700E6ACDA /* NSString+Crypto.h */; };
 		E9BBC11022427E5700E6ACDA /* NSDate+Timestamp.m in Sources */ = {isa = PBXBuildFile; fileRef = E9BBC0DE22427E5700E6ACDA /* NSDate+Timestamp.m */; };
 		E9BBC11122427E5700E6ACDA /* DKDDictionary.m in Sources */ = {isa = PBXBuildFile; fileRef = E9BBC0E022427E5700E6ACDA /* DKDDictionary.m */; };
 		E9BBC11222427E5700E6ACDA /* DKDDictionary.h in Headers */ = {isa = PBXBuildFile; fileRef = E9BBC0E122427E5700E6ACDA /* DKDDictionary.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -54,13 +48,7 @@
 		E9BBC01622427DBD00E6ACDA /* DaoKeDaoTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = DaoKeDaoTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		E9BBC01B22427DBD00E6ACDA /* DaoKeDaoTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DaoKeDaoTests.m; sourceTree = "<group>"; };
 		E9BBC01D22427DBD00E6ACDA /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		E9BBC0D722427E5700E6ACDA /* NSData+Crypto.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSData+Crypto.h"; sourceTree = "<group>"; };
-		E9BBC0D822427E5700E6ACDA /* NSString+Crypto.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = "NSString+Crypto.mm"; sourceTree = "<group>"; };
-		E9BBC0D922427E5700E6ACDA /* NSObject+JsON.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject+JsON.m"; sourceTree = "<group>"; };
 		E9BBC0DA22427E5700E6ACDA /* NSDate+Timestamp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDate+Timestamp.h"; sourceTree = "<group>"; };
-		E9BBC0DB22427E5700E6ACDA /* NSData+Crypto.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = "NSData+Crypto.mm"; sourceTree = "<group>"; };
-		E9BBC0DC22427E5700E6ACDA /* NSObject+JsON.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+JsON.h"; sourceTree = "<group>"; };
-		E9BBC0DD22427E5700E6ACDA /* NSString+Crypto.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+Crypto.h"; sourceTree = "<group>"; };
 		E9BBC0DE22427E5700E6ACDA /* NSDate+Timestamp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDate+Timestamp.m"; sourceTree = "<group>"; };
 		E9BBC0E022427E5700E6ACDA /* DKDDictionary.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DKDDictionary.m; sourceTree = "<group>"; };
 		E9BBC0E122427E5700E6ACDA /* DKDDictionary.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DKDDictionary.h; sourceTree = "<group>"; };
@@ -168,13 +156,7 @@
 		E9BBC0D622427E5700E6ACDA /* extends */ = {
 			isa = PBXGroup;
 			children = (
-				E9BBC0D722427E5700E6ACDA /* NSData+Crypto.h */,
-				E9BBC0D822427E5700E6ACDA /* NSString+Crypto.mm */,
-				E9BBC0D922427E5700E6ACDA /* NSObject+JsON.m */,
 				E9BBC0DA22427E5700E6ACDA /* NSDate+Timestamp.h */,
-				E9BBC0DB22427E5700E6ACDA /* NSData+Crypto.mm */,
-				E9BBC0DC22427E5700E6ACDA /* NSObject+JsON.h */,
-				E9BBC0DD22427E5700E6ACDA /* NSString+Crypto.h */,
 				E9BBC0DE22427E5700E6ACDA /* NSDate+Timestamp.m */,
 			);
 			path = extends;
@@ -206,10 +188,7 @@
 				E9FC8DE822B907B50013FCD3 /* DKDReliableMessage.h in Headers */,
 				E9FC8DEA22B907B50013FCD3 /* DKDMessage+Transform.h in Headers */,
 				E9BBC13722427E5700E6ACDA /* DaoKeDao.h in Headers */,
-				E9BBC10F22427E5700E6ACDA /* NSString+Crypto.h in Headers */,
-				E9BBC10922427E5700E6ACDA /* NSData+Crypto.h in Headers */,
 				E9BBC10C22427E5700E6ACDA /* NSDate+Timestamp.h in Headers */,
-				E9BBC10E22427E5700E6ACDA /* NSObject+JsON.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -313,10 +292,7 @@
 				E9FC8DE922B907B50013FCD3 /* DKDMessage+Transform.m in Sources */,
 				E9FC8DE422B907B50013FCD3 /* DKDSecureMessage+Packing.m in Sources */,
 				E9FC8DE722B907B50013FCD3 /* DKDContent.m in Sources */,
-				E9BBC10A22427E5700E6ACDA /* NSString+Crypto.mm in Sources */,
-				E9BBC10D22427E5700E6ACDA /* NSData+Crypto.mm in Sources */,
 				E9FC8DE122B907B50013FCD3 /* DKDReliableMessage.m in Sources */,
-				E9BBC10B22427E5700E6ACDA /* NSObject+JsON.m in Sources */,
 				E9FC8DDD22B907B50013FCD3 /* DKDInstantMessage.m in Sources */,
 				E9FC8DE022B907B50013FCD3 /* DKDSecureMessage.m in Sources */,
 				E9BBC11022427E5700E6ACDA /* NSDate+Timestamp.m in Sources */,

@@ -91,6 +91,18 @@
     return _envelope;
 }
 
+- (nullable NSString *)group {
+    return [_storeDictionary objectForKey:@"group"];
+}
+
+- (void)setGroup:(NSString *)group {
+    if ([group length] > 0) {
+        [_storeDictionary setObject:group forKey:@"group"];
+    } else {
+        [_storeDictionary removeObjectForKey:@"group"];
+    }
+}
+
 @end
 
 @implementation DKDMessage (Runtime)

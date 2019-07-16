@@ -10,7 +10,6 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@class DKDEncryptedKeyMap;
 @class DKDInstantMessage;
 
 /**
@@ -41,33 +40,7 @@ NS_ASSUME_NONNULL_BEGIN
  *   encryptedKey = receiver.publicKey.encrypt(symmetricKey);
  */
 @property (readonly, strong, nonatomic, nullable) NSData *encryptedKey;
-@property (readonly, strong, nonatomic, nullable) DKDEncryptedKeyMap *encryptedKeys;
-
-/**
- Secure Message for Personal
-
- @param content - Data encrypted with a random symmetic key
- @param env - Message envelope
- @param key - Symmetic key encrypted with receiver's PK
- @return SecureMessage object
- */
-- (instancetype)initWithData:(NSData *)content
-                encryptedKey:(nullable NSData *)key
-                    envelope:(DKDEnvelope *)env
-NS_DESIGNATED_INITIALIZER;
-
-/**
- Secure Message for Group
-
- @param content - Data encrypted with a random symmetic key
- @param env - Message envelope
- @param keys - Symmetic keys encrypted with group members' PKs
- @return SecureMessage object
- */
-- (instancetype)initWithData:(NSData *)content
-               encryptedKeys:(nullable DKDEncryptedKeyMap *)keys
-                    envelope:(DKDEnvelope *)env
-NS_DESIGNATED_INITIALIZER;
+@property (readonly, strong, nonatomic, nullable) NSDictionary *encryptedKeys;
 
 - (instancetype)initWithDictionary:(NSDictionary *)dict
 NS_DESIGNATED_INITIALIZER;
@@ -78,33 +51,5 @@ NS_DESIGNATED_INITIALIZER;
 #define DKDSecureMessageFromDictionary(msg)                                    \
             [DKDSecureMessage getInstance:(msg)]                               \
                                  /* EOF 'DKDSecureMessageFromDictionary(msg)' */
-
-#pragma mark -
-
-/**
- *  Encrypted Key Map for Group Message
- *
- *      data format: {
- *          "ID1": "{key1}", // base64_encode(asymmetric)
- *      }
- */
-@interface DKDEncryptedKeyMap : DKDDictionary
-
-- (NSData *)encryptedKeyForID:(NSString *)ID;
-
-- (void)setEncryptedKey:(NSData *)key forID:(NSString *)ID;
-
-@end
-
-@interface DKDEncryptedKeyMap (Runtime)
-
-+ (nullable instancetype)getInstance:(id)map;
-
-@end
-
-// convert Dictionary to KeyMap
-#define DKDEncryptedKeyMapFromDictionary(map)                                  \
-            [DKDEncryptedKeyMap getInstance:(map)]                             \
-                               /* EOF 'DKDEncryptedKeyMapFromDictionary(map)' */
 
 NS_ASSUME_NONNULL_END

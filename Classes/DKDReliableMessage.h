@@ -32,18 +32,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (readonly, strong, nonatomic) NSData *signature;
 
-- (instancetype)initWithData:(NSData *)content
-                   signature:(NSData *)CT
-                encryptedKey:(nullable NSData *)key
-                    envelope:(DKDEnvelope *)env
-NS_DESIGNATED_INITIALIZER;
-
-- (instancetype)initWithData:(NSData *)content
-                   signature:(NSData *)CT
-               encryptedKeys:(nullable DKDEncryptedKeyMap *)keys
-                    envelope:(DKDEnvelope *)env
-NS_DESIGNATED_INITIALIZER;
-
 - (instancetype)initWithDictionary:(NSDictionary *)dict
 NS_DESIGNATED_INITIALIZER;
 

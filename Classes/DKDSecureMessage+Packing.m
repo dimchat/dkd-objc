@@ -35,7 +35,7 @@
     msg = [[NSMutableDictionary alloc] initWithDictionary:self];
     [msg setObject:receiver forKey:@"group"];
     
-    DKDEncryptedKeyMap *keyMap = self.encryptedKeys;
+    NSDictionary *keyMap = self.encryptedKeys;
     
     NSString *base64;
     for (NSString *member in members) {

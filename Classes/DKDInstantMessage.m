@@ -81,4 +81,12 @@
     return _content;
 }
 
+- (nullable NSString *)group {
+    return [_content group];
+}
+
+- (void)setGroup:(NSString *)group {
+    [_content setGroup:group];
+}
+
 @end

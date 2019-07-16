@@ -6,8 +6,6 @@
 //  Copyright © 2019 DIM Group. All rights reserved.
 //
 
-#import "NSData+Crypto.h"
-
 #import "DKDEnvelope.h"
 #import "DKDContent.h"
 
@@ -18,6 +16,7 @@
 - (nullable NSMutableDictionary *)_prepareDataWithKey:(NSDictionary *)PW {
     DKDContent *content = self.content;
     // 1. check attachment for File/Image/Audio/Video message content
+    //    (do it in 'core' module)
     
     // 2. encrypt message content
     NSData *data = [_delegate message:self encryptContent:content withKey:PW];
@@ -25,9 +24,12 @@
         NSAssert(false, @"failed to encrypt content with key: %@", PW);
         return nil;
     }
+    
+    // 3. replace 'content' with encrypted 'data'
+    NSObject *base64 = [_delegate message:self encodeData:data];
     NSMutableDictionary *mDict = [self mutableCopy];
     [mDict removeObjectForKey:@"content"];
-    [mDict setObject:[data base64Encode] forKey:@"data"];
+    [mDict setObject:base64 forKey:@"data"];
     return mDict;
 }
 
@@ -45,7 +47,8 @@
     NSData *key;
     key = [_delegate message:self encryptKey:password forReceiver:ID];
     if (key) {
-        [mDict setObject:[key base64Encode] forKey:@"key"];
+        NSObject *base64 = [_delegate message:self encodeKeyData:key];
+        [mDict setObject:base64 forKey:@"key"];
     } else {
         NSLog(@"reused key: %@", password);
     }
@@ -70,7 +73,8 @@
     for (NSString *ID in members) {
         key = [_delegate message:self encryptKey:password forReceiver:ID];
         if (key) {
-            [keyMap setObject:[key base64Encode] forKey:ID];
+            NSObject *base64 = [_delegate message:self encodeKeyData:key];
+            [keyMap setObject:base64 forKey:ID];
         }
     }
     if (keyMap.count > 0) {
@@ -158,10 +162,13 @@
         grp = receiver;
     }
     // check key(s)
-    NSData *key = [self.encryptedKeys encryptedKeyForID:member];
-    if (!key) {
-        // trimmed?
-        key = self.encryptedKey;
+    NSData *key = self.encryptedKey;
+    NSDictionary *keys = self.encryptedKeys;
+    if (keys) {
+        NSObject *base64 = [keys objectForKey:member];
+        if (base64) {
+            key = [_delegate message:self decodeKeyData:base64];
+        }
     }
     // decrypt
     return [self _decryptWithKey:key from:sender to:grp];
@@ -183,8 +190,9 @@
         return nil;
     }
     // pack message
+    NSObject *base64 = [_delegate message:self encodeSignature:signature];
     NSMutableDictionary *mDict = [self mutableCopy];
-    [mDict setObject:[signature base64Encode] forKey:@"signature"];
+    [mDict setObject:base64 forKey:@"signature"];
     return [[DKDReliableMessage alloc] initWithDictionary:mDict];
 }
 

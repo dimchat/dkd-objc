@@ -34,6 +34,9 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (readonly, strong, nonatomic) DKDEnvelope *envelope;
 
+// Group ID for group message
+@property (strong, nonatomic, nullable) NSString *group;
+
 // delegate to transform message
 @property (weak, nonatomic, nullable) __kindof id<DKDMessageDelegate> delegate;
 
