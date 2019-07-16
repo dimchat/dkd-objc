@@ -172,11 +172,11 @@ NS_ASSUME_NONNULL_BEGIN
       forSender:(NSString *)sender;
 
 /**
- *  Decode 'message.signature' from String(Object)
+ *  Decode 'message.signature' from String(Base64)
  *
  * @param rMsg - reliable message object
  * @param signatureString - String object
- * @return signature
+ * @return signature data
  */
 - (nullable NSData *)message:(DKDReliableMessage *)rMsg
              decodeSignature:(NSObject *)signatureString;

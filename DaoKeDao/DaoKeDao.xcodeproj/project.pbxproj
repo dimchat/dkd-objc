@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		E94C8DF922DDE7150017F998 /* NSObject+JsON.m in Sources */ = {isa = PBXBuildFile; fileRef = E94C8DF822DDE7150017F998 /* NSObject+JsON.m */; };
 		E94D2AFB22B7A81500FF4AD5 /* DKDMessage+Transform.m in Sources */ = {isa = PBXBuildFile; fileRef = E94D2AED22B7A81300FF4AD5 /* DKDMessage+Transform.m */; };
 		E94D2AFC22B7A81500FF4AD5 /* DKDSecureMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = E94D2AEE22B7A81300FF4AD5 /* DKDSecureMessage.m */; };
 		E94D2AFD22B7A81500FF4AD5 /* DKDMessage.h in Headers */ = {isa = PBXBuildFile; fileRef = E94D2AEF22B7A81400FF4AD5 /* DKDMessage.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -44,6 +45,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		E94C8DF722DDE7150017F998 /* NSObject+JsON.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSObject+JsON.h"; sourceTree = "<group>"; };
+		E94C8DF822DDE7150017F998 /* NSObject+JsON.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSObject+JsON.m"; sourceTree = "<group>"; };
 		E94D2AED22B7A81300FF4AD5 /* DKDMessage+Transform.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "DKDMessage+Transform.m"; sourceTree = "<group>"; };
 		E94D2AEE22B7A81300FF4AD5 /* DKDSecureMessage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DKDSecureMessage.m; sourceTree = "<group>"; };
 		E94D2AEF22B7A81400FF4AD5 /* DKDMessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DKDMessage.h; sourceTree = "<group>"; };
@@ -134,6 +137,8 @@
 			isa = PBXGroup;
 			children = (
 				E9F3A9BF21CBC160009690F6 /* DaoKeDaoTests.m */,
+				E94C8DF722DDE7150017F998 /* NSObject+JsON.h */,
+				E94C8DF822DDE7150017F998 /* NSObject+JsON.m */,
 				E94D2B1222B7B1B300FF4AD5 /* DKDTextContent.h */,
 				E94D2B1322B7B1B300FF4AD5 /* DKDTextContent.m */,
 				E9F3A9C121CBC160009690F6 /* Info.plist */,
@@ -320,6 +325,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				E9F3A9C021CBC160009690F6 /* DaoKeDaoTests.m in Sources */,
+				E94C8DF922DDE7150017F998 /* NSObject+JsON.m in Sources */,
 				E94D2B1422B7B1B300FF4AD5 /* DKDTextContent.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
