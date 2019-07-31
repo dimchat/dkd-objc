@@ -58,7 +58,7 @@
     return messages;
 }
 
-- (DKDSecureMessage *)trimForMember:(NSString *)member {
+- (instancetype)trimForMember:(NSString *)member {
     NSMutableDictionary *mDict = [self mutableCopy];
     // check 'keys'
     NSDictionary *keys = [mDict objectForKey:@"keys"];
@@ -77,7 +77,7 @@
     }
     [mDict setObject:member forKey:@"receiver"];
     // repack
-    return [[DKDSecureMessage alloc] initWithDictionary:mDict];
+    return [[[self class] alloc] initWithDictionary:mDict];
 }
 
 @end

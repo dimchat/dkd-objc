@@ -32,9 +32,9 @@ NS_ASSUME_NONNULL_BEGIN
  *  Trim the group message for a member
  *
  * @param member - group member ID
- * @return SecureMessage
+ * @return SecureMessage/ReliableMessage
  */
-- (DKDSecureMessage *)trimForMember:(NSString *)member;
+- (instancetype)trimForMember:(NSString *)member;
 
 @end
 
