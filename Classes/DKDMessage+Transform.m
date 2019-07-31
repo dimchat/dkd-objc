@@ -20,34 +20,31 @@
     
     // 2. encrypt message content
     NSData *data = [_delegate message:self encryptContent:content withKey:PW];
-    if (!data) {
-        NSAssert(false, @"failed to encrypt content with key: %@", PW);
-        return nil;
-    }
+    NSAssert(data, @"failed to encrypt content with key: %@", PW);
     
-    // 3. replace 'content' with encrypted 'data'
+    // 3. encode encrypted data
     NSObject *base64 = [_delegate message:self encodeData:data];
+    NSAssert(base64, @"failed to encode data: %@", data);
+    
+    // 4. replace 'content' with encrypted 'data'
     NSMutableDictionary *mDict = [self mutableCopy];
     [mDict removeObjectForKey:@"content"];
-    [mDict setObject:base64 forKey:@"data"];
+    if (base64) {
+        [mDict setObject:base64 forKey:@"data"];
+    }
     return mDict;
 }
 
 - (nullable DKDSecureMessage *)encryptWithKey:(NSDictionary *)password {
     NSAssert(_delegate, @"message delegate not set yet");
     // 1. encrypt 'content' to 'data'
-    NSMutableDictionary *mDict;
-    mDict = [self _prepareDataWithKey:password];
-    if (!mDict) {
-        return nil;
-    }
+    NSMutableDictionary *mDict = [self _prepareDataWithKey:password];
     
-    // 2. encrypt password to 'key'
     NSString *ID = self.envelope.receiver;
-    NSData *key;
-    key = [_delegate message:self encryptKey:password forReceiver:ID];
-    if (key) {
-        NSObject *base64 = [_delegate message:self encodeKeyData:key];
+    // 2. encrypt password to 'key'
+    NSData *key = [_delegate message:self encryptKey:password forReceiver:ID];
+    NSObject *base64 = [_delegate message:self encodeKeyData:key];
+    if (base64) {
         [mDict setObject:base64 forKey:@"key"];
     } else {
         NSLog(@"reused key: %@", password);
@@ -62,30 +59,32 @@
     NSAssert(_delegate, @"message delegate not set yet");
     // 1. encrypt 'content' to 'data'
     NSMutableDictionary *mDict = [self _prepareDataWithKey:password];
-    if (!mDict) {
-        return nil;
-    }
     
     // 2. encrypt password to 'keys'
     NSMutableDictionary *keyMap;
     keyMap = [[NSMutableDictionary alloc] initWithCapacity:members.count];
     NSData *key;
+    NSObject *base64;
     for (NSString *ID in members) {
         key = [_delegate message:self encryptKey:password forReceiver:ID];
-        if (key) {
-            NSObject *base64 = [_delegate message:self encodeKeyData:key];
+        base64 = [_delegate message:self encodeKeyData:key];
+        if (base64) {
             [keyMap setObject:base64 forKey:ID];
         }
     }
     if (keyMap.count > 0) {
         [mDict setObject:keyMap forKey:@"keys"];
-        // group ID
-        NSString *group = self.content.group;
-        if (group) {
-            [mDict setObject:group forKey:@"group"];
-        } else {
-            NSAssert(false, @"group message error: %@", self);
-        }
+    }
+    // group ID
+    NSString *group = self.content.group;
+    if (group) {
+        // NOTICE: this help the receiver knows the group ID
+        //         when the group message separated to multi-messages,
+        //         if don't want the others know you are the group members,
+        //         remove it.
+        [mDict setObject:group forKey:@"group"];
+    } else {
+        NSAssert(false, @"group message error: %@", self);
     }
     
     // 3. pack message
@@ -96,23 +95,30 @@
 
 @implementation DKDSecureMessage (ToInstantMessage)
 
-- (nullable DKDInstantMessage *)_decryptWithKey:(NSData *)key
-                                           from:(NSString *)sender
-                                             to:(NSString *)receiver {
-    NSAssert(_delegate, @"message delegate not set yet");
+- (nullable DKDInstantMessage *)decrypt {
+    NSString *sender = self.envelope.sender;
+    NSString *receiver = self.envelope.receiver;
+    NSString *group = self.group;
     // 1. decrypt 'key' to symmetric key
-    NSDictionary *PW = [_delegate message:self
-                           decryptKeyData:key
-                                     from:sender
-                                       to:receiver];
-    if (!PW) {
-        NSLog(@"failed to decrypt symmetric key: %@", self);
-        return nil;
+    NSData *key = self.encryptedKey;
+    NSDictionary *password;
+    if (!group) {
+        // personal message
+        password = [_delegate message:self
+                       decryptKeyData:key
+                                 from:sender
+                                   to:receiver];
+    } else {
+        password = [_delegate message:self
+                       decryptKeyData:key
+                                 from:sender
+                                   to:group];
     }
-    
     // 2. decrypt 'data' to 'content'
-    DKDContent *content;
-    content = [_delegate message:self decryptData:self.data withKey:PW];
+    //    (remember to save password for decrypted File/Image/Audio/Video data)
+    DKDContent *content = [_delegate message:self
+                                 decryptData:self.data
+                                     withKey:password];
     if (!content) {
         NSLog(@"failed to decrypt message data: %@", self);
         return nil;
@@ -123,55 +129,7 @@
     [mDict removeObjectForKey:@"key"];
     [mDict removeObjectForKey:@"data"];
     [mDict setObject:content forKey:@"content"];
-    DKDInstantMessage *iMsg;
-    iMsg = [[DKDInstantMessage alloc] initWithDictionary:mDict];
-    
-    // 4. check attachment for File/Image/Audio/Video message content
-    
-    return iMsg;
-}
-
-- (nullable DKDInstantMessage *)decrypt {
-    NSString *sender = self.envelope.sender;
-    NSString *receiver = self.envelope.receiver;
-    NSAssert(![self objectForKey:@"group"],
-             @"group message must be decrypted with member ID");
-    NSData *key = self.encryptedKey;
-    // decrypt content by symmetric key with direction
-    return [self _decryptWithKey:key from:sender to:receiver];
-}
-
-- (nullable DKDInstantMessage *)decryptForMember:(NSString *)member {
-    NSString *sender = self.envelope.sender;
-    NSString *receiver = self.envelope.receiver;
-    NSString *grp = [self objectForKey:@"group"];
-    // check group
-    if (grp) {
-        // if 'group' exists and the 'receiver' is a group ID too,
-        // they must be equal; or the 'receiver' must equal to member
-        NSAssert([grp isEqual:receiver] || [receiver isEqual:member],
-                 @"receiver error: %@", receiver);
-        // and the 'group' must not equal to member of course
-        NSAssert(![grp isEqual:member],
-                 @"member error: %@", member);
-    } else {
-        // if 'group' not exists, the 'receiver' must be a group ID, and
-        // it is not equal to the member of course
-        NSAssert(![receiver isEqual:member],
-                 @"group error: %@, %@", member, self);
-        grp = receiver;
-    }
-    // check key(s)
-    NSData *key = self.encryptedKey;
-    NSDictionary *keys = self.encryptedKeys;
-    if (keys) {
-        NSObject *base64 = [keys objectForKey:member];
-        if (base64) {
-            key = [_delegate message:self decodeKeyData:base64];
-        }
-    }
-    // decrypt
-    return [self _decryptWithKey:key from:sender to:grp];
+    return [[DKDInstantMessage alloc] initWithDictionary:mDict];
 }
 
 @end
@@ -179,18 +137,17 @@
 @implementation DKDSecureMessage (ToReliableMessage)
 
 - (nullable DKDReliableMessage *)sign {
-    NSString *sender = self.envelope.sender;
-    NSData *data = self.data;
     NSAssert(_delegate, @"message delegate not set yet");
-    NSData *signature;
-    // sign
-    signature = [_delegate message:self signData:data forSender:sender];
+    // 1. sign with sender's private key
+    NSData *signature = [_delegate message:self
+                                  signData:self.data
+                                 forSender:self.envelope.sender];
     if (!signature) {
         NSAssert(false, @"failed to sign message: %@", self);
         return nil;
     }
-    // pack message
     NSObject *base64 = [_delegate message:self encodeSignature:signature];
+    // 2. pack message
     NSMutableDictionary *mDict = [self mutableCopy];
     [mDict setObject:base64 forKey:@"signature"];
     return [[DKDReliableMessage alloc] initWithDictionary:mDict];
@@ -201,21 +158,20 @@
 @implementation DKDReliableMessage (ToSecureMessage)
 
 - (nullable DKDSecureMessage *)verify {
-    NSString *sender = self.envelope.sender;
-    NSData *data = self.data;
-    NSData *signature = self.signature;
     NSAssert(_delegate, @"message delegate not set yet");
-    BOOL correct = [_delegate message:self
-                           verifyData:data
-                        withSignature:signature
-                            forSender:sender];
-    if (!correct) {
+    // 1. verify data signature with sender's public key
+    if ([_delegate message:self
+                verifyData:self.data
+             withSignature:self.signature
+                 forSender:self.envelope.sender]) {
+        // 2. pack message
+        NSMutableDictionary *mDict = [self mutableCopy];
+        [mDict removeObjectForKey:@"signature"];
+        return [[DKDSecureMessage alloc] initWithDictionary:mDict];
+    } else {
         NSAssert(false, @"message signature not match: %@", self);
         return nil;
     }
-    NSMutableDictionary *mDict = [self mutableCopy];
-    [mDict removeObjectForKey:@"signature"];
-    return [[DKDSecureMessage alloc] initWithDictionary:mDict];
 }
 
 @end

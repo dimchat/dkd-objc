@@ -222,11 +222,7 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @interface DKDSecureMessage (ToInstantMessage)
 
-// personal message
 - (nullable DKDInstantMessage *)decrypt;
-
-// group message
-- (nullable DKDInstantMessage *)decryptForMember:(NSString *)ID;
 
 @end
 

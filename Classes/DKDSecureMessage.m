@@ -61,9 +61,12 @@
 - (NSData *)encryptedKey {
     if (!_encryptedKey) {
         NSString *key = [_storeDictionary objectForKey:@"key"];
-        if (key) {
-            _encryptedKey = [_delegate message:self decodeKeyData:key];
+        if (!key) {
+            // check 'keys'
+            NSDictionary *keys = self.encryptedKeys;
+            key = [keys objectForKey:self.envelope.receiver];
         }
+        _encryptedKey = [_delegate message:self decodeKeyData:key];
     }
     return _encryptedKey;
 }
