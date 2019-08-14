@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		E9B2FCB02304771700E153EE /* DKDForwardContent.h in Headers */ = {isa = PBXBuildFile; fileRef = E9B2FCAE2304771700E153EE /* DKDForwardContent.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		E9B2FCB12304771700E153EE /* DKDForwardContent.m in Sources */ = {isa = PBXBuildFile; fileRef = E9B2FCAF2304771700E153EE /* DKDForwardContent.m */; };
 		E9BBC01722427DBD00E6ACDA /* DaoKeDao.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E9BBC00D22427DBC00E6ACDA /* DaoKeDao.framework */; };
 		E9BBC01C22427DBD00E6ACDA /* DaoKeDaoTests.m in Sources */ = {isa = PBXBuildFile; fileRef = E9BBC01B22427DBD00E6ACDA /* DaoKeDaoTests.m */; };
 		E9BBC10C22427E5700E6ACDA /* NSDate+Timestamp.h in Headers */ = {isa = PBXBuildFile; fileRef = E9BBC0DA22427E5700E6ACDA /* NSDate+Timestamp.h */; };
@@ -43,6 +45,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		E9B2FCAE2304771700E153EE /* DKDForwardContent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DKDForwardContent.h; sourceTree = "<group>"; };
+		E9B2FCAF2304771700E153EE /* DKDForwardContent.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DKDForwardContent.m; sourceTree = "<group>"; };
 		E9BBC00D22427DBC00E6ACDA /* DaoKeDao.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = DaoKeDao.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		E9BBC01122427DBC00E6ACDA /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		E9BBC01622427DBD00E6ACDA /* DaoKeDaoTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = DaoKeDaoTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -133,6 +137,8 @@
 				E9BBC0DF22427E5700E6ACDA /* types */,
 				E9FC8DD522B907B50013FCD3 /* DKDContent.h */,
 				E9FC8DD722B907B50013FCD3 /* DKDContent.m */,
+				E9B2FCAE2304771700E153EE /* DKDForwardContent.h */,
+				E9B2FCAF2304771700E153EE /* DKDForwardContent.m */,
 				E9FC8DCF22B907B50013FCD3 /* DKDEnvelope.h */,
 				E9FC8DD622B907B50013FCD3 /* DKDEnvelope.m */,
 				E9FC8DCC22B907B40013FCD3 /* DKDInstantMessage.h */,
@@ -178,6 +184,7 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E9B2FCB02304771700E153EE /* DKDForwardContent.h in Headers */,
 				E9BBC11222427E5700E6ACDA /* DKDDictionary.h in Headers */,
 				E9FC8DDF22B907B50013FCD3 /* DKDEnvelope.h in Headers */,
 				E9FC8DE522B907B50013FCD3 /* DKDContent.h in Headers */,
@@ -293,6 +300,7 @@
 				E9FC8DE422B907B50013FCD3 /* DKDSecureMessage+Packing.m in Sources */,
 				E9FC8DE722B907B50013FCD3 /* DKDContent.m in Sources */,
 				E9FC8DE122B907B50013FCD3 /* DKDReliableMessage.m in Sources */,
+				E9B2FCB12304771700E153EE /* DKDForwardContent.m in Sources */,
 				E9FC8DDD22B907B50013FCD3 /* DKDInstantMessage.m in Sources */,
 				E9FC8DE022B907B50013FCD3 /* DKDSecureMessage.m in Sources */,
 				E9BBC11022427E5700E6ACDA /* NSDate+Timestamp.m in Sources */,

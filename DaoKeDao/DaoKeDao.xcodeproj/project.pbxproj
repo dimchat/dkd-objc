@@ -25,6 +25,8 @@
 		E94D2B0B22B7A87A00FF4AD5 /* DKDContent.h in Headers */ = {isa = PBXBuildFile; fileRef = E94D2B0922B7A87A00FF4AD5 /* DKDContent.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		E94D2B0C22B7A87A00FF4AD5 /* DKDContent.m in Sources */ = {isa = PBXBuildFile; fileRef = E94D2B0A22B7A87A00FF4AD5 /* DKDContent.m */; };
 		E94D2B1422B7B1B300FF4AD5 /* DKDTextContent.m in Sources */ = {isa = PBXBuildFile; fileRef = E94D2B1322B7B1B300FF4AD5 /* DKDTextContent.m */; };
+		E9B2FCAC230472F200E153EE /* DKDForwardContent.h in Headers */ = {isa = PBXBuildFile; fileRef = E9B2FCAA230472F200E153EE /* DKDForwardContent.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		E9B2FCAD230472F200E153EE /* DKDForwardContent.m in Sources */ = {isa = PBXBuildFile; fileRef = E9B2FCAB230472F200E153EE /* DKDForwardContent.m */; };
 		E9BBBD31223A506000E6ACDA /* NSDate+Timestamp.h in Headers */ = {isa = PBXBuildFile; fileRef = E9BBBD2F223A506000E6ACDA /* NSDate+Timestamp.h */; };
 		E9BBBD32223A506000E6ACDA /* NSDate+Timestamp.m in Sources */ = {isa = PBXBuildFile; fileRef = E9BBBD30223A506000E6ACDA /* NSDate+Timestamp.m */; };
 		E9F3A9BB21CBC160009690F6 /* DaoKeDao.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E9F3A9B121CBC160009690F6 /* DaoKeDao.framework */; };
@@ -65,6 +67,8 @@
 		E94D2B0A22B7A87A00FF4AD5 /* DKDContent.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DKDContent.m; sourceTree = "<group>"; };
 		E94D2B1222B7B1B300FF4AD5 /* DKDTextContent.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DKDTextContent.h; sourceTree = "<group>"; };
 		E94D2B1322B7B1B300FF4AD5 /* DKDTextContent.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DKDTextContent.m; sourceTree = "<group>"; };
+		E9B2FCAA230472F200E153EE /* DKDForwardContent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DKDForwardContent.h; sourceTree = "<group>"; };
+		E9B2FCAB230472F200E153EE /* DKDForwardContent.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DKDForwardContent.m; sourceTree = "<group>"; };
 		E9BBBD2F223A506000E6ACDA /* NSDate+Timestamp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDate+Timestamp.h"; sourceTree = "<group>"; };
 		E9BBBD30223A506000E6ACDA /* NSDate+Timestamp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDate+Timestamp.m"; sourceTree = "<group>"; };
 		E9F3A9B121CBC160009690F6 /* DaoKeDao.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = DaoKeDao.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -155,6 +159,8 @@
 				E94D2AF722B7A81400FF4AD5 /* DKDEnvelope.m */,
 				E94D2B0922B7A87A00FF4AD5 /* DKDContent.h */,
 				E94D2B0A22B7A87A00FF4AD5 /* DKDContent.m */,
+				E9B2FCAA230472F200E153EE /* DKDForwardContent.h */,
+				E9B2FCAB230472F200E153EE /* DKDForwardContent.m */,
 				E94D2AEF22B7A81400FF4AD5 /* DKDMessage.h */,
 				E94D2AF322B7A81400FF4AD5 /* DKDMessage.m */,
 				E94D2AF122B7A81400FF4AD5 /* DKDInstantMessage.h */,
@@ -196,6 +202,7 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E9B2FCAC230472F200E153EE /* DKDForwardContent.h in Headers */,
 				E9F3AA0221CBC17F009690F6 /* DKDDictionary.h in Headers */,
 				E94D2B0422B7A81500FF4AD5 /* DKDEnvelope.h in Headers */,
 				E94D2B0B22B7A87A00FF4AD5 /* DKDContent.h in Headers */,
@@ -311,6 +318,7 @@
 				E94D2B0722B7A81500FF4AD5 /* DKDReliableMessage.m in Sources */,
 				E94D2AFE22B7A81500FF4AD5 /* DKDSecureMessage+Packing.m in Sources */,
 				E94D2B0C22B7A87A00FF4AD5 /* DKDContent.m in Sources */,
+				E9B2FCAD230472F200E153EE /* DKDForwardContent.m in Sources */,
 				E94D2AFB22B7A81500FF4AD5 /* DKDMessage+Transform.m in Sources */,
 				E9F3AA0321CBC17F009690F6 /* DKDDictionary.m in Sources */,
 				E9BBBD32223A506000E6ACDA /* NSDate+Timestamp.m in Sources */,
