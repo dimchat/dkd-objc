@@ -43,7 +43,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (strong, nonatomic, nullable) NSString *group;
 
 // delegate to transform message
-@property (weak, nonatomic, nullable) __kindof id<DKDMessageDelegate> delegate;
+@property (weak, nonatomic) __kindof id<DKDMessageDelegate> delegate;
 
 - (instancetype)initWithSender:(NSString *)from
                       receiver:(NSString *)to
