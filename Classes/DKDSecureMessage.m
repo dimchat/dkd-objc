@@ -66,7 +66,9 @@
             NSDictionary *keys = self.encryptedKeys;
             key = [keys objectForKey:self.envelope.receiver];
         }
-        _encryptedKey = [_delegate message:self decodeKeyData:key];
+        if (key) {
+            _encryptedKey = [_delegate message:self decodeData:key];
+        }
     }
     return _encryptedKey;
 }

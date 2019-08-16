@@ -50,16 +50,6 @@ NS_ASSUME_NONNULL_BEGIN
                      withKey:(NSDictionary *)password;
 
 /**
- *  Encode 'message.data' to String(Base64)
- *
- * @param iMsg - instant message object
- * @param data - encrypted content data
- * @return String object
- */
-- (nullable NSObject *)message:(DKDInstantMessage *)iMsg
-                    encodeData:(NSData *)data;
-
-/**
  *  Encrypt 'message.key' with receiver's public key
  *
  * @param iMsg - instant message object
@@ -72,14 +62,14 @@ NS_ASSUME_NONNULL_BEGIN
                  forReceiver:(NSString *)receiver;
 
 /**
- *  Encode 'message.key' to String(Base64)
+ *  Encode 'message.data'/'message.key' to String(Base64)
  *
  * @param iMsg - instant message object
- * @param keyData - encrypted key data
+ * @param data - encrypted content/key data
  * @return String object
  */
 - (nullable NSObject *)message:(DKDInstantMessage *)iMsg
-                 encodeKeyData:(NSData *)keyData;
+                    encodeData:(NSData *)data;
 
 @end
 
@@ -95,19 +85,9 @@ NS_ASSUME_NONNULL_BEGIN
  * @return symmetric key
  */
 - (nullable NSDictionary *)message:(DKDSecureMessage *)sMsg
-                    decryptKeyData:(nullable NSData *)key
+                        decryptKey:(nullable NSData *)key
                               from:(NSString *)sender
                                 to:(NSString *)receiver;
-
-/**
- *  Decode 'message.key' from String(Base64)
- *
- * @param sMsg - secure message object
- * @param keyString - String object
- * @return encrypted key data
- */
-- (nullable NSData *)message:(DKDSecureMessage *)sMsg
-               decodeKeyData:(NSObject *)keyString;
 
 /**
  *  Decrypt 'message.data' with symmetric key
@@ -118,7 +98,7 @@ NS_ASSUME_NONNULL_BEGIN
  * @return message content
  */
 - (nullable DKDContent *)message:(DKDSecureMessage *)sMsg
-                     decryptData:(NSData *)data
+                  decryptContent:(NSData *)data
                          withKey:(NSDictionary *)password;
 
 /**

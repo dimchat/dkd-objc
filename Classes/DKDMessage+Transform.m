@@ -43,9 +43,11 @@
     NSString *ID = self.envelope.receiver;
     // 2. encrypt password to 'key'
     NSData *key = [_delegate message:self encryptKey:password forReceiver:ID];
-    NSObject *base64 = [_delegate message:self encodeKeyData:key];
-    if (base64) {
-        [mDict setObject:base64 forKey:@"key"];
+    if (key) {
+        NSObject *base64 = [_delegate message:self encodeData:key];
+        if (base64) {
+            [mDict setObject:base64 forKey:@"key"];
+        }
     } else {
         NSLog(@"reused key: %@", password);
     }
@@ -67,9 +69,13 @@
     NSObject *base64;
     for (NSString *ID in members) {
         key = [_delegate message:self encryptKey:password forReceiver:ID];
-        base64 = [_delegate message:self encodeKeyData:key];
-        if (base64) {
-            [keyMap setObject:base64 forKey:ID];
+        if (key) {
+            base64 = [_delegate message:self encodeData:key];
+            if (base64) {
+                [keyMap setObject:base64 forKey:ID];
+            }
+        } else {
+            NSLog(@"reused key: %@", password);
         }
     }
     if (keyMap.count > 0) {
@@ -105,19 +111,19 @@
     if (!group) {
         // personal message
         password = [_delegate message:self
-                       decryptKeyData:key
+                           decryptKey:key
                                  from:sender
                                    to:receiver];
     } else {
         password = [_delegate message:self
-                       decryptKeyData:key
+                           decryptKey:key
                                  from:sender
                                    to:group];
     }
     // 2. decrypt 'data' to 'content'
     //    (remember to save password for decrypted File/Image/Audio/Video data)
     DKDContent *content = [_delegate message:self
-                                 decryptData:self.data
+                              decryptContent:self.data
                                      withKey:password];
     if (!content) {
         NSLog(@"failed to decrypt message data: %@", self);
