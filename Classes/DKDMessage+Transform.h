@@ -76,6 +76,16 @@ NS_ASSUME_NONNULL_BEGIN
 @protocol DKDSecureMessageDelegate <DKDMessageDelegate>
 
 /**
+ *  Decode 'message.data'/'message.key' to encrypted content/key data
+ *
+ * @param sMsg - secure message object
+ * @param dataString - base64 string object
+ * @return encrypted content/key data
+ */
+- (nullable NSData *)message:(DKDSecureMessage *)sMsg
+                  decodeData:(NSObject *)dataString;
+
+/**
  *  Decrypt 'message.key' with receiver's private key
  *
  * @param sMsg - secure message object
@@ -100,16 +110,6 @@ NS_ASSUME_NONNULL_BEGIN
 - (nullable DKDContent *)message:(DKDSecureMessage *)sMsg
                   decryptContent:(NSData *)data
                          withKey:(NSDictionary *)password;
-
-/**
- *  Decode 'message.data' from String(Base64)
- *
- * @param sMsg - secure message object
- * @param dataString - String object
- * @return encrypted content data
- */
-- (nullable NSData *)message:(DKDSecureMessage *)sMsg
-                  decodeData:(NSObject *)dataString;
 
 /**
  *  Sign 'message.data' with sender's private key
