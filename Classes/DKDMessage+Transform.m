@@ -49,7 +49,7 @@
     NSData *key = [_delegate message:self encryptKey:password forReceiver:receiver];
     if (key) {
         // 2.2. encode encrypted key data
-        NSObject *base64 = [_delegate message:self encodeData:key];
+        NSObject *base64 = [_delegate message:self encodeKey:key];
         if (base64) {
             // 2.3. insert as 'key'
             [msg setObject:base64 forKey:@"key"];
@@ -78,7 +78,7 @@
         key = [_delegate message:self encryptKey:password forReceiver:ID];
         if (key) {
             // 2.2. encode encrypted key data
-            base64 = [_delegate message:self encodeData:key];
+            base64 = [_delegate message:self encodeKey:key];
             if (base64) {
                 // 2.3. insert to 'message.keys' with member ID
                 [keyMap setObject:base64 forKey:ID];

@@ -50,40 +50,50 @@ NS_ASSUME_NONNULL_BEGIN
                      withKey:(NSDictionary *)password;
 
 /**
+ *  Encode 'message.data' to String(Base64)
+ *
+ * @param iMsg - instant message object
+ * @param data - encrypted content data
+ * @return String object
+ */
+- (nullable NSObject *)message:(DKDInstantMessage *)iMsg
+                    encodeData:(NSData *)data;
+
+/**
  *  Encrypt 'message.key' with receiver's public key
  *
  * @param iMsg - instant message object
  * @param password - symmetric key to be encrypted
  * @param receiver - receiver ID string
- * @return encrypted key data
+ * @return encrypted symmetric key data
  */
 - (nullable NSData *)message:(DKDInstantMessage *)iMsg
                   encryptKey:(NSDictionary *)password
                  forReceiver:(NSString *)receiver;
 
 /**
- *  Encode 'message.data'/'message.key' to String(Base64)
+ *  Encode 'message.key' to String(Base64)
  *
  * @param iMsg - instant message object
- * @param data - encrypted content/key data
+ * @param data - encrypted symmetric key data
  * @return String object
  */
 - (nullable NSObject *)message:(DKDInstantMessage *)iMsg
-                    encodeData:(NSData *)data;
+                     encodeKey:(NSData *)data;
 
 @end
 
 @protocol DKDSecureMessageDelegate <DKDMessageDelegate>
 
 /**
- *  Decode 'message.data'/'message.key' to encrypted content/key data
+ *  Decode 'message.key' to encrypted symmetric key data
  *
  * @param sMsg - secure message object
  * @param dataString - base64 string object
- * @return encrypted content/key data
+ * @return encrypted symmetric key data
  */
 - (nullable NSData *)message:(DKDSecureMessage *)sMsg
-                  decodeData:(NSObject *)dataString;
+                   decodeKey:(NSObject *)dataString;
 
 /**
  *  Decrypt 'message.key' with receiver's private key
@@ -98,6 +108,16 @@ NS_ASSUME_NONNULL_BEGIN
                         decryptKey:(nullable NSData *)key
                               from:(NSString *)sender
                                 to:(NSString *)receiver;
+
+/**
+ *  Decode 'message.data' to encrypted content data
+ *
+ * @param sMsg - secure message object
+ * @param dataString - base64 string object
+ * @return encrypted content data
+ */
+- (nullable NSData *)message:(DKDSecureMessage *)sMsg
+                  decodeData:(NSObject *)dataString;
 
 /**
  *  Decrypt 'message.data' with symmetric key

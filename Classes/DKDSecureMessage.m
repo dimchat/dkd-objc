@@ -67,7 +67,7 @@
             key = [keys objectForKey:self.envelope.receiver];
         }
         if (key) {
-            _encryptedKey = [_delegate message:self decodeData:key];
+            _encryptedKey = [_delegate message:self decodeKey:key];
         }
     }
     return _encryptedKey;
