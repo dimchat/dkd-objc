@@ -24,10 +24,7 @@
     
     // 3. encode encrypted data
     NSObject *base64 = [_delegate message:self encodeData:data];
-    if (!base64) {
-        NSAssert(false, @"failed to encode data: %@", data);
-        return nil;
-    }
+    NSAssert(base64, @"failed to encode data: %@", data);
     
     // 4. replace 'content' with encrypted 'data'
     NSMutableDictionary *msg = [self mutableCopy];
@@ -44,16 +41,15 @@
     
     // 2. encrypt symmetric key(password) to 'message.key'
     
-    // 2.1. encode & encrypt symmetric key
+    // 2.1. serialize & encrypt symmetric key
     NSString *receiver = self.envelope.receiver;
     NSData *key = [_delegate message:self encryptKey:password forReceiver:receiver];
     if (key) {
         // 2.2. encode encrypted key data
         NSObject *base64 = [_delegate message:self encodeKey:key];
-        if (base64) {
-            // 2.3. insert as 'key'
-            [msg setObject:base64 forKey:@"key"];
-        }
+        NSAssert(base64, @"failed to encode key data: %@", key);
+        // 2.3. insert as 'key'
+        [msg setObject:base64 forKey:@"key"];
     }
     
     // 3. pack message
@@ -64,7 +60,7 @@
                                    forMembers:(NSArray *)members {
     NSAssert(_delegate, @"message delegate not set yet");
     
-    // 1. encrypt 'content' to 'data'
+    // 1. encrypt 'message.content' to 'message.data'
     NSMutableDictionary *msg = [self _prepareWithKey:password];
     
     // 2. encrypt symmetric key(password) to 'message.keys'
@@ -74,15 +70,14 @@
     NSData *key;
     NSObject *base64;
     for (NSString *ID in members) {
-        // 2.1. encode & encrypt symmetric key
+        // 2.1. serialize & encrypt symmetric key
         key = [_delegate message:self encryptKey:password forReceiver:ID];
         if (key) {
             // 2.2. encode encrypted key data
             base64 = [_delegate message:self encodeKey:key];
-            if (base64) {
-                // 2.3. insert to 'message.keys' with member ID
-                [keyMap setObject:base64 forKey:ID];
-            }
+            NSAssert(base64, @"failed to encode key data: %@", key);
+            // 2.3. insert to 'message.keys' with member ID
+            [keyMap setObject:base64 forKey:ID];
         }
     }
     if (keyMap.count > 0) {
@@ -114,7 +109,6 @@
     NSString *group = self.group;
 
     // 1. decrypt 'message.key' to symmetric key
-    
     // 1.1. decode encrypted key data
     NSData *key = self.encryptedKey;
     NSDictionary *password;
@@ -130,20 +124,19 @@
     //NSAssert(password, @"failed to get symmetric key for msg: %@", self);
     
     // 2. decrypt 'message.data' to 'message.content'
-    
     // 2.1. decode encrypted content data
     NSData *data = self.data;
     DKDContent *content;
-    // 2.2. decrypt content data
+    // 2.2. decrypt & deserialize content data
     content = [_delegate message:self decryptContent:data withKey:password];
     // 2.3. check attachment for File/Image/Audio/Video message content
     //      if file data not download yet,
     //          decrypt file data with password;
     //      else,
     //          save password to 'message.content.password'.
-    //      (do it in 'core' nmodule)
+    //      (do it in 'core' module)
     if (!content) {
-        NSLog(@"failed to decrypt message data: %@", self);
+        //NSAssert(false, @"failed to decrypt message data: %@", self);
         return nil;
     }
     
@@ -165,11 +158,9 @@
     NSData *signature = [_delegate message:self
                                   signData:self.data
                                  forSender:self.envelope.sender];
-    if (!signature) {
-        NSAssert(false, @"failed to sign message: %@", self);
-        return nil;
-    }
+    NSAssert(signature, @"failed to sign message: %@", self);
     NSObject *base64 = [_delegate message:self encodeSignature:signature];
+    NSAssert(base64, @"failed to encode signature: %@", signature);
     // 2. pack message
     NSMutableDictionary *mDict = [self mutableCopy];
     [mDict setObject:base64 forKey:@"signature"];

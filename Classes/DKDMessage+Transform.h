@@ -99,7 +99,7 @@ NS_ASSUME_NONNULL_BEGIN
  *  Decrypt 'message.key' with receiver's private key
  *
  * @param sMsg - secure message object
- * @param key - encrypted key data
+ * @param key - encrypted symmetric key data
  * @param sender - sender/member ID string
  * @param receiver - receiver/group ID string
  * @return symmetric key
@@ -137,7 +137,7 @@ NS_ASSUME_NONNULL_BEGIN
  * @param sMsg - secure message object
  * @param data - encrypted message data
  * @param sender - sender ID string
- * @return signature
+ * @return signature of encrypted message data
  */
 - (nullable NSData *)message:(DKDSecureMessage *)sMsg
                     signData:(NSData *)data
@@ -158,11 +158,21 @@ NS_ASSUME_NONNULL_BEGIN
 @protocol DKDReliableMessageDelegate <DKDSecureMessageDelegate>
 
 /**
+ *  Decode 'message.signature' from String(Base64)
+ *
+ * @param rMsg - reliable message object
+ * @param signatureString - base64 string object
+ * @return signature data
+ */
+- (nullable NSData *)message:(DKDReliableMessage *)rMsg
+             decodeSignature:(NSObject *)signatureString;
+
+/**
  *  Verify the message data and signature with sender's public key
  *
  * @param rMsg - reliable message object
- * @param data - message data
- * @param signature - signature for message data
+ * @param data - message content(encrypted) data
+ * @param signature - signature for message content(encrypted) data
  * @param sender - sender ID string
  * @return YES on signature match
  */
@@ -170,16 +180,6 @@ NS_ASSUME_NONNULL_BEGIN
      verifyData:(NSData *)data
   withSignature:(NSData *)signature
       forSender:(NSString *)sender;
-
-/**
- *  Decode 'message.signature' from String(Base64)
- *
- * @param rMsg - reliable message object
- * @param signatureString - String object
- * @return signature data
- */
-- (nullable NSData *)message:(DKDReliableMessage *)rMsg
-             decodeSignature:(NSObject *)signatureString;
 
 @end
 
