@@ -31,6 +31,9 @@
     msg = [[NSMutableDictionary alloc] initWithDictionary:self];
     // check 'keys'
     NSDictionary *keyMap = self.encryptedKeys;
+    if (keyMap) {
+        [msg removeObjectForKey:@"keys"];
+    }
     
     // 1. move the receiver(group ID) to 'group'
     //    this will help the receiver knows the group ID
