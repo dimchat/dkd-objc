@@ -53,7 +53,7 @@
     if (!_data) {
         NSString *content = [_storeDictionary objectForKey:@"data"];
         NSAssert(content, @"content data cannot be empty");
-        _data = [_delegate message:self decodeData:content];
+        _data = [self.delegate message:self decodeData:content];
     }
     return _data;
 }
@@ -67,7 +67,7 @@
             key = [keys objectForKey:self.envelope.receiver];
         }
         if (key) {
-            _encryptedKey = [_delegate message:self decodeKey:key];
+            _encryptedKey = [self.delegate message:self decodeKey:key];
         }
     }
     return _encryptedKey;

@@ -39,7 +39,7 @@
     if (!_signature) {
         NSString *CT = [_storeDictionary objectForKey:@"signature"];
         NSAssert(CT, @"signature cannot be empty");
-        _signature = [_delegate message:self decodeSignature:CT];
+        _signature = [self.delegate message:self decodeSignature:CT];
     }
     return _signature;
 }

@@ -29,7 +29,6 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @interface DKDMessage : DKDDictionary {
     
-    __weak __kindof id<DKDMessageDelegate> _delegate;
 }
 
 @property (readonly, strong, nonatomic) DKDEnvelope *envelope;
