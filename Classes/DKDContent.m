@@ -130,21 +130,18 @@ static NSMutableDictionary<NSNumber *, Class> *content_classes(void) {
         // return Content object directly
         return content;
     }
-    NSAssert([content isKindOfClass:[NSDictionary class]],
-             @"content should be a dictionary: %@", content);
-    if (![self isEqual:[DKDContent class]]) {
-        // subclass
-        NSAssert([self isSubclassOfClass:[DKDContent class]], @"content class error");
-        return [[self alloc] initWithDictionary:content];
+    NSAssert([content isKindOfClass:[NSDictionary class]], @"content error: %@", content);
+    if ([self isEqual:[DKDContent class]]) {
+        // create instance by subclass with content type
+        NSNumber *type = [content objectForKey:@"type"];
+        Class clazz = [content_classes() objectForKey:type];
+        if (clazz) {
+            NSAssert([clazz isSubclassOfClass:[DKDContent class]], @"content class error: %@", clazz);
+            return [clazz getInstance:content];
+        }
     }
-    // create instance by subclass with meta version
-    NSNumber *type = [content objectForKey:@"type"];
-    Class clazz = [content_classes() objectForKey:type];
-    if (clazz) {
-        return [clazz getInstance:content];
-    } else {
-        return [[self alloc] initWithDictionary:content];
-    }
+    // custom message content
+    return [[self alloc] initWithDictionary:content];
 }
 
 @end
