@@ -6,6 +6,8 @@
 //  Copyright © 2019 DIM Group. All rights reserved.
 //
 
+#import "DKDForwardContent.h"
+
 #import "DKDContent.h"
 
 static inline NSUInteger serial_number(void) {
@@ -102,8 +104,10 @@ static NSMutableDictionary<NSNumber *, Class> *content_classes(void) {
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
         classes = [[NSMutableDictionary alloc] init];
+        // Forward (Top-Secret)
+        [classes setObject:[DKDForwardContent class] forKey:@(DKDContentType_Forward)];
         // Text
-        // Image
+        // File
         // Command
         // ...
     });
@@ -112,11 +116,11 @@ static NSMutableDictionary<NSNumber *, Class> *content_classes(void) {
 
 @implementation DKDContent (Runtime)
 
-+ (void)registerClass:(nullable Class)contentClass forType:(NSUInteger)type {
-    NSAssert(![contentClass isEqual:self], @"only subclass");
-    NSAssert([contentClass isSubclassOfClass:self], @"class error: %@", contentClass);
-    if (contentClass) {
-        [content_classes() setObject:contentClass forKey:@(type)];
++ (void)registerClass:(nullable Class)clazz forType:(NSUInteger)type {
+    NSAssert(![clazz isEqual:self], @"only subclass");
+    if (clazz) {
+        NSAssert([clazz isSubclassOfClass:self], @"error: %@", clazz);
+        [content_classes() setObject:clazz forKey:@(type)];
     } else {
         [content_classes() removeObjectForKey:@(type)];
     }
@@ -136,7 +140,6 @@ static NSMutableDictionary<NSNumber *, Class> *content_classes(void) {
         NSNumber *type = [content objectForKey:@"type"];
         Class clazz = [content_classes() objectForKey:type];
         if (clazz) {
-            NSAssert([clazz isSubclassOfClass:[DKDContent class]], @"content class error: %@", clazz);
             return [clazz getInstance:content];
         }
     }
