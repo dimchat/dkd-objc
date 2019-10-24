@@ -12,20 +12,6 @@
 
 @implementation DKDSecureMessage (Packing)
 
-- (nullable NSString *)group {
-    return [_storeDictionary objectForKey:@"group"];
-}
-
-- (void)setGroup:(NSString *)group {
-    if (group) {
-        [_storeDictionary setObject:group forKey:@"group"];
-    } else {
-        [_storeDictionary removeObjectForKey:@"group"];
-    }
-}
-
-#pragma mark -
-
 - (NSArray *)splitForMembers:(NSArray<NSString *> *)members {
     NSMutableDictionary *msg;
     msg = [[NSMutableDictionary alloc] initWithDictionary:self];
@@ -65,19 +51,22 @@
     NSMutableDictionary *mDict = [self mutableCopy];
     // check 'keys'
     NSDictionary *keys = [mDict objectForKey:@"keys"];
-    NSString *base64 = [keys objectForKey:member];
-    if (base64) {
-        [mDict setObject:base64 forKey:@"key"];
+    if (keys) {
+        NSString *base64 = [keys objectForKey:member];
+        if (base64) {
+            [mDict setObject:base64 forKey:@"key"];
+        }
+        [mDict removeObjectForKey:@"keys"];
     }
-    [mDict removeObjectForKey:@"keys"];
     // check 'group'
-    NSString *group = self.group;
+    NSString *group = self.envelope.group;
     if (!group) {
         // if 'group' not exists, the 'receiver' must be a group ID here, and
         // it will not be equal to the member of course,
         // so move 'receiver' to 'group'
         [mDict setObject:self.envelope.receiver forKey:@"group"];
     }
+    // replace receiver
     [mDict setObject:member forKey:@"receiver"];
     // repack
     return [[[self class] alloc] initWithDictionary:mDict];

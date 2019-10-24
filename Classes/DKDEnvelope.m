@@ -16,11 +16,19 @@
 @property (strong, nonatomic) NSString *receiver;
 @property (strong, nonatomic) NSDate *time;
 
+// get inner dictionary (for Message)
+@property (readonly, strong, nonatomic) NSMutableDictionary *dictionary;
+
 @end
 
 @implementation DKDEnvelope
 
-/* designated initializer */
+- (instancetype)init {
+    NSAssert(false, @"DON'T call me!");
+    NSDictionary *dict = nil;
+    return [self initWithDictionary:dict];
+}
+
 - (instancetype)initWithSender:(NSString *)from
                       receiver:(NSString *)to
                           time:(nullable NSDate *)time {
@@ -32,7 +40,7 @@
                            @"receiver":to,
                            @"time"    :NSNumberFromDate(time),
                            };
-    if (self = [super initWithDictionary:dict]) {
+    if (self = [self initWithDictionary:dict]) {
         _sender = from;
         _receiver = to;
         _time = time;
@@ -42,11 +50,22 @@
 
 /* designated initializer */
 - (instancetype)initWithDictionary:(NSDictionary *)dict {
-    if (self = [super initWithDictionary:dict]) {
-        // lazy
-        _sender = nil;
-        _receiver = nil;
-        _time = nil;
+    if ([dict isKindOfClass:[NSMutableDictionary class]]) {
+        // share the same inner dictionary with message object
+        if (self = [super init]) {
+            _storeDictionary = (NSMutableDictionary *)dict;
+            // lazy
+            _sender = nil;
+            _receiver = nil;
+            _time = nil;
+        }
+    } else {
+        if (self = [super initWithDictionary:dict]) {
+            // lazy
+            _sender = nil;
+            _receiver = nil;
+            _time = nil;
+        }
     }
     return self;
 }
@@ -81,6 +100,26 @@
         _time = NSDateFromNumber(timestamp);
     }
     return _time;
+}
+
+- (NSMutableDictionary *)dictionary {
+    return _storeDictionary;
+}
+
+@end
+
+@implementation DKDEnvelope (Content)
+
+- (nullable NSString *)group {
+    return [_storeDictionary objectForKey:@"group"];
+}
+
+- (void)setGroup:(NSString *)group {
+    if ([group length] > 0) {
+        [_storeDictionary setObject:group forKey:@"group"];
+    } else {
+        [_storeDictionary removeObjectForKey:@"group"];
+    }
 }
 
 @end

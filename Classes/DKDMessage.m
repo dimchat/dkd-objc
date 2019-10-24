@@ -15,6 +15,12 @@
 
 #import "DKDMessage.h"
 
+@interface DKDEnvelope (Hacking)
+
+@property (readonly, strong, nonatomic) NSMutableDictionary *dictionary;
+
+@end
+
 @interface DKDMessage ()
 
 @property (strong, nonatomic) DKDEnvelope *envelope;
@@ -22,6 +28,12 @@
 @end
 
 @implementation DKDMessage
+
+- (instancetype)init {
+    NSAssert(false, @"DON'T call me!");
+    NSDictionary *dict = nil;
+    return [self initWithDictionary:dict];
+}
 
 - (instancetype)initWithSender:(NSString *)from
                       receiver:(NSString *)to
@@ -33,18 +45,9 @@
 /* designated initializer */
 - (instancetype)initWithEnvelope:(DKDEnvelope *)env {
     NSAssert(env, @"envelope cannot be empty");
-    NSDictionary *dict;
-    if (env.time) {
-        dict = @{@"sender": env.sender,
-                 @"receiver": env.receiver,
-                 @"time": [env objectForKey:@"time"],
-                 };
-    } else {
-        dict = @{@"sender": env.sender,
-                 @"receiver": env.receiver,
-                 };
-    }
-    if (self = [super initWithDictionary:dict]) {
+    // share the same inner dictionary with envelope object
+    if (self = [super init]) {
+        _storeDictionary = env.dictionary;
         _delegate = nil;
         _envelope = env;
     }
@@ -71,36 +74,9 @@
 
 - (DKDEnvelope *)envelope {
     if (!_envelope) {
-        // sender
-        NSString *sender = [_storeDictionary objectForKey:@"sender"];
-        
-        // receiver
-        NSString *receier = [_storeDictionary objectForKey:@"receiver"];
-        
-        // time
-        NSNumber *timestamp = [_storeDictionary objectForKey:@"time"];
-        //NSAssert(timestamp.doubleValue > 0, @"time error");
-        NSDate *time = NSDateFromNumber(timestamp);
-        
-        if (sender.length > 0 && receier.length > 0) {
-            _envelope = DKDEnvelopeCreate(sender, receier, time);
-        } else {
-            NSAssert(false, @"envelope error: %@", self);
-        }
+        _envelope = DKDEnvelopeFromDictionary(_storeDictionary);
     }
     return _envelope;
-}
-
-- (nullable NSString *)group {
-    return [_storeDictionary objectForKey:@"group"];
-}
-
-- (void)setGroup:(NSString *)group {
-    if ([group length] > 0) {
-        [_storeDictionary setObject:group forKey:@"group"];
-    } else {
-        [_storeDictionary removeObjectForKey:@"group"];
-    }
 }
 
 @end

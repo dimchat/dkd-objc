@@ -28,11 +28,22 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (instancetype)initWithSender:(NSString *)from
                       receiver:(NSString *)to
-                          time:(nullable NSDate *)time
-NS_DESIGNATED_INITIALIZER;
+                          time:(nullable NSDate *)time;
 
 - (instancetype)initWithDictionary:(NSDictionary *)dict
 NS_DESIGNATED_INITIALIZER;
+
+@end
+
+@interface DKDEnvelope (Content)
+
+/**
+ *  Group ID
+ *      when a group message was split/trimmed to a single message
+ *      the 'receiver' will be changed to a member ID, and
+ *      the group ID will be saved as 'group'.
+ */
+@property (strong, nonatomic, nullable) NSString *group;
 
 @end
 

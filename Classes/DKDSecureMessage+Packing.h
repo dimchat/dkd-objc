@@ -13,14 +13,6 @@ NS_ASSUME_NONNULL_BEGIN
 @interface DKDSecureMessage (Packing)
 
 /**
- *  Group ID
- *      when a group message was splitted/trimmed to a single message
- *      the 'receiver' will be changed to a member ID, and
- *      the group ID will be saved as 'group'.
- */
-@property (strong, nonatomic, nullable) NSString *group;
-
-/**
  *  Split the group message to single person messages
  *
  *  @param members - group members

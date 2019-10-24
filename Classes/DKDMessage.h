@@ -33,14 +33,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (readonly, strong, nonatomic) DKDEnvelope *envelope;
 
-/**
- *  Group ID
- *      when a group message was split/trimmed to a single message
- *      the 'receiver' will be changed to a member ID, and
- *      the group ID will be saved as 'group'.
- */
-@property (strong, nonatomic, nullable) NSString *group;
-
 // delegate to transform message
 @property (weak, nonatomic) __kindof id<DKDMessageDelegate> delegate;
 

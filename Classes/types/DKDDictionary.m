@@ -18,9 +18,12 @@
     return self;
 }
 
+/* designated initializer */
 - (instancetype)init {
-    NSMutableDictionary *dict = [[NSMutableDictionary alloc] init];
-    return [self initWithDictionary:dict];
+    if (self = [super init]) {
+        _storeDictionary = [[NSMutableDictionary alloc] init];
+    }
+    return self;
 }
 
 - (instancetype)initWithObjects:(const id _Nonnull [_Nullable])objects

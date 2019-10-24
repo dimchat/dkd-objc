@@ -19,6 +19,9 @@ NS_ASSUME_NONNULL_BEGIN
 - (instancetype)initWithDictionary:(NSDictionary *)dict
 NS_DESIGNATED_INITIALIZER;
 
+- (instancetype)init
+NS_DESIGNATED_INITIALIZER;
+
 //- (instancetype)init
 //NS_DESIGNATED_INITIALIZER;
 //- (instancetype)initWithObjects:(const id _Nonnull [_Nullable])objects

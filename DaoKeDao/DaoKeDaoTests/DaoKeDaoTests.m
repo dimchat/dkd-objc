@@ -57,6 +57,17 @@
     NSLog(@"json: %@", [text jsonString]);
 }
 
+- (void)testEnvelope {
+    NSMutableDictionary *dict = nil;
+    NSMutableDictionary *dict1 = [[NSMutableDictionary alloc] initWithDictionary:dict];
+    NSMutableDictionary *dict2 = [[NSMutableDictionary alloc] initWithDictionary:dict1];
+    [dict1 setObject:@"value1" forKey:@"key1"];
+    [dict2 setObject:@"value2" forKey:@"key2"];
+    NSLog(@"dict: %@", dict);
+    NSLog(@"dict1: %@", dict1);
+    NSLog(@"dict2: %@", dict2);
+}
+
 - (void)testMessage {
     
     DKDContent *text;

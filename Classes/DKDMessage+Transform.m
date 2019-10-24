@@ -106,7 +106,7 @@
 - (nullable DKDInstantMessage *)decrypt {
     NSString *sender = self.envelope.sender;
     NSString *receiver = self.envelope.receiver;
-    NSString *group = self.group;
+    NSString *group = self.envelope.group;
 
     // 1. decrypt 'message.key' to symmetric key
     // 1.1. decode encrypted key data
@@ -160,7 +160,10 @@
                                  forSender:self.envelope.sender];
     NSAssert(signature, @"failed to sign message: %@", self);
     NSObject *base64 = [self.delegate message:self encodeSignature:signature];
-    NSAssert(base64, @"failed to encode signature: %@", signature);
+    if (!base64) {
+        NSAssert(false, @"failed to encode signature: %@", signature);
+        return nil;
+    }
     // 2. pack message
     NSMutableDictionary *mDict = [self mutableCopy];
     [mDict setObject:base64 forKey:@"signature"];
