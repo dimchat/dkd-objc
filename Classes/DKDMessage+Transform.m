@@ -84,16 +84,7 @@
         [msg setObject:keyMap forKey:@"keys"];
     }
     // group ID
-    NSString *group = self.content.group;
-    if (group) {
-        // NOTICE: this help the receiver knows the group ID
-        //         when the group message separated to multi-messages,
-        //         if don't want the others know you are the group members,
-        //         remove it.
-        [msg setObject:group forKey:@"group"];
-    } else {
-        NSAssert(false, @"group message error: %@", self);
-    }
+    NSAssert(self.content.group, @"group message error: %@", self);
     
     // 3. pack message
     return [[DKDSecureMessage alloc] initWithDictionary:msg];

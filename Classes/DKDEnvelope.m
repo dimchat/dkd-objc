@@ -122,6 +122,15 @@
     }
 }
 
+- (UInt8)type {
+    NSNumber *number = [_storeDictionary objectForKey:@"type"];
+    return [number unsignedCharValue];
+}
+
+- (void)setType:(UInt8)type {
+    [_storeDictionary setObject:@(type) forKey:@"type"];
+}
+
 @end
 
 @implementation DKDEnvelope (Runtime)

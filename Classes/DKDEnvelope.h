@@ -45,6 +45,15 @@ NS_DESIGNATED_INITIALIZER;
  */
 @property (strong, nonatomic, nullable) NSString *group;
 
+/**
+ *  Message Type
+ *      because the message content will be encrypted, so
+ *      the intermediate nodes(station) cannot recognize what kind of it.
+ *      we pick out the content type and set it in envelope
+ *      to let the station do its job.
+ */
+@property (nonatomic) UInt8 type;
+
 @end
 
 // convert Dictionary to Envelope

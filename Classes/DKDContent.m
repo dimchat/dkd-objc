@@ -59,7 +59,7 @@ static inline NSUInteger serial_number(void) {
     if (self = [super initWithDictionary:dict]) {
         // content type
         NSNumber *type = [_storeDictionary objectForKey:@"type"];
-        _type = [type unsignedIntegerValue];
+        _type = [type unsignedCharValue];
         // serial number
         NSNumber *sn = [_storeDictionary objectForKey:@"sn"];
         _serialNumber = [sn unsignedIntegerValue];
