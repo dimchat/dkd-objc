@@ -7,6 +7,29 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		5276C03B2361C8C600AEC8E4 /* DKDForwardContent.h in Headers */ = {isa = PBXBuildFile; fileRef = E9B2FCAA230472F200E153EE /* DKDForwardContent.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		5276C03C2361C8C600AEC8E4 /* DKDDictionary.h in Headers */ = {isa = PBXBuildFile; fileRef = E9F3A9D521CBC17E009690F6 /* DKDDictionary.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		5276C03D2361C8C600AEC8E4 /* DKDEnvelope.h in Headers */ = {isa = PBXBuildFile; fileRef = E94D2AF622B7A81400FF4AD5 /* DKDEnvelope.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		5276C03E2361C8C600AEC8E4 /* DKDContent.h in Headers */ = {isa = PBXBuildFile; fileRef = E94D2B0922B7A87A00FF4AD5 /* DKDContent.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		5276C03F2361C8C600AEC8E4 /* DKDMessage.h in Headers */ = {isa = PBXBuildFile; fileRef = E94D2AEF22B7A81400FF4AD5 /* DKDMessage.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		5276C0402361C8C600AEC8E4 /* DKDInstantMessage.h in Headers */ = {isa = PBXBuildFile; fileRef = E94D2AF122B7A81400FF4AD5 /* DKDInstantMessage.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		5276C0412361C8C600AEC8E4 /* DKDSecureMessage.h in Headers */ = {isa = PBXBuildFile; fileRef = E94D2AF422B7A81400FF4AD5 /* DKDSecureMessage.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		5276C0422361C8C600AEC8E4 /* DKDSecureMessage+Packing.h in Headers */ = {isa = PBXBuildFile; fileRef = E94D2AFA22B7A81500FF4AD5 /* DKDSecureMessage+Packing.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		5276C0432361C8C600AEC8E4 /* DKDReliableMessage.h in Headers */ = {isa = PBXBuildFile; fileRef = E94D2AF822B7A81400FF4AD5 /* DKDReliableMessage.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		5276C0442361C8C600AEC8E4 /* DKDMessage+Transform.h in Headers */ = {isa = PBXBuildFile; fileRef = E94D2AF522B7A81400FF4AD5 /* DKDMessage+Transform.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		5276C0452361C8C600AEC8E4 /* DaoKeDao.h in Headers */ = {isa = PBXBuildFile; fileRef = E9F3A9FA21CBC17E009690F6 /* DaoKeDao.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		5276C0462361C8C600AEC8E4 /* NSDate+Timestamp.h in Headers */ = {isa = PBXBuildFile; fileRef = E9BBBD2F223A506000E6ACDA /* NSDate+Timestamp.h */; };
+		5276C0482361C8C600AEC8E4 /* DKDSecureMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = E94D2AEE22B7A81300FF4AD5 /* DKDSecureMessage.m */; };
+		5276C0492361C8C600AEC8E4 /* DKDReliableMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = E94D2AF922B7A81400FF4AD5 /* DKDReliableMessage.m */; };
+		5276C04A2361C8C600AEC8E4 /* DKDSecureMessage+Packing.m in Sources */ = {isa = PBXBuildFile; fileRef = E94D2AF022B7A81400FF4AD5 /* DKDSecureMessage+Packing.m */; };
+		5276C04B2361C8C600AEC8E4 /* DKDContent.m in Sources */ = {isa = PBXBuildFile; fileRef = E94D2B0A22B7A87A00FF4AD5 /* DKDContent.m */; };
+		5276C04C2361C8C600AEC8E4 /* DKDForwardContent.m in Sources */ = {isa = PBXBuildFile; fileRef = E9B2FCAB230472F200E153EE /* DKDForwardContent.m */; };
+		5276C04D2361C8C600AEC8E4 /* DKDMessage+Transform.m in Sources */ = {isa = PBXBuildFile; fileRef = E94D2AED22B7A81300FF4AD5 /* DKDMessage+Transform.m */; };
+		5276C04E2361C8C600AEC8E4 /* DKDDictionary.m in Sources */ = {isa = PBXBuildFile; fileRef = E9F3A9D621CBC17E009690F6 /* DKDDictionary.m */; };
+		5276C04F2361C8C600AEC8E4 /* NSDate+Timestamp.m in Sources */ = {isa = PBXBuildFile; fileRef = E9BBBD30223A506000E6ACDA /* NSDate+Timestamp.m */; };
+		5276C0502361C8C600AEC8E4 /* DKDEnvelope.m in Sources */ = {isa = PBXBuildFile; fileRef = E94D2AF722B7A81400FF4AD5 /* DKDEnvelope.m */; };
+		5276C0512361C8C600AEC8E4 /* DKDMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = E94D2AF322B7A81400FF4AD5 /* DKDMessage.m */; };
+		5276C0522361C8C600AEC8E4 /* DKDInstantMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = E94D2AF222B7A81400FF4AD5 /* DKDInstantMessage.m */; };
 		E94C8DF922DDE7150017F998 /* NSObject+JsON.m in Sources */ = {isa = PBXBuildFile; fileRef = E94C8DF822DDE7150017F998 /* NSObject+JsON.m */; };
 		E94D2AFB22B7A81500FF4AD5 /* DKDMessage+Transform.m in Sources */ = {isa = PBXBuildFile; fileRef = E94D2AED22B7A81300FF4AD5 /* DKDMessage+Transform.m */; };
 		E94D2AFC22B7A81500FF4AD5 /* DKDSecureMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = E94D2AEE22B7A81300FF4AD5 /* DKDSecureMessage.m */; };
@@ -47,6 +70,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		5276C0582361C8C600AEC8E4 /* DaoKeDao-Mac.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = "DaoKeDao-Mac.framework"; sourceTree = BUILT_PRODUCTS_DIR; };
+		5276C0592361C8C600AEC8E4 /* DaoKeDao-Mac-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "DaoKeDao-Mac-Info.plist"; path = "/Users/john/Documents/workspace/iphone/dimchat/dkd-objc/DaoKeDao/DaoKeDao-Mac-Info.plist"; sourceTree = "<absolute>"; };
 		E94C8DF722DDE7150017F998 /* NSObject+JsON.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSObject+JsON.h"; sourceTree = "<group>"; };
 		E94C8DF822DDE7150017F998 /* NSObject+JsON.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSObject+JsON.m"; sourceTree = "<group>"; };
 		E94D2AED22B7A81300FF4AD5 /* DKDMessage+Transform.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "DKDMessage+Transform.m"; sourceTree = "<group>"; };
@@ -82,6 +107,13 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		5276C0532361C8C600AEC8E4 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		E9F3A9AE21CBC160009690F6 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -125,6 +157,7 @@
 			children = (
 				E9F3A9B121CBC160009690F6 /* DaoKeDao.framework */,
 				E9F3A9BA21CBC160009690F6 /* DaoKeDaoTests.xctest */,
+				5276C0582361C8C600AEC8E4 /* DaoKeDao-Mac.framework */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -132,6 +165,7 @@
 		E9F3A9B321CBC160009690F6 /* DaoKeDao */ = {
 			isa = PBXGroup;
 			children = (
+				5276C0592361C8C600AEC8E4 /* DaoKeDao-Mac-Info.plist */,
 				E9F3A9B521CBC160009690F6 /* Info.plist */,
 			);
 			path = DaoKeDao;
@@ -198,6 +232,25 @@
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
+		5276C03A2361C8C600AEC8E4 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				5276C03B2361C8C600AEC8E4 /* DKDForwardContent.h in Headers */,
+				5276C03C2361C8C600AEC8E4 /* DKDDictionary.h in Headers */,
+				5276C03D2361C8C600AEC8E4 /* DKDEnvelope.h in Headers */,
+				5276C03E2361C8C600AEC8E4 /* DKDContent.h in Headers */,
+				5276C03F2361C8C600AEC8E4 /* DKDMessage.h in Headers */,
+				5276C0402361C8C600AEC8E4 /* DKDInstantMessage.h in Headers */,
+				5276C0412361C8C600AEC8E4 /* DKDSecureMessage.h in Headers */,
+				5276C0422361C8C600AEC8E4 /* DKDSecureMessage+Packing.h in Headers */,
+				5276C0432361C8C600AEC8E4 /* DKDReliableMessage.h in Headers */,
+				5276C0442361C8C600AEC8E4 /* DKDMessage+Transform.h in Headers */,
+				5276C0452361C8C600AEC8E4 /* DaoKeDao.h in Headers */,
+				5276C0462361C8C600AEC8E4 /* NSDate+Timestamp.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		E9F3A9AC21CBC160009690F6 /* Headers */ = {
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
@@ -220,6 +273,24 @@
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
+		5276C0392361C8C600AEC8E4 /* DaoKeDao-Mac */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 5276C0552361C8C600AEC8E4 /* Build configuration list for PBXNativeTarget "DaoKeDao-Mac" */;
+			buildPhases = (
+				5276C03A2361C8C600AEC8E4 /* Headers */,
+				5276C0472361C8C600AEC8E4 /* Sources */,
+				5276C0532361C8C600AEC8E4 /* Frameworks */,
+				5276C0542361C8C600AEC8E4 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "DaoKeDao-Mac";
+			productName = DaoKeDao;
+			productReference = 5276C0582361C8C600AEC8E4 /* DaoKeDao-Mac.framework */;
+			productType = "com.apple.product-type.framework";
+		};
 		E9F3A9B021CBC160009690F6 /* DaoKeDao */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = E9F3A9C521CBC160009690F6 /* Build configuration list for PBXNativeTarget "DaoKeDao" */;
@@ -287,12 +358,20 @@
 			projectRoot = "";
 			targets = (
 				E9F3A9B021CBC160009690F6 /* DaoKeDao */,
+				5276C0392361C8C600AEC8E4 /* DaoKeDao-Mac */,
 				E9F3A9B921CBC160009690F6 /* DaoKeDaoTests */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		5276C0542361C8C600AEC8E4 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		E9F3A9AF21CBC160009690F6 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -310,6 +389,24 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		5276C0472361C8C600AEC8E4 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				5276C0482361C8C600AEC8E4 /* DKDSecureMessage.m in Sources */,
+				5276C0492361C8C600AEC8E4 /* DKDReliableMessage.m in Sources */,
+				5276C04A2361C8C600AEC8E4 /* DKDSecureMessage+Packing.m in Sources */,
+				5276C04B2361C8C600AEC8E4 /* DKDContent.m in Sources */,
+				5276C04C2361C8C600AEC8E4 /* DKDForwardContent.m in Sources */,
+				5276C04D2361C8C600AEC8E4 /* DKDMessage+Transform.m in Sources */,
+				5276C04E2361C8C600AEC8E4 /* DKDDictionary.m in Sources */,
+				5276C04F2361C8C600AEC8E4 /* NSDate+Timestamp.m in Sources */,
+				5276C0502361C8C600AEC8E4 /* DKDEnvelope.m in Sources */,
+				5276C0512361C8C600AEC8E4 /* DKDMessage.m in Sources */,
+				5276C0522361C8C600AEC8E4 /* DKDInstantMessage.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		E9F3A9AD21CBC160009690F6 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -349,6 +446,58 @@
 /* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
+		5276C0562361C8C600AEC8E4 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "";
+				CODE_SIGN_STYLE = Automatic;
+				DEFINES_MODULE = YES;
+				DEVELOPMENT_TEAM = EQ22GS36XN;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				INFOPLIST_FILE = "DaoKeDao-Mac-Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = DIM.DaoKeDao;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		5276C0572361C8C600AEC8E4 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "";
+				CODE_SIGN_STYLE = Automatic;
+				DEFINES_MODULE = YES;
+				DEVELOPMENT_TEAM = EQ22GS36XN;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				INFOPLIST_FILE = "DaoKeDao-Mac-Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = DIM.DaoKeDao;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
 		E9F3A9C321CBC160009690F6 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -475,7 +624,7 @@
 				CODE_SIGN_IDENTITY = "";
 				CODE_SIGN_STYLE = Automatic;
 				DEFINES_MODULE = YES;
-				DEVELOPMENT_TEAM = JUVC7SZJE7;
+				DEVELOPMENT_TEAM = EQ22GS36XN;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
@@ -500,7 +649,7 @@
 				CODE_SIGN_IDENTITY = "";
 				CODE_SIGN_STYLE = Automatic;
 				DEFINES_MODULE = YES;
-				DEVELOPMENT_TEAM = JUVC7SZJE7;
+				DEVELOPMENT_TEAM = EQ22GS36XN;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
@@ -556,6 +705,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		5276C0552361C8C600AEC8E4 /* Build configuration list for PBXNativeTarget "DaoKeDao-Mac" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				5276C0562361C8C600AEC8E4 /* Debug */,
+				5276C0572361C8C600AEC8E4 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		E9F3A9AB21CBC160009690F6 /* Build configuration list for PBXProject "DaoKeDao" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
