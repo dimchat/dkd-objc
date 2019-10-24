@@ -114,7 +114,7 @@
     return [_storeDictionary objectForKey:@"group"];
 }
 
-- (void)setGroup:(NSString *)group {
+- (void)setGroup:(nullable NSString *)group {
     if ([group length] > 0) {
         [_storeDictionary setObject:group forKey:@"group"];
     } else {

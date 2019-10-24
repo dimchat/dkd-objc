@@ -25,7 +25,6 @@ static inline NSUInteger serial_number(void) {
     
     UInt8 _type;
     NSUInteger _serialNumber;
-    NSString *_group;
 }
 
 @property (nonatomic) UInt8 type;
@@ -49,7 +48,6 @@ static inline NSUInteger serial_number(void) {
     if (self = [super initWithDictionary:dict]) {
         _type = type;
         _serialNumber = sn;
-        _group = nil;
     }
     return self;
 }
@@ -63,8 +61,6 @@ static inline NSUInteger serial_number(void) {
         // serial number
         NSNumber *sn = [_storeDictionary objectForKey:@"sn"];
         _serialNumber = [sn unsignedIntegerValue];
-        // group ID
-        _group = [_storeDictionary objectForKey:@"group"];
     }
     return self;
 }
@@ -74,7 +70,6 @@ static inline NSUInteger serial_number(void) {
     if (content) {
         //content.type = _type;
         content.serialNumber = _serialNumber;
-        //content.group = _group;
     }
     return content;
 }
@@ -86,14 +81,19 @@ static inline NSUInteger serial_number(void) {
     }
 }
 
-- (void)setGroup:(NSString *)group {
-    if (![_group isEqual:group]) {
-        if (group) {
-            [_storeDictionary setObject:group forKey:@"group"];
-        } else {
-            [_storeDictionary removeObjectForKey:@"group"];
-        }
-        _group = group;
+@end
+
+@implementation DKDContent (Group)
+
+- (nullable NSString *)group {
+    return [_storeDictionary objectForKey:@"group"];
+}
+
+- (void)setGroup:(nullable NSString *)group {
+    if (group) {
+        [_storeDictionary setObject:group forKey:@"group"];
+    } else {
+        [_storeDictionary removeObjectForKey:@"group"];
     }
 }
 

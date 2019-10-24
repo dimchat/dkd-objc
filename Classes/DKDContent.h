@@ -99,14 +99,18 @@ typedef NS_ENUM(UInt8, DKDContentType) {
 // random number to identify message content
 @property (readonly, nonatomic) NSUInteger serialNumber;
 
-// Group ID for group message
-@property (strong, nonatomic, nullable) NSString *group;
-
 - (instancetype)initWithDictionary:(NSDictionary *)dict
 NS_DESIGNATED_INITIALIZER;
 
 - (instancetype)initWithType:(UInt8)type
 NS_DESIGNATED_INITIALIZER;
+
+@end
+
+@interface DKDContent (Group)
+
+// Group ID for group message
+@property (strong, nonatomic, nullable) NSString *group;
 
 @end
 
