@@ -130,12 +130,12 @@ static NSMutableDictionary<NSNumber *, Class> *content_classes(void) {
     if (!content) {
         return nil;
     }
-    if ([content isKindOfClass:[DKDContent class]]) {
-        // return Content object directly
-        return content;
-    }
     NSAssert([content isKindOfClass:[NSDictionary class]], @"content error: %@", content);
     if ([self isEqual:[DKDContent class]]) {
+        if ([content isKindOfClass:[DKDContent class]]) {
+            // return Content object directly
+            return content;
+        }
         // create instance by subclass with content type
         NSNumber *type = [content objectForKey:@"type"];
         Class clazz = [content_classes() objectForKey:type];
