@@ -52,30 +52,35 @@ NS_ASSUME_NONNULL_BEGIN
  *
  *      0001 0000 - this message's main part is in somewhere else.
  *      0010 0000 - this message contains the 3rd party content.
- *      0100 0000 - (RESERVED)
+ *      0100 0000 - this message contains digital assets
  *      1000 0000 - this is a message send by the system, not human.
  *
  *      (All above are just some advices to help choosing numbers :P)
  */
 typedef NS_ENUM(UInt8, DKDContentType) {
-    DKDContentType_Unknown = 0x00,
-    DKDContentType_Text    = 0x01, // 0000 0001
+    DKDContentType_Unknown    = 0x00,
     
-    DKDContentType_File    = 0x10, // 0001 0000
-    DKDContentType_Image   = 0x12, // 0001 0010
-    DKDContentType_Audio   = 0x14, // 0001 0100
-    DKDContentType_Video   = 0x16, // 0001 0110
+    DKDContentType_Text       = 0x01, // 0000 0001
     
-    DKDContentType_Page    = 0x20, // 0010 0000
+    DKDContentType_File       = 0x10, // 0001 0000
+    DKDContentType_Image      = 0x12, // 0001 0010
+    DKDContentType_Audio      = 0x14, // 0001 0100
+    DKDContentType_Video      = 0x16, // 0001 0110
+    
+    DKDContentType_Page       = 0x20, // 0010 0000
     
     // quote a message before and reply it with text
-    DKDContentType_Quote   = 0x37, // 0011 0111
+    DKDContentType_Quote      = 0x37, // 0011 0111
     
-    DKDContentType_Command = 0x88, // 1000 1000
-    DKDContentType_History = 0x89, // 1000 1001 (Entity history command)
+    DKDContentType_Money      = 0x40, // 0100 0000
+//    DKDContentType_LuckyMoney = 0x41, // 0100 0001
+//    DKDContentType_Transfer   = 0x42, // 0100 0010
+
+    DKDContentType_Command    = 0x88, // 1000 1000
+    DKDContentType_History    = 0x89, // 1000 1001 (Entity history command)
     
     // top-secret message forward by proxy (Service Provider)
-    DKDContentType_Forward = 0xFF  // 1111 1111
+    DKDContentType_Forward    = 0xFF  // 1111 1111
 };
 
 /**
