@@ -1,8 +1,37 @@
+// license: https://mit-license.org
+//
+//  Dao-Ke-Dao: Universal Message Module
+//
+//                               Written in 2018 by Moky <albert.moky@gmail.com>
+//
+// =============================================================================
+// The MIT License (MIT)
+//
+// Copyright (c) 2019 Albert Moky
+//
+// Permission is hereby granted, free of charge, to any person obtaining a copy
+// of this software and associated documentation files (the "Software"), to deal
+// in the Software without restriction, including without limitation the rights
+// to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+// copies of the Software, and to permit persons to whom the Software is
+// furnished to do so, subject to the following conditions:
+//
+// The above copyright notice and this permission notice shall be included in
+// all copies or substantial portions of the Software.
+//
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+// SOFTWARE.
+// =============================================================================
 //
 //  DKDContent.m
 //  DaoKeDao
 //
-//  Created by Albert Moky on 2019/6/17.
+//  Created by Albert Moky on 2018/9/30.
 //  Copyright © 2019 DIM Group. All rights reserved.
 //
 
@@ -23,11 +52,11 @@ static inline NSUInteger serial_number(void) {
 
 @interface DKDContent () {
     
-    UInt8 _type;
+    DKDContentType _type;
     NSUInteger _serialNumber;
 }
 
-@property (nonatomic) UInt8 type;
+@property (nonatomic) DKDContentType type;
 @property (nonatomic) NSUInteger serialNumber;
 
 @end
@@ -36,11 +65,11 @@ static inline NSUInteger serial_number(void) {
 
 - (instancetype)init {
     NSAssert(false, @"DON'T call me");
-    return [self initWithType:0];
+    return [self initWithType:DKDContentType_Unknown];
 }
 
 /* designated initializer */
-- (instancetype)initWithType:(UInt8)type {
+- (instancetype)initWithType:(DKDContentType)type {
     NSUInteger sn = serial_number();
     NSDictionary *dict = @{@"type":@(type),
                            @"sn"  :@(sn),
@@ -74,7 +103,7 @@ static inline NSUInteger serial_number(void) {
     return content;
 }
 
-- (void)setType:(UInt8)type {
+- (void)setType:(DKDContentType)type {
     if (_type != type) {
         [_storeDictionary setObject:@(type) forKey:@"type"];
         _type = type;
@@ -116,7 +145,7 @@ static NSMutableDictionary<NSNumber *, Class> *content_classes(void) {
 
 @implementation DKDContent (Runtime)
 
-+ (void)registerClass:(nullable Class)clazz forType:(NSUInteger)type {
++ (void)registerClass:(nullable Class)clazz forType:(DKDContentType)type {
     NSAssert(![clazz isEqual:self], @"only subclass");
     if (clazz) {
         NSAssert([clazz isSubclassOfClass:self], @"error: %@", clazz);

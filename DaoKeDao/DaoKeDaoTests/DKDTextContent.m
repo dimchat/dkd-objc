@@ -12,7 +12,7 @@
 
 - (instancetype)initWithText:(NSString *)text {
     NSAssert(text, @"text cannot be empty");
-    if (self = [self initWithType:DKDMessageType_Text]) {
+    if (self = [self initWithType:DKDContentType_Text]) {
         // text
         if (text) {
             [_storeDictionary setObject:text forKey:@"text"];

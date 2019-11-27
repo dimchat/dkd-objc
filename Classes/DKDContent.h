@@ -1,3 +1,32 @@
+// license: https://mit-license.org
+//
+//  Dao-Ke-Dao: Universal Message Module
+//
+//                               Written in 2018 by Moky <albert.moky@gmail.com>
+//
+// =============================================================================
+// The MIT License (MIT)
+//
+// Copyright (c) 2019 Albert Moky
+//
+// Permission is hereby granted, free of charge, to any person obtaining a copy
+// of this software and associated documentation files (the "Software"), to deal
+// in the Software without restriction, including without limitation the rights
+// to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+// copies of the Software, and to permit persons to whom the Software is
+// furnished to do so, subject to the following conditions:
+//
+// The above copyright notice and this permission notice shall be included in
+// all copies or substantial portions of the Software.
+//
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+// SOFTWARE.
+// =============================================================================
 //
 //  DKDContent.h
 //  DaoKeDao
@@ -83,7 +112,7 @@ typedef NS_ENUM(UInt8, DKDContentType) {
     DKDContentType_Forward    = 0xFF  // 1111 1111
 };
 
-/**
+/*
  *  Message Content
  *
  *      data format: {
@@ -99,7 +128,7 @@ typedef NS_ENUM(UInt8, DKDContentType) {
 @interface DKDContent : DKDDictionary
 
 // message type: text, image, ...
-@property (readonly, nonatomic) UInt8 type;
+@property (readonly, nonatomic) DKDContentType type;
 
 // random number to identify message content
 @property (readonly, nonatomic) NSUInteger serialNumber;
@@ -107,7 +136,7 @@ typedef NS_ENUM(UInt8, DKDContentType) {
 - (instancetype)initWithDictionary:(NSDictionary *)dict
 NS_DESIGNATED_INITIALIZER;
 
-- (instancetype)initWithType:(UInt8)type
+- (instancetype)initWithType:(DKDContentType)type
 NS_DESIGNATED_INITIALIZER;
 
 @end
@@ -126,7 +155,7 @@ NS_DESIGNATED_INITIALIZER;
 
 @interface DKDContent (Runtime)
 
-+ (void)registerClass:(nullable Class)contentClass forType:(NSUInteger)type;
++ (void)registerClass:(nullable Class)contentClass forType:(DKDContentType)type;
 
 + (nullable instancetype)getInstance:(id)content;
 
