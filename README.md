@@ -48,27 +48,31 @@ Copyright &copy; 2018-2019 Albert Moky
 
 ### <span id="content-type">Message Content Type</span>
 
-```javascript
-enum {
-    DIMContentType_Unknown = 0x00,
+```objective-c
+typedef NS_ENUM(UInt8, DKDContentType) {
+    DKDContentType_Unknown    = 0x00,
     
-    DIMContentType_Text    = 0x01,
+    DKDContentType_Text       = 0x01, // 0000 0001
     
-    DIMContentType_File    = 0x10,
-    DIMContentType_Image   = 0x12, // photo
-    DIMContentType_Audio   = 0x14, // voice
-    DIMContentType_Video   = 0x16,
+    DKDContentType_File       = 0x10, // 0001 0000
+    DKDContentType_Image      = 0x12, // 0001 0010
+    DKDContentType_Audio      = 0x14, // 0001 0100
+    DKDContentType_Video      = 0x16, // 0001 0110
     
-    DIMContentType_Page    = 0x20, // web page
+    DKDContentType_Page       = 0x20, // 0010 0000
     
-    // quote an exists message and reply it with text
-    DIMContentType_Quote   = 0x37,
+    // quote a message before and reply it with text
+    DKDContentType_Quote      = 0x37, // 0011 0111
     
-    // system command
-    DIMContentType_Command = 0x88,
+    DKDContentType_Money      = 0x40, // 0100 0000
+//    DKDContentType_LuckyMoney = 0x41, // 0100 0001
+//    DKDContentType_Transfer   = 0x42, // 0100 0010
+
+    DKDContentType_Command    = 0x88, // 1000 1000
+    DKDContentType_History    = 0x89, // 1000 1001 (Entity history command)
     
     // top-secret message forward by proxy (Service Provider)
-    DIMContentType_Forward = 0xFF
+    DKDContentType_Forward    = 0xFF  // 1111 1111
 };
 ```
 
@@ -84,7 +88,7 @@ Accordingly, when the client received a message, it needs TWO steps to extract t
 1. Verify the **Reliable Message** to **Secure Message**;
 2. Decrypt the **Secure Message** to **Instant Message**.
 
-```javascript
+```
     Message Transforming
     ~~~~~~~~~~~~~~~~~~~~
 
