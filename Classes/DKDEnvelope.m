@@ -151,12 +151,12 @@
     }
 }
 
-- (DKDContentType)type {
+- (UInt8)type {
     NSNumber *number = [_storeDictionary objectForKey:@"type"];
     return [number unsignedCharValue];
 }
 
-- (void)setType:(DKDContentType)type {
+- (void)setType:(UInt8)type {
     [_storeDictionary setObject:@(type) forKey:@"type"];
 }
 

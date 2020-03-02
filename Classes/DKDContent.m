@@ -52,11 +52,11 @@ static inline NSUInteger serial_number(void) {
 
 @interface DKDContent () {
     
-    DKDContentType _type;
+    UInt8 _type;
     NSUInteger _serialNumber;
 }
 
-@property (nonatomic) DKDContentType type;
+@property (nonatomic) UInt8 type;
 @property (nonatomic) NSUInteger serialNumber;
 
 @end
@@ -69,7 +69,7 @@ static inline NSUInteger serial_number(void) {
 }
 
 /* designated initializer */
-- (instancetype)initWithType:(DKDContentType)type {
+- (instancetype)initWithType:(UInt8)type {
     NSUInteger sn = serial_number();
     NSDictionary *dict = @{@"type":@(type),
                            @"sn"  :@(sn),
@@ -103,7 +103,7 @@ static inline NSUInteger serial_number(void) {
     return content;
 }
 
-- (void)setType:(DKDContentType)type {
+- (void)setType:(UInt8)type {
     if (_type != type) {
         [_storeDictionary setObject:@(type) forKey:@"type"];
         _type = type;
@@ -145,7 +145,7 @@ static NSMutableDictionary<NSNumber *, Class> *content_classes(void) {
 
 @implementation DKDContent (Runtime)
 
-+ (void)registerClass:(nullable Class)clazz forType:(DKDContentType)type {
++ (void)registerClass:(nullable Class)clazz forType:(UInt8)type {
     NSAssert(![clazz isEqual:self], @"only subclass");
     if (clazz) {
         NSAssert([clazz isSubclassOfClass:self], @"error: %@", clazz);

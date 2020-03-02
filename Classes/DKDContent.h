@@ -101,9 +101,11 @@ typedef NS_ENUM(UInt8, DKDContentType) {
     // quote a message before and reply it with text
     DKDContentType_Quote      = 0x37, // 0011 0111
     
-    DKDContentType_Money      = 0x40, // 0100 0000
-//    DKDContentType_LuckyMoney = 0x41, // 0100 0001
-//    DKDContentType_Transfer   = 0x42, // 0100 0010
+    DKDContentType_Money        = 0x40, // 0100 0000
+    DKDContentType_Transfer     = 0x41, // 0100 0001
+    DKDContentType_LuckyMoney   = 0x42, // 0100 0010
+    DKDContentType_ClaimPayment = 0x48, // 0100 1000 (Claim for payment)
+    DKDContentType_SplitBill    = 0x49, // 0100 1001 (Split the bill)
 
     DKDContentType_Command    = 0x88, // 1000 1000
     DKDContentType_History    = 0x89, // 1000 1001 (Entity history command)
@@ -128,7 +130,7 @@ typedef NS_ENUM(UInt8, DKDContentType) {
 @interface DKDContent : DKDDictionary
 
 // message type: text, image, ...
-@property (readonly, nonatomic) DKDContentType type;
+@property (readonly, nonatomic) UInt8 type;
 
 // random number to identify message content
 @property (readonly, nonatomic) NSUInteger serialNumber;
@@ -136,7 +138,7 @@ typedef NS_ENUM(UInt8, DKDContentType) {
 - (instancetype)initWithDictionary:(NSDictionary *)dict
 NS_DESIGNATED_INITIALIZER;
 
-- (instancetype)initWithType:(DKDContentType)type
+- (instancetype)initWithType:(UInt8)type
 NS_DESIGNATED_INITIALIZER;
 
 @end
@@ -155,7 +157,7 @@ NS_DESIGNATED_INITIALIZER;
 
 @interface DKDContent (Runtime)
 
-+ (void)registerClass:(nullable Class)contentClass forType:(DKDContentType)type;
++ (void)registerClass:(nullable Class)contentClass forType:(UInt8)type;
 
 + (nullable instancetype)getInstance:(id)content;
 

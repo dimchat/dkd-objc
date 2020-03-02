@@ -82,7 +82,7 @@ NS_DESIGNATED_INITIALIZER;
  *      we pick out the content type and set it in envelope
  *      to let the station do its job.
  */
-@property (nonatomic) DKDContentType type;
+@property (nonatomic) UInt8 type;
 
 @end
 
