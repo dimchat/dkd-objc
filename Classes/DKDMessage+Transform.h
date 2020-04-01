@@ -66,20 +66,34 @@ NS_ASSUME_NONNULL_BEGIN
 
 @protocol DKDInstantMessageDelegate <DKDMessageDelegate>
 
+#pragma mark Encrypt Content
+
 /**
- *  Encrypt 'message.content' to 'message.data' with symmetric key
+ *  1. Serialize 'message.content' to data (JsON / ProtoBuf / ...)
  *
  * @param iMsg - instant message object
  * @param content - message.content
  * @param password - symmetric key
- * @return encrypted message content data
+ * @return serialized content data
  */
 - (nullable NSData *)message:(DKDInstantMessage *)iMsg
-              encryptContent:(DKDContent *)content
+            serializeContent:(DKDContent *)content
                      withKey:(NSDictionary *)password;
 
 /**
- *  Encode 'message.data' to String(Base64)
+ *  2. Encrypt content data to 'message.data' with symmetric key
+ *
+ * @param iMsg - instant message object
+ * @param data - serialized data of message.content
+ * @param password - symmetric key
+ * @return encrypted message content data
+ */
+- (nullable NSData *)message:(DKDInstantMessage *)iMsg
+              encryptContent:(NSData *)data
+                     withKey:(NSDictionary *)password;
+
+/**
+ *  3. Encode 'message.data' to String (Base64)
  *
  * @param iMsg - instant message object
  * @param data - encrypted content data
@@ -88,20 +102,32 @@ NS_ASSUME_NONNULL_BEGIN
 - (nullable NSObject *)message:(DKDInstantMessage *)iMsg
                     encodeData:(NSData *)data;
 
+#pragma mark Encrypt Key
+
 /**
- *  Encrypt 'message.key' with receiver's public key
+ *  4. Serialize message key to data (JsON / ProtoBuf / ...)
  *
  * @param iMsg - instant message object
- * @param password - symmetric key to be encrypted
+ * @param password - symmetric key
+ * @return serialized key data
+ */
+- (nullable NSData *)message:(DKDInstantMessage *)iMsg
+                serializeKey:(NSDictionary *)password;
+
+/**
+ *  5. Encrypt key data to 'message.key' with receiver's public key
+ *
+ * @param iMsg - instant message object
+ * @param data - serialized data of symmetric key
  * @param receiver - receiver ID string
  * @return encrypted symmetric key data
  */
 - (nullable NSData *)message:(DKDInstantMessage *)iMsg
-                  encryptKey:(NSDictionary *)password
+                  encryptKey:(NSData *)data
                  forReceiver:(NSString *)receiver;
 
 /**
- *  Encode 'message.key' to String(Base64)
+ *  6. Encode 'message.key' to String (Base64)
  *
  * @param iMsg - instant message object
  * @param data - encrypted symmetric key data
@@ -114,8 +140,10 @@ NS_ASSUME_NONNULL_BEGIN
 
 @protocol DKDSecureMessageDelegate <DKDMessageDelegate>
 
+#pragma mark Decrypt Key
+
 /**
- *  Decode 'message.key' to encrypted symmetric key data
+ *  1. Decode 'message.key' to encrypted symmetric key data
  *
  * @param sMsg - secure message object
  * @param dataString - base64 string object
@@ -125,21 +153,37 @@ NS_ASSUME_NONNULL_BEGIN
                    decodeKey:(NSObject *)dataString;
 
 /**
- *  Decrypt 'message.key' with receiver's private key
+ *  2. Decrypt 'message.key' with receiver's private key
  *
  * @param sMsg - secure message object
  * @param key - encrypted symmetric key data
  * @param sender - sender/member ID string
  * @param receiver - receiver/group ID string
+ * @return serialized data of symmetric key
+ */
+- (nullable NSData *)message:(DKDSecureMessage *)sMsg
+                  decryptKey:(nullable NSData *)key
+                        from:(NSString *)sender
+                          to:(NSString *)receiver;
+
+/**
+ *  3. Deserialize message key from data (JsON / ProtoBuf / ...)
+ *
+ * @param sMsg - secure message object
+ * @param data - serialized key data
+ * @param sender - sender/member ID string
+ * @param receiver - receiver/group ID string
  * @return symmetric key
  */
 - (nullable NSDictionary *)message:(DKDSecureMessage *)sMsg
-                        decryptKey:(nullable NSData *)key
+                    deserializeKey:(NSData *)data
                               from:(NSString *)sender
                                 to:(NSString *)receiver;
 
+#pragma mark Decrypt Content
+
 /**
- *  Decode 'message.data' to encrypted content data
+ *  4. Decode 'message.data' to encrypted content data
  *
  * @param sMsg - secure message object
  * @param dataString - base64 string object
@@ -149,19 +193,33 @@ NS_ASSUME_NONNULL_BEGIN
                   decodeData:(NSObject *)dataString;
 
 /**
- *  Decrypt 'message.data' with symmetric key
+ *  5. Decrypt 'message.data' with symmetric key
  *
  * @param sMsg - secure message object
  * @param data - encrypt content data
  * @param password - symmetric key
+ * @return serialized data of message content
+ */
+- (nullable NSData *)message:(DKDSecureMessage *)sMsg
+              decryptContent:(NSData *)data
+                     withKey:(NSDictionary *)password;
+
+/**
+ *  6. Deserialize message content from data (JsON / ProtoBuf / ...)
+ *
+ * @param sMsg - secure message object
+ * @param data - serialized content data
+ * @param password - symmetric key
  * @return message content
  */
 - (nullable DKDContent *)message:(DKDSecureMessage *)sMsg
-                  decryptContent:(NSData *)data
+              deserializeContent:(NSData *)data
                          withKey:(NSDictionary *)password;
 
+#pragma mark Signature
+
 /**
- *  Sign 'message.data' with sender's private key
+ *  1. Sign 'message.data' with sender's private key
  *
  * @param sMsg - secure message object
  * @param data - encrypted message data
@@ -173,7 +231,7 @@ NS_ASSUME_NONNULL_BEGIN
                    forSender:(NSString *)sender;
 
 /**
- *  Encode 'message.signature' to String(Base64)
+ *  2. Encode 'message.signature' to String (Base64)
  *
  * @param sMsg - secure message object
  * @param signature - signature of message.data
@@ -187,7 +245,7 @@ NS_ASSUME_NONNULL_BEGIN
 @protocol DKDReliableMessageDelegate <DKDSecureMessageDelegate>
 
 /**
- *  Decode 'message.signature' from String(Base64)
+ *  1. Decode 'message.signature' from String (Base64)
  *
  * @param rMsg - reliable message object
  * @param signatureString - base64 string object
@@ -197,7 +255,7 @@ NS_ASSUME_NONNULL_BEGIN
              decodeSignature:(NSObject *)signatureString;
 
 /**
- *  Verify the message data and signature with sender's public key
+ *  2. Verify the message data and signature with sender's public key
  *
  * @param rMsg - reliable message object
  * @param data - message content(encrypted) data

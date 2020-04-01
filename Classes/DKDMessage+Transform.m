@@ -43,12 +43,11 @@
 @implementation DKDInstantMessage (ToSecureMessage)
 
 - (nullable NSMutableDictionary *)_prepareWithKey:(NSDictionary *)PW {
-    DKDContent *content = self.content;
-    // 1. check attachment for File/Image/Audio/Video message content
-    //    (do it in 'core' module)
+    // 1. serialize content
+    NSData *data = [self.delegate message:self serializeContent:self.content withKey:PW];
     
-    // 2. encrypt message content
-    NSData *data = [self.delegate message:self encryptContent:content withKey:PW];
+    // 2. encrypt content data
+    data = [self.delegate message:self encryptContent:data withKey:PW];
     NSAssert(data, @"failed to encrypt content with key: %@", PW);
     
     // 3. encode encrypted data
@@ -64,21 +63,26 @@
 
 - (nullable DKDSecureMessage *)encryptWithKey:(NSDictionary *)password {
     NSAssert(self.delegate, @"message delegate not set yet");
-    
+    // 0. check attachment for File/Image/Audio/Video message content
+    //    (do it in 'core' module)
+
     // 1. encrypt 'message.content' to 'message.data'
     NSMutableDictionary *msg = [self _prepareWithKey:password];
     
     // 2. encrypt symmetric key(password) to 'message.key'
-    
-    // 2.1. serialize & encrypt symmetric key
     NSString *receiver = self.envelope.receiver;
-    NSData *key = [self.delegate message:self encryptKey:password forReceiver:receiver];
+    // 2.1. serialize symmetric key
+    NSData *key = [self.delegate message:self serializeKey:password];
     if (key) {
-        // 2.2. encode encrypted key data
-        NSObject *base64 = [self.delegate message:self encodeKey:key];
-        NSAssert(base64, @"failed to encode key data: %@", key);
-        // 2.3. insert as 'key'
-        [msg setObject:base64 forKey:@"key"];
+        // 2.2. encrypt symmetric key data
+        key = [self.delegate message:self encryptKey:key forReceiver:receiver];
+        if (key) {
+            // 2.3. encode encrypted key data
+            NSObject *base64 = [self.delegate message:self encodeKey:key];
+            NSAssert(base64, @"failed to encode key data: %@", key);
+            // 2.4. insert as 'key'
+            [msg setObject:base64 forKey:@"key"];
+        }
     }
     
     // 3. pack message
@@ -88,29 +92,33 @@
 - (nullable DKDSecureMessage *)encryptWithKey:(NSDictionary *)password
                                    forMembers:(NSArray *)members {
     NSAssert(self.delegate, @"message delegate not set yet");
-    
+    // 0. check attachment for File/Image/Audio/Video message content
+    //    (do it in 'core' module)
+
     // 1. encrypt 'message.content' to 'message.data'
     NSMutableDictionary *msg = [self _prepareWithKey:password];
     
-    // 2. encrypt symmetric key(password) to 'message.keys'
-    
-    NSMutableDictionary *keyMap;
-    keyMap = [[NSMutableDictionary alloc] initWithCapacity:members.count];
-    NSData *key;
-    NSObject *base64;
-    for (NSString *ID in members) {
-        // 2.1. serialize & encrypt symmetric key
-        key = [self.delegate message:self encryptKey:password forReceiver:ID];
-        if (key) {
-            // 2.2. encode encrypted key data
-            base64 = [self.delegate message:self encodeKey:key];
-            NSAssert(base64, @"failed to encode key data: %@", key);
-            // 2.3. insert to 'message.keys' with member ID
-            [keyMap setObject:base64 forKey:ID];
+    // 2. serialize symmetric key
+    NSData *key = [self.delegate message:self serializeKey:password];
+    if (key) {
+        // encrypt key data to 'message.keys'
+        NSMutableDictionary *map = [[NSMutableDictionary alloc] initWithCapacity:members.count];
+        NSData *data;
+        NSObject *base64;
+        for (NSString *ID in members) {
+            // 2.1. encrypt symmetric key data
+            data = [self.delegate message:self encryptKey:key forReceiver:ID];
+            if (data) {
+                // 2.2. encode encrypted key data
+                base64 = [self.delegate message:self encodeKey:data];
+                NSAssert(base64, @"failed to encode key data: %@", data);
+                // 2.3. insert to 'message.keys' with member ID
+                [map setObject:base64 forKey:ID];
+            }
         }
-    }
-    if (keyMap.count > 0) {
-        [msg setObject:keyMap forKey:@"keys"];
+        if (map.count > 0) {
+            [msg setObject:map forKey:@"keys"];
+        }
     }
     
     // 3. pack message
@@ -134,19 +142,20 @@
     //      if key is empty, means it should be reused, get it from key cache
     if (group) {
         // group message
-        password = [self.delegate message:self decryptKey:key from:sender to:group];
+        key = [self.delegate message:self decryptKey:key from:sender to:group];
+        password = [self.delegate message:self deserializeKey:key from:sender to:group];
     } else {
         // personal message?
-        password = [self.delegate message:self decryptKey:key from:sender to:receiver];
+        key = [self.delegate message:self decryptKey:key from:sender to:receiver];
+        password = [self.delegate message:self deserializeKey:key from:sender to:receiver];
     }
     //NSAssert(password, @"failed to get symmetric key for msg: %@", self);
     
     // 2. decrypt 'message.data' to 'message.content'
-    // 2.1. decode encrypted content data
-    NSData *data = self.data;
-    DKDContent *content;
-    // 2.2. decrypt & deserialize content data
-    content = [self.delegate message:self decryptContent:data withKey:password];
+    // 2.1. decrypt content data
+    NSData *data = [self.delegate message:self decryptContent:self.data withKey:password];
+    // 2.2. deserialize content
+    DKDContent *content = [self.delegate message:self deserializeContent:data withKey:password];
     // 2.3. check attachment for File/Image/Audio/Video message content
     //      if file data not download yet,
     //          decrypt file data with password;
@@ -154,13 +163,14 @@
     //          save password to 'message.content.password'.
     //      (do it in 'core' module)
     if (!content) {
-        //NSAssert(false, @"failed to decrypt message data: %@", self);
+        NSAssert(false, @"failed to decrypt message data: %@", self);
         return nil;
     }
     
     // 3. pack message
     NSMutableDictionary *mDict = [self mutableCopy];
     [mDict removeObjectForKey:@"key"];
+    [mDict removeObjectForKey:@"keys"];
     [mDict removeObjectForKey:@"data"];
     [mDict setObject:content forKey:@"content"];
     return [[DKDInstantMessage alloc] initWithDictionary:mDict];
