@@ -11,8 +11,6 @@
 #import <DaoKeDao/DaoKeDao.h>
 #import "DKDTextContent.h"
 
-#import "NSObject+JsON.h"
-
 @interface DaoKeDaoTests : XCTestCase
 
 @end
@@ -39,24 +37,6 @@
     }];
 }
 
-- (void)testContent {
-    NSDictionary *dict = @{@"type": @(1),
-                           @"sn"  : @(3069910943),
-                           @"text": @"Hey guy!",
-                           };
-    DKDContent *text = DKDContentFromDictionary(dict);
-    NSLog(@"text: %@", text);
-    NSLog(@"json: %@", [text jsonString]);
-    
-    NSString *json = @"{\"type\":1,\"sn\":3069910943,\"text\":\"Hey guy!\"}";
-    NSLog(@"string: %@", json);
-    NSData *data = [json data];
-    NSDictionary *content = [data jsonDictionary];
-    text = DKDContentFromDictionary(content);
-    NSLog(@"text: %@", text);
-    NSLog(@"json: %@", [text jsonString]);
-}
-
 - (void)testEnvelope {
     NSMutableDictionary *dict = nil;
     NSMutableDictionary *dict1 = [[NSMutableDictionary alloc] initWithDictionary:dict];
@@ -66,22 +46,6 @@
     NSLog(@"dict: %@", dict);
     NSLog(@"dict1: %@", dict1);
     NSLog(@"dict2: %@", dict2);
-}
-
-- (void)testMessage {
-    
-    DKDContent *text;
-    text = [[DKDTextContent alloc] initWithText:@"Hey guy!"];
-    NSLog(@"text: %@", text);
-    NSLog(@"json: %@", [text jsonString]);
-    NSAssert(text.type == DKDMessageType_Text, @"msg type error");
-    
-    NSString *ID1 = @"hulk@4YeVEN3aUnvC1DNUufCq1bs9zoBSJTzVEj";
-    NSString *ID2 = @"moki@4WDfe3zZ4T7opFSi3iDAKiuTnUHjxmXekk";
-    
-    DKDInstantMessage *iMsg = DKDInstantMessageCreate(text, ID1, ID2, nil);
-    NSLog(@"instant msg: %@", iMsg);
-    NSLog(@"json: %@", [iMsg jsonString]);
 }
 
 @end
