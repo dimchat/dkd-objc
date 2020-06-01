@@ -17,7 +17,6 @@
 		5276C0422361C8C600AEC8E4 /* DKDSecureMessage+Packing.h in Headers */ = {isa = PBXBuildFile; fileRef = E94D2AFA22B7A81500FF4AD5 /* DKDSecureMessage+Packing.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5276C0432361C8C600AEC8E4 /* DKDReliableMessage.h in Headers */ = {isa = PBXBuildFile; fileRef = E94D2AF822B7A81400FF4AD5 /* DKDReliableMessage.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5276C0442361C8C600AEC8E4 /* DKDMessage+Transform.h in Headers */ = {isa = PBXBuildFile; fileRef = E94D2AF522B7A81400FF4AD5 /* DKDMessage+Transform.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		5276C0452361C8C600AEC8E4 /* DaoKeDao.h in Headers */ = {isa = PBXBuildFile; fileRef = E9F3A9FA21CBC17E009690F6 /* DaoKeDao.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5276C0462361C8C600AEC8E4 /* NSDate+Timestamp.h in Headers */ = {isa = PBXBuildFile; fileRef = E9BBBD2F223A506000E6ACDA /* NSDate+Timestamp.h */; };
 		5276C0482361C8C600AEC8E4 /* DKDSecureMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = E94D2AEE22B7A81300FF4AD5 /* DKDSecureMessage.m */; };
 		5276C0492361C8C600AEC8E4 /* DKDReliableMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = E94D2AF922B7A81400FF4AD5 /* DKDReliableMessage.m */; };
@@ -30,6 +29,8 @@
 		5276C0502361C8C600AEC8E4 /* DKDEnvelope.m in Sources */ = {isa = PBXBuildFile; fileRef = E94D2AF722B7A81400FF4AD5 /* DKDEnvelope.m */; };
 		5276C0512361C8C600AEC8E4 /* DKDMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = E94D2AF322B7A81400FF4AD5 /* DKDMessage.m */; };
 		5276C0522361C8C600AEC8E4 /* DKDInstantMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = E94D2AF222B7A81400FF4AD5 /* DKDInstantMessage.m */; };
+		52FBA61E2484E85100B309F6 /* DaoKeDao.h in Headers */ = {isa = PBXBuildFile; fileRef = 52FBA61D2484E85100B309F6 /* DaoKeDao.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		52FBA61F2484E85100B309F6 /* DaoKeDao.h in Headers */ = {isa = PBXBuildFile; fileRef = 52FBA61D2484E85100B309F6 /* DaoKeDao.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		E94D2AFB22B7A81500FF4AD5 /* DKDMessage+Transform.m in Sources */ = {isa = PBXBuildFile; fileRef = E94D2AED22B7A81300FF4AD5 /* DKDMessage+Transform.m */; };
 		E94D2AFC22B7A81500FF4AD5 /* DKDSecureMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = E94D2AEE22B7A81300FF4AD5 /* DKDSecureMessage.m */; };
 		E94D2AFD22B7A81500FF4AD5 /* DKDMessage.h in Headers */ = {isa = PBXBuildFile; fileRef = E94D2AEF22B7A81400FF4AD5 /* DKDMessage.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -55,7 +56,6 @@
 		E9F3A9C021CBC160009690F6 /* DaoKeDaoTests.m in Sources */ = {isa = PBXBuildFile; fileRef = E9F3A9BF21CBC160009690F6 /* DaoKeDaoTests.m */; };
 		E9F3AA0221CBC17F009690F6 /* DKDDictionary.h in Headers */ = {isa = PBXBuildFile; fileRef = E9F3A9D521CBC17E009690F6 /* DKDDictionary.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		E9F3AA0321CBC17F009690F6 /* DKDDictionary.m in Sources */ = {isa = PBXBuildFile; fileRef = E9F3A9D621CBC17E009690F6 /* DKDDictionary.m */; };
-		E9F3AA2521CBC17F009690F6 /* DaoKeDao.h in Headers */ = {isa = PBXBuildFile; fileRef = E9F3A9FA21CBC17E009690F6 /* DaoKeDao.h */; settings = {ATTRIBUTES = (Public, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -71,6 +71,7 @@
 /* Begin PBXFileReference section */
 		5276C0582361C8C600AEC8E4 /* DaoKeDao-Mac.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = "DaoKeDao-Mac.framework"; sourceTree = BUILT_PRODUCTS_DIR; };
 		5276C0592361C8C600AEC8E4 /* DaoKeDao-Mac-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "DaoKeDao-Mac-Info.plist"; path = "/Users/john/Documents/workspace/iphone/dimchat/dkd-objc/DaoKeDao/DaoKeDao-Mac-Info.plist"; sourceTree = "<absolute>"; };
+		52FBA61D2484E85100B309F6 /* DaoKeDao.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DaoKeDao.h; sourceTree = "<group>"; };
 		E94D2AED22B7A81300FF4AD5 /* DKDMessage+Transform.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "DKDMessage+Transform.m"; sourceTree = "<group>"; };
 		E94D2AEE22B7A81300FF4AD5 /* DKDSecureMessage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DKDSecureMessage.m; sourceTree = "<group>"; };
 		E94D2AEF22B7A81400FF4AD5 /* DKDMessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DKDMessage.h; sourceTree = "<group>"; };
@@ -100,7 +101,6 @@
 		E9F3A9C121CBC160009690F6 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		E9F3A9D521CBC17E009690F6 /* DKDDictionary.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DKDDictionary.h; sourceTree = "<group>"; };
 		E9F3A9D621CBC17E009690F6 /* DKDDictionary.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DKDDictionary.m; sourceTree = "<group>"; };
-		E9F3A9FA21CBC17E009690F6 /* DaoKeDao.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DaoKeDao.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -129,6 +129,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		52FBA61C2484E85100B309F6 /* Framework */ = {
+			isa = PBXGroup;
+			children = (
+				52FBA61D2484E85100B309F6 /* DaoKeDao.h */,
+			);
+			name = Framework;
+			path = ../Framework;
+			sourceTree = "<group>";
+		};
 		E9BBBD2E223A506000E6ACDA /* extends */ = {
 			isa = PBXGroup;
 			children = (
@@ -141,6 +150,7 @@
 		E9F3A9A721CBC160009690F6 = {
 			isa = PBXGroup;
 			children = (
+				52FBA61C2484E85100B309F6 /* Framework */,
 				E9F3A9CB21CBC17E009690F6 /* Classes */,
 				E9F3A9B321CBC160009690F6 /* DaoKeDao */,
 				E9F3A9BE21CBC160009690F6 /* DaoKeDaoTests */,
@@ -202,7 +212,6 @@
 				E94D2AF922B7A81400FF4AD5 /* DKDReliableMessage.m */,
 				E94D2AF522B7A81400FF4AD5 /* DKDMessage+Transform.h */,
 				E94D2AED22B7A81300FF4AD5 /* DKDMessage+Transform.m */,
-				E9F3A9FA21CBC17E009690F6 /* DaoKeDao.h */,
 			);
 			name = Classes;
 			path = ../Classes;
@@ -237,11 +246,11 @@
 				5276C03E2361C8C600AEC8E4 /* DKDContent.h in Headers */,
 				5276C03F2361C8C600AEC8E4 /* DKDMessage.h in Headers */,
 				5276C0402361C8C600AEC8E4 /* DKDInstantMessage.h in Headers */,
+				52FBA61F2484E85100B309F6 /* DaoKeDao.h in Headers */,
 				5276C0412361C8C600AEC8E4 /* DKDSecureMessage.h in Headers */,
 				5276C0422361C8C600AEC8E4 /* DKDSecureMessage+Packing.h in Headers */,
 				5276C0432361C8C600AEC8E4 /* DKDReliableMessage.h in Headers */,
 				5276C0442361C8C600AEC8E4 /* DKDMessage+Transform.h in Headers */,
-				5276C0452361C8C600AEC8E4 /* DaoKeDao.h in Headers */,
 				5276C0462361C8C600AEC8E4 /* NSDate+Timestamp.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -256,11 +265,11 @@
 				E94D2B0B22B7A87A00FF4AD5 /* DKDContent.h in Headers */,
 				E94D2AFD22B7A81500FF4AD5 /* DKDMessage.h in Headers */,
 				E94D2AFF22B7A81500FF4AD5 /* DKDInstantMessage.h in Headers */,
+				52FBA61E2484E85100B309F6 /* DaoKeDao.h in Headers */,
 				E94D2B0222B7A81500FF4AD5 /* DKDSecureMessage.h in Headers */,
 				E94D2B0822B7A81500FF4AD5 /* DKDSecureMessage+Packing.h in Headers */,
 				E94D2B0622B7A81500FF4AD5 /* DKDReliableMessage.h in Headers */,
 				E94D2B0322B7A81500FF4AD5 /* DKDMessage+Transform.h in Headers */,
-				E9F3AA2521CBC17F009690F6 /* DaoKeDao.h in Headers */,
 				E9BBBD31223A506000E6ACDA /* NSDate+Timestamp.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -618,7 +627,7 @@
 				CODE_SIGN_IDENTITY = "";
 				CODE_SIGN_STYLE = Automatic;
 				DEFINES_MODULE = YES;
-				DEVELOPMENT_TEAM = JUVC7SZJE7;
+				DEVELOPMENT_TEAM = EQ22GS36XN;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
@@ -643,7 +652,7 @@
 				CODE_SIGN_IDENTITY = "";
 				CODE_SIGN_STYLE = Automatic;
 				DEFINES_MODULE = YES;
-				DEVELOPMENT_TEAM = JUVC7SZJE7;
+				DEVELOPMENT_TEAM = EQ22GS36XN;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
