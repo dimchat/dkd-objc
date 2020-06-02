@@ -51,17 +51,30 @@ FOUNDATION_EXPORT const unsigned char DaoKeDaoVersionString[];
 // Types
 //#import <DaoKeDao/DKDDictionary.h>
 
-#import <DaoKeDao/DKDEnvelope.h>
-#import <DaoKeDao/DKDContent.h>
-#import <DaoKeDao/DKDForwardContent.h>
+//#import <DaoKeDao/DKDEnvelope.h>
+//#import <DaoKeDao/DKDContent.h>
+//#import <DaoKeDao/DKDForwardContent.h>
+//
+//// Message
+//#import <DaoKeDao/DKDMessage.h>
+//#import <DaoKeDao/DKDInstantMessage.h>
+//#import <DaoKeDao/DKDSecureMessage.h>
+//#import <DaoKeDao/DKDReliableMessage.h>
+//
+//#import <DaoKeDao/DKDMessage+Transform.h>
+//#import <DaoKeDao/DKDSecureMessage+Packing.h>
+
+#import "DKDEnvelope.h"
+#import "DKDContent.h"
+#import "DKDForwardContent.h"
 
 // Message
-#import <DaoKeDao/DKDMessage.h>
-#import <DaoKeDao/DKDInstantMessage.h>
-#import <DaoKeDao/DKDSecureMessage.h>
-#import <DaoKeDao/DKDReliableMessage.h>
+#import "DKDMessage.h"
+#import "DKDInstantMessage.h"
+#import "DKDSecureMessage.h"
+#import "DKDReliableMessage.h"
 
-#import <DaoKeDao/DKDMessage+Transform.h>
-#import <DaoKeDao/DKDSecureMessage+Packing.h>
+#import "DKDMessage+Transform.h"
+#import "DKDSecureMessage+Packing.h"
 
 #endif /* ! __DAO_KE_DAO__ */
