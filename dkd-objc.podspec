@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
   s.name             = 'dkd-objc'
-  s.version          = '0.4.1'
+  s.version          = '0.4.3'
   s.summary          = 'A Common Message Module for Decentralized Instant Messaging'
   s.homepage         = 'https://github.com/dimchat'
   s.license          = { :type => 'MIT', :file => 'LICENSE' }
