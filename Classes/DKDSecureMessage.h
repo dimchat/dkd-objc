@@ -39,7 +39,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@class DKDInstantMessage;
+@class DKDInstantMessage<__covariant ID>;
 
 /*
  *  Secure Message
@@ -58,7 +58,7 @@ NS_ASSUME_NONNULL_BEGIN
  *          }
  *      }
  */
-@interface DKDSecureMessage : DKDMessage
+@interface DKDSecureMessage<__covariant ID> : DKDMessage<ID>
 
 @property (readonly, strong, nonatomic) NSData *data;
 

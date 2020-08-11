@@ -35,14 +35,9 @@
 //  Copyright © 2018 DIM Group. All rights reserved.
 //
 
-#import "DKDDictionary.h"
+#import "DKDEnvelope.h"
 
 NS_ASSUME_NONNULL_BEGIN
-
-@class DKDEnvelope;
-
-@protocol DKDMessageDelegate <NSObject>
-@end
 
 /*
  *  Common Message
@@ -56,20 +51,18 @@ NS_ASSUME_NONNULL_BEGIN
  *          ...
  *      }
  */
-@interface DKDMessage : DKDDictionary {
-    
-}
+@interface DKDMessage<__covariant ID> : DKDDictionary<NSString *, id>
 
-@property (readonly, strong, nonatomic) DKDEnvelope *envelope;
+@property (readonly, strong, nonatomic) DKDEnvelope<ID> *envelope;
 
 // delegate to transform message
 @property (weak, nonatomic) __kindof id<DKDMessageDelegate> delegate;
 
-- (instancetype)initWithSender:(NSString *)from
-                      receiver:(NSString *)to
+- (instancetype)initWithSender:(id)from
+                      receiver:(id)to
                           time:(nullable NSDate *)time;
 
-- (instancetype)initWithEnvelope:(DKDEnvelope *)env
+- (instancetype)initWithEnvelope:(DKDEnvelope<ID> *)env
 NS_DESIGNATED_INITIALIZER;
 
 - (instancetype)initWithDictionary:(NSDictionary *)dict

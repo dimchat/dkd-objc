@@ -114,6 +114,8 @@ typedef NS_ENUM(UInt8, DKDContentType) {
     DKDContentType_Forward    = 0xFF  // 1111 1111
 };
 
+@protocol DKDMessageDelegate;
+
 /*
  *  Message Content
  *
@@ -127,13 +129,16 @@ typedef NS_ENUM(UInt8, DKDContentType) {
  *          // ...
  *      }
  */
-@interface DKDContent : DKDDictionary
+@interface DKDContent<__covariant ID> : DKDDictionary<NSString *, id>
 
 // message type: text, image, ...
 @property (readonly, nonatomic) UInt8 type;
 
 // random number to identify message content
 @property (readonly, nonatomic) NSUInteger serialNumber;
+
+// delegate to transform message
+@property (weak, nonatomic) __kindof id<DKDMessageDelegate> delegate;
 
 - (instancetype)initWithDictionary:(NSDictionary *)dict
 NS_DESIGNATED_INITIALIZER;
@@ -143,23 +148,10 @@ NS_DESIGNATED_INITIALIZER;
 
 @end
 
-@interface DKDContent (Group)
+@interface DKDContent<ID> (Group)
 
 // Group ID for group message
-@property (strong, nonatomic, nullable) NSString *group;
-
-@end
-
-// convert Dictionary to Content
-#define DKDContentFromDictionary(content)                                      \
-            [DKDContent getInstance:(content)]                                 \
-                                   /* EOF 'DKDContentFromDictionary(content)' */
-
-@interface DKDContent (Runtime)
-
-+ (void)registerClass:(nullable Class)contentClass forType:(UInt8)type;
-
-+ (nullable instancetype)getInstance:(id)content;
+@property (strong, nonatomic, nullable) ID group;
 
 @end
 

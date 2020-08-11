@@ -40,6 +40,8 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+@protocol DKDMessageDelegate;
+
 /*
  *  Envelope for message
  *
@@ -49,15 +51,18 @@ NS_ASSUME_NONNULL_BEGIN
  *          time     : 123
  *      }
  */
-@interface DKDEnvelope : DKDDictionary
+@interface DKDEnvelope<__covariant ID> : DKDDictionary<NSString *, id>
 
-@property (readonly, strong, nonatomic) NSString *sender;
-@property (readonly, strong, nonatomic) NSString *receiver;
+@property (readonly, strong, nonatomic) ID sender;
+@property (readonly, strong, nonatomic) ID receiver;
 
 @property (readonly, strong, nonatomic) NSDate *time;
 
-- (instancetype)initWithSender:(NSString *)from
-                      receiver:(NSString *)to
+// delegate to transform message
+@property (weak, nonatomic) __kindof id<DKDMessageDelegate> delegate;
+
+- (instancetype)initWithSender:(ID)from
+                      receiver:(ID)to
                           time:(nullable NSDate *)time;
 
 - (instancetype)initWithDictionary:(NSDictionary *)dict
@@ -65,7 +70,7 @@ NS_DESIGNATED_INITIALIZER;
 
 @end
 
-@interface DKDEnvelope (Content)
+@interface DKDEnvelope<ID> (Content)
 
 /**
  *  Group ID
@@ -73,7 +78,7 @@ NS_DESIGNATED_INITIALIZER;
  *      the 'receiver' will be changed to a member ID, and
  *      the group ID will be saved as 'group'.
  */
-@property (strong, nonatomic, nullable) NSString *group;
+@property (strong, nonatomic, nullable) ID group;
 
 /**
  *  Message Type

@@ -41,6 +41,18 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+@protocol DKDMessageDelegate <NSObject>
+
+/**
+ *  Convert string object to ID object
+ *
+ * @param string - ID string
+ * @return ID object
+ */
+- (nullable id)parseID:(id)string;
+
+@end
+
 /*
  *  Message Transforming
  *  ~~~~~~~~~~~~~~~~~~~~
@@ -65,6 +77,14 @@ NS_ASSUME_NONNULL_BEGIN
 @class DKDContent;
 
 @protocol DKDInstantMessageDelegate <DKDMessageDelegate>
+
+/**
+ *  Convert dictionary object to content object
+ *
+ * @param content - dictionary object
+ * @return content object
+ */
+- (nullable __kindof DKDContent *)parseContent:(id)content;
 
 #pragma mark Encrypt Content
 
@@ -212,9 +232,9 @@ NS_ASSUME_NONNULL_BEGIN
  * @param password - symmetric key
  * @return message content
  */
-- (nullable DKDContent *)message:(DKDSecureMessage *)sMsg
-              deserializeContent:(NSData *)data
-                         withKey:(NSDictionary *)password;
+- (nullable __kindof DKDContent *)message:(DKDSecureMessage *)sMsg
+                       deserializeContent:(NSData *)data
+                                  withKey:(NSDictionary *)password;
 
 #pragma mark Signature
 

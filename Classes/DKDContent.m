@@ -35,7 +35,7 @@
 //  Copyright © 2019 DIM Group. All rights reserved.
 //
 
-#import "DKDForwardContent.h"
+#import "DKDMessage+Transform.h"
 
 #import "DKDContent.h"
 
@@ -114,66 +114,17 @@ static inline NSUInteger serial_number(void) {
 
 @implementation DKDContent (Group)
 
-- (nullable NSString *)group {
-    return [_storeDictionary objectForKey:@"group"];
+- (nullable id)group {
+    id group = [_storeDictionary objectForKey:@"group"];
+    return [self.delegate parseID:group];
 }
 
-- (void)setGroup:(nullable NSString *)group {
+- (void)setGroup:(nullable id)group {
     if (group) {
         [_storeDictionary setObject:group forKey:@"group"];
     } else {
         [_storeDictionary removeObjectForKey:@"group"];
     }
-}
-
-@end
-
-static NSMutableDictionary<NSNumber *, Class> *content_classes(void) {
-    static NSMutableDictionary<NSNumber *, Class> *classes = nil;
-    static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{
-        classes = [[NSMutableDictionary alloc] init];
-        // Forward (Top-Secret)
-        [classes setObject:[DKDForwardContent class] forKey:@(DKDContentType_Forward)];
-        // Text
-        // File
-        // Command
-        // ...
-    });
-    return classes;
-}
-
-@implementation DKDContent (Runtime)
-
-+ (void)registerClass:(nullable Class)clazz forType:(UInt8)type {
-    NSAssert(![clazz isEqual:self], @"only subclass");
-    if (clazz) {
-        NSAssert([clazz isSubclassOfClass:self], @"error: %@", clazz);
-        [content_classes() setObject:clazz forKey:@(type)];
-    } else {
-        [content_classes() removeObjectForKey:@(type)];
-    }
-}
-
-+ (nullable instancetype)getInstance:(id)content {
-    if (!content) {
-        return nil;
-    }
-    NSAssert([content isKindOfClass:[NSDictionary class]], @"content error: %@", content);
-    if ([self isEqual:[DKDContent class]]) {
-        if ([content isKindOfClass:[DKDContent class]]) {
-            // return Content object directly
-            return content;
-        }
-        // create instance by subclass with content type
-        NSNumber *type = [content objectForKey:@"type"];
-        Class clazz = [content_classes() objectForKey:type];
-        if (clazz) {
-            return [clazz getInstance:content];
-        }
-    }
-    // custom message content
-    return [[self alloc] initWithDictionary:content];
 }
 
 @end

@@ -36,13 +36,14 @@
 //
 
 #import "NSDate+Timestamp.h"
+#import "DKDMessage+Transform.h"
 
 #import "DKDEnvelope.h"
 
 @interface DKDEnvelope ()
 
-@property (strong, nonatomic) NSString *sender;
-@property (strong, nonatomic) NSString *receiver;
+@property (strong, nonatomic) id sender;
+@property (strong, nonatomic) id receiver;
 @property (strong, nonatomic) NSDate *time;
 
 // get inner dictionary (for Message)
@@ -58,8 +59,8 @@
     return [self initWithDictionary:dict];
 }
 
-- (instancetype)initWithSender:(NSString *)from
-                      receiver:(NSString *)to
+- (instancetype)initWithSender:(id)from
+                      receiver:(id)to
                           time:(nullable NSDate *)time {
     if (!time) {
         // now()
@@ -87,6 +88,7 @@
             _sender = nil;
             _receiver = nil;
             _time = nil;
+            _delegate = nil;
         }
     } else {
         if (self = [super initWithDictionary:dict]) {
@@ -94,6 +96,7 @@
             _sender = nil;
             _receiver = nil;
             _time = nil;
+            _delegate = nil;
         }
     }
     return self;
@@ -105,20 +108,23 @@
         envelope.sender = _sender;
         envelope.receiver = _receiver;
         envelope.time = _time;
+        envelope.delegate = _delegate;
     }
     return envelope;
 }
 
-- (NSString *)sender {
+- (id)sender {
     if (!_sender) {
-        _sender = [_storeDictionary objectForKey:@"sender"];
+        id sender = [_storeDictionary objectForKey:@"sender"];
+        _sender = [self.delegate parseID:sender];
     }
     return _sender;
 }
 
-- (NSString *)receiver {
+- (id)receiver {
     if (!_receiver) {
-        _receiver = [_storeDictionary objectForKey:@"receiver"];
+        id receiver = [_storeDictionary objectForKey:@"receiver"];
+        _receiver = [self.delegate parseID:receiver];
     }
     return _receiver;
 }
@@ -139,12 +145,13 @@
 
 @implementation DKDEnvelope (Content)
 
-- (nullable NSString *)group {
-    return [_storeDictionary objectForKey:@"group"];
+- (nullable id)group {
+    id group = [_storeDictionary objectForKey:@"group"];
+    return [self.delegate parseID:group];
 }
 
-- (void)setGroup:(nullable NSString *)group {
-    if ([group length] > 0) {
+- (void)setGroup:(nullable id)group {
+    if (group) {
         [_storeDictionary setObject:group forKey:@"group"];
     } else {
         [_storeDictionary removeObjectForKey:@"group"];

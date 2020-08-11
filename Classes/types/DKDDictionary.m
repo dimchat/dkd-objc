@@ -88,7 +88,7 @@
     return [_storeDictionary count];
 }
 
-- (id)objectForKey:(NSString *)aKey {
+- (id)objectForKey:(id)aKey {
     return [_storeDictionary objectForKey:aKey];
 }
 
@@ -116,11 +116,11 @@
 //    return [self copy];
 //}
 
-- (void)removeObjectForKey:(NSString *)aKey {
+- (void)removeObjectForKey:(id)aKey {
     [_storeDictionary removeObjectForKey:aKey];
 }
 
-- (void)setObject:(id)anObject forKey:(NSString *)aKey {
+- (void)setObject:(id)anObject forKey:(id)aKey {
     [_storeDictionary setObject:anObject forKey:aKey];
 }
 

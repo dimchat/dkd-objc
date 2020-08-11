@@ -39,10 +39,10 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface DKDDictionary : NSDictionary {
+@interface DKDDictionary<__covariant KeyType, __covariant ObjectType> : NSDictionary<KeyType, ObjectType> {
     
     // inner dictionary
-    NSMutableDictionary<NSString *, id> *_storeDictionary;
+    NSMutableDictionary<KeyType, ObjectType> *_storeDictionary;
 }
 
 - (instancetype)initWithDictionary:(NSDictionary *)dict
@@ -60,22 +60,21 @@ NS_DESIGNATED_INITIALIZER;
 //- (nullable instancetype)initWithCoder:(NSCoder *)aDecoder
 //NS_DESIGNATED_INITIALIZER;
 
-- (NSUInteger)count;
-- (id)objectForKey:(NSString *)aKey;
+@property (readonly) NSUInteger count;
+- (nullable ObjectType)objectForKey:(KeyType)aKey;
 
-- (NSEnumerator *)keyEnumerator;
-- (NSEnumerator *)objectEnumerator;
+- (NSEnumerator<KeyType> *)keyEnumerator;
+- (NSEnumerator<ObjectType> *)objectEnumerator;
 
 @end
 
-@interface DKDDictionary (Mutable)
+@interface DKDDictionary<KeyType, ObjectType> (Mutable)
 
 - (instancetype)initWithCapacity:(NSUInteger)numItems
 /* NS_DESIGNATED_INITIALIZER */;
 
-- (void)removeObjectForKey:(NSString *)aKey;
-- (void)setObject:(id)anObject
-           forKey:(NSString *)aKey;
+- (void)removeObjectForKey:(KeyType)aKey;
+- (void)setObject:(ObjectType)anObject forKey:(KeyType <NSCopying>)aKey;
 
 @end
 

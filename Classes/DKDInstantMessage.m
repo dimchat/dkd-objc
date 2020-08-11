@@ -37,6 +37,7 @@
 
 #import "DKDEnvelope.h"
 #import "DKDContent.h"
+#import "DKDMessage+Transform.h"
 
 #import "DKDInstantMessage.h"
 
@@ -55,8 +56,8 @@
 }
 
 - (instancetype)initWithContent:(DKDContent *)content
-                         sender:(NSString *)from
-                       receiver:(NSString *)to
+                         sender:(id)from
+                       receiver:(id)to
                            time:(nullable NSDate *)time {
     DKDEnvelope *env = DKDEnvelopeCreate(from, to, time);
     return [self initWithContent:content envelope:env];
@@ -95,10 +96,11 @@
     return iMsg;
 }
 
-- (DKDContent *)content {
+- (__kindof DKDContent *)content {
     if (!_content) {
         NSDictionary *dict = [_storeDictionary objectForKey:@"content"];
-        _content = DKDContentFromDictionary(dict);
+        id<DKDInstantMessageDelegate> delegate = self.delegate;
+        _content = [delegate parseContent:dict];
         
         if (_content != dict) {
             // replace the content object
@@ -108,6 +110,15 @@
         }
     }
     return _content;
+}
+
+- (__kindof id<DKDMessageDelegate>) delegate {
+    return self.envelope.delegate;
+}
+
+- (void)setDelegate:(__kindof id<DKDMessageDelegate>)delegate {
+    self.envelope.delegate = delegate;
+    self.content.delegate = delegate;
 }
 
 @end

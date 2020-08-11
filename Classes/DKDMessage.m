@@ -64,8 +64,8 @@
     return [self initWithDictionary:dict];
 }
 
-- (instancetype)initWithSender:(NSString *)from
-                      receiver:(NSString *)to
+- (instancetype)initWithSender:(id)from
+                      receiver:(id)to
                           time:(nullable NSDate *)time {
     DKDEnvelope *env = DKDEnvelopeCreate(from, to, time);
     return [self initWithEnvelope:env];
@@ -77,7 +77,6 @@
     // share the same inner dictionary with envelope object
     if (self = [super init]) {
         _storeDictionary = env.dictionary;
-        _delegate = nil;
         _envelope = env;
     }
     return self;
@@ -86,7 +85,6 @@
 /* designated initializer */
 - (instancetype)initWithDictionary:(NSDictionary *)dict {
     if (self = [super initWithDictionary:dict]) {
-        _delegate = nil;
         _envelope = nil; // lazy
     }
     return self;
@@ -95,7 +93,6 @@
 - (id)copyWithZone:(NSZone *)zone {
     DKDMessage *msg = [super copyWithZone:zone];
     if (msg) {
-        msg.delegate = _delegate;
         msg.envelope = _envelope;
     }
     return self;
@@ -106,6 +103,14 @@
         _envelope = DKDEnvelopeFromDictionary(_storeDictionary);
     }
     return _envelope;
+}
+
+- (__kindof id<DKDMessageDelegate>) delegate {
+    return self.envelope.delegate;
+}
+
+- (void)setDelegate:(__kindof id<DKDMessageDelegate>)delegate {
+    self.envelope.delegate = delegate;
 }
 
 @end

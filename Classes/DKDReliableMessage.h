@@ -57,7 +57,7 @@ NS_ASSUME_NONNULL_BEGIN
  *          signature: "..."   // base64_encode()
  *      }
  */
-@interface DKDReliableMessage : DKDSecureMessage
+@interface DKDReliableMessage<__covariant ID> : DKDSecureMessage<ID>
 
 @property (readonly, strong, nonatomic) NSData *signature;
 
@@ -76,7 +76,7 @@ NS_DESIGNATED_INITIALIZER;
 /**
  *  Extends for the first message package of 'Handshake' protocol
  */
-@interface DKDReliableMessage (Meta)
+@interface DKDReliableMessage<ID> (Meta)
 
 @property (strong, nonatomic) NSDictionary *meta;
 

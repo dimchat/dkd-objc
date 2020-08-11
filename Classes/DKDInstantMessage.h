@@ -39,7 +39,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@class DKDContent;
+@class DKDContent<__covariant ID>;
 
 /*
  *  Instant Message
@@ -53,17 +53,17 @@ NS_ASSUME_NONNULL_BEGIN
  *          content  : {...}
  *      }
  */
-@interface DKDInstantMessage : DKDMessage
+@interface DKDInstantMessage<__covariant ID> : DKDMessage<ID>
 
-@property (readonly, strong, nonatomic) DKDContent *content;
+@property (readonly, strong, nonatomic) __kindof DKDContent<ID> *content;
 
-- (instancetype)initWithContent:(DKDContent *)content
-                         sender:(NSString *)from
-                       receiver:(NSString *)to
+- (instancetype)initWithContent:(DKDContent<ID> *)content
+                         sender:(ID)from
+                       receiver:(ID)to
                            time:(nullable NSDate *)time;
 
-- (instancetype)initWithContent:(DKDContent *)content
-                       envelope:(DKDEnvelope *)env
+- (instancetype)initWithContent:(DKDContent<ID> *)content
+                       envelope:(DKDEnvelope<ID> *)env
 NS_DESIGNATED_INITIALIZER;
 
 - (instancetype)initWithDictionary:(NSDictionary *)dict
