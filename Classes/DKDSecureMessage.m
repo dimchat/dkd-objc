@@ -80,7 +80,7 @@
 
 - (NSData *)data {
     if (!_data) {
-        NSString *content = [_storeDictionary objectForKey:@"data"];
+        NSString *content = [self objectForKey:@"data"];
         NSAssert(content, @"content data cannot be empty");
         _data = [self.delegate message:self decodeData:content];
     }
@@ -89,7 +89,7 @@
 
 - (NSData *)encryptedKey {
     if (!_encryptedKey) {
-        NSString *key = [_storeDictionary objectForKey:@"key"];
+        NSString *key = [self objectForKey:@"key"];
         if (!key) {
             // check 'keys'
             NSDictionary *keys = self.encryptedKeys;
@@ -104,7 +104,7 @@
 
 - (NSDictionary *)encryptedKeys {
     if (!_encryptedKeys) {
-        _encryptedKeys = [_storeDictionary objectForKey:@"keys"];
+        _encryptedKeys = [self objectForKey:@"keys"];
     }
     return _encryptedKeys;
 }

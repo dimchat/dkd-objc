@@ -75,8 +75,7 @@
 - (instancetype)initWithEnvelope:(DKDEnvelope *)env {
     NSAssert(env, @"envelope cannot be empty");
     // share the same inner dictionary with envelope object
-    if (self = [super init]) {
-        _storeDictionary = env.dictionary;
+    if (self = [super initWithDictionary:env.dictionary]) {
         _envelope = env;
     }
     return self;
@@ -100,7 +99,7 @@
 
 - (DKDEnvelope *)envelope {
     if (!_envelope) {
-        _envelope = DKDEnvelopeFromDictionary(_storeDictionary);
+        _envelope = DKDEnvelopeFromDictionary(self.dictionary);
     }
     return _envelope;
 }

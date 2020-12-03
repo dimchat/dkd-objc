@@ -35,7 +35,7 @@
 //  Copyright © 2018 DIM Group. All rights reserved.
 //
 
-#import "DKDDictionary.h"
+#import <MingKeMing/MingKeMing.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -129,7 +129,7 @@ typedef NS_ENUM(UInt8, DKDContentType) {
  *          // ...
  *      }
  */
-@interface DKDContent<__covariant ID> : DKDDictionary<NSString *, id>
+@interface DKDContent<__covariant ID> : MKMDictionary
 
 // message type: text, image, ...
 @property (readonly, nonatomic) UInt8 type;

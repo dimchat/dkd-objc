@@ -51,7 +51,7 @@ NS_ASSUME_NONNULL_BEGIN
  *          ...
  *      }
  */
-@interface DKDMessage<__covariant ID> : DKDDictionary<NSString *, id>
+@interface DKDMessage<__covariant ID> : MKMDictionary
 
 @property (readonly, strong, nonatomic) DKDEnvelope<ID> *envelope;
 

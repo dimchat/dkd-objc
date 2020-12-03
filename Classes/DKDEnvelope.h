@@ -35,7 +35,8 @@
 //  Copyright © 2018 DIM Group. All rights reserved.
 //
 
-#import "DKDDictionary.h"
+#import <MingKeMing/MingKeMing.h>
+
 #import "DKDContent.h"
 
 NS_ASSUME_NONNULL_BEGIN
@@ -51,7 +52,7 @@ NS_ASSUME_NONNULL_BEGIN
  *          time     : 123
  *      }
  */
-@interface DKDEnvelope<__covariant ID> : DKDDictionary<NSString *, id>
+@interface DKDEnvelope<__covariant ID> : MKMDictionary
 
 @property (readonly, strong, nonatomic) ID sender;
 @property (readonly, strong, nonatomic) ID receiver;

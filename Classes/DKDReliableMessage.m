@@ -66,7 +66,7 @@
 
 - (NSData *)signature {
     if (!_signature) {
-        NSString *CT = [_storeDictionary objectForKey:@"signature"];
+        NSString *CT = [self objectForKey:@"signature"];
         NSAssert(CT, @"signature cannot be empty");
         _signature = [self.delegate message:self decodeSignature:CT];
     }
@@ -80,14 +80,14 @@
 @implementation DKDReliableMessage (Meta)
 
 - (NSDictionary *)meta {
-    return [_storeDictionary objectForKey:@"meta"];
+    return [self objectForKey:@"meta"];
 }
 
 - (void)setMeta:(NSDictionary *)meta {
     if (meta) {
-        [_storeDictionary setObject:meta forKey:@"meta"];
+        [self setObject:meta forKey:@"meta"];
     } else {
-        [_storeDictionary removeObjectForKey:@"meta"];
+        [self removeObjectForKey:@"meta"];
     }
 }
 

@@ -46,9 +46,6 @@
 @property (strong, nonatomic) id receiver;
 @property (strong, nonatomic) NSDate *time;
 
-// get inner dictionary (for Message)
-@property (readonly, strong, nonatomic) NSMutableDictionary *dictionary;
-
 @end
 
 @implementation DKDEnvelope
@@ -82,8 +79,7 @@
 - (instancetype)initWithDictionary:(NSDictionary *)dict {
     if ([dict isKindOfClass:[NSMutableDictionary class]]) {
         // share the same inner dictionary with message object
-        if (self = [super init]) {
-            _storeDictionary = (NSMutableDictionary *)dict;
+        if (self = [super initWithDictionary:dict]) {
             // lazy
             _sender = nil;
             _receiver = nil;
@@ -115,7 +111,7 @@
 
 - (id)sender {
     if (!_sender) {
-        id sender = [_storeDictionary objectForKey:@"sender"];
+        id sender = [self objectForKey:@"sender"];
         _sender = [self.delegate parseID:sender];
     }
     return _sender;
@@ -123,7 +119,7 @@
 
 - (id)receiver {
     if (!_receiver) {
-        id receiver = [_storeDictionary objectForKey:@"receiver"];
+        id receiver = [self objectForKey:@"receiver"];
         _receiver = [self.delegate parseID:receiver];
     }
     return _receiver;
@@ -131,14 +127,10 @@
 
 - (NSDate *)time {
     if (!_time) {
-        NSNumber *timestamp = [_storeDictionary objectForKey:@"time"];
+        NSNumber *timestamp = [self objectForKey:@"time"];
         _time = NSDateFromNumber(timestamp);
     }
     return _time;
-}
-
-- (NSMutableDictionary *)dictionary {
-    return _storeDictionary;
 }
 
 @end
@@ -146,25 +138,25 @@
 @implementation DKDEnvelope (Content)
 
 - (nullable id)group {
-    id group = [_storeDictionary objectForKey:@"group"];
+    id group = [self objectForKey:@"group"];
     return [self.delegate parseID:group];
 }
 
 - (void)setGroup:(nullable id)group {
     if (group) {
-        [_storeDictionary setObject:group forKey:@"group"];
+        [self setObject:group forKey:@"group"];
     } else {
-        [_storeDictionary removeObjectForKey:@"group"];
+        [self removeObjectForKey:@"group"];
     }
 }
 
 - (UInt8)type {
-    NSNumber *number = [_storeDictionary objectForKey:@"type"];
+    NSNumber *number = [self objectForKey:@"type"];
     return [number unsignedCharValue];
 }
 
 - (void)setType:(UInt8)type {
-    [_storeDictionary setObject:@(type) forKey:@"type"];
+    [self setObject:@(type) forKey:@"type"];
 }
 
 @end

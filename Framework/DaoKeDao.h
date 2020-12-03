@@ -48,9 +48,6 @@ FOUNDATION_EXPORT const unsigned char DaoKeDaoVersionString[];
 #if !defined(__DAO_KE_DAO__)
 #define __DAO_KE_DAO__ 1
 
-// Types
-#import <DaoKeDao/DKDDictionary.h>
-
 #import <DaoKeDao/DKDEnvelope.h>
 #import <DaoKeDao/DKDContent.h>
 

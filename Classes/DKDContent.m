@@ -85,10 +85,10 @@ static inline NSUInteger serial_number(void) {
 - (instancetype)initWithDictionary:(NSDictionary *)dict {
     if (self = [super initWithDictionary:dict]) {
         // content type
-        NSNumber *type = [_storeDictionary objectForKey:@"type"];
+        NSNumber *type = [self objectForKey:@"type"];
         _type = [type unsignedCharValue];
         // serial number
-        NSNumber *sn = [_storeDictionary objectForKey:@"sn"];
+        NSNumber *sn = [self objectForKey:@"sn"];
         _serialNumber = [sn unsignedIntegerValue];
     }
     return self;
@@ -105,7 +105,7 @@ static inline NSUInteger serial_number(void) {
 
 - (void)setType:(UInt8)type {
     if (_type != type) {
-        [_storeDictionary setObject:@(type) forKey:@"type"];
+        [self setObject:@(type) forKey:@"type"];
         _type = type;
     }
 }
@@ -115,15 +115,15 @@ static inline NSUInteger serial_number(void) {
 @implementation DKDContent (Group)
 
 - (nullable id)group {
-    id group = [_storeDictionary objectForKey:@"group"];
+    id group = [self objectForKey:@"group"];
     return [self.delegate parseID:group];
 }
 
 - (void)setGroup:(nullable id)group {
     if (group) {
-        [_storeDictionary setObject:group forKey:@"group"];
+        [self setObject:group forKey:@"group"];
     } else {
-        [_storeDictionary removeObjectForKey:@"group"];
+        [self removeObjectForKey:@"group"];
     }
 }
 

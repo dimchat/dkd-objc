@@ -72,7 +72,7 @@
     if (self = [super initWithEnvelope:env]) {
         // content
         if (content) {
-            [_storeDictionary setObject:content forKey:@"content"];
+            [self setObject:content forKey:@"content"];
         }
         _content = content;
     }
@@ -98,7 +98,7 @@
 
 - (__kindof DKDContent *)content {
     if (!_content) {
-        NSDictionary *dict = [_storeDictionary objectForKey:@"content"];
+        NSDictionary *dict = [self objectForKey:@"content"];
         id<DKDInstantMessageDelegate> delegate = self.delegate;
         _content = [delegate parseContent:dict];
         
@@ -106,7 +106,7 @@
             // replace the content object
             NSAssert([_content isKindOfClass:[DKDContent class]],
                      @"content error: %@", dict);
-            [_storeDictionary setObject:_content forKey:@"content"];
+            [self setObject:_content forKey:@"content"];
         }
     }
     return _content;
