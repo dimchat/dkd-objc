@@ -7,7 +7,7 @@
 // =============================================================================
 // The MIT License (MIT)
 //
-// Copyright (c) 2019 Albert Moky
+// Copyright (c) 2018 Albert Moky
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -57,9 +57,48 @@ NS_ASSUME_NONNULL_BEGIN
  *          signature: "..."   // base64_encode()
  *      }
  */
-@interface DKDReliableMessage<__covariant ID> : DKDSecureMessage<ID>
+@protocol DKDReliableMessage <DKDSecureMessage>
 
 @property (readonly, strong, nonatomic) NSData *signature;
+
+/**
+ *  Sender's Meta
+ *  ~~~~~~~~~~~~~
+ *  Extends for the first message package of 'Handshake' protocol.
+ */
+@property (strong, nonatomic, nullable) id<MKMMeta> meta;
+
+/**
+ *  Sender's Visa
+ *  ~~~~~~~~~~~~~
+ *  Extends for the first message package of 'Handshake' protocol.
+*/
+@property (strong, nonatomic, nullable) id<MKMVisa> visa;
+
+/*
+ *  Verify the Reliable Message to Secure Message
+ *
+ *    +----------+      +----------+
+ *    | sender   |      | sender   |
+ *    | receiver |      | receiver |
+ *    | time     |  ->  | time     |
+ *    |          |      |          |
+ *    | data     |      | data     |  1. verify(data, signature, sender.PK)
+ *    | key/keys |      | key/keys |
+ *    | signature|      +----------+
+ *    +----------+
+ */
+
+/**
+ *  Verify 'data' and 'signature' field with sender's public key
+ *
+ * @return SecureMessage object
+ */
+- (nullable id<DKDSecureMessage>)verify;
+
+@end
+
+@interface DKDReliableMessage : DKDSecureMessage <DKDReliableMessage>
 
 - (instancetype)initWithDictionary:(NSDictionary *)dict
 NS_DESIGNATED_INITIALIZER;
@@ -68,17 +107,26 @@ NS_DESIGNATED_INITIALIZER;
 
 // convert Dictionary to ReliableMessage
 #define DKDReliableMessageFromDictionary(msg)                                  \
-            [DKDReliableMessage getInstance:(msg)]                             \
+            [DKDReliableMessage parse:(msg)]                                   \
                                /* EOF 'DKDReliableMessageFromDictionary(msg)' */
 
-#pragma mark -
+#pragma mark - Creation
 
-/**
- *  Extends for the first message package of 'Handshake' protocol
- */
-@interface DKDReliableMessage<ID> (Meta)
+@protocol DKDReliableMessageFactory <NSObject>
 
-@property (strong, nonatomic) NSDictionary *meta;
+- (nullable id<DKDReliableMessage>)parseReliableMessage:(NSDictionary *)msg;
+
+@end
+
+@interface DKDReliableMessageFactory : NSObject <DKDReliableMessageFactory>
+
+@end
+
+@interface DKDReliableMessage (Creation)
+
++ (void)setFactory:(id<DKDReliableMessageFactory>)factory;
+
++ (nullable id<DKDReliableMessage>)parse:(NSDictionary *)msg;
 
 @end
 

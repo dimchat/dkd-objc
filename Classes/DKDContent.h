@@ -7,7 +7,7 @@
 // =============================================================================
 // The MIT License (MIT)
 //
-// Copyright (c) 2019 Albert Moky
+// Copyright (c) 2018 Albert Moky
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -114,8 +114,6 @@ typedef NS_ENUM(UInt8, DKDContentType) {
     DKDContentType_Forward    = 0xFF  // 1111 1111
 };
 
-@protocol DKDMessageDelegate;
-
 /*
  *  Message Content
  *
@@ -129,29 +127,69 @@ typedef NS_ENUM(UInt8, DKDContentType) {
  *          // ...
  *      }
  */
-@interface DKDContent<__covariant ID> : MKMDictionary
+@protocol DKDContent <MKMDictionary>
 
 // message type: text, image, ...
-@property (readonly, nonatomic) UInt8 type;
+@property (readonly, nonatomic) DKDContentType type;
 
-// random number to identify message content
+// serial number as message id
 @property (readonly, nonatomic) NSUInteger serialNumber;
 
-// delegate to transform message
-@property (weak, nonatomic) __kindof id<DKDMessageDelegate> delegate;
+// message time
+@property (readonly, strong, nonatomic, nullable) NSDate *time;
+
+// Group ID/string for group message
+//    if field 'group' exists, it means this is a group message
+@property (strong, nonatomic, nullable) id<MKMID> group;
+
+@end
+
+@interface DKDContent : MKMDictionary <DKDContent>
 
 - (instancetype)initWithDictionary:(NSDictionary *)dict
 NS_DESIGNATED_INITIALIZER;
 
-- (instancetype)initWithType:(UInt8)type
+- (instancetype)initWithType:(DKDContentType)type
 NS_DESIGNATED_INITIALIZER;
 
 @end
 
-@interface DKDContent<ID> (Group)
+#define DKDContentFromDictionary(dict)                                         \
+            [DKDContent parse:(dict)]                                          \
+                                      /* EOF 'DKDContentFromDictionary(dict)' */
 
-// Group ID for group message
-@property (strong, nonatomic, nullable) ID group;
+#pragma mark - Creation
+
+#define DKDContentParserRegisterBlock(type, block)                             \
+            [DKDContentFactory registerParser:(block) forType:(type)]          \
+                         /* EOF 'DKDContentParserRegisterBlock(type, parser)' */
+
+#define DKDContentParserRegister(type, clazz)                                  \
+            DKDContentParserRegisterBlock((type),                              \
+                ^id<DKDContent>(NSDictionary *dict) {                          \
+                    return [[clazz alloc] initWithDictionary:dict];            \
+                })                                                             \
+                              /* EOF 'DKDContentParserRegister(type, parser)' */
+
+typedef id<DKDContent>_Nullable(^DKDContentParser)(NSDictionary *);
+
+@protocol DKDContentFactory <NSObject>
+
+- (nullable __kindof id<DKDContent>)parseContent:(NSDictionary *)content;
+
+@end
+
+@interface DKDContentFactory : NSObject <DKDContentFactory>
+
++ (void)registerParser:(DKDContentParser)parser forType:(DKDContentType)type;
+
+@end
+
+@interface DKDContent (Creation)
+
++ (void)setFactory:(id<DKDContentFactory>)factory;
+
++ (nullable __kindof id<DKDContent>)parse:(NSDictionary *)env;
 
 @end
 

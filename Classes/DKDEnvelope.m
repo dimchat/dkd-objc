@@ -7,7 +7,7 @@
 // =============================================================================
 // The MIT License (MIT)
 //
-// Copyright (c) 2019 Albert Moky
+// Copyright (c) 2018 Albert Moky
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -36,14 +36,17 @@
 //
 
 #import "NSDate+Timestamp.h"
-#import "DKDMessage+Transform.h"
 
 #import "DKDEnvelope.h"
 
-@interface DKDEnvelope ()
+@interface DKDEnvelope () {
+    
+    id<MKMID> _group;
+    DKDContentType _type;
+}
 
-@property (strong, nonatomic) id sender;
-@property (strong, nonatomic) id receiver;
+@property (strong, nonatomic) id<MKMID> sender;
+@property (strong, nonatomic) id<MKMID> receiver;
 @property (strong, nonatomic) NSDate *time;
 
 @end
@@ -56,46 +59,38 @@
     return [self initWithDictionary:dict];
 }
 
-- (instancetype)initWithSender:(id)from
-                      receiver:(id)to
-                          time:(nullable NSDate *)time {
-    if (!time) {
-        // now()
-        time = [[NSDate alloc] init];
-    }
-    NSDictionary *dict = @{@"sender"  :from,
-                           @"receiver":to,
-                           @"time"    :NSNumberFromDate(time),
-                           };
-    if (self = [self initWithDictionary:dict]) {
-        _sender = from;
-        _receiver = to;
-        _time = time;
+/* designated initializer */
+- (instancetype)initWithDictionary:(NSDictionary *)dict {
+    if (self = [super initWithDictionary:dict]) {
+        // lazy
+        _sender = nil;
+        _receiver = nil;
+        _time = nil;
+        
+        _group = nil;
+        _type = 0;
     }
     return self;
 }
 
-/* designated initializer */
-- (instancetype)initWithDictionary:(NSDictionary *)dict {
-    if ([dict isKindOfClass:[NSMutableDictionary class]]) {
-        // share the same inner dictionary with message object
-        if (self = [super initWithDictionary:dict]) {
-            // lazy
-            _sender = nil;
-            _receiver = nil;
-            _time = nil;
-            _delegate = nil;
-        }
-    } else {
-        if (self = [super initWithDictionary:dict]) {
-            // lazy
-            _sender = nil;
-            _receiver = nil;
-            _time = nil;
-            _delegate = nil;
-        }
+- (instancetype)initWithSender:(id<MKMID>)from receiver:(id<MKMID>)to time:(NSDate *)when {
+    NSDictionary *dict = @{@"sender"  :from,
+                           @"receiver":to,
+                           @"time"    :NSNumberFromDate(when),
+                           };
+    if (self = [super initWithDictionary:dict]) {
+        _sender = from;
+        _receiver = to;
+        _time = when;
+        
+        _group = nil;
+        _type = 0;
     }
     return self;
+}
+
+- (instancetype)initWithSender:(id<MKMID>)from receiver:(id<MKMID>)to timestamp:(NSNumber *)time {
+    return [self initWithSender:from receiver:to time:NSDateFromNumber(time)];
 }
 
 - (id)copyWithZone:(NSZone *)zone {
@@ -104,7 +99,8 @@
         envelope.sender = _sender;
         envelope.receiver = _receiver;
         envelope.time = _time;
-        envelope.delegate = _delegate;
+        //envelope.group = _group;
+        //envelope.type = _type;
     }
     return envelope;
 }
@@ -112,7 +108,7 @@
 - (id)sender {
     if (!_sender) {
         id sender = [self objectForKey:@"sender"];
-        _sender = [self.delegate parseID:sender];
+        _sender = MKMIDFromString(sender);
     }
     return _sender;
 }
@@ -120,7 +116,7 @@
 - (id)receiver {
     if (!_receiver) {
         id receiver = [self objectForKey:@"receiver"];
-        _receiver = [self.delegate parseID:receiver];
+        _receiver = MKMIDFromString(receiver);
     }
     return _receiver;
 }
@@ -133,13 +129,12 @@
     return _time;
 }
 
-@end
-
-@implementation DKDEnvelope (Content)
-
 - (nullable id)group {
-    id group = [self objectForKey:@"group"];
-    return [self.delegate parseID:group];
+    if (!_group) {
+        id group = [self objectForKey:@"group"];
+        _group = MKMIDFromString(group);
+    }
+    return _group;
 }
 
 - (void)setGroup:(nullable id)group {
@@ -148,33 +143,88 @@
     } else {
         [self removeObjectForKey:@"group"];
     }
+    _group = group;
 }
 
-- (UInt8)type {
-    NSNumber *number = [self objectForKey:@"type"];
-    return [number unsignedCharValue];
+- (DKDContentType)type {
+    if (_type == 0) {
+        NSNumber *number = [self objectForKey:@"type"];
+        _type = [number unsignedCharValue];
+    }
+    return _type;
 }
 
-- (void)setType:(UInt8)type {
+- (void)setType:(DKDContentType)type {
     [self setObject:@(type) forKey:@"type"];
+    _type = type;
 }
 
 @end
 
-@implementation DKDEnvelope (Runtime)
+#pragma mark -
 
-+ (nullable instancetype)getInstance:(id)env {
-    if (!env) {
+@implementation DKDEnvelopeFactory
+
+- (nonnull id<DKDEnvelope>)createEnvelopeWithSender:(id<MKMID>)from
+                                           receiver:(id<MKMID>)to
+                                               time:(nullable NSDate *)when {
+    if (!when) {
+        // now()
+        when = [[NSDate alloc] init];
+    }
+    return [[DKDEnvelope alloc] initWithSender:from receiver:to time:when];
+}
+
+- (nonnull id<DKDEnvelope>)createEnvelopeWithSender:(id<MKMID>)from
+                                           receiver:(id<MKMID>)to
+                                          timestamp:(nullable NSNumber *)time {
+    if (time) {
+        return [[DKDEnvelope alloc] initWithSender:from receiver:to timestamp:time];
+    } else {
+        return [self createEnvelopeWithSender:from receiver:to time:nil];
+    }
+}
+
+- (nullable id<DKDEnvelope>)parseEnvelope:(nonnull NSDictionary *)env {
+    return [[DKDEnvelope alloc] initWithDictionary:env];
+}
+
+@end
+
+@implementation DKDEnvelope (Creation)
+
+static id<DKDEnvelopeFactory> s_factory = nil;
+
++ (id<DKDEnvelopeFactory>)factory {
+    if (s_factory == nil) {
+        s_factory = [[DKDEnvelopeFactory alloc] init];
+    }
+    return s_factory;
+}
+
++ (void)setFactory:(id<DKDEnvelopeFactory>)factory {
+    s_factory = factory;
+}
+
++ (id<DKDEnvelope>)createWithSender:(id<MKMID>)from
+                           receiver:(id<MKMID>)to
+                               time:(nullable NSDate *)when {
+    return [[self factory] createEnvelopeWithSender:from receiver:to time:when];
+}
+
++ (id<DKDEnvelope>)createWithSender:(id<MKMID>)from
+                           receiver:(id<MKMID>)to
+                          timestamp:(nullable NSNumber *)time {
+    return [[self factory] createEnvelopeWithSender:from receiver:to timestamp:time];
+}
+
++ (nullable id<DKDEnvelope>)parse:(NSDictionary *)env {
+    if (env.count == 0) {
         return nil;
+    } else if ([env conformsToProtocol:@protocol(DKDEnvelope)]) {
+        return (id<DKDEnvelope>)env;
     }
-    if ([env isKindOfClass:[DKDEnvelope class]]) {
-        // return Envelope object directly
-        return env;
-    }
-    NSAssert([env isKindOfClass:[NSDictionary class]],
-             @"envelope should be a dictionary: %@", env);
-    // create instance
-    return [[self alloc] initWithDictionary:env];
+    return [[self factory] parseEnvelope:env];
 }
 
 @end

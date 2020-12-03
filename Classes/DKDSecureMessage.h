@@ -7,7 +7,7 @@
 // =============================================================================
 // The MIT License (MIT)
 //
-// Copyright (c) 2019 Albert Moky
+// Copyright (c) 2018 Albert Moky
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -39,7 +39,8 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@class DKDInstantMessage<__covariant ID>;
+@protocol DKDInstantMessage;
+@protocol DKDReliableMessage;
 
 /*
  *  Secure Message
@@ -58,7 +59,7 @@ NS_ASSUME_NONNULL_BEGIN
  *          }
  *      }
  */
-@interface DKDSecureMessage<__covariant ID> : DKDMessage<ID>
+@protocol DKDSecureMessage <DKDMessage>
 
 @property (readonly, strong, nonatomic) NSData *data;
 
@@ -71,6 +72,67 @@ NS_ASSUME_NONNULL_BEGIN
 @property (readonly, strong, nonatomic, nullable) NSData *encryptedKey;
 @property (readonly, strong, nonatomic, nullable) NSDictionary *encryptedKeys;
 
+/*
+ *  Decrypt the Secure Message to Instant Message
+ *
+ *    +----------+      +----------+
+ *    | sender   |      | sender   |
+ *    | receiver |      | receiver |
+ *    | time     |  ->  | time     |
+ *    |          |      |          |  1. PW      = decrypt(key, receiver.SK)
+ *    | data     |      | content  |  2. content = decrypt(data, PW)
+ *    | key/keys |      +----------+
+ *    +----------+
+ */
+
+/**
+ *  Decrypt message, replace encrypted 'data' with 'content' field
+ *
+ * @return InstantMessage object
+ */
+- (nullable id<DKDInstantMessage>)decrypt;
+
+/*
+ *  Sign the Secure Message to Reliable Message
+ *
+ *    +----------+      +----------+
+ *    | sender   |      | sender   |
+ *    | receiver |      | receiver |
+ *    | time     |  ->  | time     |
+ *    |          |      |          |
+ *    | data     |      | data     |
+ *    | key/keys |      | key/keys |
+ *    +----------+      | signature|  1. signature = sign(data, sender.SK)
+ *                      +----------+
+ */
+
+/**
+ *  Sign message.data, add 'signature' field
+ *
+ * @return ReliableMessage object
+ */
+- (nullable id<DKDReliableMessage>)sign;
+
+/**
+ *  Split the group message to single person messages
+ *
+ *  @param members - group members
+ *  @return secure/reliable message(s)
+ */
+- (NSArray *)splitForMembers:(NSArray<id<MKMID>> *)members;
+
+/**
+ *  Trim the group message for a member
+ *
+ * @param member - group member ID
+ * @return SecureMessage/ReliableMessage
+ */
+- (instancetype)trimForMember:(id<MKMID>)member;
+
+@end
+
+@interface DKDSecureMessage : DKDMessage <DKDSecureMessage>
+
 - (instancetype)initWithDictionary:(NSDictionary *)dict
 NS_DESIGNATED_INITIALIZER;
 
@@ -78,7 +140,27 @@ NS_DESIGNATED_INITIALIZER;
 
 // convert Dictionary to SecureMessage
 #define DKDSecureMessageFromDictionary(msg)                                    \
-            [DKDSecureMessage getInstance:(msg)]                               \
+            [DKDSecureMessage parse:(msg)]                                     \
                                  /* EOF 'DKDSecureMessageFromDictionary(msg)' */
+
+#pragma mark - Creation
+
+@protocol DKDSecureMessageFactory <NSObject>
+
+- (nullable __kindof id<DKDSecureMessage>)parseSecureMessage:(NSDictionary *)msg;
+
+@end
+
+@interface DKDSecureMessageFactory : NSObject <DKDSecureMessageFactory>
+
+@end
+
+@interface DKDSecureMessage (Creation)
+
++ (void)setFactory:(id<DKDSecureMessageFactory>)factory;
+
++ (nullable __kindof id<DKDSecureMessage>)parse:(NSDictionary *)msg;
+
+@end
 
 NS_ASSUME_NONNULL_END

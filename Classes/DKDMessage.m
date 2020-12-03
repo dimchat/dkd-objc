@@ -7,7 +7,7 @@
 // =============================================================================
 // The MIT License (MIT)
 //
-// Copyright (c) 2019 Albert Moky
+// Copyright (c) 2018 Albert Moky
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -37,26 +37,21 @@
 
 #import "NSDate+Timestamp.h"
 
-#import "DKDEnvelope.h"
 #import "DKDInstantMessage.h"
 #import "DKDSecureMessage.h"
 #import "DKDReliableMessage.h"
 
 #import "DKDMessage.h"
 
-@interface DKDEnvelope (Hacking)
-
-@property (readonly, strong, nonatomic) NSMutableDictionary *dictionary;
-
-@end
-
 @interface DKDMessage ()
 
-@property (strong, nonatomic) DKDEnvelope *envelope;
+@property (strong, nonatomic) id<DKDEnvelope> envelope;
 
 @end
 
 @implementation DKDMessage
+
+@synthesize delegate;
 
 - (instancetype)init {
     NSAssert(false, @"DON'T call me!");
@@ -64,15 +59,8 @@
     return [self initWithDictionary:dict];
 }
 
-- (instancetype)initWithSender:(id)from
-                      receiver:(id)to
-                          time:(nullable NSDate *)time {
-    DKDEnvelope *env = DKDEnvelopeCreate(from, to, time);
-    return [self initWithEnvelope:env];
-}
-
 /* designated initializer */
-- (instancetype)initWithEnvelope:(DKDEnvelope *)env {
+- (instancetype)initWithEnvelope:(id<DKDEnvelope>)env {
     NSAssert(env, @"envelope cannot be empty");
     // share the same inner dictionary with envelope object
     if (self = [super initWithDictionary:env.dictionary]) {
@@ -97,48 +85,31 @@
     return self;
 }
 
-- (DKDEnvelope *)envelope {
+- (id<DKDEnvelope>)envelope {
     if (!_envelope) {
         _envelope = DKDEnvelopeFromDictionary(self.dictionary);
     }
     return _envelope;
 }
 
-- (__kindof id<DKDMessageDelegate>) delegate {
-    return self.envelope.delegate;
+- (id<MKMID>)sender {
+    return [self.envelope sender];
 }
 
-- (void)setDelegate:(__kindof id<DKDMessageDelegate>)delegate {
-    self.envelope.delegate = delegate;
+- (id<MKMID>)receiver {
+    return [self.envelope receiver];
 }
 
-@end
+- (NSDate *)time {
+    return [self.envelope time];
+}
 
-@implementation DKDMessage (Runtime)
+- (id<MKMID>)group {
+    return [self.envelope group];
+}
 
-+ (nullable instancetype)getInstance:(id)msg {
-    if (!msg) {
-        return nil;
-    }
-    if ([msg isKindOfClass:[DKDMessage class]]) {
-        // return Message object directly
-        return msg;
-    }
-    // create instance by subclass
-    NSDictionary *content = [msg objectForKey:@"content"];
-    if (content) {
-        return [[DKDInstantMessage alloc] initWithDictionary:msg];
-    }
-    NSString *signature = [msg objectForKey:@"signature"];
-    if (signature) {
-        return [[DKDReliableMessage alloc] initWithDictionary:msg];
-    }
-    NSString *data = [msg objectForKey:@"data"];
-    if (data) {
-        return [[DKDSecureMessage alloc] initWithDictionary:msg];
-    }
-    NSAssert(false, @"message error: %@", msg);
-    return [[self alloc] initWithDictionary:msg];
+- (DKDContentType)type {
+    return [self.envelope type];
 }
 
 @end

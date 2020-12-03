@@ -7,7 +7,7 @@
 // =============================================================================
 // The MIT License (MIT)
 //
-// Copyright (c) 2019 Albert Moky
+// Copyright (c) 2018 Albert Moky
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -35,7 +35,7 @@
 //  Copyright © 2019 DIM Group. All rights reserved.
 //
 
-#import "DKDMessage+Transform.h"
+#import "NSDate+Timestamp.h"
 
 #import "DKDContent.h"
 
@@ -52,12 +52,13 @@ static inline NSUInteger serial_number(void) {
 
 @interface DKDContent () {
     
-    UInt8 _type;
-    NSUInteger _serialNumber;
+    DKDContentType _type;
+    id<MKMID> _group;
 }
 
-@property (nonatomic) UInt8 type;
+@property (nonatomic) DKDContentType type;
 @property (nonatomic) NSUInteger serialNumber;
+@property (strong, nonatomic, nullable) NSDate *time;
 
 @end
 
@@ -69,7 +70,7 @@ static inline NSUInteger serial_number(void) {
 }
 
 /* designated initializer */
-- (instancetype)initWithType:(UInt8)type {
+- (instancetype)initWithType:(DKDContentType)type {
     NSUInteger sn = serial_number();
     NSDictionary *dict = @{@"type":@(type),
                            @"sn"  :@(sn),
@@ -77,6 +78,11 @@ static inline NSUInteger serial_number(void) {
     if (self = [super initWithDictionary:dict]) {
         _type = type;
         _serialNumber = sn;
+        // message time
+        _time = [[NSDate alloc] init];
+        [self setObject:NSNumberFromDate(_time) forKey:@"time"];
+        
+        _group = nil;
     }
     return self;
 }
@@ -84,12 +90,11 @@ static inline NSUInteger serial_number(void) {
 /* designated initializer */
 - (instancetype)initWithDictionary:(NSDictionary *)dict {
     if (self = [super initWithDictionary:dict]) {
-        // content type
-        NSNumber *type = [self objectForKey:@"type"];
-        _type = [type unsignedCharValue];
-        // serial number
-        NSNumber *sn = [self objectForKey:@"sn"];
-        _serialNumber = [sn unsignedIntegerValue];
+        // lazy load
+        _type = 0;
+        _serialNumber = 0;
+        _time = nil;
+        _group = nil;
     }
     return self;
 }
@@ -99,24 +104,47 @@ static inline NSUInteger serial_number(void) {
     if (content) {
         //content.type = _type;
         content.serialNumber = _serialNumber;
+        content.time = _time;
+        //content.group = _group;
     }
     return content;
 }
 
-- (void)setType:(UInt8)type {
-    if (_type != type) {
-        [self setObject:@(type) forKey:@"type"];
-        _type = type;
+- (DKDContentType)type {
+    if (_type == 0) {
+        NSNumber *number = [self objectForKey:@"type"];
+        _type = [number unsignedCharValue];
     }
+    return _type;
 }
 
-@end
+- (void)setType:(DKDContentType)type {
+    [self setObject:@(type) forKey:@"type"];
+    _type = type;
+}
 
-@implementation DKDContent (Group)
+- (NSUInteger)serialNumber {
+    if (_serialNumber == 0) {
+        NSNumber *number = [self objectForKey:@"sn"];
+        _serialNumber = [number unsignedIntegerValue];
+    }
+    return _serialNumber;
+}
+
+- (NSDate *)time {
+    if (!_time) {
+        NSNumber *timestamp = [self objectForKey:@"time"];
+        _time = NSDateFromNumber(timestamp);
+    }
+    return _time;
+}
 
 - (nullable id)group {
-    id group = [self objectForKey:@"group"];
-    return [self.delegate parseID:group];
+    if (!_group) {
+        id group = [self objectForKey:@"group"];
+        _group = MKMIDFromString(group);
+    }
+    return _group;
 }
 
 - (void)setGroup:(nullable id)group {
@@ -125,6 +153,60 @@ static inline NSUInteger serial_number(void) {
     } else {
         [self removeObjectForKey:@"group"];
     }
+    _group = group;
+}
+
+@end
+
+#pragma mark -
+
+@implementation DKDContentFactory
+
+static NSMutableDictionary *s_parsers = nil;
+
++ (void)registerParser:(DKDContentParser)parser forType:(DKDContentType)type {
+    @synchronized (self) {
+        if (!s_parsers) {
+            s_parsers = [[NSMutableDictionary alloc] init];
+        }
+        [s_parsers setObject:parser forKey:@(type)];
+    }
+}
+
+- (nullable __kindof id<DKDContent>)parseContent:(NSDictionary *)content {
+    NSNumber *number = [content objectForKey:@"type"];
+    DKDContentType type = [number unsignedCharValue];
+    DKDContentParser callback = [s_parsers objectForKey:@(type)];
+    if (callback) {
+        return callback(content);
+    }
+    return [[DKDContent alloc] initWithDictionary:content];
+}
+
+@end
+
+@implementation DKDContent (Creation)
+
+static id<DKDContentFactory> s_factory = nil;
+
++ (id<DKDContentFactory>)factory {
+    if (s_factory == nil) {
+        s_factory = [[DKDContentFactory alloc] init];
+    }
+    return s_factory;
+}
+
++ (void)setFactory:(id<DKDContentFactory>)factory {
+    s_factory = factory;
+}
+
++ (nullable __kindof id<DKDContent>)parse:(NSDictionary *)content {
+    if (content.count == 0) {
+        return nil;
+    } else if ([content conformsToProtocol:@protocol(DKDContent)]) {
+        return (id<DKDContent>)content;
+    }
+    return [[self factory] parseContent:content];
 }
 
 @end

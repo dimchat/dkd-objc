@@ -7,7 +7,7 @@
 // =============================================================================
 // The MIT License (MIT)
 //
-// Copyright (c) 2019 Albert Moky
+// Copyright (c) 2018 Albert Moky
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -35,11 +35,13 @@
 //  Copyright © 2018 DIM Group. All rights reserved.
 //
 
-#import "DKDMessage+Transform.h"
-
 #import "DKDReliableMessage.h"
 
-@interface DKDReliableMessage ()
+@interface DKDReliableMessage () {
+    
+    id<MKMMeta> _meta;
+    id<MKMVisa> _visa;
+}
 
 @property (strong, nonatomic) NSData *signature;
 
@@ -73,22 +75,93 @@
     return _signature;
 }
 
-@end
-
-#pragma mark -
-
-@implementation DKDReliableMessage (Meta)
-
-- (NSDictionary *)meta {
-    return [self objectForKey:@"meta"];
+- (nullable id<DKDSecureMessage>)verify {
+    NSAssert(self.delegate, @"message delegate not set yet");
+    // 1. verify data signature with sender's public key
+    if ([self.delegate message:self
+                    verifyData:self.data
+                 withSignature:self.signature
+                     forSender:self.envelope.sender]) {
+        // 2. pack message
+        NSMutableDictionary *mDict = [self dictionary:YES];
+        [mDict removeObjectForKey:@"signature"];
+        return DKDSecureMessageFromDictionary(mDict);
+    } else {
+        NSAssert(false, @"message signature not match: %@", self);
+        return nil;
+    }
 }
 
-- (void)setMeta:(NSDictionary *)meta {
+- (id<MKMMeta>)meta {
+    if (!_meta) {
+        _meta = MKMMetaFromDictionary([self objectForKey:@"meta"]);
+    }
+    return _meta;
+}
+
+- (void)setMeta:(id<MKMMeta>)meta {
     if (meta) {
         [self setObject:meta forKey:@"meta"];
     } else {
         [self removeObjectForKey:@"meta"];
     }
+    _meta = meta;
+}
+
+- (id<MKMVisa>)visa {
+    if (!_visa) {
+        id profile = [self objectForKey:@"profile"];
+        if (!profile) {
+            profile = [self objectForKey:@"visa"];
+        }
+        _visa = MKMDocumentFromDictionary(profile);
+    }
+    return _visa;
+}
+
+- (void)setVisa:(id<MKMVisa>)visa {
+    if (visa) {
+        [self setObject:visa forKey:@"profile"];
+    } else {
+        [self removeObjectForKey:@"profile"];
+    }
+    _visa = visa;
+}
+
+@end
+
+#pragma mark - Creation
+
+@implementation DKDReliableMessageFactory
+
+- (nullable id<DKDReliableMessage>)parseReliableMessage:(NSDictionary *)msg {
+    return [[DKDReliableMessage alloc] initWithDictionary:msg];
+}
+
+@end
+
+@implementation DKDReliableMessage (Creation)
+
+static id<DKDReliableMessageFactory> s_factory = nil;
+
++ (id<DKDReliableMessageFactory>)factory {
+    if (s_factory == nil) {
+        s_factory = [[DKDReliableMessageFactory alloc] init];
+    }
+    return s_factory;
+}
+
++ (void)setFactory:(id<DKDReliableMessageFactory>)factory {
+    s_factory = factory;
+}
+
++ (nullable id<DKDReliableMessage>)parse:(NSDictionary *)msg {
+    if (msg.count == 0) {
+        return nil;
+    } else if ([msg conformsToProtocol:@protocol(DKDReliableMessage)]) {
+        return (id<DKDReliableMessage>)msg;
+    }
+    return [[self factory] parseReliableMessage:msg];
 }
 
 @end

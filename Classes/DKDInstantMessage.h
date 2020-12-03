@@ -7,7 +7,7 @@
 // =============================================================================
 // The MIT License (MIT)
 //
-// Copyright (c) 2019 Albert Moky
+// Copyright (c) 2018 Albert Moky
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -39,7 +39,8 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@class DKDContent<__covariant ID>;
+@protocol DKDContent;
+@protocol DKDSecureMessage;
 
 /*
  *  Instant Message
@@ -53,35 +54,101 @@ NS_ASSUME_NONNULL_BEGIN
  *          content  : {...}
  *      }
  */
-@interface DKDInstantMessage<__covariant ID> : DKDMessage<ID>
+@protocol DKDInstantMessage <DKDMessage>
 
-@property (readonly, strong, nonatomic) __kindof DKDContent<ID> *content;
+@property (readonly, strong, nonatomic) __kindof id<DKDContent> content;
 
-- (instancetype)initWithContent:(DKDContent<ID> *)content
-                         sender:(ID)from
-                       receiver:(ID)to
-                           time:(nullable NSDate *)time;
+/*
+ *  Encrypt the Instant Message to Secure Message
+ *
+ *    +----------+      +----------+
+ *    | sender   |      | sender   |
+ *    | receiver |      | receiver |
+ *    | time     |  ->  | time     |
+ *    |          |      |          |
+ *    | content  |      | data     |  1. data = encrypt(content, PW)
+ *    +----------+      | key/keys |  2. key  = encrypt(PW, receiver.PK)
+ *                      +----------+
+ */
 
-- (instancetype)initWithContent:(DKDContent<ID> *)content
-                       envelope:(DKDEnvelope<ID> *)env
-NS_DESIGNATED_INITIALIZER;
+/**
+ *  Encrypt message, replace 'content' field with encrypted 'data'
+ *
+ * @param password - symmetric key
+ * @return SecureMessage object
+ */
+- (nullable id<DKDSecureMessage>)encryptWithKey:(id<MKMSymmetricKey>)password;
+
+/**
+ *  Encrypt group message, replace 'content' field with encrypted 'data'
+ *
+ * @param password - symmetric key
+ * @param members - group members
+ * @return SecureMessage object
+ */
+- (nullable id<DKDSecureMessage>)encryptWithKey:(id<MKMSymmetricKey>)password
+                                     forMembers:(NSArray<id<MKMID>> *)members;
+
+@end
+
+@interface DKDInstantMessage : DKDMessage <DKDInstantMessage>
 
 - (instancetype)initWithDictionary:(NSDictionary *)dict
+NS_DESIGNATED_INITIALIZER;
+
+- (instancetype)initWithEnvelope:(id<DKDEnvelope>)env
+                         content:(id<DKDContent>)content
 NS_DESIGNATED_INITIALIZER;
 
 @end
 
 // convert Dictionary to InstantMessage
 #define DKDInstantMessageFromDictionary(msg)                                   \
-            [DKDInstantMessage getInstance:(msg)]                              \
+            [DKDInstantMessage parse:(msg)]                                    \
                                 /* EOF 'DKDInstantMessageFromDictionary(msg)' */
 
 // create InstantMessage
 #define DKDInstantMessageCreate(content, from, to, when)                       \
-            [[DKDInstantMessage alloc] initWithContent:(content)               \
-                                                sender:(from)                  \
-                                              receiver:(to)                    \
-                                                  time:(when)]                 \
+            [DKDInstantMessage createWithContent:(content)                     \
+                                          sender:(from)                        \
+                                        receiver:(to)                          \
+                                            time:(when)]                       \
                     /* EOF 'DKDInstantMessageCreate(content, from, to, when)' */
+
+#pragma mark - Creation
+
+@protocol DKDInstantMessageFactory <NSObject>
+
+- (id<DKDInstantMessage>)createInstantMessageWithContent:(id<DKDContent>)content
+                                                envelope:(id<DKDEnvelope>)env;
+
+- (id<DKDInstantMessage>)createInstantMessageWithContent:(id<DKDContent>)content
+                                                  sender:(id<MKMID>)from
+                                                receiver:(id<MKMID>)to
+                                                    time:(nullable NSDate *)when;
+
+- (nullable id<DKDInstantMessage>)parseInstantMessage:(NSDictionary *)msg;
+
+@end
+
+@interface DKDInstantMessageFactory : NSObject <DKDInstantMessageFactory>
+
+@end
+
+@interface DKDInstantMessage (Creation)
+
++ (void)setFactory:(id<DKDInstantMessageFactory>)factory;
+
++ (id<DKDInstantMessage>)createWithContent:(id<DKDContent>)content
+                                  envelope:(id<DKDEnvelope>)env;
+
++ (id<DKDInstantMessage>)createWithContent:(id<DKDContent>)content
+                                    sender:(id<MKMID>)from
+                                  receiver:(id<MKMID>)to
+                                      time:(nullable NSDate *)when;
+
++ (nullable id<DKDInstantMessage>)parse:(NSDictionary *)msg;
+
+@end
 
 NS_ASSUME_NONNULL_END

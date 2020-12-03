@@ -7,7 +7,7 @@
 // =============================================================================
 // The MIT License (MIT)
 //
-// Copyright (c) 2019 Albert Moky
+// Copyright (c) 2018 Albert Moky
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -35,13 +35,9 @@
 //  Copyright © 2018 DIM Group. All rights reserved.
 //
 
-#import <MingKeMing/MingKeMing.h>
-
 #import "DKDContent.h"
 
 NS_ASSUME_NONNULL_BEGIN
-
-@protocol DKDMessageDelegate;
 
 /*
  *  Envelope for message
@@ -52,26 +48,12 @@ NS_ASSUME_NONNULL_BEGIN
  *          time     : 123
  *      }
  */
-@interface DKDEnvelope<__covariant ID> : MKMDictionary
+@protocol DKDEnvelope <MKMDictionary>
 
-@property (readonly, strong, nonatomic) ID sender;
-@property (readonly, strong, nonatomic) ID receiver;
+@property (readonly, strong, nonatomic) id<MKMID> sender;
+@property (readonly, strong, nonatomic) id<MKMID> receiver;
 
 @property (readonly, strong, nonatomic) NSDate *time;
-
-// delegate to transform message
-@property (weak, nonatomic) __kindof id<DKDMessageDelegate> delegate;
-
-- (instancetype)initWithSender:(ID)from
-                      receiver:(ID)to
-                          time:(nullable NSDate *)time;
-
-- (instancetype)initWithDictionary:(NSDictionary *)dict
-NS_DESIGNATED_INITIALIZER;
-
-@end
-
-@interface DKDEnvelope<ID> (Content)
 
 /**
  *  Group ID
@@ -79,7 +61,7 @@ NS_DESIGNATED_INITIALIZER;
  *      the 'receiver' will be changed to a member ID, and
  *      the group ID will be saved as 'group'.
  */
-@property (strong, nonatomic, nullable) ID group;
+@property (strong, nonatomic, nullable) id<MKMID> group;
 
 /**
  *  Message Type
@@ -88,23 +70,69 @@ NS_DESIGNATED_INITIALIZER;
  *      we pick out the content type and set it in envelope
  *      to let the station do its job.
  */
-@property (nonatomic) UInt8 type;
+@property (nonatomic) DKDContentType type;
+
+@end
+
+@interface DKDEnvelope : MKMDictionary <DKDEnvelope>
+
+- (instancetype)initWithDictionary:(NSDictionary *)dict
+NS_DESIGNATED_INITIALIZER;
+
+- (instancetype)initWithSender:(id<MKMID>)from
+                      receiver:(id<MKMID>)to
+                          time:(NSDate *)when
+NS_DESIGNATED_INITIALIZER;
+
+- (instancetype)initWithSender:(id<MKMID>)from
+                      receiver:(id<MKMID>)to
+                     timestamp:(NSNumber *)time;
 
 @end
 
 // convert Dictionary to Envelope
 #define DKDEnvelopeFromDictionary(env)                                         \
-            [DKDEnvelope getInstance:(env)]                                    \
+            [DKDEnvelope parse:(env)]                                          \
                                       /* EOF 'DKDEnvelopeFromDictionary(env)' */
 
 // create Envelope
 #define DKDEnvelopeCreate(from, to, when)                                      \
-            [[DKDEnvelope alloc] initWithSender:(from) receiver:(to) time:(when)]\
+            [DKDEnvelope createWithSender:(from) receiver:(to) time:(when)]    \
                                    /* EOF 'DKDEnvelopeCreate(from, to, when)' */
 
-@interface DKDEnvelope (Runtime)
+#pragma mark - Creation
 
-+ (nullable instancetype)getInstance:(id)env;
+@protocol DKDEnvelopeFactory <NSObject>
+
+- (id<DKDEnvelope>)createEnvelopeWithSender:(id<MKMID>)from
+                                   receiver:(id<MKMID>)to
+                                       time:(nullable NSDate *)when;
+
+- (id<DKDEnvelope>)createEnvelopeWithSender:(id<MKMID>)from
+                                   receiver:(id<MKMID>)to
+                                  timestamp:(nullable NSNumber *)time;
+
+- (nullable id<DKDEnvelope>)parseEnvelope:(NSDictionary *)env;
+
+@end
+
+@interface DKDEnvelopeFactory : NSObject <DKDEnvelopeFactory>
+
+@end
+
+@interface DKDEnvelope (Creation)
+
++ (void)setFactory:(id<DKDEnvelopeFactory>)factory;
+
++ (id<DKDEnvelope>)createWithSender:(id<MKMID>)from
+                           receiver:(id<MKMID>)to
+                               time:(nullable NSDate *)when;
+
++ (id<DKDEnvelope>)createWithSender:(id<MKMID>)from
+                           receiver:(id<MKMID>)to
+                          timestamp:(nullable NSNumber *)time;
+
++ (nullable id<DKDEnvelope>)parse:(NSDictionary *)env;
 
 @end
 
