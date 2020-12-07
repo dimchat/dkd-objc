@@ -171,7 +171,7 @@ NS_DESIGNATED_INITIALIZER;
                 })                                                             \
                               /* EOF 'DKDContentParserRegister(type, parser)' */
 
-typedef id<DKDContent>_Nullable(^DKDContentParser)(NSDictionary *);
+typedef __kindof id<DKDContent>_Nullable(^DKDContentParser)(NSDictionary *);
 
 @protocol DKDContentFactory <NSObject>
 
@@ -190,6 +190,24 @@ typedef id<DKDContent>_Nullable(^DKDContentParser)(NSDictionary *);
 + (void)setFactory:(id<DKDContentFactory>)factory;
 
 + (nullable __kindof id<DKDContent>)parse:(NSDictionary *)env;
+
+@end
+
+#pragma mark - Message Handling
+
+@protocol DKDReliableMessage;
+
+@protocol DKDContentProcessor <NSObject>
+
+/**
+ *  Process message content
+ *
+ * @param content - message content
+ * @param rMsg - message with envelope
+ * @return content to respond
+ */
+- (nullable __kindof id<DKDContent>)processContent:(id<DKDContent>)content
+                                       withMessage:(id<DKDReliableMessage>)rMsg;
 
 @end
 

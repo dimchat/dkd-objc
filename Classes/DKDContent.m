@@ -56,7 +56,6 @@ static inline NSUInteger serial_number(void) {
     id<MKMID> _group;
 }
 
-@property (nonatomic) DKDContentType type;
 @property (nonatomic) NSUInteger serialNumber;
 @property (strong, nonatomic, nullable) NSDate *time;
 
@@ -72,15 +71,15 @@ static inline NSUInteger serial_number(void) {
 /* designated initializer */
 - (instancetype)initWithType:(DKDContentType)type {
     NSUInteger sn = serial_number();
+    NSDate *now = [[NSDate alloc] init];
     NSDictionary *dict = @{@"type":@(type),
                            @"sn"  :@(sn),
+                           @"time":NSNumberFromDate(now),
                            };
     if (self = [super initWithDictionary:dict]) {
         _type = type;
         _serialNumber = sn;
-        // message time
-        _time = [[NSDate alloc] init];
-        [self setObject:NSNumberFromDate(_time) forKey:@"time"];
+        _time = now;
         
         _group = nil;
     }
@@ -205,6 +204,8 @@ static id<DKDContentFactory> s_factory = nil;
         return nil;
     } else if ([content conformsToProtocol:@protocol(DKDContent)]) {
         return (id<DKDContent>)content;
+    } else if ([content conformsToProtocol:@protocol(MKMDictionary)]) {
+        content = [(id<MKMDictionary>)content dictionary];
     }
     return [[self factory] parseContent:content];
 }

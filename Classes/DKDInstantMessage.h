@@ -108,24 +108,16 @@ NS_DESIGNATED_INITIALIZER;
                                 /* EOF 'DKDInstantMessageFromDictionary(msg)' */
 
 // create InstantMessage
-#define DKDInstantMessageCreate(content, from, to, when)                       \
-            [DKDInstantMessage createWithContent:(content)                     \
-                                          sender:(from)                        \
-                                        receiver:(to)                          \
-                                            time:(when)]                       \
+#define DKDInstantMessageCreate(head, body)                                    \
+            [DKDInstantMessage createWithEnvelope:(head) content:(body)]       \
                     /* EOF 'DKDInstantMessageCreate(content, from, to, when)' */
 
 #pragma mark - Creation
 
 @protocol DKDInstantMessageFactory <NSObject>
 
-- (id<DKDInstantMessage>)createInstantMessageWithContent:(id<DKDContent>)content
-                                                envelope:(id<DKDEnvelope>)env;
-
-- (id<DKDInstantMessage>)createInstantMessageWithContent:(id<DKDContent>)content
-                                                  sender:(id<MKMID>)from
-                                                receiver:(id<MKMID>)to
-                                                    time:(nullable NSDate *)when;
+- (id<DKDInstantMessage>)createInstantMessageWithEnvelope:(id<DKDEnvelope>)env
+                                                  content:(id<DKDContent>)content;
 
 - (nullable id<DKDInstantMessage>)parseInstantMessage:(NSDictionary *)msg;
 
@@ -139,13 +131,8 @@ NS_DESIGNATED_INITIALIZER;
 
 + (void)setFactory:(id<DKDInstantMessageFactory>)factory;
 
-+ (id<DKDInstantMessage>)createWithContent:(id<DKDContent>)content
-                                  envelope:(id<DKDEnvelope>)env;
-
-+ (id<DKDInstantMessage>)createWithContent:(id<DKDContent>)content
-                                    sender:(id<MKMID>)from
-                                  receiver:(id<MKMID>)to
-                                      time:(nullable NSDate *)when;
++ (id<DKDInstantMessage>)createWithEnvelope:(id<DKDEnvelope>)env
+                                    content:(id<DKDContent>)content;
 
 + (nullable id<DKDInstantMessage>)parse:(NSDictionary *)msg;
 

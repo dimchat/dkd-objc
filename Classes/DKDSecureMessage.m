@@ -266,6 +266,8 @@ static id<DKDSecureMessageFactory> s_factory = nil;
         return nil;
     } else if ([msg conformsToProtocol:@protocol(DKDSecureMessage)]) {
         return (id<DKDSecureMessage>)msg;
+    } else if ([msg conformsToProtocol:@protocol(MKMDictionary)]) {
+        msg = [(id<MKMDictionary>)msg dictionary];
     }
     return [[self factory] parseSecureMessage:msg];
 }

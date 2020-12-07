@@ -74,7 +74,7 @@
 
 - (instancetype)initWithEnvelope:(id<DKDEnvelope>)env {
     NSAssert(false, @"DON'T call me");
-    DKDContent *content = nil;
+    id content = nil;
     return [self initWithEnvelope:env content:content];
 }
 
@@ -183,16 +183,8 @@
 
 @implementation DKDInstantMessageFactory
 
-- (id<DKDInstantMessage>)createInstantMessageWithContent:(id<DKDContent>)content
-                                                envelope:(id<DKDEnvelope>)env {
-    return [[DKDInstantMessage alloc] initWithEnvelope:env content:content];
-}
-
-- (id<DKDInstantMessage>)createInstantMessageWithContent:(id<DKDContent>)content
-                                                  sender:(id<MKMID>)from
-                                                receiver:(id<MKMID>)to
-                                                    time:(nullable NSDate *)when {
-    id<DKDEnvelope> env = DKDEnvelopeCreate(from, to, when);
+- (id<DKDInstantMessage>)createInstantMessageWithEnvelope:(id<DKDEnvelope>)env
+                                                  content:(id<DKDContent>)content {
     return [[DKDInstantMessage alloc] initWithEnvelope:env content:content];
 }
 
@@ -217,16 +209,9 @@ static id<DKDInstantMessageFactory> s_factory = nil;
     s_factory = factory;
 }
 
-+ (id<DKDInstantMessage>)createWithContent:(id<DKDContent>)content
-                                  envelope:(id<DKDEnvelope>)env {
-    return [[self factory] createInstantMessageWithContent:content envelope:env];
-}
-
-+ (id<DKDInstantMessage>)createWithContent:(id<DKDContent>)content
-                                    sender:(id<MKMID>)from
-                                  receiver:(id<MKMID>)to
-                                      time:(nullable NSDate *)when {
-    return [[self factory] createInstantMessageWithContent:content sender:from receiver:to time:when];
++ (id<DKDInstantMessage>)createWithEnvelope:(id<DKDEnvelope>)env
+                                    content:(id<DKDContent>)content {
+    return [[self factory] createInstantMessageWithEnvelope:env content:content];
 }
 
 + (nullable id<DKDInstantMessage>)parse:(NSDictionary *)msg {
@@ -234,6 +219,8 @@ static id<DKDInstantMessageFactory> s_factory = nil;
         return nil;
     } else if ([msg conformsToProtocol:@protocol(DKDInstantMessage)]) {
         return (id<DKDInstantMessage>)msg;
+    } else if ([msg conformsToProtocol:@protocol(MKMDictionary)]) {
+        msg = [(id<MKMDictionary>)msg dictionary];
     }
     return [[self factory] parseInstantMessage:msg];
 }

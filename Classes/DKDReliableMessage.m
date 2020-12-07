@@ -160,6 +160,8 @@ static id<DKDReliableMessageFactory> s_factory = nil;
         return nil;
     } else if ([msg conformsToProtocol:@protocol(DKDReliableMessage)]) {
         return (id<DKDReliableMessage>)msg;
+    } else if ([msg conformsToProtocol:@protocol(MKMDictionary)]) {
+        msg = [(id<MKMDictionary>)msg dictionary];
     }
     return [[self factory] parseReliableMessage:msg];
 }

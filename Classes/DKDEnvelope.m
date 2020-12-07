@@ -73,15 +73,16 @@
     return self;
 }
 
-- (instancetype)initWithSender:(id<MKMID>)from receiver:(id<MKMID>)to time:(NSDate *)when {
+/* designated initializer */
+- (instancetype)initWithSender:(id<MKMID>)from receiver:(id<MKMID>)to timestamp:(NSNumber *)time {
     NSDictionary *dict = @{@"sender"  :from,
                            @"receiver":to,
-                           @"time"    :NSNumberFromDate(when),
+                           @"time"    :time,
                            };
     if (self = [super initWithDictionary:dict]) {
         _sender = from;
         _receiver = to;
-        _time = when;
+        _time = nil;
         
         _group = nil;
         _type = 0;
@@ -89,8 +90,11 @@
     return self;
 }
 
-- (instancetype)initWithSender:(id<MKMID>)from receiver:(id<MKMID>)to timestamp:(NSNumber *)time {
-    return [self initWithSender:from receiver:to time:NSDateFromNumber(time)];
+- (instancetype)initWithSender:(id<MKMID>)from receiver:(id<MKMID>)to time:(NSDate *)when {
+    if ([self initWithSender:from receiver:to timestamp:NSNumberFromDate(when)]) {
+        _time = when;
+    }
+    return self;
 }
 
 - (id)copyWithZone:(NSZone *)zone {
@@ -223,6 +227,8 @@ static id<DKDEnvelopeFactory> s_factory = nil;
         return nil;
     } else if ([env conformsToProtocol:@protocol(DKDEnvelope)]) {
         return (id<DKDEnvelope>)env;
+    } else if ([env conformsToProtocol:@protocol(MKMDictionary)]) {
+        env = [(id<MKMDictionary>)env dictionary];
     }
     return [[self factory] parseEnvelope:env];
 }

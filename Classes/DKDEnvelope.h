@@ -81,12 +81,12 @@ NS_DESIGNATED_INITIALIZER;
 
 - (instancetype)initWithSender:(id<MKMID>)from
                       receiver:(id<MKMID>)to
-                          time:(NSDate *)when
+                     timestamp:(NSNumber *)time
 NS_DESIGNATED_INITIALIZER;
 
 - (instancetype)initWithSender:(id<MKMID>)from
                       receiver:(id<MKMID>)to
-                     timestamp:(NSNumber *)time;
+                          time:(NSDate *)when;
 
 @end
 
