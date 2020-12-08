@@ -169,9 +169,9 @@
 
 @implementation DKDEnvelopeFactory
 
-- (nonnull id<DKDEnvelope>)createEnvelopeWithSender:(id<MKMID>)from
-                                           receiver:(id<MKMID>)to
-                                               time:(nullable NSDate *)when {
+- (id<DKDEnvelope>)createEnvelopeWithSender:(id<MKMID>)from
+                                   receiver:(id<MKMID>)to
+                                       time:(nullable NSDate *)when {
     if (!when) {
         // now()
         when = [[NSDate alloc] init];
@@ -179,9 +179,9 @@
     return [[DKDEnvelope alloc] initWithSender:from receiver:to time:when];
 }
 
-- (nonnull id<DKDEnvelope>)createEnvelopeWithSender:(id<MKMID>)from
-                                           receiver:(id<MKMID>)to
-                                          timestamp:(nullable NSNumber *)time {
+- (id<DKDEnvelope>)createEnvelopeWithSender:(id<MKMID>)from
+                                   receiver:(id<MKMID>)to
+                                  timestamp:(nullable NSNumber *)time {
     if (time) {
         return [[DKDEnvelope alloc] initWithSender:from receiver:to timestamp:time];
     } else {
@@ -189,7 +189,7 @@
     }
 }
 
-- (nullable id<DKDEnvelope>)parseEnvelope:(nonnull NSDictionary *)env {
+- (nullable id<DKDEnvelope>)parseEnvelope:(NSDictionary *)env {
     return [[DKDEnvelope alloc] initWithDictionary:env];
 }
 

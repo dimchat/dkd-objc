@@ -163,7 +163,7 @@ static inline NSUInteger serial_number(void) {
 
 static NSMutableDictionary *s_parsers = nil;
 
-+ (void)registerParser:(DKDContentParser)parser forType:(DKDContentType)type {
++ (void)registerParser:(id<DKDContentParser>)parser forType:(DKDContentType)type {
     @synchronized (self) {
         if (!s_parsers) {
             s_parsers = [[NSMutableDictionary alloc] init];
@@ -172,12 +172,16 @@ static NSMutableDictionary *s_parsers = nil;
     }
 }
 
++ (nullable id<DKDContentParser>)parserForType:(DKDContentType)type {
+    return [s_parsers objectForKey:@(type)];
+}
+
 - (nullable __kindof id<DKDContent>)parseContent:(NSDictionary *)content {
     NSNumber *number = [content objectForKey:@"type"];
     DKDContentType type = [number unsignedCharValue];
-    DKDContentParser callback = [s_parsers objectForKey:@(type)];
-    if (callback) {
-        return callback(content);
+    id<DKDContentParser> parser = [DKDContentFactory parserForType:type];
+    if (parser) {
+        return [parser parse:content];
     }
     return [[DKDContent alloc] initWithDictionary:content];
 }

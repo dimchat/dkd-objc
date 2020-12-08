@@ -160,18 +160,11 @@ NS_DESIGNATED_INITIALIZER;
 
 #pragma mark - Creation
 
-#define DKDContentParserRegisterBlock(type, block)                             \
-            [DKDContentFactory registerParser:(block) forType:(type)]          \
-                         /* EOF 'DKDContentParserRegisterBlock(type, parser)' */
+@protocol DKDContentParser <NSObject>
 
-#define DKDContentParserRegister(type, clazz)                                  \
-            DKDContentParserRegisterBlock((type),                              \
-                ^id<DKDContent>(NSDictionary *dict) {                          \
-                    return [[clazz alloc] initWithDictionary:dict];            \
-                })                                                             \
-                              /* EOF 'DKDContentParserRegister(type, parser)' */
+- (nullable __kindof id<DKDContent>)parse:(NSDictionary *)content;
 
-typedef __kindof id<DKDContent>_Nullable(^DKDContentParser)(NSDictionary *);
+@end
 
 @protocol DKDContentFactory <NSObject>
 
@@ -181,7 +174,8 @@ typedef __kindof id<DKDContent>_Nullable(^DKDContentParser)(NSDictionary *);
 
 @interface DKDContentFactory : NSObject <DKDContentFactory>
 
-+ (void)registerParser:(DKDContentParser)parser forType:(DKDContentType)type;
++ (void)registerParser:(id<DKDContentParser>)parser forType:(DKDContentType)type;
++ (nullable id<DKDContentParser>)parserForType:(DKDContentType)type;
 
 @end
 
