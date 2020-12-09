@@ -163,7 +163,7 @@ NS_ASSUME_NONNULL_BEGIN
  * @return serialized data of symmetric key
  */
 - (nullable NSData *)message:(id<DKDSecureMessage>)sMsg
-                  decryptKey:(nullable NSData *)key
+                  decryptKey:(NSData *)key
                         from:(id<MKMID>)sender
                           to:(id<MKMID>)receiver;
 
@@ -177,7 +177,7 @@ NS_ASSUME_NONNULL_BEGIN
  * @return symmetric key
  */
 - (nullable id<MKMSymmetricKey>)message:(id<DKDSecureMessage>)sMsg
-                         deserializeKey:(NSData *)data
+                         deserializeKey:(nullable NSData *)data
                                    from:(id<MKMID>)sender
                                      to:(id<MKMID>)receiver;
 

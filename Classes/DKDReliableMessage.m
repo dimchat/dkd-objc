@@ -81,9 +81,9 @@
     if ([self.delegate message:self
                     verifyData:self.data
                  withSignature:self.signature
-                     forSender:self.envelope.sender]) {
+                     forSender:self.sender]) {
         // 2. pack message
-        NSMutableDictionary *mDict = [self dictionary:YES];
+        NSMutableDictionary *mDict = [self dictionary:NO];
         [mDict removeObjectForKey:@"signature"];
         return DKDSecureMessageFromDictionary(mDict);
     } else {

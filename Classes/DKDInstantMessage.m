@@ -94,6 +94,25 @@
     return _content;
 }
 
+- (NSDate *)time {
+    id<DKDContent> content = [self content];
+    NSDate *when = [content time];
+    if (when) {
+        return when;
+    }
+    return [super time];
+}
+
+- (id<MKMID>)group {
+    id<DKDContent> content = [self content];
+    return [content group];
+}
+
+- (DKDContentType)type {
+    id<DKDContent> content = [self content];
+    return [content type];
+}
+
 - (nullable NSMutableDictionary *)_prepareWithKey:(id<MKMSymmetricKey>)PW {
     // 1. serialize content
     NSData *data = [self.delegate message:self serializeContent:self.content withKey:PW];
@@ -107,7 +126,7 @@
     NSAssert(base64, @"failed to encode data: %@", data);
     
     // 4. replace 'content' with encrypted 'data'
-    NSMutableDictionary *msg = [self mutableCopy];
+    NSMutableDictionary *msg = [self dictionary:NO];
     [msg removeObjectForKey:@"content"];
     [msg setObject:base64 forKey:@"data"];
     return msg;
@@ -122,7 +141,7 @@
     NSMutableDictionary *msg = [self _prepareWithKey:password];
     
     // 2. encrypt symmetric key(password) to 'message.key'
-    id<MKMID> receiver = self.envelope.receiver;
+    id<MKMID> receiver = self.receiver;
     // 2.1. serialize symmetric key
     NSData *key = [self.delegate message:self serializeKey:password];
     if (key) {
@@ -138,7 +157,7 @@
     }
     
     // 3. pack message
-    return [[DKDSecureMessage alloc] initWithDictionary:msg];
+    return DKDSecureMessageFromDictionary(msg);
 }
 
 - (nullable id<DKDSecureMessage>)encryptWithKey:(id<MKMSymmetricKey>)password
@@ -174,7 +193,7 @@
     }
     
     // 3. pack message
-    return [[DKDSecureMessage alloc] initWithDictionary:msg];
+    return DKDSecureMessageFromDictionary(msg);
 }
 
 @end
