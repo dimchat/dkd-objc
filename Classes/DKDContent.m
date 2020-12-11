@@ -172,14 +172,9 @@ static NSMutableDictionary *s_parsers = nil;
     }
 }
 
-+ (nullable id<DKDContentParser>)parserForType:(DKDContentType)type {
-    return [s_parsers objectForKey:@(type)];
-}
-
 - (nullable __kindof id<DKDContent>)parseContent:(NSDictionary *)content {
-    NSNumber *number = [content objectForKey:@"type"];
-    DKDContentType type = [number unsignedCharValue];
-    id<DKDContentParser> parser = [DKDContentFactory parserForType:type];
+    NSNumber *type = [content objectForKey:@"type"];
+    id<DKDContentParser> parser = [s_parsers objectForKey:type];
     if (parser) {
         return [parser parse:content];
     }
@@ -193,9 +188,12 @@ static NSMutableDictionary *s_parsers = nil;
 static id<DKDContentFactory> s_factory = nil;
 
 + (id<DKDContentFactory>)factory {
-    if (s_factory == nil) {
-        s_factory = [[DKDContentFactory alloc] init];
-    }
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        if (!s_factory) {
+            s_factory = [[DKDContentFactory alloc] init];
+        }
+    });
     return s_factory;
 }
 
