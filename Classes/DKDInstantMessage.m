@@ -78,7 +78,7 @@
     return [self initWithEnvelope:env content:content];
 }
 
-- (id)copyWithZone:(NSZone *)zone {
+- (id)copyWithZone:(nullable NSZone *)zone {
     DKDInstantMessage *iMsg = [super copyWithZone:zone];
     if (iMsg) {
         iMsg.content = _content;
@@ -184,7 +184,7 @@
                 base64 = [self.delegate message:self encodeKey:data];
                 NSAssert(base64, @"failed to encode key data: %@", data);
                 // 2.3. insert to 'message.keys' with member ID
-                [map setObject:base64 forKey:ID.string];
+                [map setObject:base64 forKey:ID];
             }
         }
         if (map.count > 0) {

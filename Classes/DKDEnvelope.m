@@ -97,7 +97,7 @@
     return self;
 }
 
-- (id)copyWithZone:(NSZone *)zone {
+- (id)copyWithZone:(nullable NSZone *)zone {
     DKDEnvelope *envelope = [super copyWithZone:zone];
     if (envelope) {
         envelope.sender = _sender;

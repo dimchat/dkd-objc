@@ -77,7 +77,7 @@
     return self;
 }
 
-- (id)copyWithZone:(NSZone *)zone {
+- (id)copyWithZone:(nullable NSZone *)zone {
     DKDMessage *msg = [super copyWithZone:zone];
     if (msg) {
         msg.envelope = _envelope;

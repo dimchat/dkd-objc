@@ -68,7 +68,7 @@
     return self;
 }
 
-- (id)copyWithZone:(NSZone *)zone {
+- (id)copyWithZone:(nullable NSZone *)zone {
     DKDSecureMessage *sMsg = [super copyWithZone:zone];
     if (sMsg) {
         sMsg.data = _data;

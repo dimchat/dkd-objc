@@ -98,7 +98,7 @@ static inline NSUInteger serial_number(void) {
     return self;
 }
 
-- (id)copyWithZone:(NSZone *)zone {
+- (id)copyWithZone:(nullable NSZone *)zone {
     DKDContent *content = [super copyWithZone:zone];
     if (content) {
         //content.type = _type;
@@ -138,7 +138,7 @@ static inline NSUInteger serial_number(void) {
     return _time;
 }
 
-- (nullable id)group {
+- (nullable id<MKMID>)group {
     if (!_group) {
         id group = [self objectForKey:@"group"];
         _group = MKMIDFromString(group);

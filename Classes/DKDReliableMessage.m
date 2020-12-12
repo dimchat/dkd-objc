@@ -58,7 +58,7 @@
     return self;
 }
 
-- (id)copyWithZone:(NSZone *)zone {
+- (id)copyWithZone:(nullable NSZone *)zone {
     DKDReliableMessage *rMsg = [super copyWithZone:zone];
     if (rMsg) {
         rMsg.signature = _signature;
