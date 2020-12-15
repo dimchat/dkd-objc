@@ -35,8 +35,6 @@
 //  Copyright © 2018 DIM Group. All rights reserved.
 //
 
-#import "NSDate+Timestamp.h"
-
 #import "DKDInstantMessage.h"
 #import "DKDSecureMessage.h"
 #import "DKDReliableMessage.h"

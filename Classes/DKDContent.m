@@ -35,8 +35,6 @@
 //  Copyright © 2019 DIM Group. All rights reserved.
 //
 
-#import "NSDate+Timestamp.h"
-
 #import "DKDContent.h"
 
 static inline NSUInteger serial_number(void) {
@@ -74,7 +72,7 @@ static inline NSUInteger serial_number(void) {
     NSDate *now = [[NSDate alloc] init];
     NSDictionary *dict = @{@"type":@(type),
                            @"sn"  :@(sn),
-                           @"time":NSNumberFromDate(now),
+                           @"time":@([now timeIntervalSince1970]),
                            };
     if (self = [super initWithDictionary:dict]) {
         _type = type;
@@ -130,10 +128,12 @@ static inline NSUInteger serial_number(void) {
     return _serialNumber;
 }
 
-- (NSDate *)time {
+- (nullable NSDate *)time {
     if (!_time) {
         NSNumber *timestamp = [self objectForKey:@"time"];
-        _time = NSDateFromNumber(timestamp);
+        if (timestamp) {
+            _time = [[NSDate alloc] initWithTimeIntervalSince1970:[timestamp doubleValue]];
+        }
     }
     return _time;
 }

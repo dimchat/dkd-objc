@@ -35,8 +35,6 @@
 //  Copyright © 2018 DIM Group. All rights reserved.
 //
 
-#import "NSDate+Timestamp.h"
-
 #import "DKDEnvelope.h"
 
 @interface DKDEnvelope () {
@@ -91,7 +89,7 @@
 }
 
 - (instancetype)initWithSender:(id<MKMID>)from receiver:(id<MKMID>)to time:(NSDate *)when {
-    if ([self initWithSender:from receiver:to timestamp:NSNumberFromDate(when)]) {
+    if ([self initWithSender:from receiver:to timestamp:@([when timeIntervalSince1970])]) {
         _time = when;
     }
     return self;
@@ -128,7 +126,7 @@
 - (NSDate *)time {
     if (!_time) {
         NSNumber *timestamp = [self objectForKey:@"time"];
-        _time = NSDateFromNumber(timestamp);
+        _time = [[NSDate alloc] initWithTimeIntervalSince1970:[timestamp doubleValue]];
     }
     return _time;
 }
