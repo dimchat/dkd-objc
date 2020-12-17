@@ -100,6 +100,8 @@ NS_DESIGNATED_INITIALIZER;
                          content:(id<DKDContent>)content
 NS_DESIGNATED_INITIALIZER;
 
++ (__kindof id<DKDContent>)content:(NSDictionary *)msg;
+
 @end
 
 // convert Dictionary to InstantMessage
@@ -116,8 +118,15 @@ NS_DESIGNATED_INITIALIZER;
 
 @protocol DKDInstantMessageFactory <NSObject>
 
-- (id<DKDInstantMessage>)createInstantMessageWithEnvelope:(id<DKDEnvelope>)env
-                                                  content:(id<DKDContent>)content;
+/**
+ *  Create instant message with envelope & content
+ *
+ * @param head - message envelope
+ * @param body - message content
+ * @return InstantMessage
+ */
+- (id<DKDInstantMessage>)createInstantMessageWithEnvelope:(id<DKDEnvelope>)head
+                                                  content:(id<DKDContent>)body;
 
 - (nullable id<DKDInstantMessage>)parseInstantMessage:(NSDictionary *)msg;
 
@@ -131,8 +140,8 @@ NS_DESIGNATED_INITIALIZER;
 
 + (void)setFactory:(id<DKDInstantMessageFactory>)factory;
 
-+ (id<DKDInstantMessage>)createWithEnvelope:(id<DKDEnvelope>)env
-                                    content:(id<DKDContent>)content;
++ (id<DKDInstantMessage>)createWithEnvelope:(id<DKDEnvelope>)head
+                                    content:(id<DKDContent>)body;
 
 + (nullable id<DKDInstantMessage>)parse:(NSDictionary *)msg;
 

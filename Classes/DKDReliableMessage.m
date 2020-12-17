@@ -92,39 +92,63 @@
     }
 }
 
++ (nullable id<MKMMeta>)meta:(NSDictionary *)msg {
+    NSDictionary *dict = [msg objectForKey:@"meta"];
+    if (!dict) {
+        return nil;
+    }
+    return MKMMetaFromDictionary(dict);
+}
+
 - (id<MKMMeta>)meta {
     if (!_meta) {
-        _meta = MKMMetaFromDictionary([self objectForKey:@"meta"]);
+        _meta = [DKDReliableMessage meta:self.dictionary];
     }
     return _meta;
 }
 
-- (void)setMeta:(id<MKMMeta>)meta {
++ (void)setMeta:(id<MKMMeta>)meta inMessage:(NSMutableDictionary *)msg {
     if (meta) {
-        [self setObject:meta forKey:@"meta"];
+        [msg setObject:meta forKey:@"meta"];
     } else {
-        [self removeObjectForKey:@"meta"];
+        [msg removeObjectForKey:@"meta"];
     }
+}
+
+- (void)setMeta:(id<MKMMeta>)meta {
+    [DKDReliableMessage setMeta:meta inMessage:self.dictionary];
     _meta = meta;
+}
+
++ (nullable id<MKMVisa>)visa:(NSDictionary *)msg {
+    NSDictionary *dict = [msg objectForKey:@"visa"];
+    if (!dict) {
+        dict = [msg objectForKey:@"profile"];
+        if (!dict) {
+            return nil;
+        }
+    }
+    return MKMDocumentFromDictionary(dict);
 }
 
 - (id<MKMVisa>)visa {
     if (!_visa) {
-        id profile = [self objectForKey:@"profile"];
-        if (!profile) {
-            profile = [self objectForKey:@"visa"];
-        }
-        _visa = MKMDocumentFromDictionary(profile);
+        _visa = [DKDReliableMessage visa:self.dictionary];
     }
     return _visa;
 }
 
-- (void)setVisa:(id<MKMVisa>)visa {
++ (void)setVisa:(id<MKMVisa>)visa inMessage:(NSMutableDictionary *)msg {
     if (visa) {
-        [self setObject:visa forKey:@"profile"];
+        [msg setObject:visa forKey:@"profile"];
     } else {
-        [self removeObjectForKey:@"profile"];
+        [msg removeObjectForKey:@"profile"];
+        [msg removeObjectForKey:@"visa"];
     }
+}
+
+- (void)setVisa:(id<MKMVisa>)visa {
+    [DKDReliableMessage setVisa:visa inMessage:self.dictionary];
     _visa = visa;
 }
 

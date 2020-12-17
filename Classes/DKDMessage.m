@@ -83,9 +83,13 @@
     return self;
 }
 
++ (id<DKDEnvelope>)envelope:(NSDictionary *)msg {
+    return DKDEnvelopeFromDictionary(msg);
+}
+
 - (id<DKDEnvelope>)envelope {
     if (!_envelope) {
-        _envelope = DKDEnvelopeFromDictionary(self.dictionary);
+        _envelope = [DKDMessage envelope:self.dictionary];
     }
     return _envelope;
 }

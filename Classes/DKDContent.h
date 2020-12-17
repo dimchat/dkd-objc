@@ -152,6 +152,13 @@ NS_DESIGNATED_INITIALIZER;
 - (instancetype)initWithType:(DKDContentType)type
 NS_DESIGNATED_INITIALIZER;
 
++ (DKDContentType)type:(NSDictionary *)content;
++ (NSUInteger)serialNumber:(NSDictionary *)content;
++ (nullable NSDate *)time:(NSDictionary *)content;
+
++ (nullable id<MKMID>)group:(NSDictionary *)content;
++ (void)setGroup:(id<MKMID>)group inContent:(NSMutableDictionary *)content;
+
 @end
 
 #define DKDContentFromDictionary(dict)                                         \
@@ -160,27 +167,22 @@ NS_DESIGNATED_INITIALIZER;
 
 #pragma mark - Creation
 
-@protocol DKDContentParser <NSObject>
-
-- (nullable __kindof id<DKDContent>)parse:(NSDictionary *)content;
-
-@end
-
 @protocol DKDContentFactory <NSObject>
 
+/**
+ *  Parse map object to content
+ *
+ * @param content - content info
+ * @return Content
+ */
 - (nullable __kindof id<DKDContent>)parseContent:(NSDictionary *)content;
-
-@end
-
-@interface DKDContentFactory : NSObject <DKDContentFactory>
-
-+ (void)registerParser:(id<DKDContentParser>)parser forType:(DKDContentType)type;
 
 @end
 
 @interface DKDContent (Creation)
 
-+ (void)setFactory:(id<DKDContentFactory>)factory;
++ (id<DKDContentFactory>)factoryForType:(DKDContentType)type;
++ (void)setFactory:(id<DKDContentFactory>)factory forType:(DKDContentType)type;
 
 + (nullable __kindof id<DKDContent>)parse:(NSDictionary *)env;
 

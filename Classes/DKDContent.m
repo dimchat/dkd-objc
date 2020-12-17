@@ -107,51 +107,77 @@ static inline NSUInteger serial_number(void) {
     return content;
 }
 
++ (DKDContentType)type:(NSDictionary *)content {
+    NSNumber *number = [content objectForKey:@"type"];
+    NSAssert(number, @"content type not found: %@", content);
+    return [number unsignedCharValue];
+}
+
 - (DKDContentType)type {
     if (_type == 0) {
-        NSNumber *number = [self objectForKey:@"type"];
-        _type = [number unsignedCharValue];
+        _type = [DKDContent type:self.dictionary];
     }
     return _type;
 }
 
++ (void)setType:(DKDContentType)type inContent:(NSMutableDictionary *)content {
+    [content setObject:@(type) forKey:@"type"];
+}
+
 - (void)setType:(DKDContentType)type {
-    [self setObject:@(type) forKey:@"type"];
+    [DKDContent setType:type inContent:self.dictionary];
     _type = type;
+}
+
++ (NSUInteger)serialNumber:(NSDictionary *)content {
+    NSNumber *number = [content objectForKey:@"sn"];
+    NSAssert(number, @"serial number not found: %@", content);
+    return [number unsignedIntegerValue];
 }
 
 - (NSUInteger)serialNumber {
     if (_serialNumber == 0) {
-        NSNumber *number = [self objectForKey:@"sn"];
-        _serialNumber = [number unsignedIntegerValue];
+        _serialNumber = [DKDContent serialNumber:self.dictionary];
     }
     return _serialNumber;
 }
 
++ (nullable NSDate *)time:(NSDictionary *)content {
+    NSNumber *timestamp = [content objectForKey:@"time"];
+    if (!timestamp) {
+        return nil;
+    }
+    return [[NSDate alloc] initWithTimeIntervalSince1970:[timestamp doubleValue]];
+}
+
 - (nullable NSDate *)time {
     if (!_time) {
-        NSNumber *timestamp = [self objectForKey:@"time"];
-        if (timestamp) {
-            _time = [[NSDate alloc] initWithTimeIntervalSince1970:[timestamp doubleValue]];
-        }
+        _time = [DKDContent time:self.dictionary];
     }
     return _time;
 }
 
++ (nullable id<MKMID>)group:(NSDictionary *)content {
+    return MKMIDFromString([content objectForKey:@"group"]);
+}
+
 - (nullable id<MKMID>)group {
     if (!_group) {
-        id group = [self objectForKey:@"group"];
-        _group = MKMIDFromString(group);
+        return [DKDContent group:self.dictionary];
     }
     return _group;
 }
 
-- (void)setGroup:(nullable id)group {
++ (void)setGroup:(id<MKMID>)group inContent:(NSMutableDictionary *)content {
     if (group) {
-        [self setObject:group forKey:@"group"];
+        [content setObject:group forKey:@"group"];
     } else {
-        [self removeObjectForKey:@"group"];
+        [content removeObjectForKey:@"group"];
     }
+}
+
+- (void)setGroup:(nullable id)group {
+    [DKDContent setGroup:group inContent:self.dictionary];
     _group = group;
 }
 
@@ -159,46 +185,26 @@ static inline NSUInteger serial_number(void) {
 
 #pragma mark -
 
-@implementation DKDContentFactory
-
-static NSMutableDictionary *s_parsers = nil;
-
-+ (void)registerParser:(id<DKDContentParser>)parser forType:(DKDContentType)type {
-    @synchronized (self) {
-        if (!s_parsers) {
-            s_parsers = [[NSMutableDictionary alloc] init];
-        }
-        [s_parsers setObject:parser forKey:@(type)];
-    }
-}
-
-- (nullable __kindof id<DKDContent>)parseContent:(NSDictionary *)content {
-    NSNumber *type = [content objectForKey:@"type"];
-    id<DKDContentParser> parser = [s_parsers objectForKey:type];
-    if (parser) {
-        return [parser parse:content];
-    }
-    return [[DKDContent alloc] initWithDictionary:content];
-}
-
-@end
-
 @implementation DKDContent (Creation)
 
-static id<DKDContentFactory> s_factory = nil;
+static NSMutableDictionary<NSNumber *, id<DKDContentFactory>> *s_factories = nil;
 
-+ (id<DKDContentFactory>)factory {
+static NSMutableDictionary<NSNumber *, id<DKDContentFactory>> *factories(void) {
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-        if (!s_factory) {
-            s_factory = [[DKDContentFactory alloc] init];
+        if (!s_factories) {
+            s_factories = [[NSMutableDictionary alloc] init];
         }
     });
-    return s_factory;
+    return s_factories;
 }
 
-+ (void)setFactory:(id<DKDContentFactory>)factory {
-    s_factory = factory;
++ (id<DKDContentFactory>)factoryForType:(DKDContentType)type {
+    return [factories() objectForKey:@(type)];
+}
+
++ (void)setFactory:(id<DKDContentFactory>)factory forType:(DKDContentType)type {
+    [factories() setObject:factory forKey:@(type)];
 }
 
 + (nullable __kindof id<DKDContent>)parse:(NSDictionary *)content {
@@ -209,7 +215,13 @@ static id<DKDContentFactory> s_factory = nil;
     } else if ([content conformsToProtocol:@protocol(MKMDictionary)]) {
         content = [(id<MKMDictionary>)content dictionary];
     }
-    return [[self factory] parseContent:content];
+    DKDContentType type = [self type:content];
+    id<DKDContentFactory> factory = [self factoryForType:type];
+    if (!factory) {
+        factory = [self factoryForType:0];  // unknown
+        NSAssert(factory, @"cannot parse content: %@", content);
+    }
+    return [factory parseContent:content];
 }
 
 @end

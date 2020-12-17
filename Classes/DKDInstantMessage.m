@@ -86,10 +86,15 @@
     return iMsg;
 }
 
++ (__kindof id<DKDContent>)content:(NSDictionary *)msg {
+    NSDictionary *dict = [msg objectForKey:@"content"];
+    NSAssert(dict, @"message content not found: %@", msg);
+    return DKDContentFromDictionary(dict);
+}
+
 - (__kindof id<DKDContent>)content {
     if (!_content) {
-        NSDictionary *dict = [self objectForKey:@"content"];
-        _content = DKDContentFromDictionary(dict);
+        _content = [DKDInstantMessage content:self.dictionary];
     }
     return _content;
 }
@@ -202,9 +207,9 @@
 
 @implementation DKDInstantMessageFactory
 
-- (id<DKDInstantMessage>)createInstantMessageWithEnvelope:(id<DKDEnvelope>)env
-                                                  content:(id<DKDContent>)content {
-    return [[DKDInstantMessage alloc] initWithEnvelope:env content:content];
+- (id<DKDInstantMessage>)createInstantMessageWithEnvelope:(id<DKDEnvelope>)head
+                                                  content:(id<DKDContent>)body {
+    return [[DKDInstantMessage alloc] initWithEnvelope:head content:body];
 }
 
 - (nullable id<DKDInstantMessage>)parseInstantMessage:(NSDictionary *)msg {
@@ -228,9 +233,9 @@ static id<DKDInstantMessageFactory> s_factory = nil;
     s_factory = factory;
 }
 
-+ (id<DKDInstantMessage>)createWithEnvelope:(id<DKDEnvelope>)env
-                                    content:(id<DKDContent>)content {
-    return [[self factory] createInstantMessageWithEnvelope:env content:content];
++ (id<DKDInstantMessage>)createWithEnvelope:(id<DKDEnvelope>)head
+                                    content:(id<DKDContent>)body {
+    return [[self factory] createInstantMessageWithEnvelope:head content:body];
 }
 
 + (nullable id<DKDInstantMessage>)parse:(NSDictionary *)msg {

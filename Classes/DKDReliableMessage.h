@@ -103,6 +103,12 @@ NS_ASSUME_NONNULL_BEGIN
 - (instancetype)initWithDictionary:(NSDictionary *)dict
 NS_DESIGNATED_INITIALIZER;
 
++ (nullable id<MKMMeta>)meta:(NSDictionary *)msg;
++ (void)setMeta:(id<MKMMeta>)meta inMessage:(NSMutableDictionary *)msg;
+
++ (nullable id<MKMVisa>)visa:(NSDictionary *)msg;
++ (void)setVisa:(id<MKMVisa>)visa inMessage:(NSMutableDictionary *)msg;
+
 @end
 
 // convert Dictionary to ReliableMessage

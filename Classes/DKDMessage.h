@@ -319,6 +319,8 @@ NS_DESIGNATED_INITIALIZER;
 - (instancetype)initWithEnvelope:(id<DKDEnvelope>)env
 NS_DESIGNATED_INITIALIZER;
 
++ (id<DKDEnvelope>)envelope:(NSDictionary *)msg;
+
 @end
 
 NS_ASSUME_NONNULL_END

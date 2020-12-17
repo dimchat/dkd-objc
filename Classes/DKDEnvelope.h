@@ -88,6 +88,16 @@ NS_DESIGNATED_INITIALIZER;
                       receiver:(id<MKMID>)to
                           time:(NSDate *)when;
 
++ (id<MKMID>)sender:(NSDictionary *)env;
++ (id<MKMID>)receiver:(NSDictionary *)env;
++ (NSDate *)time:(NSDictionary *)env;
+
++ (nullable id<MKMID>)group:(NSDictionary *)env;
++ (void)setGroup:(id<MKMID>)group inEnvelope:(NSMutableDictionary *)env;
+
++ (DKDContentType)type:(NSDictionary *)env;
++ (void)setType:(DKDContentType)type inEnvelope:(NSMutableDictionary *)env;
+
 @end
 
 // convert Dictionary to Envelope
@@ -104,6 +114,14 @@ NS_DESIGNATED_INITIALIZER;
 
 @protocol DKDEnvelopeFactory <NSObject>
 
+/**
+ *  Create envelope
+ *
+ * @param from - sender ID
+ * @param to   - receiver ID
+ * @param when - message time
+ * @return Envelope
+ */
 - (id<DKDEnvelope>)createEnvelopeWithSender:(id<MKMID>)from
                                    receiver:(id<MKMID>)to
                                        time:(nullable NSDate *)when;
@@ -112,6 +130,12 @@ NS_DESIGNATED_INITIALIZER;
                                    receiver:(id<MKMID>)to
                                   timestamp:(nullable NSNumber *)time;
 
+/**
+ *  Parse map object to envelope
+ *
+ * @param env - envelope info
+ * @return Envelope
+ */
 - (nullable id<DKDEnvelope>)parseEnvelope:(NSDictionary *)env;
 
 @end

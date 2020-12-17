@@ -37,11 +37,7 @@
 
 #import "DKDEnvelope.h"
 
-@interface DKDEnvelope () {
-    
-    id<MKMID> _group;
-    DKDContentType _type;
-}
+@interface DKDEnvelope ()
 
 @property (strong, nonatomic) id<MKMID> sender;
 @property (strong, nonatomic) id<MKMID> receiver;
@@ -64,9 +60,6 @@
         _sender = nil;
         _receiver = nil;
         _time = nil;
-        
-        _group = nil;
-        _type = 0;
     }
     return self;
 }
@@ -81,9 +74,6 @@
         _sender = from;
         _receiver = to;
         _time = nil;
-        
-        _group = nil;
-        _type = 0;
     }
     return self;
 }
@@ -101,64 +91,83 @@
         envelope.sender = _sender;
         envelope.receiver = _receiver;
         envelope.time = _time;
-        //envelope.group = _group;
-        //envelope.type = _type;
     }
     return envelope;
 }
 
-- (id)sender {
++ (id<MKMID>)sender:(NSDictionary *)env {
+    return MKMIDFromString([env objectForKey:@"sender"]);
+}
+
+- (id<MKMID>)sender {
     if (!_sender) {
-        id sender = [self objectForKey:@"sender"];
-        _sender = MKMIDFromString(sender);
+        _sender = [DKDEnvelope sender:self.dictionary];
     }
     return _sender;
 }
 
-- (id)receiver {
++ (id<MKMID>)receiver:(NSDictionary *)env {
+    return MKMIDFromString([env objectForKey:@"receiver"]);
+}
+
+- (id<MKMID>)receiver {
     if (!_receiver) {
-        id receiver = [self objectForKey:@"receiver"];
-        _receiver = MKMIDFromString(receiver);
+        _receiver = [DKDEnvelope receiver:self.dictionary];
     }
     return _receiver;
 }
 
++ (NSDate *)time:(NSDictionary *)env {
+    NSNumber *timestamp = [env objectForKey:@"time"];
+    if (!timestamp) {
+        //NSAssert(false, @"message time not found: %@", env);
+        return nil;
+    }
+    return [[NSDate alloc] initWithTimeIntervalSince1970:[timestamp doubleValue]];
+}
+
 - (NSDate *)time {
     if (!_time) {
-        NSNumber *timestamp = [self objectForKey:@"time"];
-        _time = [[NSDate alloc] initWithTimeIntervalSince1970:[timestamp doubleValue]];
+        _time = [DKDEnvelope time:self.dictionary];
     }
     return _time;
 }
 
-- (nullable id)group {
-    if (!_group) {
-        id group = [self objectForKey:@"group"];
-        _group = MKMIDFromString(group);
-    }
-    return _group;
++ (nullable id<MKMID>)group:(NSDictionary *)env {
+    return MKMIDFromString([env objectForKey:@"group"]);
 }
 
-- (void)setGroup:(nullable id)group {
+- (nullable id<MKMID>)group {
+    return [DKDEnvelope group:self.dictionary];
+}
+
++ (void)setGroup:(id<MKMID>)group inEnvelope:(NSMutableDictionary *)env {
     if (group) {
-        [self setObject:group forKey:@"group"];
+        [env setObject:group forKey:@"group"];
     } else {
-        [self removeObjectForKey:@"group"];
+        [env removeObjectForKey:@"group"];
     }
-    _group = group;
+}
+
+- (void)setGroup:(id<MKMID>)group {
+    [DKDEnvelope setGroup:group inEnvelope:self.dictionary];
+}
+
++ (DKDContentType)type:(NSDictionary *)env {
+    NSNumber *number = [env objectForKey:@"type"];
+    return [number unsignedCharValue];
 }
 
 - (DKDContentType)type {
-    if (_type == 0) {
-        NSNumber *number = [self objectForKey:@"type"];
-        _type = [number unsignedCharValue];
-    }
-    return _type;
+    return [DKDEnvelope type:self.dictionary];
+}
+
++ (void)setType:(DKDContentType)type inEnvelope:(NSMutableDictionary *)env {
+    [env setObject:@(type) forKey:@"type"];
 }
 
 - (void)setType:(DKDContentType)type {
-    [self setObject:@(type) forKey:@"type"];
-    _type = type;
+    [DKDEnvelope setType:type inEnvelope:self.dictionary];
 }
 
 @end
