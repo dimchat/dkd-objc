@@ -139,11 +139,11 @@
 }
 
 + (void)setVisa:(id<MKMVisa>)visa inMessage:(NSMutableDictionary *)msg {
+    [msg removeObjectForKey:@"visa"];
     if (visa) {
         [msg setObject:visa forKey:@"profile"];
     } else {
         [msg removeObjectForKey:@"profile"];
-        [msg removeObjectForKey:@"visa"];
     }
 }
 

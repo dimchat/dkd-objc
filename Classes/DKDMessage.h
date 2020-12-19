@@ -65,7 +65,19 @@ NS_ASSUME_NONNULL_BEGIN
 @protocol DKDSecureMessage;
 @protocol DKDReliableMessage;
 
-@protocol DKDInstantMessageDelegate <NSObject>
+@protocol DKDMessageDelegate <NSObject>
+
+/**
+ *  Get group ID which should be exposed to public network
+ *
+ * @param content - message content
+ * @return exposed group ID
+ */
+- (id<MKMID>)overtGroupForContent:(id<DKDContent>)content;
+
+@end
+
+@protocol DKDInstantMessageDelegate <DKDMessageDelegate>
 
 #pragma mark Encrypt Content
 
@@ -139,7 +151,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @end
 
-@protocol DKDSecureMessageDelegate <NSObject>
+@protocol DKDSecureMessageDelegate <DKDMessageDelegate>
 
 #pragma mark Decrypt Key
 
@@ -271,18 +283,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 @end
 
-@protocol DKDMessageDelegate <DKDInstantMessageDelegate, DKDSecureMessageDelegate, DKDReliableMessageDelegate>
-
-/**
- *  Get group ID which should be exposed to public network
- *
- * @param content - message content
- * @return exposed group ID
- */
-- (id<MKMID>)overtGroupForContent:(id<DKDContent>)content;
-
-@end
-
 /*
  *  Common Message
  *
@@ -298,7 +298,7 @@ NS_ASSUME_NONNULL_BEGIN
 @protocol DKDMessage <MKMDictionary>
 
 // delegate to transform message
-@property (weak, nonatomic) id<DKDMessageDelegate> delegate;
+@property (weak, nonatomic) __kindof id<DKDMessageDelegate> delegate;
 
 @property (readonly, strong, nonatomic) id<DKDEnvelope> envelope;
 

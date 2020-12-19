@@ -211,7 +211,7 @@
             [msg removeObjectForKey:@"key"];
         }
         // 4. repack message
-        dict = [NSMutableDictionary copy:msg circularly:NO];
+        dict = [MKMDictionary copy:msg circularly:NO];
         [messages addObject:DKDSecureMessageFromDictionary(dict)];
     }
     return messages;
