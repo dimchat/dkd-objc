@@ -189,22 +189,19 @@ static inline NSUInteger serial_number(void) {
 
 static NSMutableDictionary<NSNumber *, id<DKDContentFactory>> *s_factories = nil;
 
-static NSMutableDictionary<NSNumber *, id<DKDContentFactory>> *factories(void) {
++ (void)setFactory:(id<DKDContentFactory>)factory forType:(DKDContentType)type {
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-        if (!s_factories) {
+        //if (!s_factories) {
             s_factories = [[NSMutableDictionary alloc] init];
-        }
+        //}
     });
-    return s_factories;
+    [s_factories setObject:factory forKey:@(type)];
 }
 
 + (id<DKDContentFactory>)factoryForType:(DKDContentType)type {
-    return [factories() objectForKey:@(type)];
-}
-
-+ (void)setFactory:(id<DKDContentFactory>)factory forType:(DKDContentType)type {
-    [factories() setObject:factory forKey:@(type)];
+    NSAssert(s_factories, @"content factories not set yet");
+    return [s_factories objectForKey:@(type)];
 }
 
 + (nullable __kindof id<DKDContent>)parse:(NSDictionary *)content {
