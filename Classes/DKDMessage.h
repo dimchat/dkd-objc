@@ -67,14 +67,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 @protocol DKDMessageDelegate <NSObject>
 
-/**
- *  Get group ID which should be exposed to public network
- *
- * @param content - message content
- * @return exposed group ID
- */
-- (id<MKMID>)overtGroupForContent:(id<DKDContent>)content;
-
 @end
 
 @protocol DKDInstantMessageDelegate <DKDMessageDelegate>
