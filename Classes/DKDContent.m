@@ -170,7 +170,7 @@ static inline NSUInteger serial_number(void) {
 
 + (void)setGroup:(id<MKMID>)group inContent:(NSMutableDictionary *)content {
     if (group) {
-        [content setObject:group forKey:@"group"];
+        [content setObject:[group string] forKey:@"group"];
     } else {
         [content removeObjectForKey:@"group"];
     }

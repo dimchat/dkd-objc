@@ -45,7 +45,7 @@
 @property (strong, nonatomic) NSData *data;
 
 @property (strong, nonatomic, nullable) NSData *encryptedKey;
-@property (strong, nonatomic, nullable) NSDictionary *encryptedKeys;
+@property (strong, nonatomic, nullable) NSDictionary<NSString *, NSString *> *encryptedKeys;
 
 @end
 
@@ -92,8 +92,8 @@
         NSString *key = [self objectForKey:@"key"];
         if (!key) {
             // check 'keys'
-            NSDictionary *keys = self.encryptedKeys;
-            key = [keys objectForKey:self.receiver];
+            NSDictionary<NSString *, NSString *> *keys = self.encryptedKeys;
+            key = [keys objectForKey:[self.receiver string]];
         }
         if (key) {
             _encryptedKey = [self.delegate message:self decodeKey:key];
@@ -102,7 +102,7 @@
     return _encryptedKey;
 }
 
-- (NSDictionary *)encryptedKeys {
+- (NSDictionary<NSString *, NSString *> *)encryptedKeys {
     if (!_encryptedKeys) {
         _encryptedKeys = [self objectForKey:@"keys"];
     }
@@ -159,7 +159,7 @@
     [mDict removeObjectForKey:@"key"];
     [mDict removeObjectForKey:@"keys"];
     [mDict removeObjectForKey:@"data"];
-    [mDict setObject:content forKey:@"content"];
+    [mDict setObject:[content dictionary] forKey:@"content"];
     return DKDInstantMessageFromDictionary(mDict);
 }
 
@@ -181,10 +181,10 @@
     return DKDReliableMessageFromDictionary(mDict);
 }
 
-- (NSArray *)splitForMembers:(NSArray<id<MKMID>> *)members {
+- (NSArray<__kindof id<DKDSecureMessage>> *)splitForMembers:(NSArray<id<MKMID>> *)members {
     NSMutableDictionary *msg = [self dictionary:NO];
     // check 'keys'
-    NSDictionary *keyMap = self.encryptedKeys;
+    NSDictionary<NSString *, NSString *> *keyMap = self.encryptedKeys;
     if (keyMap) {
         [msg removeObjectForKey:@"keys"];
     }
@@ -194,35 +194,37 @@
     //    when the group message separated to multi-messages;
     //    if don't want the others know your membership,
     //    DON'T do this.
-    [msg setObject:self.receiver forKey:@"group"];
+    [msg setObject:[self.receiver string] forKey:@"group"];
     
     NSMutableArray *messages;
     messages = [[NSMutableArray alloc] initWithCapacity:members.count];
     NSString *base64;
-    NSMutableDictionary *dict;
+    id<DKDSecureMessage> item;
     for (id<MKMID> member in members) {
         // 2. change receiver to each group member
-        [msg setObject:member forKey:@"receiver"];
+        [msg setObject:[member string] forKey:@"receiver"];
         // 3. get encrypted key
-        base64 = [keyMap objectForKey:member];
+        base64 = [keyMap objectForKey:[member string]];
         if (base64) {
             [msg setObject:base64 forKey:@"key"];
         } else {
             [msg removeObjectForKey:@"key"];
         }
         // 4. repack message
-        dict = [MKMDictionary copy:msg circularly:NO];
-        [messages addObject:DKDSecureMessageFromDictionary(dict)];
+        item = DKDSecureMessageFromDictionary([MKMDictionary copy:msg circularly:NO]);
+        if (item) {
+            [messages addObject:item];
+        }
     }
     return messages;
 }
 
-- (instancetype)trimForMember:(id<MKMID>)member {
+- (__kindof id<DKDSecureMessage>)trimForMember:(id<MKMID>)member {
     NSMutableDictionary *mDict = [self dictionary:NO];
     // check 'keys'
     NSDictionary *keys = [mDict objectForKey:@"keys"];
     if (keys) {
-        NSString *base64 = [keys objectForKey:member];
+        NSString *base64 = [keys objectForKey:[member string]];
         if (base64) {
             [mDict setObject:base64 forKey:@"key"];
         }
@@ -234,10 +236,10 @@
         // if 'group' not exists, the 'receiver' must be a group ID here, and
         // it will not be equal to the member of course,
         // so move 'receiver' to 'group'
-        [mDict setObject:self.receiver forKey:@"group"];
+        [mDict setObject:[self.receiver string] forKey:@"group"];
     }
     // replace receiver
-    [mDict setObject:member forKey:@"receiver"];
+    [mDict setObject:[member string] forKey:@"receiver"];
     // repack
     return DKDSecureMessageFromDictionary(mDict);
 }

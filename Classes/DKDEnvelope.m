@@ -66,8 +66,8 @@
 
 /* designated initializer */
 - (instancetype)initWithSender:(id<MKMID>)from receiver:(id<MKMID>)to timestamp:(NSNumber *)time {
-    NSDictionary *dict = @{@"sender"  :from,
-                           @"receiver":to,
+    NSDictionary *dict = @{@"sender"  :[from string],
+                           @"receiver":[to string],
                            @"time"    :time,
                            };
     if (self = [super initWithDictionary:dict]) {
@@ -143,7 +143,7 @@
 
 + (void)setGroup:(id<MKMID>)group inEnvelope:(NSMutableDictionary *)env {
     if (group) {
-        [env setObject:group forKey:@"group"];
+        [env setObject:[group string] forKey:@"group"];
     } else {
         [env removeObjectForKey:@"group"];
     }

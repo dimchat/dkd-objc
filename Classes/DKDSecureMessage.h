@@ -70,7 +70,7 @@ NS_ASSUME_NONNULL_BEGIN
  *   encryptedKey = receiver.publicKey.encrypt(symmetricKey);
  */
 @property (readonly, strong, nonatomic, nullable) NSData *encryptedKey;
-@property (readonly, strong, nonatomic, nullable) NSDictionary *encryptedKeys;
+@property (readonly, strong, nonatomic, nullable) NSDictionary<NSString *, NSString *> *encryptedKeys;
 
 /*
  *  Decrypt the Secure Message to Instant Message
@@ -119,7 +119,7 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param members - group members
  *  @return secure/reliable message(s)
  */
-- (NSArray *)splitForMembers:(NSArray<id<MKMID>> *)members;
+- (NSArray<__kindof id<DKDSecureMessage>> *)splitForMembers:(NSArray<id<MKMID>> *)members;
 
 /**
  *  Trim the group message for a member
@@ -127,7 +127,7 @@ NS_ASSUME_NONNULL_BEGIN
  * @param member - group member ID
  * @return SecureMessage/ReliableMessage
  */
-- (instancetype)trimForMember:(id<MKMID>)member;
+- (__kindof id<DKDSecureMessage>)trimForMember:(id<MKMID>)member;
 
 @end
 

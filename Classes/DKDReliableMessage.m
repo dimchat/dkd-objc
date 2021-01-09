@@ -109,7 +109,7 @@
 
 + (void)setMeta:(id<MKMMeta>)meta inMessage:(NSMutableDictionary *)msg {
     if (meta) {
-        [msg setObject:meta forKey:@"meta"];
+        [msg setObject:[meta dictionary] forKey:@"meta"];
     } else {
         [msg removeObjectForKey:@"meta"];
     }
@@ -141,7 +141,7 @@
 + (void)setVisa:(id<MKMVisa>)visa inMessage:(NSMutableDictionary *)msg {
     [msg removeObjectForKey:@"visa"];
     if (visa) {
-        [msg setObject:visa forKey:@"profile"];
+        [msg setObject:[visa dictionary] forKey:@"profile"];
     } else {
         [msg removeObjectForKey:@"profile"];
     }

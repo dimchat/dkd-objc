@@ -65,7 +65,7 @@
     if (self = [super initWithEnvelope:env]) {
         // content
         if (content) {
-            [self setObject:content forKey:@"content"];
+            [self setObject:[content dictionary] forKey:@"content"];
         }
         _content = content;
     }
@@ -189,7 +189,7 @@
                 base64 = [self.delegate message:self encodeKey:data];
                 NSAssert(base64, @"failed to encode key data: %@", data);
                 // 2.3. insert to 'message.keys' with member ID
-                [map setObject:base64 forKey:ID];
+                [map setObject:base64 forKey:[ID string]];
             }
         }
         if (map.count > 0) {
