@@ -35,7 +35,7 @@
 //  Copyright © 2018 DIM Group. All rights reserved.
 //
 
-#import "DKDMessage.h"
+#import <DaoKeDao/DKDMessage.h>
 
 NS_ASSUME_NONNULL_BEGIN
 

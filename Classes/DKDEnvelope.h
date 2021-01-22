@@ -35,7 +35,7 @@
 //  Copyright © 2018 DIM Group. All rights reserved.
 //
 
-#import "DKDContent.h"
+#import <DaoKeDao/DKDContent.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
