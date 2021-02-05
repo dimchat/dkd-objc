@@ -79,6 +79,7 @@
     DKDMessage *msg = [super copyWithZone:zone];
     if (msg) {
         msg.envelope = _envelope;
+        msg.delegate = self.delegate;
     }
     return self;
 }

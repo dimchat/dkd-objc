@@ -63,7 +63,7 @@ static inline NSUInteger serial_number(void) {
 
 - (instancetype)init {
     NSAssert(false, @"DON'T call me");
-    return [self initWithType:DKDContentType_Unknown];
+    return [self initWithType:0];
 }
 
 /* designated initializer */

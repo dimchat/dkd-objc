@@ -87,7 +87,6 @@ NS_ASSUME_NONNULL_BEGIN
  *      (All above are just some advices to help choosing numbers :P)
  */
 typedef NS_ENUM(UInt8, DKDContentType) {
-    DKDContentType_Unknown    = 0x00,
     
     DKDContentType_Text       = 0x01, // 0000 0001
     
