@@ -127,7 +127,9 @@
     // 1.2. decrypt key data
     if (key.length > 0) {
         key = [self.delegate message:self decryptKey:key from:sender to:receiver];
-        NSAssert(key.length > 0, @"failed to decrypt key in msg: %@", self);
+        if (key.length == 0) {
+            @throw [NSException exceptionWithName:@"ReceiverError" reason:@"failed to decrypt key in msg" userInfo:[self dictionary]];
+        }
     }
     // 1.3. deserialize key
     //      if key is empty, means it should be reused, get it from key cache
