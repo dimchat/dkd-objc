@@ -159,7 +159,14 @@
 @implementation DKDReliableMessageFactory
 
 - (nullable id<DKDReliableMessage>)parseReliableMessage:(NSDictionary *)msg {
-    return [[DKDReliableMessage alloc] initWithDictionary:msg];
+    if ([msg objectForKey:@"sender"] && [msg objectForKey:@"data"] && [msg objectForKey:@"signature"]) {
+        return [[DKDReliableMessage alloc] initWithDictionary:msg];
+    } else {
+        // msg.sender should not be empty
+        // msg.data should not be empty
+        // msg.signature should not be empty
+        return nil;
+    }
 }
 
 @end

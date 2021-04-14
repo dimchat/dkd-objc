@@ -113,6 +113,9 @@
 - (id<MKMID>)receiver {
     if (!_receiver) {
         _receiver = [DKDEnvelope receiver:self.dictionary];
+        if (!_receiver) {
+            _receiver = MKMAnyone();
+        }
     }
     return _receiver;
 }
@@ -197,7 +200,12 @@
 }
 
 - (nullable id<DKDEnvelope>)parseEnvelope:(NSDictionary *)env {
-    return [[DKDEnvelope alloc] initWithDictionary:env];
+    if ([env objectForKey:@"sender"]) {
+        return [[DKDEnvelope alloc] initWithDictionary:env];
+    } else {
+        // env.sender should not be empty
+        return nil;
+    }
 }
 
 @end
