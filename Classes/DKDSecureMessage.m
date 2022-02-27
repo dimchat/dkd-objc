@@ -40,6 +40,36 @@
 
 #import "DKDSecureMessage.h"
 
+static id<DKDSecureMessageFactory> s_factory = nil;
+
+id<DKDSecureMessageFactory> DKDSecureMessageGetFactory(void) {
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        if (s_factory == nil) {
+            s_factory = [[DKDSecureMessageFactory alloc] init];
+        }
+    });
+    return s_factory;
+}
+
+void DKDSecureMessageSetFactory(id<DKDSecureMessageFactory> factory) {
+    s_factory = factory;
+}
+
+id<DKDSecureMessage> DKDSecureMessageParse(id msg) {
+    if (!msg) {
+        return nil;
+    } else if ([msg conformsToProtocol:@protocol(DKDSecureMessage)]) {
+        return (id<DKDSecureMessage>)msg;
+    } else if ([msg conformsToProtocol:@protocol(MKMDictionary)]) {
+        msg = [(id<MKMDictionary>)msg dictionary];
+    }
+    id<DKDSecureMessageFactory> factory = DKDSecureMessageGetFactory();
+    return [factory parseSecureMessage:msg];
+}
+
+#pragma mark -
+
 @interface DKDSecureMessage ()
 
 @property (strong, nonatomic) NSData *data;
@@ -142,11 +172,14 @@
     NSAssert(data.length > 0, @"failed to decode content data: %@", self);
     // 2.2. decrypt content data
     data = [self.delegate message:self decryptContent:data withKey:password];
-    NSAssert(data.length > 0, @"failed to decrypt data with key: %@", password);
+    if (!data) {
+        NSAssert(false, @"failed to decrypt data with key: %@", password);
+        return nil;
+    }
     // 2.3. deserialize content
     id<DKDContent> content = [self.delegate message:self deserializeContent:data withKey:password];
     if (!content) {
-        NSAssert(false, @"failed to decrypt message data: %@", self);
+        //NSAssert(false, @"content data error: [%@]", MKMUTF8Decode(data));
         return nil;
     }
     // 2.4. check attachment for File/Image/Audio/Video message content
@@ -183,7 +216,7 @@
     return DKDReliableMessageFromDictionary(mDict);
 }
 
-- (NSArray<__kindof id<DKDSecureMessage>> *)splitForMembers:(NSArray<id<MKMID>> *)members {
+- (NSArray<id<DKDSecureMessage>> *)splitForMembers:(NSArray<id<MKMID>> *)members {
     NSMutableDictionary *msg = [self dictionary:NO];
     // check 'keys'
     NSDictionary<NSString *, NSString *> *keyMap = self.encryptedKeys;
@@ -196,7 +229,7 @@
     //    when the group message separated to multi-messages;
     //    if don't want the others know your membership,
     //    DON'T do this.
-    [msg setObject:[self.receiver string] forKey:@"group"];
+    [msg setObject:self.receiver forKey:@"group"];
     
     NSMutableArray *messages;
     messages = [[NSMutableArray alloc] initWithCapacity:members.count];
@@ -204,7 +237,7 @@
     id<DKDSecureMessage> item;
     for (id<MKMID> member in members) {
         // 2. change receiver to each group member
-        [msg setObject:[member string] forKey:@"receiver"];
+        [msg setObject:member forKey:@"receiver"];
         // 3. get encrypted key
         base64 = [keyMap objectForKey:[member string]];
         if (base64) {
@@ -221,7 +254,7 @@
     return messages;
 }
 
-- (__kindof id<DKDSecureMessage>)trimForMember:(id<MKMID>)member {
+- (id<DKDSecureMessage>)trimForMember:(id<MKMID>)member {
     NSMutableDictionary *mDict = [self dictionary:NO];
     // check 'keys'
     NSDictionary *keys = [mDict objectForKey:@"keys"];
@@ -238,50 +271,22 @@
         // if 'group' not exists, the 'receiver' must be a group ID here, and
         // it will not be equal to the member of course,
         // so move 'receiver' to 'group'
-        [mDict setObject:[self.receiver string] forKey:@"group"];
+        [mDict setObject:self.receiver forKey:@"group"];
     }
     // replace receiver
-    [mDict setObject:[member string] forKey:@"receiver"];
+    [mDict setObject:member forKey:@"receiver"];
     // repack
     return DKDSecureMessageFromDictionary(mDict);
 }
 
 @end
 
-#pragma mark - Creation
+#pragma mark -
 
 @implementation DKDSecureMessageFactory
 
-- (nullable __kindof id<DKDSecureMessage>)parseSecureMessage:(NSDictionary *)msg {
+- (nullable id<DKDSecureMessage>)parseSecureMessage:(NSDictionary *)msg {
     return [[DKDSecureMessage alloc] initWithDictionary:msg];
-}
-
-@end
-
-@implementation DKDSecureMessage (Creation)
-
-static id<DKDSecureMessageFactory> s_factory = nil;
-
-+ (id<DKDSecureMessageFactory>)factory {
-    if (s_factory == nil) {
-        s_factory = [[DKDSecureMessageFactory alloc] init];
-    }
-    return s_factory;
-}
-
-+ (void)setFactory:(id<DKDSecureMessageFactory>)factory {
-    s_factory = factory;
-}
-
-+ (nullable __kindof id<DKDSecureMessage>)parse:(NSDictionary *)msg {
-    if (msg.count == 0) {
-        return nil;
-    } else if ([msg conformsToProtocol:@protocol(DKDSecureMessage)]) {
-        return (id<DKDSecureMessage>)msg;
-    } else if ([msg conformsToProtocol:@protocol(MKMDictionary)]) {
-        msg = [(id<MKMDictionary>)msg dictionary];
-    }
-    return [[self factory] parseSecureMessage:msg];
 }
 
 @end

@@ -98,41 +98,43 @@ NS_ASSUME_NONNULL_BEGIN
 
 @end
 
-@interface DKDReliableMessage : DKDSecureMessage <DKDReliableMessage>
-
-- (instancetype)initWithDictionary:(NSDictionary *)dict
-NS_DESIGNATED_INITIALIZER;
-
-+ (nullable id<MKMMeta>)meta:(NSDictionary *)msg;
-+ (void)setMeta:(id<MKMMeta>)meta inMessage:(NSMutableDictionary *)msg;
-
-+ (nullable id<MKMVisa>)visa:(NSDictionary *)msg;
-+ (void)setVisa:(id<MKMVisa>)visa inMessage:(NSMutableDictionary *)msg;
-
-@end
-
-// convert Dictionary to ReliableMessage
-#define DKDReliableMessageFromDictionary(msg)                                  \
-            [DKDReliableMessage parse:(msg)]                                   \
-                               /* EOF 'DKDReliableMessageFromDictionary(msg)' */
-
-#pragma mark - Creation
-
 @protocol DKDReliableMessageFactory <NSObject>
 
 - (nullable id<DKDReliableMessage>)parseReliableMessage:(NSDictionary *)msg;
 
 @end
 
-@interface DKDReliableMessageFactory : NSObject <DKDReliableMessageFactory>
+#ifdef __cplusplus
+extern "C" {
+#endif
+
+id<DKDReliableMessageFactory> DKDReliableMessageGetFactory(void);
+void DKDReliableMessageSetFactory(id<DKDReliableMessageFactory> factory);
+
+id<DKDReliableMessage> DKDReliableMessageParse(id msg);
+
+_Nullable id<MKMMeta> DKDReliableMessageGetMeta(NSDictionary *msg);
+void DKDReliableMessageSetMeta(id<MKMMeta> meta, NSMutableDictionary *msg);
+
+_Nullable id<MKMVisa> DKDReliableMessageGetVisa(NSDictionary *msg);
+void DKDReliableMessageSetVisa(id<MKMVisa> visa, NSMutableDictionary *msg);
+
+#ifdef __cplusplus
+} /* end of extern "C" */
+#endif
+
+#define DKDReliableMessageFromDictionary(dict) DKDReliableMessageParse(dict)
+
+#pragma mark -
+
+@interface DKDReliableMessage : DKDSecureMessage <DKDReliableMessage>
+
+- (instancetype)initWithDictionary:(NSDictionary *)dict
+NS_DESIGNATED_INITIALIZER;
 
 @end
 
-@interface DKDReliableMessage (Creation)
-
-+ (void)setFactory:(id<DKDReliableMessageFactory>)factory;
-
-+ (nullable id<DKDReliableMessage>)parse:(NSDictionary *)msg;
+@interface DKDReliableMessageFactory : NSObject <DKDReliableMessageFactory>
 
 @end
 

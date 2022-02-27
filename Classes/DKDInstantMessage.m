@@ -39,9 +39,49 @@
 
 #import "DKDInstantMessage.h"
 
+static id<DKDInstantMessageFactory> s_factory = nil;
+
+id<DKDInstantMessageFactory> DKDInstantMessageGetFactory(void) {
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        if (s_factory == nil) {
+            s_factory = [[DKDInstantMessageFactory alloc] init];
+        }
+    });
+    return s_factory;
+}
+
+void DKDInstantMessageSetFactory(id<DKDInstantMessageFactory> factory) {
+    s_factory = factory;
+}
+
+id<DKDInstantMessage> DKDInstantMessageCreate(id<DKDEnvelope> head, id<DKDContent> body) {
+    id<DKDInstantMessageFactory> factory = DKDInstantMessageGetFactory();
+    return [factory createInstantMessageWithEnvelope:head content:body];
+}
+
+id<DKDInstantMessage> DKDInstantMessageParse(id msg) {
+    if (!msg) {
+        return nil;
+    } else if ([msg conformsToProtocol:@protocol(DKDInstantMessage)]) {
+        return (id<DKDInstantMessage>)msg;
+    } else if ([msg conformsToProtocol:@protocol(MKMDictionary)]) {
+        msg = [(id<MKMDictionary>)msg dictionary];
+    }
+    id<DKDInstantMessageFactory> factory = DKDInstantMessageGetFactory();
+    return [factory parseInstantMessage:msg];
+}
+
+id<DKDContent> DKDInstantMessageGetContent(NSDictionary *msg) {
+    NSDictionary *dict = [msg objectForKey:@"content"];
+    return DKDContentFromDictionary(dict);
+}
+
+#pragma mark -
+
 @interface DKDInstantMessage ()
 
-@property (strong, nonatomic) __kindof id<DKDContent> content;
+@property (strong, nonatomic) id<DKDContent> content;
 
 @end
 
@@ -86,15 +126,9 @@
     return iMsg;
 }
 
-+ (__kindof id<DKDContent>)content:(NSDictionary *)msg {
-    NSDictionary *dict = [msg objectForKey:@"content"];
-    NSAssert(dict, @"message content not found: %@", msg);
-    return DKDContentFromDictionary(dict);
-}
-
-- (__kindof id<DKDContent>)content {
+- (id<DKDContent>)content {
     if (!_content) {
-        _content = [DKDInstantMessage content:self.dictionary];
+        _content = DKDInstantMessageGetContent(self.dictionary);
     }
     return _content;
 }
@@ -203,7 +237,7 @@
 
 @end
 
-#pragma mark - Creation
+#pragma mark -
 
 @implementation DKDInstantMessageFactory
 
@@ -214,39 +248,6 @@
 
 - (nullable id<DKDInstantMessage>)parseInstantMessage:(NSDictionary *)msg {
     return [[DKDInstantMessage alloc] initWithDictionary:msg];
-}
-
-@end
-
-@implementation DKDInstantMessage (Creation)
-
-static id<DKDInstantMessageFactory> s_factory = nil;
-
-+ (id<DKDInstantMessageFactory>)factory {
-    if (s_factory == nil) {
-        s_factory = [[DKDInstantMessageFactory alloc] init];
-    }
-    return s_factory;
-}
-
-+ (void)setFactory:(id<DKDInstantMessageFactory>)factory {
-    s_factory = factory;
-}
-
-+ (id<DKDInstantMessage>)createWithEnvelope:(id<DKDEnvelope>)head
-                                    content:(id<DKDContent>)body {
-    return [[self factory] createInstantMessageWithEnvelope:head content:body];
-}
-
-+ (nullable id<DKDInstantMessage>)parse:(NSDictionary *)msg {
-    if (msg.count == 0) {
-        return nil;
-    } else if ([msg conformsToProtocol:@protocol(DKDInstantMessage)]) {
-        return (id<DKDInstantMessage>)msg;
-    } else if ([msg conformsToProtocol:@protocol(MKMDictionary)]) {
-        msg = [(id<MKMDictionary>)msg dictionary];
-    }
-    return [[self factory] parseInstantMessage:msg];
 }
 
 @end

@@ -119,7 +119,7 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param members - group members
  *  @return secure/reliable message(s)
  */
-- (NSArray<__kindof id<DKDSecureMessage>> *)splitForMembers:(NSArray<id<MKMID>> *)members;
+- (NSArray<id<DKDSecureMessage>> *)splitForMembers:(NSArray<id<MKMID>> *)members;
 
 /**
  *  Trim the group message for a member
@@ -131,6 +131,29 @@ NS_ASSUME_NONNULL_BEGIN
 
 @end
 
+@protocol DKDSecureMessageFactory <NSObject>
+
+- (nullable __kindof id<DKDSecureMessage>)parseSecureMessage:(NSDictionary *)msg;
+
+@end
+
+#ifdef __cplusplus
+extern "C" {
+#endif
+
+id<DKDSecureMessageFactory> DKDSecureMessageGetFactory(void);
+void DKDSecureMessageSetFactory(id<DKDSecureMessageFactory> factory);
+
+id<DKDSecureMessage> DKDSecureMessageParse(id msg);
+
+#ifdef __cplusplus
+} /* end of extern "C" */
+#endif
+
+#define DKDSecureMessageFromDictionary(dict) DKDSecureMessageParse(dict)
+
+#pragma mark -
+
 @interface DKDSecureMessage : DKDMessage <DKDSecureMessage>
 
 - (instancetype)initWithDictionary:(NSDictionary *)dict
@@ -138,28 +161,7 @@ NS_DESIGNATED_INITIALIZER;
 
 @end
 
-// convert Dictionary to SecureMessage
-#define DKDSecureMessageFromDictionary(msg)                                    \
-            [DKDSecureMessage parse:(msg)]                                     \
-                                 /* EOF 'DKDSecureMessageFromDictionary(msg)' */
-
-#pragma mark - Creation
-
-@protocol DKDSecureMessageFactory <NSObject>
-
-- (nullable __kindof id<DKDSecureMessage>)parseSecureMessage:(NSDictionary *)msg;
-
-@end
-
 @interface DKDSecureMessageFactory : NSObject <DKDSecureMessageFactory>
-
-@end
-
-@interface DKDSecureMessage (Creation)
-
-+ (void)setFactory:(id<DKDSecureMessageFactory>)factory;
-
-+ (nullable __kindof id<DKDSecureMessage>)parse:(NSDictionary *)msg;
 
 @end
 

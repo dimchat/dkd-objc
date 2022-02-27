@@ -275,6 +275,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @end
 
+#pragma mark -
+
 /*
  *  Common Message
  *
@@ -303,6 +305,18 @@ NS_ASSUME_NONNULL_BEGIN
 
 @end
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
+id<DKDEnvelope> DKDMessageGetEnvelope(NSDictionary *msg);
+
+#ifdef __cplusplus
+} /* end of extern "C" */
+#endif
+
+#pragma mark Base Message
+
 @interface DKDMessage : MKMDictionary <DKDMessage>
 
 - (instancetype)initWithDictionary:(NSDictionary *)dict
@@ -310,8 +324,6 @@ NS_DESIGNATED_INITIALIZER;
 
 - (instancetype)initWithEnvelope:(id<DKDEnvelope>)env
 NS_DESIGNATED_INITIALIZER;
-
-+ (id<DKDEnvelope>)envelope:(NSDictionary *)msg;
 
 @end
 

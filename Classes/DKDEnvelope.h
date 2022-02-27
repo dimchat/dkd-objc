@@ -74,44 +74,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 @end
 
-@interface DKDEnvelope : MKMDictionary <DKDEnvelope>
-
-- (instancetype)initWithDictionary:(NSDictionary *)dict
-NS_DESIGNATED_INITIALIZER;
-
-- (instancetype)initWithSender:(id<MKMID>)from
-                      receiver:(id<MKMID>)to
-                     timestamp:(NSNumber *)time
-NS_DESIGNATED_INITIALIZER;
-
-- (instancetype)initWithSender:(id<MKMID>)from
-                      receiver:(id<MKMID>)to
-                          time:(NSDate *)when;
-
-+ (id<MKMID>)sender:(NSDictionary *)env;
-+ (id<MKMID>)receiver:(NSDictionary *)env;
-+ (NSDate *)time:(NSDictionary *)env;
-
-+ (nullable id<MKMID>)group:(NSDictionary *)env;
-+ (void)setGroup:(id<MKMID>)group inEnvelope:(NSMutableDictionary *)env;
-
-+ (DKDContentType)type:(NSDictionary *)env;
-+ (void)setType:(DKDContentType)type inEnvelope:(NSMutableDictionary *)env;
-
-@end
-
-// convert Dictionary to Envelope
-#define DKDEnvelopeFromDictionary(env)                                         \
-            [DKDEnvelope parse:(env)]                                          \
-                                      /* EOF 'DKDEnvelopeFromDictionary(env)' */
-
-// create Envelope
-#define DKDEnvelopeCreate(from, to, when)                                      \
-            [DKDEnvelope createWithSender:(from) receiver:(to) time:(when)]    \
-                                   /* EOF 'DKDEnvelopeCreate(from, to, when)' */
-
-#pragma mark - Creation
-
 @protocol DKDEnvelopeFactory <NSObject>
 
 /**
@@ -126,10 +88,6 @@ NS_DESIGNATED_INITIALIZER;
                                    receiver:(id<MKMID>)to
                                        time:(nullable NSDate *)when;
 
-- (id<DKDEnvelope>)createEnvelopeWithSender:(id<MKMID>)from
-                                   receiver:(id<MKMID>)to
-                                  timestamp:(nullable NSNumber *)time;
-
 /**
  *  Parse map object to envelope
  *
@@ -140,23 +98,51 @@ NS_DESIGNATED_INITIALIZER;
 
 @end
 
-@interface DKDEnvelopeFactory : NSObject <DKDEnvelopeFactory>
+#ifdef __cplusplus
+extern "C" {
+#endif
+
+id<DKDEnvelopeFactory> DKDEnvelopeGetFactory(void);
+void DKDEnvelopeSetFactory(id<DKDEnvelopeFactory> factory);
+
+id<DKDEnvelope> DKDEnvelopeCreate(id<MKMID> sender, id<MKMID> receiver, NSDate * _Nullable time);
+id<DKDEnvelope> DKDEnvelopeParse(id env);
+
+id<MKMID> DKDEnvelopeGetSender(NSDictionary *env);
+id<MKMID> DKDEnvelopeGetReceiver(NSDictionary *env);
+NSDate *DKDEnvelopeGetTime(NSDictionary *env);
+
+id<MKMID> DKDEnvelopeGetGroup(NSDictionary *env);
+void DKDEnvelopeSetGroup(id<MKMID> group, NSMutableDictionary *env);
+
+DKDContentType DKDEnvelopeGetType(NSDictionary *env);
+void DKDEnvelopeSetType(DKDContentType type, NSMutableDictionary *env);
+
+#ifdef __cplusplus
+} /* end of extern "C" */
+#endif
+
+#define DKDEnvelopeFromDictionary(dict) DKDEnvelopeParse(dict)
+
+#pragma mark -
+
+@interface DKDEnvelope : MKMDictionary <DKDEnvelope>
+
+- (instancetype)initWithDictionary:(NSDictionary *)dict
+NS_DESIGNATED_INITIALIZER;
+
+- (instancetype)initWithSender:(id<MKMID>)from
+                      receiver:(id<MKMID>)to
+                     timestamp:(NSNumber *)time
+NS_DESIGNATED_INITIALIZER;
+
+- (instancetype)initWithSender:(id<MKMID>)from
+                      receiver:(id<MKMID>)to
+                          time:(NSDate *)when;
 
 @end
 
-@interface DKDEnvelope (Creation)
-
-+ (void)setFactory:(id<DKDEnvelopeFactory>)factory;
-
-+ (id<DKDEnvelope>)createWithSender:(id<MKMID>)from
-                           receiver:(id<MKMID>)to
-                               time:(nullable NSDate *)when;
-
-+ (id<DKDEnvelope>)createWithSender:(id<MKMID>)from
-                           receiver:(id<MKMID>)to
-                          timestamp:(nullable NSNumber *)time;
-
-+ (nullable id<DKDEnvelope>)parse:(NSDictionary *)env;
+@interface DKDEnvelopeFactory : NSObject <DKDEnvelopeFactory>
 
 @end
 

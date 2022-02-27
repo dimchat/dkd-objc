@@ -41,6 +41,10 @@
 
 #import "DKDMessage.h"
 
+id<DKDEnvelope> DKDMessageGetEnvelope(NSDictionary *msg) {
+    return DKDEnvelopeFromDictionary(msg);
+}
+
 @interface DKDMessage ()
 
 @property (strong, nonatomic) id<DKDEnvelope> envelope;
@@ -84,13 +88,9 @@
     return self;
 }
 
-+ (id<DKDEnvelope>)envelope:(NSDictionary *)msg {
-    return DKDEnvelopeFromDictionary(msg);
-}
-
 - (id<DKDEnvelope>)envelope {
     if (!_envelope) {
-        _envelope = [DKDMessage envelope:self.dictionary];
+        _envelope = DKDMessageGetEnvelope(self.dictionary);
     }
     return _envelope;
 }

@@ -37,6 +37,68 @@
 
 #import "DKDReliableMessage.h"
 
+static id<DKDReliableMessageFactory> s_factory = nil;
+
+id<DKDReliableMessageFactory> DKDReliableMessageGetFactory(void) {
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        if (s_factory == nil) {
+            s_factory = [[DKDReliableMessageFactory alloc] init];
+        }
+    });
+    return s_factory;
+}
+
+void DKDReliableMessageSetFactory(id<DKDReliableMessageFactory> factory) {
+    s_factory = factory;
+}
+
+id<DKDReliableMessage> DKDReliableMessageParse(id msg) {
+    if (!msg) {
+        return nil;
+    } else if ([msg conformsToProtocol:@protocol(DKDReliableMessage)]) {
+        return (id<DKDReliableMessage>)msg;
+    } else if ([msg conformsToProtocol:@protocol(MKMDictionary)]) {
+        msg = [(id<MKMDictionary>)msg dictionary];
+    }
+    id<DKDReliableMessageFactory> factory = DKDReliableMessageGetFactory();
+    return [factory parseReliableMessage:msg];
+}
+
+#pragma mark Getters
+
+id<MKMMeta> DKDReliableMessageGetMeta(NSDictionary *msg) {
+    id dict = [msg objectForKey:@"meta"];
+    return MKMMetaFromDictionary(dict);
+}
+
+void DKDReliableMessageSetMeta(id<MKMMeta> meta, NSMutableDictionary *msg) {
+    if (meta) {
+        [msg setObject:[meta dictionary] forKey:@"meta"];
+    } else {
+        [msg removeObjectForKey:@"meta"];
+    }
+}
+
+id<MKMVisa> DKDReliableMessageGetVisa(NSDictionary *msg) {
+    id dict = [msg objectForKey:@"visa"];
+    if (!dict) {
+        dict = [msg objectForKey:@"profile"];
+    }
+    return MKMDocumentFromDictionary(dict);
+}
+
+void DKDReliableMessageSetVisa(id<MKMVisa> visa, NSMutableDictionary *msg) {
+    [msg removeObjectForKey:@"profile"];
+    if (visa) {
+        [msg setObject:[visa dictionary] forKey:@"visa"];
+    } else {
+        [msg removeObjectForKey:@"visa"];
+    }
+}
+
+#pragma mark -
+
 @interface DKDReliableMessage () {
     
     id<MKMMeta> _meta;
@@ -92,63 +154,27 @@
     }
 }
 
-+ (nullable id<MKMMeta>)meta:(NSDictionary *)msg {
-    NSDictionary *dict = [msg objectForKey:@"meta"];
-    if (!dict) {
-        return nil;
-    }
-    return MKMMetaFromDictionary(dict);
-}
-
 - (id<MKMMeta>)meta {
     if (!_meta) {
-        _meta = [DKDReliableMessage meta:self.dictionary];
+        _meta = DKDReliableMessageGetMeta(self.dictionary);
     }
     return _meta;
 }
 
-+ (void)setMeta:(id<MKMMeta>)meta inMessage:(NSMutableDictionary *)msg {
-    if (meta) {
-        [msg setObject:[meta dictionary] forKey:@"meta"];
-    } else {
-        [msg removeObjectForKey:@"meta"];
-    }
-}
-
 - (void)setMeta:(id<MKMMeta>)meta {
-    [DKDReliableMessage setMeta:meta inMessage:self.dictionary];
+    DKDReliableMessageSetMeta(meta, self.dictionary);
     _meta = meta;
-}
-
-+ (nullable id<MKMVisa>)visa:(NSDictionary *)msg {
-    NSDictionary *dict = [msg objectForKey:@"visa"];
-    if (!dict) {
-        dict = [msg objectForKey:@"profile"];
-        if (!dict) {
-            return nil;
-        }
-    }
-    return MKMDocumentFromDictionary(dict);
 }
 
 - (id<MKMVisa>)visa {
     if (!_visa) {
-        _visa = [DKDReliableMessage visa:self.dictionary];
+        _visa = DKDReliableMessageGetVisa(self.dictionary);
     }
     return _visa;
 }
 
-+ (void)setVisa:(id<MKMVisa>)visa inMessage:(NSMutableDictionary *)msg {
-    [msg removeObjectForKey:@"visa"];
-    if (visa) {
-        [msg setObject:[visa dictionary] forKey:@"profile"];
-    } else {
-        [msg removeObjectForKey:@"profile"];
-    }
-}
-
 - (void)setVisa:(id<MKMVisa>)visa {
-    [DKDReliableMessage setVisa:visa inMessage:self.dictionary];
+    DKDReliableMessageSetVisa(visa, self.dictionary);
     _visa = visa;
 }
 
@@ -167,34 +193,6 @@
         // msg.signature should not be empty
         return nil;
     }
-}
-
-@end
-
-@implementation DKDReliableMessage (Creation)
-
-static id<DKDReliableMessageFactory> s_factory = nil;
-
-+ (id<DKDReliableMessageFactory>)factory {
-    if (s_factory == nil) {
-        s_factory = [[DKDReliableMessageFactory alloc] init];
-    }
-    return s_factory;
-}
-
-+ (void)setFactory:(id<DKDReliableMessageFactory>)factory {
-    s_factory = factory;
-}
-
-+ (nullable id<DKDReliableMessage>)parse:(NSDictionary *)msg {
-    if (msg.count == 0) {
-        return nil;
-    } else if ([msg conformsToProtocol:@protocol(DKDReliableMessage)]) {
-        return (id<DKDReliableMessage>)msg;
-    } else if ([msg conformsToProtocol:@protocol(MKMDictionary)]) {
-        msg = [(id<MKMDictionary>)msg dictionary];
-    }
-    return [[self factory] parseReliableMessage:msg];
 }
 
 @end

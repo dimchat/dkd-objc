@@ -143,29 +143,6 @@ typedef NS_ENUM(UInt8, DKDContentType) {
 
 @end
 
-@interface DKDContent : MKMDictionary <DKDContent>
-
-- (instancetype)initWithDictionary:(NSDictionary *)dict
-NS_DESIGNATED_INITIALIZER;
-
-- (instancetype)initWithType:(DKDContentType)type
-NS_DESIGNATED_INITIALIZER;
-
-+ (DKDContentType)type:(NSDictionary *)content;
-+ (NSUInteger)serialNumber:(NSDictionary *)content;
-+ (nullable NSDate *)time:(NSDictionary *)content;
-
-+ (nullable id<MKMID>)group:(NSDictionary *)content;
-+ (void)setGroup:(id<MKMID>)group inContent:(NSMutableDictionary *)content;
-
-@end
-
-#define DKDContentFromDictionary(dict)                                         \
-            [DKDContent parse:(dict)]                                          \
-                                      /* EOF 'DKDContentFromDictionary(dict)' */
-
-#pragma mark - Creation
-
 @protocol DKDContentFactory <NSObject>
 
 /**
@@ -178,12 +155,35 @@ NS_DESIGNATED_INITIALIZER;
 
 @end
 
-@interface DKDContent (Creation)
+#ifdef __cplusplus
+extern "C" {
+#endif
 
-+ (id<DKDContentFactory>)factoryForType:(DKDContentType)type;
-+ (void)setFactory:(id<DKDContentFactory>)factory forType:(DKDContentType)type;
+id<DKDContentFactory> DKDContentGetFactory(DKDContentType type);
+void DKDContentSetFactory(DKDContentType type, id<DKDContentFactory> factory);
 
-+ (nullable __kindof id<DKDContent>)parse:(NSDictionary *)env;
+id<DKDContent> DKDContentParse(id content);
+
+// msg type
+DKDContentType DKDContentGetType(NSDictionary *content);
+
+id<MKMID> DKDContentGetGroup(NSDictionary *content);
+
+#ifdef __cplusplus
+} /* end of extern "C" */
+#endif
+
+#define DKDContentFromDictionary(dict)    DKDContentParse(dict)
+
+#define DKDContentRegister(type, factory) DKDContentSetFactory(type, factory)
+
+#pragma mark - Base Content
+
+@interface DKDContent : MKMDictionary <DKDContent>
+
+- (instancetype)initWithDictionary:(NSDictionary *)dict NS_DESIGNATED_INITIALIZER;
+
+- (instancetype)initWithType:(DKDContentType)type NS_DESIGNATED_INITIALIZER;
 
 @end
 

@@ -91,31 +91,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 @end
 
-@interface DKDInstantMessage : DKDMessage <DKDInstantMessage>
-
-- (instancetype)initWithDictionary:(NSDictionary *)dict
-NS_DESIGNATED_INITIALIZER;
-
-- (instancetype)initWithEnvelope:(id<DKDEnvelope>)env
-                         content:(id<DKDContent>)content
-NS_DESIGNATED_INITIALIZER;
-
-+ (__kindof id<DKDContent>)content:(NSDictionary *)msg;
-
-@end
-
-// convert Dictionary to InstantMessage
-#define DKDInstantMessageFromDictionary(msg)                                   \
-            [DKDInstantMessage parse:(msg)]                                    \
-                                /* EOF 'DKDInstantMessageFromDictionary(msg)' */
-
-// create InstantMessage
-#define DKDInstantMessageCreate(head, body)                                    \
-            [DKDInstantMessage createWithEnvelope:(head) content:(body)]       \
-                    /* EOF 'DKDInstantMessageCreate(content, from, to, when)' */
-
-#pragma mark - Creation
-
 @protocol DKDInstantMessageFactory <NSObject>
 
 /**
@@ -132,18 +107,36 @@ NS_DESIGNATED_INITIALIZER;
 
 @end
 
-@interface DKDInstantMessageFactory : NSObject <DKDInstantMessageFactory>
+#ifdef __cplusplus
+extern "C" {
+#endif
+
+id<DKDInstantMessageFactory> DKDInstantMessageGetFactory(void);
+void DKDInstantMessageSetFactory(id<DKDInstantMessageFactory> factory);
+
+id<DKDInstantMessage> DKDInstantMessageCreate(id<DKDEnvelope> head, id<DKDContent> body);
+id<DKDInstantMessage> DKDInstantMessageParse(id msg);
+
+#ifdef __cplusplus
+} /* end of extern "C" */
+#endif
+
+#define DKDInstantMessageFromDictionary(dict) DKDInstantMessageParse(dict)
+
+#pragma mark -
+
+@interface DKDInstantMessage : DKDMessage <DKDInstantMessage>
+
+- (instancetype)initWithDictionary:(NSDictionary *)dict
+NS_DESIGNATED_INITIALIZER;
+
+- (instancetype)initWithEnvelope:(id<DKDEnvelope>)env
+                         content:(id<DKDContent>)content
+NS_DESIGNATED_INITIALIZER;
 
 @end
 
-@interface DKDInstantMessage (Creation)
-
-+ (void)setFactory:(id<DKDInstantMessageFactory>)factory;
-
-+ (id<DKDInstantMessage>)createWithEnvelope:(id<DKDEnvelope>)head
-                                    content:(id<DKDContent>)body;
-
-+ (nullable id<DKDInstantMessage>)parse:(NSDictionary *)msg;
+@interface DKDInstantMessageFactory : NSObject <DKDInstantMessageFactory>
 
 @end
 
