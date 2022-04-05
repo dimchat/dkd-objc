@@ -35,6 +35,8 @@
 //  Copyright © 2019 DIM Group. All rights reserved.
 //
 
+#import "DKDInstantMessage.h"
+
 #import "DKDContent.h"
 
 static NSMutableDictionary<NSNumber *, id<DKDContentFactory>> *s_factories = nil;
@@ -105,17 +107,6 @@ void DKDContentSetGroup(id<MKMID> group, NSMutableDictionary *content) {
     }
 }
 
-static inline NSUInteger serial_number(void) {
-    // because we must make sure all messages in a same chat box won't have
-    // same serial numbers, so we can't use time-related numbers, therefore
-    // the best choice is a totally random number, maybe.
-    uint32_t sn = 0;
-    while (sn == 0) {
-        sn = arc4random();
-    }
-    return sn;
-}
-
 #pragma mark - Base Content
 
 @interface DKDContent () {
@@ -138,8 +129,8 @@ static inline NSUInteger serial_number(void) {
 
 /* designated initializer */
 - (instancetype)initWithType:(DKDContentType)type {
-    NSUInteger sn = serial_number();
     NSDate *now = [[NSDate alloc] init];
+    NSUInteger sn = DKDInstantMessageGenerateSerialNumber(type, now);
     NSDictionary *dict = @{@"type":@(type),
                            @"sn"  :@(sn),
                            @"time":@([now timeIntervalSince1970]),

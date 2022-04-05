@@ -55,6 +55,11 @@ void DKDInstantMessageSetFactory(id<DKDInstantMessageFactory> factory) {
     s_factory = factory;
 }
 
+NSUInteger DKDInstantMessageGenerateSerialNumber(DKDContentType type, NSDate *now) {
+    id<DKDInstantMessageFactory> factory = DKDInstantMessageGetFactory();
+    return [factory generateSerialNumber:type time:now];
+}
+
 id<DKDInstantMessage> DKDInstantMessageCreate(id<DKDEnvelope> head, id<DKDContent> body) {
     id<DKDInstantMessageFactory> factory = DKDInstantMessageGetFactory();
     return [factory createInstantMessageWithEnvelope:head content:body];
@@ -239,7 +244,22 @@ id<DKDContent> DKDInstantMessageGetContent(NSDictionary *msg) {
 
 #pragma mark -
 
+static inline NSUInteger serial_number(void) {
+    // because we must make sure all messages in a same chat box won't have
+    // same serial numbers, so we can't use time-related numbers, therefore
+    // the best choice is a totally random number, maybe.
+    uint32_t sn = 0;
+    while (sn == 0) {
+        sn = arc4random();
+    }
+    return sn;
+}
+
 @implementation DKDInstantMessageFactory
+
+- (NSUInteger)generateSerialNumber:(DKDContentType)type time:(NSDate *)now {
+    return serial_number();
+}
 
 - (id<DKDInstantMessage>)createInstantMessageWithEnvelope:(id<DKDEnvelope>)head
                                                   content:(id<DKDContent>)body {

@@ -94,6 +94,15 @@ NS_ASSUME_NONNULL_BEGIN
 @protocol DKDInstantMessageFactory <NSObject>
 
 /**
+ *  Generate SN for message content
+ *
+ * @param type - content type
+ * @param now - message time
+ * @return SN (serial number as msg id)
+ */
+- (NSUInteger)generateSerialNumber:(DKDContentType)type time:(NSDate *)now;
+
+/**
  *  Create instant message with envelope & content
  *
  * @param head - message envelope
@@ -116,6 +125,8 @@ void DKDInstantMessageSetFactory(id<DKDInstantMessageFactory> factory);
 
 id<DKDInstantMessage> DKDInstantMessageCreate(id<DKDEnvelope> head, id<DKDContent> body);
 id<DKDInstantMessage> DKDInstantMessageParse(id msg);
+
+NSUInteger DKDInstantMessageGenerateSerialNumber(DKDContentType type, NSDate *now);
 
 #ifdef __cplusplus
 } /* end of extern "C" */
