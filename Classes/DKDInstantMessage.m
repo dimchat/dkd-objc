@@ -78,7 +78,7 @@ id<DKDInstantMessage> DKDInstantMessageParse(id msg) {
 }
 
 id<DKDContent> DKDInstantMessageGetContent(NSDictionary *msg) {
-    NSDictionary *dict = [msg objectForKey:@"content"];
+    id dict = [msg objectForKey:@"content"];
     return DKDContentFromDictionary(dict);
 }
 
@@ -244,21 +244,18 @@ id<DKDContent> DKDInstantMessageGetContent(NSDictionary *msg) {
 
 #pragma mark -
 
-static inline NSUInteger serial_number(void) {
-    // because we must make sure all messages in a same chat box won't have
-    // same serial numbers, so we can't use time-related numbers, therefore
-    // the best choice is a totally random number, maybe.
-    uint32_t sn = 0;
-    while (sn == 0) {
-        sn = arc4random();
-    }
-    return sn;
-}
-
 @implementation DKDInstantMessageFactory
 
 - (NSUInteger)generateSerialNumber:(DKDContentType)type time:(NSDate *)now {
-    return serial_number();
+    // because we must make sure all messages in a same chat box won't have
+    // same serial numbers, so we can't use time-related numbers, therefore
+    // the best choice is a totally random number, maybe.
+    uint32_t sn = arc4random();
+    if (sn == 0) {
+        // ZERO? do it again!
+        sn = 9527 + 9394;
+    }
+    return sn;
 }
 
 - (id<DKDInstantMessage>)createInstantMessageWithEnvelope:(id<DKDEnvelope>)head

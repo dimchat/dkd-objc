@@ -82,14 +82,10 @@ void DKDReliableMessageSetMeta(id<MKMMeta> meta, NSMutableDictionary *msg) {
 
 id<MKMVisa> DKDReliableMessageGetVisa(NSDictionary *msg) {
     id dict = [msg objectForKey:@"visa"];
-    if (!dict) {
-        dict = [msg objectForKey:@"profile"];
-    }
     return MKMDocumentFromDictionary(dict);
 }
 
 void DKDReliableMessageSetVisa(id<MKMVisa> visa, NSMutableDictionary *msg) {
-    [msg removeObjectForKey:@"profile"];
     if (visa) {
         [msg setObject:[visa dictionary] forKey:@"visa"];
     } else {
