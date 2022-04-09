@@ -140,17 +140,15 @@ void DKDEnvelopeSetType(DKDContentType type, NSMutableDictionary *env) {
 }
 
 /* designated initializer */
-- (instancetype)initWithSender:(id<MKMID>)from receiver:(id<MKMID>)to timestamp:(NSNumber *)time {
-    if (self = [super initWithDictionary:@{@"sender":from, @"receiver":to, @"time":time}]) {
+- (instancetype)initWithSender:(id<MKMID>)from receiver:(id<MKMID>)to time:(NSDate *)when {
+    NSDictionary *dict = @{
+        @"sender":from,
+        @"receiver":to,
+        @"time":@([when timeIntervalSince1970])
+    };
+    if (self = [super initWithDictionary:dict]) {
         _sender = from;
         _receiver = to;
-        _time = nil;
-    }
-    return self;
-}
-
-- (instancetype)initWithSender:(id<MKMID>)from receiver:(id<MKMID>)to time:(NSDate *)when {
-    if ([self initWithSender:from receiver:to timestamp:@([when timeIntervalSince1970])]) {
         _time = when;
     }
     return self;
