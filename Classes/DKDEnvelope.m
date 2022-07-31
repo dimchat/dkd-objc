@@ -95,7 +95,7 @@ id<MKMID> DKDEnvelopeGetGroup(NSDictionary *env) {
 
 void DKDEnvelopeSetGroup(id<MKMID> group, NSMutableDictionary *env) {
     if (group) {
-        [env setObject:group forKey:@"group"];
+        [env setObject:[group string] forKey:@"group"];
     } else {
         [env removeObjectForKey:@"group"];
     }
@@ -142,8 +142,8 @@ void DKDEnvelopeSetType(DKDContentType type, NSMutableDictionary *env) {
 /* designated initializer */
 - (instancetype)initWithSender:(id<MKMID>)from receiver:(id<MKMID>)to time:(NSDate *)when {
     NSDictionary *dict = @{
-        @"sender":from,
-        @"receiver":to,
+        @"sender":[from string],
+        @"receiver":[to string],
         @"time":@([when timeIntervalSince1970])
     };
     if (self = [super initWithDictionary:dict]) {

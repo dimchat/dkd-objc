@@ -229,7 +229,7 @@ id<DKDSecureMessage> DKDSecureMessageParse(id msg) {
     //    when the group message separated to multi-messages;
     //    if don't want the others know your membership,
     //    DON'T do this.
-    [msg setObject:self.receiver forKey:@"group"];
+    [msg setObject:[self.receiver string] forKey:@"group"];
     
     NSMutableArray *messages;
     messages = [[NSMutableArray alloc] initWithCapacity:members.count];
@@ -237,7 +237,7 @@ id<DKDSecureMessage> DKDSecureMessageParse(id msg) {
     id<DKDSecureMessage> item;
     for (id<MKMID> member in members) {
         // 2. change receiver to each group member
-        [msg setObject:member forKey:@"receiver"];
+        [msg setObject:[member string] forKey:@"receiver"];
         // 3. get encrypted key
         base64 = [keyMap objectForKey:[member string]];
         if (base64) {
@@ -271,10 +271,10 @@ id<DKDSecureMessage> DKDSecureMessageParse(id msg) {
         // if 'group' not exists, the 'receiver' must be a group ID here, and
         // it will not be equal to the member of course,
         // so move 'receiver' to 'group'
-        [mDict setObject:self.receiver forKey:@"group"];
+        [mDict setObject:[self.receiver string] forKey:@"group"];
     }
     // replace receiver
-    [mDict setObject:member forKey:@"receiver"];
+    [mDict setObject:[member string] forKey:@"receiver"];
     // repack
     return DKDSecureMessageFromDictionary(mDict);
 }

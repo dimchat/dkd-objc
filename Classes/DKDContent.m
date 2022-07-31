@@ -101,7 +101,7 @@ id<MKMID> DKDContentGetGroup(NSDictionary *content) {
 
 void DKDContentSetGroup(id<MKMID> group, NSMutableDictionary *content) {
     if (group) {
-        [content setObject:group forKey:@"group"];
+        [content setObject:[group string] forKey:@"group"];
     } else {
         [content removeObjectForKey:@"group"];
     }
