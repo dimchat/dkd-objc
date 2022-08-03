@@ -61,9 +61,8 @@ id<DKDSecureMessage> DKDSecureMessageParse(id msg) {
         return nil;
     } else if ([msg conformsToProtocol:@protocol(DKDSecureMessage)]) {
         return (id<DKDSecureMessage>)msg;
-    } else if ([msg conformsToProtocol:@protocol(MKMDictionary)]) {
-        msg = [(id<MKMDictionary>)msg dictionary];
     }
+    msg = MKMGetMap(msg);
     id<DKDSecureMessageFactory> factory = DKDSecureMessageGetFactory();
     return [factory parseSecureMessage:msg];
 }

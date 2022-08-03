@@ -60,9 +60,8 @@ id<DKDContent> DKDContentParse(id content) {
         return nil;
     } else if ([content conformsToProtocol:@protocol(DKDContent)]) {
         return (id<DKDContent>)content;
-    } else if ([content conformsToProtocol:@protocol(MKMDictionary)]) {
-        content = [(id<MKMDictionary>)content dictionary];
     }
+    content = MKMGetMap(content);
     DKDContentType type = DKDContentGetType(content);
     id<DKDContentFactory> factory = DKDContentGetFactory(type);
     if (!factory) {

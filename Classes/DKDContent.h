@@ -95,21 +95,37 @@ typedef NS_ENUM(UInt8, DKDContentType) {
     DKDContentType_Audio      = 0x14, // 0001 0100
     DKDContentType_Video      = 0x16, // 0001 0110
     
+    // Web Page
     DKDContentType_Page       = 0x20, // 0010 0000
     
-    // quote a message before and reply it with text
+    // Quote a message before and reply it with text
     DKDContentType_Quote      = 0x37, // 0011 0111
     
     DKDContentType_Money        = 0x40, // 0100 0000
     DKDContentType_Transfer     = 0x41, // 0100 0001
     DKDContentType_LuckyMoney   = 0x42, // 0100 0010
-    DKDContentType_ClaimPayment = 0x48, // 0100 1000 (Claim for payment)
-    DKDContentType_SplitBill    = 0x49, // 0100 1001 (Split the bill)
+    DKDContentType_ClaimPayment = 0x48, // 0100 1000 (Claim for Payment)
+    DKDContentType_SplitBill    = 0x49, // 0100 1001 (Split the Bill)
 
     DKDContentType_Command    = 0x88, // 1000 1000
-    DKDContentType_History    = 0x89, // 1000 1001 (Entity history command)
+    DKDContentType_History    = 0x89, // 1000 1001 (Entity History Command)
     
-    // top-secret message forward by proxy (Service Provider)
+    // Application Customized
+    DKDContentType_Application     = 0xA0, // 1010 0000 (Aoplication 0nly, Reserved)
+    //DKDContentType_Application1  = 0xA1, // 1010 0001 (Reserved)
+                                           // 1010 ???? (Reserved)
+    //DKDContentType_Application15 = 0xA1, // 1010 0001 (Reserved)
+    
+    //DKDContentType_Customized0   = 0xC0, // 1100 0000 (Reserved)
+    //DKDContentType_Customized1   = 0xC1, // 1100 0001 (Reserved)
+                                           // 1100 ???? (Reserved)
+    DKDContentType_Array           = 0xCA, // 1100 1010 (Content Array)
+                                           // 1100 ???? (Reserved)
+    DKDContentType_Customized      = 0xCC, // 1100 1100 (Customized Content)
+                                           // 1100 ???? (Reserved)
+    //DKDContentType_Customized15  = 0xCF, // 1100 1111 (Reserved)
+
+    // Top-Secret message forward by proxy (MTA)
     DKDContentType_Forward    = 0xFF  // 1111 1111
 };
 

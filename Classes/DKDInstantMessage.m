@@ -70,9 +70,8 @@ id<DKDInstantMessage> DKDInstantMessageParse(id msg) {
         return nil;
     } else if ([msg conformsToProtocol:@protocol(DKDInstantMessage)]) {
         return (id<DKDInstantMessage>)msg;
-    } else if ([msg conformsToProtocol:@protocol(MKMDictionary)]) {
-        msg = [(id<MKMDictionary>)msg dictionary];
     }
+    msg = MKMGetMap(msg);
     id<DKDInstantMessageFactory> factory = DKDInstantMessageGetFactory();
     return [factory parseInstantMessage:msg];
 }

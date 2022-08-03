@@ -58,9 +58,8 @@ id<DKDReliableMessage> DKDReliableMessageParse(id msg) {
         return nil;
     } else if ([msg conformsToProtocol:@protocol(DKDReliableMessage)]) {
         return (id<DKDReliableMessage>)msg;
-    } else if ([msg conformsToProtocol:@protocol(MKMDictionary)]) {
-        msg = [(id<MKMDictionary>)msg dictionary];
     }
+    msg = MKMGetMap(msg);
     id<DKDReliableMessageFactory> factory = DKDReliableMessageGetFactory();
     return [factory parseReliableMessage:msg];
 }

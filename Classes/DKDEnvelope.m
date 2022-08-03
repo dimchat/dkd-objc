@@ -63,9 +63,8 @@ id<DKDEnvelope> DKDEnvelopeParse(id env) {
         return nil;
     } else if ([env conformsToProtocol:@protocol(DKDEnvelope)]) {
         return (id<DKDEnvelope>)env;
-    } else if ([env conformsToProtocol:@protocol(MKMDictionary)]) {
-        env = [(id<MKMDictionary>)env dictionary];
     }
+    env = MKMGetMap(env);
     id<DKDEnvelopeFactory> factory = DKDEnvelopeGetFactory();
     return [factory parseEnvelope:env];
 }
