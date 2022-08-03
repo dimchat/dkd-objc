@@ -246,7 +246,7 @@ id<DKDSecureMessage> DKDSecureMessageParse(id msg) {
             [msg removeObjectForKey:@"key"];
         }
         // 4. repack message
-        item = DKDSecureMessageFromDictionary([MKMDictionary copy:msg circularly:NO]);
+        item = DKDSecureMessageFromDictionary(MKMCopyMap(msg));
         if (item) {
             [messages addObject:item];
         }
