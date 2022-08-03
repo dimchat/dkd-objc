@@ -131,15 +131,19 @@ typedef NS_ENUM(UInt8, DKDContentType) {
 
 /*
  *  Message Content
+ *  ~~~~~~~~~~~~~~~
+ *  This class is for creating message content
  *
  *      data format: {
  *          'type'    : 0x00,            // message type
- *          'sn'      : 1234567890,      // serial number
+ *          'sn'      : 0,               // serial number
  *
  *          'group'   : 'Group ID',      // for group message
  *
- *          // payload
- *          // ...
+ *          //-- message info
+ *          'text'    : 'text',          // for text message
+ *          'cmd'     : 'Command Name',  // for system command
+ *          //...
  *      }
  */
 @protocol DKDContent <MKMDictionary>

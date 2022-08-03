@@ -220,12 +220,13 @@ void DKDEnvelopeSetType(DKDContentType type, NSMutableDictionary *env) {
 }
 
 - (nullable id<DKDEnvelope>)parseEnvelope:(NSDictionary *)env {
-    if ([env objectForKey:@"sender"]) {
-        return [[DKDEnvelope alloc] initWithDictionary:env];
-    } else {
+    // check 'sender'
+    id sender = [env objectForKey:@"sender"];
+    if (!sender) {
         // env.sender should not be empty
         return nil;
     }
+    return [[DKDEnvelope alloc] initWithDictionary:env];
 }
 
 @end

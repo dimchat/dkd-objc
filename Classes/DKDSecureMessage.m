@@ -285,6 +285,19 @@ id<DKDSecureMessage> DKDSecureMessageParse(id msg) {
 @implementation DKDSecureMessageFactory
 
 - (nullable id<DKDSecureMessage>)parseSecureMessage:(NSDictionary *)msg {
+    // check 'sender', 'data'
+    id sender = [msg objectForKey:@"sender"];
+    id data = [msg objectForKey:@"data"];
+    if (!sender || !data) {
+        // msg.sender should not be empty
+        // msg.data should not be empty
+        return nil;
+    }
+    // check 'signature'
+    id signature = [msg objectForKey:@"signature"];
+    if ([signature length] > 0) {
+        return [[DKDReliableMessage alloc] initWithDictionary:msg];
+    }
     return [[DKDSecureMessage alloc] initWithDictionary:msg];
 }
 

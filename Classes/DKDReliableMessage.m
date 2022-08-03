@@ -180,14 +180,17 @@ void DKDReliableMessageSetVisa(id<MKMVisa> visa, NSMutableDictionary *msg) {
 @implementation DKDReliableMessageFactory
 
 - (nullable id<DKDReliableMessage>)parseReliableMessage:(NSDictionary *)msg {
-    if ([msg objectForKey:@"sender"] && [msg objectForKey:@"data"] && [msg objectForKey:@"signature"]) {
-        return [[DKDReliableMessage alloc] initWithDictionary:msg];
-    } else {
+    // check 'sender', 'data', 'signature'
+    id sender = [msg objectForKey:@"sender"];
+    id data = [msg objectForKey:@"data"];
+    id signature = [msg objectForKey:@"signature"];
+    if (!sender || !data || !signature) {
         // msg.sender should not be empty
         // msg.data should not be empty
         // msg.signature should not be empty
         return nil;
     }
+    return [[DKDReliableMessage alloc] initWithDictionary:msg];
 }
 
 @end

@@ -263,6 +263,14 @@ id<DKDContent> DKDInstantMessageGetContent(NSDictionary *msg) {
 }
 
 - (nullable id<DKDInstantMessage>)parseInstantMessage:(NSDictionary *)msg {
+    // check 'sender', 'content'
+    id sender = [msg objectForKey:@"sender"];
+    id content = [msg objectForKey:@"content"];
+    if (!sender || !content) {
+        // msg.sender should not be empty
+        // msg.content should not be empty
+        return nil;
+    }
     return [[DKDInstantMessage alloc] initWithDictionary:msg];
 }
 
