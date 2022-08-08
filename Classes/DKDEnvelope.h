@@ -50,8 +50,8 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @protocol DKDEnvelope <MKMDictionary>
 
-@property (readonly, strong, nonatomic) id<MKMID> sender;
-@property (readonly, strong, nonatomic) id<MKMID> receiver;
+@property (readonly, strong, nonatomic) __kindof id<MKMID> sender;
+@property (readonly, strong, nonatomic) __kindof id<MKMID> receiver;
 
 @property (readonly, strong, nonatomic) NSDate *time;
 
@@ -61,7 +61,7 @@ NS_ASSUME_NONNULL_BEGIN
  *      the 'receiver' will be changed to a member ID, and
  *      the group ID will be saved as 'group'.
  */
-@property (strong, nonatomic, nullable) id<MKMID> group;
+@property (strong, nonatomic, nullable) __kindof id<MKMID> group;
 
 /**
  *  Message Type
@@ -84,9 +84,9 @@ NS_ASSUME_NONNULL_BEGIN
  * @param when - message time
  * @return Envelope
  */
-- (id<DKDEnvelope>)createEnvelopeWithSender:(id<MKMID>)from
-                                   receiver:(id<MKMID>)to
-                                       time:(nullable NSDate *)when;
+- (__kindof id<DKDEnvelope>)createEnvelopeWithSender:(id<MKMID>)from
+                                            receiver:(id<MKMID>)to
+                                                time:(nullable NSDate *)when;
 
 /**
  *  Parse map object to envelope
@@ -94,7 +94,7 @@ NS_ASSUME_NONNULL_BEGIN
  * @param env - envelope info
  * @return Envelope
  */
-- (nullable id<DKDEnvelope>)parseEnvelope:(NSDictionary *)env;
+- (nullable __kindof id<DKDEnvelope>)parseEnvelope:(NSDictionary *)env;
 
 @end
 
@@ -102,17 +102,17 @@ NS_ASSUME_NONNULL_BEGIN
 extern "C" {
 #endif
 
-id<DKDEnvelopeFactory> DKDEnvelopeGetFactory(void);
+__kindof id<DKDEnvelopeFactory> DKDEnvelopeGetFactory(void);
 void DKDEnvelopeSetFactory(id<DKDEnvelopeFactory> factory);
 
-id<DKDEnvelope> DKDEnvelopeCreate(id<MKMID> sender, id<MKMID> receiver, NSDate * _Nullable time);
-id<DKDEnvelope> DKDEnvelopeParse(id env);
+__kindof id<DKDEnvelope> DKDEnvelopeCreate(id<MKMID> sender, id<MKMID> receiver, NSDate * _Nullable time);
+__kindof id<DKDEnvelope> DKDEnvelopeParse(id env);
 
-id<MKMID> DKDEnvelopeGetSender(NSDictionary *env);
-id<MKMID> DKDEnvelopeGetReceiver(NSDictionary *env);
+__kindof id<MKMID> DKDEnvelopeGetSender(NSDictionary *env);
+__kindof id<MKMID> DKDEnvelopeGetReceiver(NSDictionary *env);
 NSDate *DKDEnvelopeGetTime(NSDictionary *env);
 
-id<MKMID> DKDEnvelopeGetGroup(NSDictionary *env);
+__kindof id<MKMID> DKDEnvelopeGetGroup(NSDictionary *env);
 void DKDEnvelopeSetGroup(id<MKMID> group, NSMutableDictionary *env);
 
 DKDContentType DKDEnvelopeGetType(NSDictionary *env);
