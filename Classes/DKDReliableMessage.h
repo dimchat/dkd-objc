@@ -66,14 +66,14 @@ NS_ASSUME_NONNULL_BEGIN
  *  ~~~~~~~~~~~~~
  *  Extends for the first message package of 'Handshake' protocol.
  */
-@property (strong, nonatomic, nullable) __kindof id<MKMMeta> meta;
+@property (strong, nonatomic, nullable) id<MKMMeta> meta;
 
 /**
  *  Sender's Visa
  *  ~~~~~~~~~~~~~
  *  Extends for the first message package of 'Handshake' protocol.
 */
-@property (strong, nonatomic, nullable) __kindof id<MKMVisa> visa;
+@property (strong, nonatomic, nullable) id<MKMVisa> visa;
 
 /*
  *  Verify the Reliable Message to Secure Message
@@ -94,13 +94,13 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * @return SecureMessage object
  */
-- (nullable __kindof id<DKDSecureMessage>)verify;
+- (nullable id<DKDSecureMessage>)verify;
 
 @end
 
 @protocol DKDReliableMessageFactory <NSObject>
 
-- (nullable __kindof id<DKDReliableMessage>)parseReliableMessage:(NSDictionary *)msg;
+- (nullable id<DKDReliableMessage>)parseReliableMessage:(NSDictionary *)msg;
 
 @end
 
@@ -108,15 +108,15 @@ NS_ASSUME_NONNULL_BEGIN
 extern "C" {
 #endif
 
-__kindof id<DKDReliableMessageFactory> DKDReliableMessageGetFactory(void);
+id<DKDReliableMessageFactory> DKDReliableMessageGetFactory(void);
 void DKDReliableMessageSetFactory(id<DKDReliableMessageFactory> factory);
 
-__kindof id<DKDReliableMessage> DKDReliableMessageParse(id msg);
+id<DKDReliableMessage> DKDReliableMessageParse(id msg);
 
-_Nullable __kindof id<MKMMeta> DKDReliableMessageGetMeta(NSDictionary *msg);
+_Nullable id<MKMMeta> DKDReliableMessageGetMeta(NSDictionary *msg);
 void DKDReliableMessageSetMeta(id<MKMMeta> meta, NSMutableDictionary *msg);
 
-_Nullable __kindof id<MKMVisa> DKDReliableMessageGetVisa(NSDictionary *msg);
+_Nullable id<MKMVisa> DKDReliableMessageGetVisa(NSDictionary *msg);
 void DKDReliableMessageSetVisa(id<MKMVisa> visa, NSMutableDictionary *msg);
 
 #ifdef __cplusplus

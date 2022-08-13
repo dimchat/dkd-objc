@@ -56,7 +56,7 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @protocol DKDInstantMessage <DKDMessage>
 
-@property (readonly, strong, nonatomic) __kindof id<DKDContent> content;
+@property (readonly, strong, nonatomic) id<DKDContent> content;
 
 /*
  *  Encrypt the Instant Message to Secure Message
@@ -77,7 +77,7 @@ NS_ASSUME_NONNULL_BEGIN
  * @param password - symmetric key
  * @return SecureMessage object
  */
-- (nullable __kindof id<DKDSecureMessage>)encryptWithKey:(id<MKMSymmetricKey>)password;
+- (nullable id<DKDSecureMessage>)encryptWithKey:(id<MKMSymmetricKey>)password;
 
 /**
  *  Encrypt group message, replace 'content' field with encrypted 'data'
@@ -86,8 +86,7 @@ NS_ASSUME_NONNULL_BEGIN
  * @param members - group members
  * @return SecureMessage object
  */
-- (nullable __kindof id<DKDSecureMessage>)encryptWithKey:(id<MKMSymmetricKey>)password
-                                              forMembers:(NSArray<id<MKMID>> *)members;
+- (nullable id<DKDSecureMessage>)encryptWithKey:(id<MKMSymmetricKey>)password forMembers:(NSArray<id<MKMID>> *)members;
 
 @end
 
@@ -109,10 +108,9 @@ NS_ASSUME_NONNULL_BEGIN
  * @param body - message content
  * @return InstantMessage
  */
-- (__kindof id<DKDInstantMessage>)createInstantMessageWithEnvelope:(id<DKDEnvelope>)head
-                                                           content:(id<DKDContent>)body;
+- (id<DKDInstantMessage>)createInstantMessageWithEnvelope:(id<DKDEnvelope>)head content:(id<DKDContent>)body;
 
-- (nullable __kindof id<DKDInstantMessage>)parseInstantMessage:(NSDictionary *)msg;
+- (nullable id<DKDInstantMessage>)parseInstantMessage:(NSDictionary *)msg;
 
 @end
 
@@ -120,11 +118,11 @@ NS_ASSUME_NONNULL_BEGIN
 extern "C" {
 #endif
 
-__kindof id<DKDInstantMessageFactory> DKDInstantMessageGetFactory(void);
+id<DKDInstantMessageFactory> DKDInstantMessageGetFactory(void);
 void DKDInstantMessageSetFactory(id<DKDInstantMessageFactory> factory);
 
-__kindof id<DKDInstantMessage> DKDInstantMessageCreate(id<DKDEnvelope> head, id<DKDContent> body);
-__kindof id<DKDInstantMessage> DKDInstantMessageParse(id msg);
+id<DKDInstantMessage> DKDInstantMessageCreate(id<DKDEnvelope> head, id<DKDContent> body);
+id<DKDInstantMessage> DKDInstantMessageParse(id msg);
 
 NSUInteger DKDInstantMessageGenerateSerialNumber(DKDContentType type, NSDate *now);
 

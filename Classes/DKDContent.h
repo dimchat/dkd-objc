@@ -159,7 +159,7 @@ typedef NS_ENUM(UInt8, DKDContentType) {
 
 // Group ID/string for group message
 //    if field 'group' exists, it means this is a group message
-@property (strong, nonatomic, nullable) __kindof id<MKMID> group;
+@property (strong, nonatomic, nullable) id<MKMID> group;
 
 @end
 
@@ -171,7 +171,7 @@ typedef NS_ENUM(UInt8, DKDContentType) {
  * @param content - content info
  * @return Content
  */
-- (nullable __kindof id<DKDContent>)parseContent:(NSDictionary *)content;
+- (nullable id<DKDContent>)parseContent:(NSDictionary *)content;
 
 @end
 
@@ -179,15 +179,15 @@ typedef NS_ENUM(UInt8, DKDContentType) {
 extern "C" {
 #endif
 
-__kindof id<DKDContentFactory> DKDContentGetFactory(DKDContentType type);
+id<DKDContentFactory> DKDContentGetFactory(DKDContentType type);
 void DKDContentSetFactory(DKDContentType type, id<DKDContentFactory> factory);
 
-__kindof id<DKDContent> DKDContentParse(id content);
+id<DKDContent> DKDContentParse(id content);
 
 // msg type
 DKDContentType DKDContentGetType(NSDictionary *content);
 
-__kindof id<MKMID> DKDContentGetGroup(NSDictionary *content);
+id<MKMID> DKDContentGetGroup(NSDictionary *content);
 
 #ifdef __cplusplus
 } /* end of extern "C" */

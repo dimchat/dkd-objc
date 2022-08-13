@@ -180,10 +180,10 @@ NS_ASSUME_NONNULL_BEGIN
  * @param receiver - receiver/group ID string
  * @return symmetric key
  */
-- (nullable __kindof id<MKMSymmetricKey>)message:(id<DKDSecureMessage>)sMsg
-                                  deserializeKey:(nullable NSData *)data
-                                            from:(id<MKMID>)sender
-                                              to:(id<MKMID>)receiver;
+- (nullable id<MKMSymmetricKey>)message:(id<DKDSecureMessage>)sMsg
+                         deserializeKey:(nullable NSData *)data
+                                   from:(id<MKMID>)sender
+                                     to:(id<MKMID>)receiver;
 
 #pragma mark Decrypt Content
 
@@ -217,9 +217,9 @@ NS_ASSUME_NONNULL_BEGIN
  * @param password - symmetric key
  * @return message content
  */
-- (nullable __kindof id<DKDContent>)message:(id<DKDSecureMessage>)sMsg
-                         deserializeContent:(NSData *)data
-                                    withKey:(id<MKMSymmetricKey>)password;
+- (nullable id<DKDContent>)message:(id<DKDSecureMessage>)sMsg
+                deserializeContent:(NSData *)data
+                           withKey:(id<MKMSymmetricKey>)password;
 
 #pragma mark Signature
 
@@ -292,15 +292,15 @@ NS_ASSUME_NONNULL_BEGIN
 @protocol DKDMessage <MKMDictionary>
 
 // delegate to transform message
-@property (weak, nonatomic) __kindof id<DKDMessageDelegate> delegate;
+@property (weak, nonatomic) id<DKDMessageDelegate> delegate;
 
-@property (readonly, strong, nonatomic) __kindof id<DKDEnvelope> envelope;
+@property (readonly, strong, nonatomic) id<DKDEnvelope> envelope;
 
-@property (readonly, strong, nonatomic) __kindof id<MKMID> sender;
-@property (readonly, strong, nonatomic) __kindof id<MKMID> receiver;
+@property (readonly, strong, nonatomic) id<MKMID> sender;
+@property (readonly, strong, nonatomic) id<MKMID> receiver;
 @property (readonly, strong, nonatomic) NSDate *time;
 
-@property (readonly, strong, nonatomic) __kindof id<MKMID> group;
+@property (readonly, strong, nonatomic) id<MKMID> group;
 @property (readonly, nonatomic) DKDContentType type;
 
 @end
@@ -309,7 +309,7 @@ NS_ASSUME_NONNULL_BEGIN
 extern "C" {
 #endif
 
-__kindof id<DKDEnvelope> DKDMessageGetEnvelope(NSDictionary *msg);
+id<DKDEnvelope> DKDMessageGetEnvelope(NSDictionary *msg);
 
 #ifdef __cplusplus
 } /* end of extern "C" */

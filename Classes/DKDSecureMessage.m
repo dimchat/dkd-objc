@@ -111,7 +111,9 @@ id<DKDSecureMessage> DKDSecureMessageParse(id msg) {
     if (!_data) {
         NSString *content = [self objectForKey:@"data"];
         NSAssert(content, @"content data cannot be empty");
-        _data = [self.delegate message:self decodeData:content];
+        id<DKDSecureMessageDelegate> delegate = (id<DKDSecureMessageDelegate>)[self delegate];
+        NSAssert(delegate, @"message delegate not set yet");
+        _data = [delegate message:self decodeData:content];
     }
     return _data;
 }
@@ -125,7 +127,9 @@ id<DKDSecureMessage> DKDSecureMessageParse(id msg) {
             key = [keys objectForKey:[self.receiver string]];
         }
         if (key) {
-            _encryptedKey = [self.delegate message:self decodeKey:key];
+            id<DKDSecureMessageDelegate> delegate = (id<DKDSecureMessageDelegate>)[self delegate];
+            NSAssert(delegate, @"message delegate not set yet");
+            _encryptedKey = [delegate message:self decodeKey:key];
         }
     }
     return _encryptedKey;
@@ -149,20 +153,22 @@ id<DKDSecureMessage> DKDSecureMessageParse(id msg) {
         // not split group message
         receiver = [self receiver];
     }
+    id<DKDSecureMessageDelegate> delegate = (id<DKDSecureMessageDelegate>)[self delegate];
+    NSAssert(delegate, @"message delegate not set yet");
 
     // 1. decrypt 'message.key' to symmetric key
     // 1.1. decode encrypted key data
     NSData *key = self.encryptedKey;
     // 1.2. decrypt key data
     if (key.length > 0) {
-        key = [self.delegate message:self decryptKey:key from:sender to:receiver];
+        key = [delegate message:self decryptKey:key from:sender to:receiver];
         if (key.length == 0) {
             @throw [NSException exceptionWithName:@"ReceiverError" reason:@"failed to decrypt key in msg" userInfo:[self dictionary]];
         }
     }
     // 1.3. deserialize key
     //      if key is empty, means it should be reused, get it from key cache
-    id<MKMSymmetricKey> password = [self.delegate message:self deserializeKey:key from:sender to:receiver];
+    id<MKMSymmetricKey> password = [delegate message:self deserializeKey:key from:sender to:receiver];
     NSAssert(password, @"failed to get msg key: %@ -> %@, %@", sender, receiver, self);
     
     // 2. decrypt 'message.data' to 'message.content'
@@ -170,13 +176,13 @@ id<DKDSecureMessage> DKDSecureMessageParse(id msg) {
     NSData *data = [self data];
     NSAssert(data.length > 0, @"failed to decode content data: %@", self);
     // 2.2. decrypt content data
-    data = [self.delegate message:self decryptContent:data withKey:password];
+    data = [delegate message:self decryptContent:data withKey:password];
     if (!data) {
         NSAssert(false, @"failed to decrypt data with key: %@", password);
         return nil;
     }
     // 2.3. deserialize content
-    id<DKDContent> content = [self.delegate message:self deserializeContent:data withKey:password];
+    id<DKDContent> content = [delegate message:self deserializeContent:data withKey:password];
     if (!content) {
         //NSAssert(false, @"content data error: [%@]", MKMUTF8Decode(data));
         return nil;
@@ -198,13 +204,12 @@ id<DKDSecureMessage> DKDSecureMessageParse(id msg) {
 }
 
 - (nullable id<DKDReliableMessage>)sign {
-    NSAssert(self.delegate, @"message delegate not set yet");
+    id<DKDSecureMessageDelegate> delegate = (id<DKDSecureMessageDelegate>)[self delegate];
+    NSAssert(delegate, @"message delegate not set yet");
     // 1. sign with sender's private key
-    NSData *signature = [self.delegate message:self
-                                  signData:self.data
-                                 forSender:self.sender];
+    NSData *signature = [delegate message:self signData:self.data forSender:self.sender];
     NSAssert(signature, @"failed to sign message: %@", self);
-    NSObject *base64 = [self.delegate message:self encodeSignature:signature];
+    NSObject *base64 = [delegate message:self encodeSignature:signature];
     if (!base64) {
         NSAssert(false, @"failed to encode signature: %@", signature);
         return nil;

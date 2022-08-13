@@ -81,7 +81,7 @@ void DKDReliableMessageSetMeta(id<MKMMeta> meta, NSMutableDictionary *msg) {
 
 id<MKMVisa> DKDReliableMessageGetVisa(NSDictionary *msg) {
     id dict = [msg objectForKey:@"visa"];
-    return MKMDocumentFromDictionary(dict);
+    return (id<MKMVisa>)MKMDocumentFromDictionary(dict);
 }
 
 void DKDReliableMessageSetVisa(id<MKMVisa> visa, NSMutableDictionary *msg) {
@@ -127,18 +127,18 @@ void DKDReliableMessageSetVisa(id<MKMVisa> visa, NSMutableDictionary *msg) {
     if (!_signature) {
         NSString *CT = [self objectForKey:@"signature"];
         NSAssert(CT, @"signature cannot be empty");
-        _signature = [self.delegate message:self decodeSignature:CT];
+        id<DKDReliableMessageDelegate> delegate = (id<DKDReliableMessageDelegate>)[self delegate];
+        NSAssert(delegate, @"message delegate not set yet");
+        _signature = [delegate message:self decodeSignature:CT];
     }
     return _signature;
 }
 
 - (nullable id<DKDSecureMessage>)verify {
-    NSAssert(self.delegate, @"message delegate not set yet");
+    id<DKDReliableMessageDelegate> delegate = (id<DKDReliableMessageDelegate>)[self delegate];
+    NSAssert(delegate, @"message delegate not set yet");
     // 1. verify data signature with sender's public key
-    if ([self.delegate message:self
-                    verifyData:self.data
-                 withSignature:self.signature
-                     forSender:self.sender]) {
+    if ([delegate message:self verifyData:self.data withSignature:self.signature forSender:self.sender]) {
         // 2. pack message
         NSMutableDictionary *mDict = [self dictionary:NO];
         [mDict removeObjectForKey:@"signature"];

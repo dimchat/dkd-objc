@@ -138,8 +138,7 @@ id<DKDContent> DKDInstantMessageGetContent(NSDictionary *msg) {
 }
 
 - (NSDate *)time {
-    id<DKDContent> content = [self content];
-    NSDate *when = [content time];
+    NSDate *when = [self.content time];
     if (when) {
         return when;
     }
@@ -147,25 +146,25 @@ id<DKDContent> DKDInstantMessageGetContent(NSDictionary *msg) {
 }
 
 - (id<MKMID>)group {
-    id<DKDContent> content = [self content];
-    return [content group];
+    return [self.content group];
 }
 
 - (DKDContentType)type {
-    id<DKDContent> content = [self content];
-    return [content type];
+    return [self.content type];
 }
 
 - (nullable NSMutableDictionary *)_prepareWithKey:(id<MKMSymmetricKey>)PW {
+    id<DKDInstantMessageDelegate> delegate = (id<DKDInstantMessageDelegate>)[self delegate];
+    NSAssert(delegate, @"message delegate not set yet");
     // 1. serialize content
-    NSData *data = [self.delegate message:self serializeContent:self.content withKey:PW];
+    NSData *data = [delegate message:self serializeContent:self.content withKey:PW];
     
     // 2. encrypt content data
-    data = [self.delegate message:self encryptContent:data withKey:PW];
+    data = [delegate message:self encryptContent:data withKey:PW];
     NSAssert(data, @"failed to encrypt content with key: %@", PW);
     
     // 3. encode encrypted data
-    NSObject *base64 = [self.delegate message:self encodeData:data];
+    NSObject *base64 = [delegate message:self encodeData:data];
     NSAssert(base64, @"failed to encode data: %@", data);
     
     // 4. replace 'content' with encrypted 'data'
@@ -176,7 +175,8 @@ id<DKDContent> DKDInstantMessageGetContent(NSDictionary *msg) {
 }
 
 - (nullable id<DKDSecureMessage>)encryptWithKey:(id<MKMSymmetricKey>)password {
-    NSAssert(self.delegate, @"message delegate not set yet");
+    id<DKDInstantMessageDelegate> delegate = (id<DKDInstantMessageDelegate>)[self delegate];
+    NSAssert(delegate, @"message delegate not set yet");
     // 0. check attachment for File/Image/Audio/Video message content
     //    (do it in 'core' module)
 
@@ -186,13 +186,13 @@ id<DKDContent> DKDInstantMessageGetContent(NSDictionary *msg) {
     // 2. encrypt symmetric key(password) to 'message.key'
     id<MKMID> receiver = self.receiver;
     // 2.1. serialize symmetric key
-    NSData *key = [self.delegate message:self serializeKey:password];
+    NSData *key = [delegate message:self serializeKey:password];
     if (key) {
         // 2.2. encrypt symmetric key data
-        key = [self.delegate message:self encryptKey:key forReceiver:receiver];
+        key = [delegate message:self encryptKey:key forReceiver:receiver];
         if (key) {
             // 2.3. encode encrypted key data
-            NSObject *base64 = [self.delegate message:self encodeKey:key];
+            NSObject *base64 = [delegate message:self encodeKey:key];
             NSAssert(base64, @"failed to encode key data: %@", key);
             // 2.4. insert as 'key'
             [msg setObject:base64 forKey:@"key"];
@@ -205,7 +205,8 @@ id<DKDContent> DKDInstantMessageGetContent(NSDictionary *msg) {
 
 - (nullable id<DKDSecureMessage>)encryptWithKey:(id<MKMSymmetricKey>)password
                                      forMembers:(NSArray<id<MKMID>> *)members {
-    NSAssert(self.delegate, @"message delegate not set yet");
+    id<DKDInstantMessageDelegate> delegate = (id<DKDInstantMessageDelegate>)[self delegate];
+    NSAssert(delegate, @"message delegate not set yet");
     // 0. check attachment for File/Image/Audio/Video message content
     //    (do it in 'core' module)
 
@@ -213,7 +214,7 @@ id<DKDContent> DKDInstantMessageGetContent(NSDictionary *msg) {
     NSMutableDictionary *msg = [self _prepareWithKey:password];
     
     // 2. serialize symmetric key
-    NSData *key = [self.delegate message:self serializeKey:password];
+    NSData *key = [delegate message:self serializeKey:password];
     if (key) {
         // encrypt key data to 'message.keys'
         NSMutableDictionary *map = [[NSMutableDictionary alloc] initWithCapacity:members.count];
@@ -221,10 +222,10 @@ id<DKDContent> DKDInstantMessageGetContent(NSDictionary *msg) {
         NSObject *base64;
         for (id<MKMID> ID in members) {
             // 2.1. encrypt symmetric key data
-            data = [self.delegate message:self encryptKey:key forReceiver:ID];
+            data = [delegate message:self encryptKey:key forReceiver:ID];
             if (data) {
                 // 2.2. encode encrypted key data
-                base64 = [self.delegate message:self encodeKey:data];
+                base64 = [delegate message:self encodeKey:data];
                 NSAssert(base64, @"failed to encode key data: %@", data);
                 // 2.3. insert to 'message.keys' with member ID
                 [map setObject:base64 forKey:[ID string]];

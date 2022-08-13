@@ -90,7 +90,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * @return InstantMessage object
  */
-- (nullable __kindof id<DKDInstantMessage>)decrypt;
+- (nullable id<DKDInstantMessage>)decrypt;
 
 /*
  *  Sign the Secure Message to Reliable Message
@@ -111,7 +111,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * @return ReliableMessage object
  */
-- (nullable __kindof id<DKDReliableMessage>)sign;
+- (nullable id<DKDReliableMessage>)sign;
 
 /**
  *  Split the group message to single person messages
@@ -119,7 +119,7 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param members - group members
  *  @return secure/reliable message(s)
  */
-- (NSArray<__kindof id<DKDSecureMessage>> *)splitForMembers:(NSArray<id<MKMID>> *)members;
+- (NSArray<id<DKDSecureMessage>> *)splitForMembers:(NSArray<id<MKMID>> *)members;
 
 /**
  *  Trim the group message for a member
@@ -127,13 +127,13 @@ NS_ASSUME_NONNULL_BEGIN
  * @param member - group member ID
  * @return SecureMessage/ReliableMessage
  */
-- (__kindof id<DKDSecureMessage>)trimForMember:(id<MKMID>)member;
+- (id<DKDSecureMessage>)trimForMember:(id<MKMID>)member;
 
 @end
 
 @protocol DKDSecureMessageFactory <NSObject>
 
-- (nullable __kindof id<DKDSecureMessage>)parseSecureMessage:(NSDictionary *)msg;
+- (nullable id<DKDSecureMessage>)parseSecureMessage:(NSDictionary *)msg;
 
 @end
 
@@ -141,10 +141,10 @@ NS_ASSUME_NONNULL_BEGIN
 extern "C" {
 #endif
 
-__kindof id<DKDSecureMessageFactory> DKDSecureMessageGetFactory(void);
+id<DKDSecureMessageFactory> DKDSecureMessageGetFactory(void);
 void DKDSecureMessageSetFactory(id<DKDSecureMessageFactory> factory);
 
-__kindof id<DKDSecureMessage> DKDSecureMessageParse(id msg);
+id<DKDSecureMessage> DKDSecureMessageParse(id msg);
 
 #ifdef __cplusplus
 } /* end of extern "C" */
