@@ -77,7 +77,7 @@ NS_ASSUME_NONNULL_BEGIN
  *      0000 0001 - this message contains plaintext you can read.
  *      0000 0010 - this is a message you can see.
  *      0000 0100 - this is a message you can hear.
- *      0000 1000 - this is a message for the robot, not for human.
+ *      0000 1000 - this is a message for the bot, not for human.
  *
  *      0001 0000 - this message's main part is in somewhere else.
  *      0010 0000 - this message contains the 3rd party content.
