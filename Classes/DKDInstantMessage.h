@@ -39,9 +39,6 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@protocol DKDContent;
-@protocol DKDSecureMessage;
-
 /*
  *  Instant Message
  *
@@ -130,23 +127,6 @@ NSUInteger DKDInstantMessageGenerateSerialNumber(DKDContentType type, NSDate *no
 } /* end of extern "C" */
 #endif
 
-#define DKDInstantMessageFromDictionary(dict) DKDInstantMessageParse(dict)
-
-#pragma mark -
-
-@interface DKDInstantMessage : DKDMessage <DKDInstantMessage>
-
-- (instancetype)initWithDictionary:(NSDictionary *)dict
-NS_DESIGNATED_INITIALIZER;
-
-- (instancetype)initWithEnvelope:(id<DKDEnvelope>)env
-                         content:(id<DKDContent>)content
-NS_DESIGNATED_INITIALIZER;
-
-@end
-
-@interface DKDInstantMessageFactory : NSObject <DKDInstantMessageFactory>
-
-@end
+//#define DKDInstantMessageFromDictionary(dict) DKDInstantMessageParse(dict)
 
 NS_ASSUME_NONNULL_END

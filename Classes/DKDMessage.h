@@ -60,7 +60,6 @@ NS_ASSUME_NONNULL_BEGIN
  *  signature = sender.private_key.sign(data)
  */
 
-@protocol DKDContent;
 @protocol DKDInstantMessage;
 @protocol DKDSecureMessage;
 @protocol DKDReliableMessage;
@@ -302,28 +301,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (readonly, strong, nonatomic) id<MKMID> group;
 @property (readonly, nonatomic) DKDContentType type;
-
-@end
-
-#ifdef __cplusplus
-extern "C" {
-#endif
-
-id<DKDEnvelope> DKDMessageGetEnvelope(NSDictionary *msg);
-
-#ifdef __cplusplus
-} /* end of extern "C" */
-#endif
-
-#pragma mark Base Message
-
-@interface DKDMessage : MKMDictionary <DKDMessage>
-
-- (instancetype)initWithDictionary:(NSDictionary *)dict
-NS_DESIGNATED_INITIALIZER;
-
-- (instancetype)initWithEnvelope:(id<DKDEnvelope>)env
-NS_DESIGNATED_INITIALIZER;
 
 @end
 

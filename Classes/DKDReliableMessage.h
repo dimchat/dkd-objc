@@ -113,29 +113,10 @@ void DKDReliableMessageSetFactory(id<DKDReliableMessageFactory> factory);
 
 id<DKDReliableMessage> DKDReliableMessageParse(id msg);
 
-_Nullable id<MKMMeta> DKDReliableMessageGetMeta(NSDictionary *msg);
-void DKDReliableMessageSetMeta(id<MKMMeta> meta, NSMutableDictionary *msg);
-
-_Nullable id<MKMVisa> DKDReliableMessageGetVisa(NSDictionary *msg);
-void DKDReliableMessageSetVisa(id<MKMVisa> visa, NSMutableDictionary *msg);
-
 #ifdef __cplusplus
 } /* end of extern "C" */
 #endif
 
-#define DKDReliableMessageFromDictionary(dict) DKDReliableMessageParse(dict)
-
-#pragma mark -
-
-@interface DKDReliableMessage : DKDSecureMessage <DKDReliableMessage>
-
-- (instancetype)initWithDictionary:(NSDictionary *)dict
-NS_DESIGNATED_INITIALIZER;
-
-@end
-
-@interface DKDReliableMessageFactory : NSObject <DKDReliableMessageFactory>
-
-@end
+//#define DKDReliableMessageFromDictionary(dict) DKDReliableMessageParse(dict)
 
 NS_ASSUME_NONNULL_END

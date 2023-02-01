@@ -184,27 +184,12 @@ void DKDContentSetFactory(DKDContentType type, id<DKDContentFactory> factory);
 
 id<DKDContent> DKDContentParse(id content);
 
-// msg type
-DKDContentType DKDContentGetType(NSDictionary *content);
-
-id<MKMID> DKDContentGetGroup(NSDictionary *content);
-
 #ifdef __cplusplus
 } /* end of extern "C" */
 #endif
 
-#define DKDContentFromDictionary(dict)    DKDContentParse(dict)
-
-#define DKDContentRegister(type, factory) DKDContentSetFactory(type, factory)
-
-#pragma mark - Base Content
-
-@interface DKDContent : MKMDictionary <DKDContent>
-
-- (instancetype)initWithDictionary:(NSDictionary *)dict NS_DESIGNATED_INITIALIZER;
-
-- (instancetype)initWithType:(DKDContentType)type NS_DESIGNATED_INITIALIZER;
-
-@end
+//#define DKDContentFromDictionary(dict)    DKDContentParse(dict)
+//
+//#define DKDContentRegister(type, factory) DKDContentSetFactory(type, factory)
 
 NS_ASSUME_NONNULL_END

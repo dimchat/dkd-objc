@@ -35,198 +35,30 @@
 //  Copyright © 2018 DIM Group. All rights reserved.
 //
 
+#import "DKDFactoryManager.h"
+
 #import "DKDEnvelope.h"
 
-static id<DKDEnvelopeFactory> s_factory = nil;
-
 id<DKDEnvelopeFactory> DKDEnvelopeGetFactory(void) {
-    static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{
-        if (s_factory == nil) {
-            s_factory = [[DKDEnvelopeFactory alloc] init];
-        }
-    });
-    return s_factory;
+    DKDFactoryManager * man = [DKDFactoryManager sharedManager];
+    return [man.generalFactory envelopeFactory];
 }
 
 void DKDEnvelopeSetFactory(id<DKDEnvelopeFactory> factory) {
-    s_factory = factory;
+    DKDFactoryManager * man = [DKDFactoryManager sharedManager];
+    [man.generalFactory setEnvelopeFactory:factory];
 }
 
-id<DKDEnvelope> DKDEnvelopeCreate(id<MKMID> sender, id<MKMID> receiver, NSDate * _Nullable time) {
-    id<DKDEnvelopeFactory> factory = DKDEnvelopeGetFactory();
-    return [factory createEnvelopeWithSender:sender receiver:receiver time:time];
+id<DKDEnvelope> DKDEnvelopeCreate(id<MKMID> sender,
+                                  id<MKMID> receiver,
+                                  NSDate * _Nullable time) {
+    DKDFactoryManager * man = [DKDFactoryManager sharedManager];
+    return [man.generalFactory createEnvelopeWithSender:sender
+                                               receiver:receiver
+                                                   time:time];
 }
 
 id<DKDEnvelope> DKDEnvelopeParse(id env) {
-    if (!env) {
-        return nil;
-    } else if ([env conformsToProtocol:@protocol(DKDEnvelope)]) {
-        return (id<DKDEnvelope>)env;
-    }
-    env = MKMGetMap(env);
-    id<DKDEnvelopeFactory> factory = DKDEnvelopeGetFactory();
-    return [factory parseEnvelope:env];
+    DKDFactoryManager * man = [DKDFactoryManager sharedManager];
+    return [man.generalFactory parseEnvelope:env];
 }
-
-#pragma mark Getters
-
-id<MKMID> DKDEnvelopeGetSender(NSDictionary *env) {
-    return MKMIDFromString([env objectForKey:@"sender"]);
-}
-
-id<MKMID> DKDEnvelopeGetReceiver(NSDictionary *env) {
-    return MKMIDFromString([env objectForKey:@"receiver"]);
-}
-
-NSDate *DKDEnvelopeGetTime(NSDictionary *env) {
-    NSNumber *timestamp = [env objectForKey:@"time"];
-    if (!timestamp) {
-        //NSAssert(false, @"message time not found: %@", env);
-        return nil;
-    }
-    return [[NSDate alloc] initWithTimeIntervalSince1970:[timestamp doubleValue]];
-}
-
-id<MKMID> DKDEnvelopeGetGroup(NSDictionary *env) {
-    return MKMIDFromString([env objectForKey:@"group"]);
-}
-
-void DKDEnvelopeSetGroup(id<MKMID> group, NSMutableDictionary *env) {
-    if (group) {
-        [env setObject:[group string] forKey:@"group"];
-    } else {
-        [env removeObjectForKey:@"group"];
-    }
-}
-
-DKDContentType DKDEnvelopeGetType(NSDictionary *env) {
-    NSNumber *number = [env objectForKey:@"type"];
-    return [number unsignedCharValue];
-}
-
-void DKDEnvelopeSetType(DKDContentType type, NSMutableDictionary *env) {
-    [env setObject:@(type) forKey:@"type"];
-}
-
-#pragma mark -
-
-@interface DKDEnvelope ()
-
-@property (strong, nonatomic) id<MKMID> sender;
-@property (strong, nonatomic) id<MKMID> receiver;
-@property (strong, nonatomic) NSDate *time;
-
-@end
-
-@implementation DKDEnvelope
-
-- (instancetype)init {
-    NSAssert(false, @"DON'T call me!");
-    NSDictionary *dict = nil;
-    return [self initWithDictionary:dict];
-}
-
-/* designated initializer */
-- (instancetype)initWithDictionary:(NSDictionary *)dict {
-    if (self = [super initWithDictionary:dict]) {
-        // lazy
-        _sender = nil;
-        _receiver = nil;
-        _time = nil;
-    }
-    return self;
-}
-
-/* designated initializer */
-- (instancetype)initWithSender:(id<MKMID>)from receiver:(id<MKMID>)to time:(NSDate *)when {
-    NSDictionary *dict = @{
-        @"sender":[from string],
-        @"receiver":[to string],
-        @"time":@([when timeIntervalSince1970])
-    };
-    if (self = [super initWithDictionary:dict]) {
-        _sender = from;
-        _receiver = to;
-        _time = when;
-    }
-    return self;
-}
-
-- (id)copyWithZone:(nullable NSZone *)zone {
-    DKDEnvelope *envelope = [super copyWithZone:zone];
-    if (envelope) {
-        envelope.sender = _sender;
-        envelope.receiver = _receiver;
-        envelope.time = _time;
-    }
-    return envelope;
-}
-
-- (id<MKMID>)sender {
-    if (!_sender) {
-        _sender = DKDEnvelopeGetSender(self.dictionary);
-    }
-    return _sender;
-}
-
-- (id<MKMID>)receiver {
-    if (!_receiver) {
-        _receiver = DKDEnvelopeGetReceiver(self.dictionary);
-        if (!_receiver) {
-            _receiver = MKMAnyone();
-        }
-    }
-    return _receiver;
-}
-
-- (NSDate *)time {
-    if (!_time) {
-        _time = DKDEnvelopeGetTime(self.dictionary);
-    }
-    return _time;
-}
-
-- (nullable id<MKMID>)group {
-    return DKDEnvelopeGetGroup(self.dictionary);
-}
-
-- (void)setGroup:(id<MKMID>)group {
-    DKDEnvelopeSetGroup(group, self.dictionary);
-}
-
-- (DKDContentType)type {
-    return DKDEnvelopeGetType(self.dictionary);
-}
-
-- (void)setType:(DKDContentType)type {
-    DKDEnvelopeSetType(type, self.dictionary);
-}
-
-@end
-
-#pragma mark -
-
-@implementation DKDEnvelopeFactory
-
-- (id<DKDEnvelope>)createEnvelopeWithSender:(id<MKMID>)from
-                                   receiver:(id<MKMID>)to
-                                       time:(nullable NSDate *)when {
-    if (!when) {
-        // now()
-        when = [[NSDate alloc] init];
-    }
-    return [[DKDEnvelope alloc] initWithSender:from receiver:to time:when];
-}
-
-- (nullable id<DKDEnvelope>)parseEnvelope:(NSDictionary *)env {
-    // check 'sender'
-    id sender = [env objectForKey:@"sender"];
-    if (!sender) {
-        // env.sender should not be empty
-        return nil;
-    }
-    return [[DKDEnvelope alloc] initWithDictionary:env];
-}
-
-@end

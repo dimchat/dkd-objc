@@ -106,38 +106,10 @@ void DKDEnvelopeSetFactory(id<DKDEnvelopeFactory> factory);
 id<DKDEnvelope> DKDEnvelopeCreate(id<MKMID> sender, id<MKMID> receiver, NSDate * _Nullable time);
 id<DKDEnvelope> DKDEnvelopeParse(id env);
 
-id<MKMID> DKDEnvelopeGetSender(NSDictionary *env);
-id<MKMID> DKDEnvelopeGetReceiver(NSDictionary *env);
-NSDate *DKDEnvelopeGetTime(NSDictionary *env);
-
-id<MKMID> DKDEnvelopeGetGroup(NSDictionary *env);
-void DKDEnvelopeSetGroup(id<MKMID> group, NSMutableDictionary *env);
-
-DKDContentType DKDEnvelopeGetType(NSDictionary *env);
-void DKDEnvelopeSetType(DKDContentType type, NSMutableDictionary *env);
-
 #ifdef __cplusplus
 } /* end of extern "C" */
 #endif
 
-#define DKDEnvelopeFromDictionary(dict) DKDEnvelopeParse(dict)
-
-#pragma mark -
-
-@interface DKDEnvelope : MKMDictionary <DKDEnvelope>
-
-- (instancetype)initWithDictionary:(NSDictionary *)dict
-NS_DESIGNATED_INITIALIZER;
-
-- (instancetype)initWithSender:(id<MKMID>)from
-                      receiver:(id<MKMID>)to
-                          time:(NSDate *)when
-NS_DESIGNATED_INITIALIZER;
-
-@end
-
-@interface DKDEnvelopeFactory : NSObject <DKDEnvelopeFactory>
-
-@end
+//#define DKDEnvelopeFromDictionary(dict) DKDEnvelopeParse(dict)
 
 NS_ASSUME_NONNULL_END

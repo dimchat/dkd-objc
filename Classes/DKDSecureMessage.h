@@ -39,9 +39,6 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@protocol DKDInstantMessage;
-@protocol DKDReliableMessage;
-
 /*
  *  Secure Message
  *      Instant Message encrypted by a symmetric key
@@ -150,19 +147,6 @@ id<DKDSecureMessage> DKDSecureMessageParse(id msg);
 } /* end of extern "C" */
 #endif
 
-#define DKDSecureMessageFromDictionary(dict) DKDSecureMessageParse(dict)
-
-#pragma mark -
-
-@interface DKDSecureMessage : DKDMessage <DKDSecureMessage>
-
-- (instancetype)initWithDictionary:(NSDictionary *)dict
-NS_DESIGNATED_INITIALIZER;
-
-@end
-
-@interface DKDSecureMessageFactory : NSObject <DKDSecureMessageFactory>
-
-@end
+//#define DKDSecureMessageFromDictionary(dict) DKDSecureMessageParse(dict)
 
 NS_ASSUME_NONNULL_END
