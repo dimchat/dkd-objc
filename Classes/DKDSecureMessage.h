@@ -147,6 +147,4 @@ id<DKDSecureMessage> DKDSecureMessageParse(id msg);
 } /* end of extern "C" */
 #endif
 
-//#define DKDSecureMessageFromDictionary(dict) DKDSecureMessageParse(dict)
-
 NS_ASSUME_NONNULL_END

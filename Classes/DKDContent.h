@@ -152,7 +152,7 @@ typedef NS_ENUM(UInt8, DKDContentType) {
 @property (readonly, nonatomic) DKDContentType type;
 
 // serial number as message id
-@property (readonly, nonatomic) NSUInteger serialNumber;
+@property (readonly, nonatomic) unsigned long serialNumber;
 
 // message time
 @property (readonly, strong, nonatomic, nullable) NSDate *time;
@@ -187,9 +187,5 @@ id<DKDContent> DKDContentParse(id content);
 #ifdef __cplusplus
 } /* end of extern "C" */
 #endif
-
-//#define DKDContentFromDictionary(dict)    DKDContentParse(dict)
-//
-//#define DKDContentRegister(type, factory) DKDContentSetFactory(type, factory)
 
 NS_ASSUME_NONNULL_END

@@ -117,6 +117,4 @@ id<DKDReliableMessage> DKDReliableMessageParse(id msg);
 } /* end of extern "C" */
 #endif
 
-//#define DKDReliableMessageFromDictionary(dict) DKDReliableMessageParse(dict)
-
 NS_ASSUME_NONNULL_END

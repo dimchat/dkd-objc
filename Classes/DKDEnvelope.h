@@ -110,6 +110,4 @@ id<DKDEnvelope> DKDEnvelopeParse(id env);
 } /* end of extern "C" */
 #endif
 
-//#define DKDEnvelopeFromDictionary(dict) DKDEnvelopeParse(dict)
-
 NS_ASSUME_NONNULL_END

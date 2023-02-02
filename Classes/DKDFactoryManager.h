@@ -40,6 +40,10 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+/**
+ *  General Factory for Messages
+ *  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+ */
 @protocol DKDGeneralFactory <NSObject>
 
 #pragma mark Content

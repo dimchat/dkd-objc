@@ -127,6 +127,4 @@ NSUInteger DKDInstantMessageGenerateSerialNumber(DKDContentType type, NSDate *no
 } /* end of extern "C" */
 #endif
 
-//#define DKDInstantMessageFromDictionary(dict) DKDInstantMessageParse(dict)
-
 NS_ASSUME_NONNULL_END
