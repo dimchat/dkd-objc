@@ -180,7 +180,7 @@ static DKDFactoryManager *s_manager = nil;
     NSAssert([info isKindOfClass:[NSDictionary class]], @"instant message error: %@", msg);
 
     NSAssert(_instantFactory, @"instant message factory not set");
-    return [_instantFactory parseInstantMessage:msg];
+    return [_instantFactory parseInstantMessage:info];
 }
 
 - (NSUInteger)generateSerialNumber:(DKDContentType)type time:(NSDate *)now {
@@ -231,7 +231,7 @@ static DKDFactoryManager *s_manager = nil;
     NSAssert([info isKindOfClass:[NSDictionary class]], @"reliable message error: %@", msg);
 
     NSAssert(_reliableFactory, @"reliable message factory not set");
-    return [_reliableFactory parseReliableMessage:msg];
+    return [_reliableFactory parseReliableMessage:info];
 }
 
 @end
