@@ -20,35 +20,12 @@
 		E94D2B0C22B7A87A00FF4AD5 /* DKDContent.m in Sources */ = {isa = PBXBuildFile; fileRef = E94D2B0A22B7A87A00FF4AD5 /* DKDContent.m */; };
 		E966CD8D298A9DDE00FA9507 /* DKDFactoryManager.h in Headers */ = {isa = PBXBuildFile; fileRef = E966CD8B298A9DDE00FA9507 /* DKDFactoryManager.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		E966CD8E298A9DDE00FA9507 /* DKDFactoryManager.m in Sources */ = {isa = PBXBuildFile; fileRef = E966CD8C298A9DDE00FA9507 /* DKDFactoryManager.m */; };
-		E9D71D4B25BAE47700773ED1 /* MingKeMing.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E9BAA90C2577AE900081C6A2 /* MingKeMing.framework */; };
-		E9D71D4C25BAE47700773ED1 /* MingKeMing.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = E9BAA90C2577AE900081C6A2 /* MingKeMing.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		E9D71EA525BB272700773ED1 /* DaoKeDao.h in Headers */ = {isa = PBXBuildFile; fileRef = E9D71EA425BB272700773ED1 /* DaoKeDao.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		E9F3A9BB21CBC160009690F6 /* DaoKeDao.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E9F3A9B121CBC160009690F6 /* DaoKeDao.framework */; };
 		E9F3A9C021CBC160009690F6 /* DaoKeDaoTests.m in Sources */ = {isa = PBXBuildFile; fileRef = E9F3A9BF21CBC160009690F6 /* DaoKeDaoTests.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		E9BAA90B2577AE900081C6A2 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = E9BAA9052577AE900081C6A2 /* MingKeMing.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = E9F3A69A21CA4627009690F6;
-			remoteInfo = MingKeMing;
-		};
-		E9BAA90F2577AE900081C6A2 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = E9BAA9052577AE900081C6A2 /* MingKeMing.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = E9F3A6A321CA4627009690F6;
-			remoteInfo = MingKeMingTests;
-		};
-		E9BAA925257904D20081C6A2 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = E9BAA9052577AE900081C6A2 /* MingKeMing.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = E9F3A69921CA4627009690F6;
-			remoteInfo = MingKeMing;
-		};
 		E9F3A9BC21CBC160009690F6 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = E9F3A9A821CBC160009690F6 /* Project object */;
@@ -65,7 +42,6 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				E9D71D4C25BAE47700773ED1 /* MingKeMing.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -86,7 +62,6 @@
 		E94D2B0A22B7A87A00FF4AD5 /* DKDContent.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DKDContent.m; sourceTree = "<group>"; };
 		E966CD8B298A9DDE00FA9507 /* DKDFactoryManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DKDFactoryManager.h; sourceTree = "<group>"; };
 		E966CD8C298A9DDE00FA9507 /* DKDFactoryManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DKDFactoryManager.m; sourceTree = "<group>"; };
-		E9BAA9052577AE900081C6A2 /* MingKeMing.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = MingKeMing.xcodeproj; path = "../../mkm-objc/MingKeMing/MingKeMing.xcodeproj"; sourceTree = "<group>"; };
 		E9D71EA425BB272700773ED1 /* DaoKeDao.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DaoKeDao.h; sourceTree = "<group>"; };
 		E9F3A9B121CBC160009690F6 /* DaoKeDao.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = DaoKeDao.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		E9F3A9B521CBC160009690F6 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -100,7 +75,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E9D71D4B25BAE47700773ED1 /* MingKeMing.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -115,19 +89,9 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		E9BAA9062577AE900081C6A2 /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				E9BAA90C2577AE900081C6A2 /* MingKeMing.framework */,
-				E9BAA9102577AE900081C6A2 /* MingKeMingTests.xctest */,
-			);
-			name = Products;
-			sourceTree = "<group>";
-		};
 		E9F3A9A721CBC160009690F6 = {
 			isa = PBXGroup;
 			children = (
-				E9BAA9052577AE900081C6A2 /* MingKeMing.xcodeproj */,
 				E9F3A9CB21CBC17E009690F6 /* Classes */,
 				E9F3A9B321CBC160009690F6 /* DaoKeDao */,
 				E9F3A9BE21CBC160009690F6 /* DaoKeDaoTests */,
@@ -225,7 +189,6 @@
 			buildRules = (
 			);
 			dependencies = (
-				E9BAA926257904D20081C6A2 /* PBXTargetDependency */,
 			);
 			name = DaoKeDao;
 			productName = DaoKeDao;
@@ -278,12 +241,6 @@
 			mainGroup = E9F3A9A721CBC160009690F6;
 			productRefGroup = E9F3A9B221CBC160009690F6 /* Products */;
 			projectDirPath = "";
-			projectReferences = (
-				{
-					ProductGroup = E9BAA9062577AE900081C6A2 /* Products */;
-					ProjectRef = E9BAA9052577AE900081C6A2 /* MingKeMing.xcodeproj */;
-				},
-			);
 			projectRoot = "";
 			targets = (
 				E9F3A9B021CBC160009690F6 /* DaoKeDao */,
@@ -291,23 +248,6 @@
 			);
 		};
 /* End PBXProject section */
-
-/* Begin PBXReferenceProxy section */
-		E9BAA90C2577AE900081C6A2 /* MingKeMing.framework */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.framework;
-			path = MingKeMing.framework;
-			remoteRef = E9BAA90B2577AE900081C6A2 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		E9BAA9102577AE900081C6A2 /* MingKeMingTests.xctest */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.cfbundle;
-			path = MingKeMingTests.xctest;
-			remoteRef = E9BAA90F2577AE900081C6A2 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-/* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
 		E9F3A9AF21CBC160009690F6 /* Resources */ = {
@@ -351,11 +291,6 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		E9BAA926257904D20081C6A2 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = MingKeMing;
-			targetProxy = E9BAA925257904D20081C6A2 /* PBXContainerItemProxy */;
-		};
 		E9F3A9BD21CBC160009690F6 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = E9F3A9B021CBC160009690F6 /* DaoKeDao */;
