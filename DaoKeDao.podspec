@@ -7,16 +7,24 @@
 #
 
 Pod::Spec.new do |s|
-  s.name             = 'DaoKeDao'
-  s.version          = '0.4.4'
-  s.summary          = 'A Common Message Module for Decentralized Instant Messaging'
-  s.homepage         = 'https://github.com/dimchat'
-  s.license          = { :type => 'MIT', :file => 'LICENSE' }
-  s.author           = { 'DIM' => 'john.chen@dim.chat' }
-  s.source           = { :git => 'https://github.com/dimchat/dkd-objc.git', :tag => s.version.to_s }
-  s.ios.deployment_target = '11.0'
+    s.name                  = 'DaoKeDao'
+    s.version               = '0.6.0'
+    s.summary               = 'Decentralized Instant Messaging'
+    s.description           = <<-DESC
+            A Common Message Module for Decentralized Instant Messaging
+                              DESC
+    s.homepage              = 'https://github.com/dimchat/dkd-objc'
+    s.license               = { :type => 'MIT', :file => 'LICENSE' }
+    s.author                = { 'Albert Moky' => 'albert.moky@gmail.com' }
+    s.source                = { :git => 'https://github.com/dimchat/dkd-objc.git', :tag => s.version.to_s }
+    # s.platform            = :ios, "11.0"
+    s.ios.deployment_target = '12.0'
 
-  s.source_files = 'Classes/**/*', 'Framework/*.h'
-  s.public_header_files = 'Classes/**/*.h', 'Framework/*.h'
+    s.source_files          = 'Classes', 'Classes/**/*.{h,m}'
+    # s.exclude_files       = 'Classes/Exclude'
+    s.public_header_files   = 'Classes/*.h'
 
+    s.dependency            = 'MingKeMing', '~> 0.6.1'
+    # s.frameworks          = 'Security'
+    # s.requires_arc        = true
 end
