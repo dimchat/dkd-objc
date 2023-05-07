@@ -53,7 +53,8 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @protocol DKDInstantMessage <DKDMessage>
 
-@property (readonly, strong, nonatomic) id<DKDContent> content;
+// setter is only for rebuild content
+@property (/*readonly, */strong, nonatomic) id<DKDContent> content;
 
 /*
  *  Encrypt the Instant Message to Secure Message

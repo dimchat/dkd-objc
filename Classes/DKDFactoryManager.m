@@ -116,7 +116,7 @@ static DKDFactoryManager *s_manager = nil;
     //NSAssert(type > 0, @"content type error: %@", content);
 
     id<DKDContentFactory> factory = [self contentFactoryForType:type];
-    if (!factory) {
+    if (!factory && type != 0) {
         factory = [self contentFactoryForType:0];  // unknown
         NSAssert(factory, @"cannot parse content: %@", content);
     }

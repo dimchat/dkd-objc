@@ -67,7 +67,7 @@ NS_ASSUME_NONNULL_BEGIN
  *   encryptedKey = receiver.publicKey.encrypt(symmetricKey);
  */
 @property (readonly, strong, nonatomic, nullable) NSData *encryptedKey;
-@property (readonly, strong, nonatomic, nullable) NSDictionary<NSString *, NSString *> *encryptedKeys;
+@property (readonly, strong, nonatomic, nullable) NSDictionary *encryptedKeys;
 
 /*
  *  Decrypt the Secure Message to Instant Message
