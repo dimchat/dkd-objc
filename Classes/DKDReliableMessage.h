@@ -40,7 +40,10 @@
 NS_ASSUME_NONNULL_BEGIN
 
 /*
- *  Instant Message signed by an asymmetric key
+ *  Reliable Message signed by an asymmetric key
+ *  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+ *  This class is used to sign the SecureMessage
+ *  It contains a 'signature' field which signed with sender's private key
  *
  *      data format: {
  *          //-- envelope
@@ -108,10 +111,10 @@ NS_ASSUME_NONNULL_BEGIN
 extern "C" {
 #endif
 
-id<DKDReliableMessageFactory> DKDReliableMessageGetFactory(void);
+_Nullable id<DKDReliableMessageFactory> DKDReliableMessageGetFactory(void);
 void DKDReliableMessageSetFactory(id<DKDReliableMessageFactory> factory);
 
-id<DKDReliableMessage> DKDReliableMessageParse(id msg);
+_Nullable id<DKDReliableMessage> DKDReliableMessageParse(id msg);
 
 #ifdef __cplusplus
 } /* end of extern "C" */

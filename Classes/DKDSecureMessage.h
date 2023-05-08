@@ -41,7 +41,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 /*
  *  Secure Message
- *      Instant Message encrypted by a symmetric key
+ *  ~~~~~~~~~~~~~~
+ *  Instant Message encrypted by a symmetric key
  *
  *      data format: {
  *          //-- envelope
@@ -108,7 +109,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * @return ReliableMessage object
  */
-- (nullable id<DKDReliableMessage>)sign;
+- (id<DKDReliableMessage>)sign;
 
 /**
  *  Split the group message to single person messages
@@ -138,10 +139,10 @@ NS_ASSUME_NONNULL_BEGIN
 extern "C" {
 #endif
 
-id<DKDSecureMessageFactory> DKDSecureMessageGetFactory(void);
+_Nullable id<DKDSecureMessageFactory> DKDSecureMessageGetFactory(void);
 void DKDSecureMessageSetFactory(id<DKDSecureMessageFactory> factory);
 
-id<DKDSecureMessage> DKDSecureMessageParse(id msg);
+_Nullable id<DKDSecureMessage> DKDSecureMessageParse(id msg);
 
 #ifdef __cplusplus
 } /* end of extern "C" */

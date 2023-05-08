@@ -99,9 +99,9 @@ static DKDFactoryManager *s_manager = nil;
 }
 
 - (DKDContentType)contentType:(NSDictionary<NSString *,id> *)content {
-    NSNumber *number = [content objectForKey:@"type"];
-    //NSAssert(number, @"content type error: %@", content);
-    return [number unsignedCharValue];
+    id number = [content objectForKey:@"type"];
+    NSAssert(number, @"content type not found: %@", content);
+    return MKMConverterGetUnsignedChar(number);
 }
 
 - (nullable id<DKDContent>)parseContent:(id)content {
@@ -113,13 +113,13 @@ static DKDFactoryManager *s_manager = nil;
     NSDictionary<NSString *, id> *info = MKMGetMap(content);
     NSAssert([info isKindOfClass:[NSDictionary class]], @"content error: %@", content);
     DKDContentType type = [self contentType:info];
-    //NSAssert(type > 0, @"content type error: %@", content);
+    NSAssert(type > 0, @"content type error: %@", content);
 
     id<DKDContentFactory> factory = [self contentFactoryForType:type];
     if (!factory && type != 0) {
         factory = [self contentFactoryForType:0];  // unknown
-        NSAssert(factory, @"cannot parse content: %@", content);
     }
+    NSAssert(factory, @"cannot parse content: %@", content);
     return [factory parseContent:info];
 }
 

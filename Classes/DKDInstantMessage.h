@@ -41,6 +41,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 /*
  *  Instant Message
+ *  ~~~~~~~~~~~~~~~
  *
  *      data format: {
  *          //-- envelope
@@ -116,13 +117,15 @@ NS_ASSUME_NONNULL_BEGIN
 extern "C" {
 #endif
 
-id<DKDInstantMessageFactory> DKDInstantMessageGetFactory(void);
+_Nullable id<DKDInstantMessageFactory> DKDInstantMessageGetFactory(void);
 void DKDInstantMessageSetFactory(id<DKDInstantMessageFactory> factory);
 
-id<DKDInstantMessage> DKDInstantMessageCreate(id<DKDEnvelope> head, id<DKDContent> body);
-id<DKDInstantMessage> DKDInstantMessageParse(id msg);
+id<DKDInstantMessage> DKDInstantMessageCreate(id<DKDEnvelope> head,
+                                              id<DKDContent> body);
+_Nullable id<DKDInstantMessage> DKDInstantMessageParse(id msg);
 
-NSUInteger DKDInstantMessageGenerateSerialNumber(DKDContentType type, NSDate *now);
+NSUInteger DKDInstantMessageGenerateSerialNumber(DKDContentType type,
+                                                 NSDate *now);
 
 #ifdef __cplusplus
 } /* end of extern "C" */

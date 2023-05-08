@@ -80,9 +80,9 @@ NS_ASSUME_NONNULL_BEGIN
  * @param password - symmetric key
  * @return serialized content data
  */
-- (nullable NSData *)message:(id<DKDInstantMessage>)iMsg
-            serializeContent:(id<DKDContent>)content
-                     withKey:(id<MKMSymmetricKey>)password;
+- (NSData *)message:(id<DKDInstantMessage>)iMsg
+   serializeContent:(id<DKDContent>)content
+            withKey:(id<MKMSymmetricKey>)password;
 
 /**
  *  2. Encrypt content data to 'message.data' with symmetric key
@@ -92,9 +92,9 @@ NS_ASSUME_NONNULL_BEGIN
  * @param password - symmetric key
  * @return encrypted message content data
  */
-- (nullable NSData *)message:(id<DKDInstantMessage>)iMsg
-              encryptContent:(NSData *)data
-                     withKey:(id<MKMSymmetricKey>)password;
+- (NSData *)message:(id<DKDInstantMessage>)iMsg
+     encryptContent:(NSData *)data
+            withKey:(id<MKMSymmetricKey>)password;
 
 /**
  *  3. Encode 'message.data' to String (Base64)
@@ -103,8 +103,8 @@ NS_ASSUME_NONNULL_BEGIN
  * @param data - encrypted content data
  * @return String object
  */
-- (nullable NSObject *)message:(id<DKDInstantMessage>)iMsg
-                    encodeData:(NSData *)data;
+- (NSObject *)message:(id<DKDInstantMessage>)iMsg
+           encodeData:(NSData *)data;
 
 #pragma mark Encrypt Key
 
@@ -137,8 +137,8 @@ NS_ASSUME_NONNULL_BEGIN
  * @param data - encrypted symmetric key data
  * @return String object
  */
-- (nullable NSObject *)message:(id<DKDInstantMessage>)iMsg
-                     encodeKey:(NSData *)data;
+- (NSObject *)message:(id<DKDInstantMessage>)iMsg
+            encodeKey:(NSData *)data;
 
 @end
 
@@ -230,9 +230,9 @@ NS_ASSUME_NONNULL_BEGIN
  * @param sender - sender ID string
  * @return signature of encrypted message data
  */
-- (nullable NSData *)message:(id<DKDSecureMessage>)sMsg
-                    signData:(NSData *)data
-                   forSender:(id<MKMID>)sender;
+- (NSData *)message:(id<DKDSecureMessage>)sMsg
+           signData:(NSData *)data
+          forSender:(id<MKMID>)sender;
 
 /**
  *  2. Encode 'message.signature' to String (Base64)
@@ -241,8 +241,8 @@ NS_ASSUME_NONNULL_BEGIN
  * @param signature - signature of message.data
  * @return String object
  */
-- (nullable NSObject *)message:(id<DKDSecureMessage>)sMsg
-               encodeSignature:(NSData *)signature;
+- (NSObject *)message:(id<DKDSecureMessage>)sMsg
+      encodeSignature:(NSData *)signature;
 
 @end
 
@@ -277,7 +277,11 @@ NS_ASSUME_NONNULL_BEGIN
 #pragma mark -
 
 /*
- *  Common Message
+ *  Message with Envelope
+ *  ~~~~~~~~~~~~~~~~~~~~~
+ *  Base classes for messages
+ *  This class is used to create a message
+ *  with the envelope fields, such as 'sender', 'receiver', and 'time'
  *
  *      data format: {
  *          //-- envelope
@@ -297,9 +301,9 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (readonly, strong, nonatomic) id<MKMID> sender;
 @property (readonly, strong, nonatomic) id<MKMID> receiver;
-@property (readonly, strong, nonatomic) NSDate *time;
+@property (readonly, strong, nonatomic, nullable) NSDate *time;
 
-@property (readonly, strong, nonatomic) id<MKMID> group;
+@property (readonly, strong, nonatomic, nullable) id<MKMID> group;
 @property (readonly, nonatomic) DKDContentType type;
 
 @end

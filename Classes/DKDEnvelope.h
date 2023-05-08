@@ -53,7 +53,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (readonly, strong, nonatomic) id<MKMID> sender;
 @property (readonly, strong, nonatomic) id<MKMID> receiver;
 
-@property (readonly, strong, nonatomic) NSDate *time;
+@property (readonly, strong, nonatomic, nullable) NSDate *time;
 
 /**
  *  Group ID
@@ -100,11 +100,12 @@ NS_ASSUME_NONNULL_BEGIN
 extern "C" {
 #endif
 
-id<DKDEnvelopeFactory> DKDEnvelopeGetFactory(void);
+_Nullable id<DKDEnvelopeFactory> DKDEnvelopeGetFactory(void);
 void DKDEnvelopeSetFactory(id<DKDEnvelopeFactory> factory);
 
-id<DKDEnvelope> DKDEnvelopeCreate(id<MKMID> sender, id<MKMID> receiver, NSDate * _Nullable time);
-id<DKDEnvelope> DKDEnvelopeParse(id env);
+id<DKDEnvelope> DKDEnvelopeCreate(id<MKMID> sender, id<MKMID> receiver,
+                                  NSDate * _Nullable time);
+_Nullable id<DKDEnvelope> DKDEnvelopeParse(id env);
 
 #ifdef __cplusplus
 } /* end of extern "C" */

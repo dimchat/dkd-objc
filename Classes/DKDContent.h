@@ -180,10 +180,10 @@ typedef NS_ENUM(UInt8, DKDContentType) {
 extern "C" {
 #endif
 
-id<DKDContentFactory> DKDContentGetFactory(DKDContentType type);
+_Nullable id<DKDContentFactory> DKDContentGetFactory(DKDContentType type);
 void DKDContentSetFactory(DKDContentType type, id<DKDContentFactory> factory);
 
-id<DKDContent> DKDContentParse(id content);
+_Nullable id<DKDContent> DKDContentParse(id content);
 
 #ifdef __cplusplus
 } /* end of extern "C" */
