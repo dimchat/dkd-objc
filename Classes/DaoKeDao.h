@@ -52,6 +52,7 @@ FOUNDATION_EXPORT const unsigned char DaoKeDaoVersionString[];
 #import <DaoKeDao/DKDContent.h>
 
 #import <DaoKeDao/DKDMessage.h>
+#import <DaoKeDao/DKDDelegate.h>
 #import <DaoKeDao/DKDInstantMessage.h>
 #import <DaoKeDao/DKDSecureMessage.h>
 #import <DaoKeDao/DKDReliableMessage.h>

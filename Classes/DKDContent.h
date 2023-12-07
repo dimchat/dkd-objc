@@ -98,6 +98,9 @@ typedef NS_ENUM(UInt8, DKDContentType) {
     // Web Page
     DKDContentType_Page       = 0x20, // 0010 0000
     
+    // Name Card
+    DKDContentType_NameCard   = 0x33, // 0011 0011
+
     // Quote a message before and reply it with text
     DKDContentType_Quote      = 0x37, // 0011 0111
     

@@ -103,8 +103,10 @@ extern "C" {
 _Nullable id<DKDEnvelopeFactory> DKDEnvelopeGetFactory(void);
 void DKDEnvelopeSetFactory(id<DKDEnvelopeFactory> factory);
 
-id<DKDEnvelope> DKDEnvelopeCreate(id<MKMID> sender, id<MKMID> receiver,
+id<DKDEnvelope> DKDEnvelopeCreate(id<MKMID> sender,
+                                  id<MKMID> receiver,
                                   NSDate * _Nullable time);
+
 _Nullable id<DKDEnvelope> DKDEnvelopeParse(id env);
 
 #ifdef __cplusplus

@@ -35,6 +35,7 @@
 //  Copyright © 2023 DIM Group. All rights reserved.
 //
 
+#import <DaoKeDao/DKDEnvelope.h>
 #import <DaoKeDao/DKDInstantMessage.h>
 #import <DaoKeDao/DKDReliableMessage.h>
 
@@ -51,8 +52,10 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)setContentFactory:(id<DKDContentFactory>)factory forType:(DKDContentType)type;
 - (nullable id<DKDContentFactory>)contentFactoryForType:(DKDContentType)type;
 
-- (DKDContentType)contentType:(NSDictionary<NSString *, id> *)content;
-- (nullable id<DKDContent>)parseContent:(id)content;
+- (DKDContentType)contentType:(NSDictionary<NSString *, id> *)content
+                 defaultValue:(UInt8)aValue;
+
+- (nullable id<DKDContent>)parseContent:(nullable id)content;
 
 #pragma mark Envelope
 
@@ -60,9 +63,10 @@ NS_ASSUME_NONNULL_BEGIN
 - (nullable id<DKDEnvelopeFactory>)envelopeFactory;
 
 - (id<DKDEnvelope>)createEnvelopeWithSender:(id<MKMID>)from
-                                   receiver:(nullable id<MKMID>)to
+                                   receiver:(id<MKMID>)to
                                        time:(nullable NSDate *)when;
-- (nullable id<DKDEnvelope>)parseEnvelope:(id)env;
+
+- (nullable id<DKDEnvelope>)parseEnvelope:(nullable id)env;
 
 #pragma mark InstantMessage
 
@@ -71,7 +75,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (id<DKDInstantMessage>)createInstantMessageWithEnvelope:(id<DKDEnvelope>)head
                                                   content:(id<DKDContent>)body;
-- (nullable id<DKDInstantMessage>)parseInstantMessage:(id)msg;
+
+- (nullable id<DKDInstantMessage>)parseInstantMessage:(nullable id)msg;
 
 - (NSUInteger)generateSerialNumber:(DKDContentType)type time:(NSDate *)now;
 
@@ -80,14 +85,14 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)setSecureMessageFactory:(id<DKDSecureMessageFactory>)factory;
 - (nullable id<DKDSecureMessageFactory>)secureMessageFactory;
 
-- (nullable id<DKDSecureMessage>)parseSecureMessage:(id)msg;
+- (nullable id<DKDSecureMessage>)parseSecureMessage:(nullable id)msg;
 
 #pragma mark ReliableMessage
 
 - (void)setReliableMessageFactory:(id<DKDReliableMessageFactory>)factory;
 - (nullable id<DKDReliableMessageFactory>)reliableMessageFactory;
 
-- (nullable id<DKDReliableMessage>)parseReliableMessage:(id)msg;
+- (nullable id<DKDReliableMessage>)parseReliableMessage:(nullable id)msg;
 
 @end
 

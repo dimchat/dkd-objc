@@ -35,7 +35,7 @@
 //  Copyright © 2018 DIM Group. All rights reserved.
 //
 
-#import <DaoKeDao/DKDEnvelope.h>
+#import <DaoKeDao/DKDContent.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -55,226 +55,12 @@ NS_ASSUME_NONNULL_BEGIN
  *                                         +--------------+
  *
  *  Algorithm:
- *  data      = password.encrypt(content)
- *  key       = receiver.public_key.encrypt(password)
- *  signature = sender.private_key.sign(data)
+ *      data      = password.encrypt(content)
+ *      key       = receiver.public_key.encrypt(password)
+ *      signature = sender.private_key.sign(data)
  */
 
-@protocol DKDInstantMessage;
-@protocol DKDSecureMessage;
-@protocol DKDReliableMessage;
-
-@protocol DKDMessageDelegate <NSObject>
-
-@end
-
-@protocol DKDInstantMessageDelegate <DKDMessageDelegate>
-
-#pragma mark Encrypt Content
-
-/**
- *  1. Serialize 'message.content' to data (JsON / ProtoBuf / ...)
- *
- * @param iMsg - instant message object
- * @param content - message.content
- * @param password - symmetric key
- * @return serialized content data
- */
-- (NSData *)message:(id<DKDInstantMessage>)iMsg
-   serializeContent:(id<DKDContent>)content
-            withKey:(id<MKMSymmetricKey>)password;
-
-/**
- *  2. Encrypt content data to 'message.data' with symmetric key
- *
- * @param iMsg - instant message object
- * @param data - serialized data of message.content
- * @param password - symmetric key
- * @return encrypted message content data
- */
-- (NSData *)message:(id<DKDInstantMessage>)iMsg
-     encryptContent:(NSData *)data
-            withKey:(id<MKMSymmetricKey>)password;
-
-/**
- *  3. Encode 'message.data' to String (Base64)
- *
- * @param iMsg - instant message object
- * @param data - encrypted content data
- * @return String object
- */
-- (NSObject *)message:(id<DKDInstantMessage>)iMsg
-           encodeData:(NSData *)data;
-
-#pragma mark Encrypt Key
-
-/**
- *  4. Serialize message key to data (JsON / ProtoBuf / ...)
- *
- * @param iMsg - instant message object
- * @param password - symmetric key
- * @return serialized key data
- */
-- (nullable NSData *)message:(id<DKDInstantMessage>)iMsg
-                serializeKey:(id<MKMSymmetricKey>)password;
-
-/**
- *  5. Encrypt key data to 'message.key' with receiver's public key
- *
- * @param iMsg - instant message object
- * @param data - serialized data of symmetric key
- * @param receiver - receiver ID string
- * @return encrypted symmetric key data
- */
-- (nullable NSData *)message:(id<DKDInstantMessage>)iMsg
-                  encryptKey:(NSData *)data
-                 forReceiver:(id<MKMID>)receiver;
-
-/**
- *  6. Encode 'message.key' to String (Base64)
- *
- * @param iMsg - instant message object
- * @param data - encrypted symmetric key data
- * @return String object
- */
-- (NSObject *)message:(id<DKDInstantMessage>)iMsg
-            encodeKey:(NSData *)data;
-
-@end
-
-@protocol DKDSecureMessageDelegate <DKDMessageDelegate>
-
-#pragma mark Decrypt Key
-
-/**
- *  1. Decode 'message.key' to encrypted symmetric key data
- *
- * @param sMsg - secure message object
- * @param dataString - base64 string object
- * @return encrypted symmetric key data
- */
-- (nullable NSData *)message:(id<DKDSecureMessage>)sMsg
-                   decodeKey:(NSObject *)dataString;
-
-/**
- *  2. Decrypt 'message.key' with receiver's private key
- *
- * @param sMsg - secure message object
- * @param key - encrypted symmetric key data
- * @param sender - sender/member ID string
- * @param receiver - receiver/group ID string
- * @return serialized data of symmetric key
- */
-- (nullable NSData *)message:(id<DKDSecureMessage>)sMsg
-                  decryptKey:(NSData *)key
-                        from:(id<MKMID>)sender
-                          to:(id<MKMID>)receiver;
-
-/**
- *  3. Deserialize message key from data (JsON / ProtoBuf / ...)
- *
- * @param sMsg - secure message object
- * @param data - serialized key data
- * @param sender - sender/member ID string
- * @param receiver - receiver/group ID string
- * @return symmetric key
- */
-- (nullable id<MKMSymmetricKey>)message:(id<DKDSecureMessage>)sMsg
-                         deserializeKey:(nullable NSData *)data
-                                   from:(id<MKMID>)sender
-                                     to:(id<MKMID>)receiver;
-
-#pragma mark Decrypt Content
-
-/**
- *  4. Decode 'message.data' to encrypted content data
- *
- * @param sMsg - secure message object
- * @param dataString - base64 string object
- * @return encrypted content data
- */
-- (nullable NSData *)message:(id<DKDSecureMessage>)sMsg
-                  decodeData:(NSObject *)dataString;
-
-/**
- *  5. Decrypt 'message.data' with symmetric key
- *
- * @param sMsg - secure message object
- * @param data - encrypt content data
- * @param password - symmetric key
- * @return serialized data of message content
- */
-- (nullable NSData *)message:(id<DKDSecureMessage>)sMsg
-              decryptContent:(NSData *)data
-                     withKey:(id<MKMSymmetricKey>)password;
-
-/**
- *  6. Deserialize message content from data (JsON / ProtoBuf / ...)
- *
- * @param sMsg - secure message object
- * @param data - serialized content data
- * @param password - symmetric key
- * @return message content
- */
-- (nullable id<DKDContent>)message:(id<DKDSecureMessage>)sMsg
-                deserializeContent:(NSData *)data
-                           withKey:(id<MKMSymmetricKey>)password;
-
-#pragma mark Signature
-
-/**
- *  1. Sign 'message.data' with sender's private key
- *
- * @param sMsg - secure message object
- * @param data - encrypted message data
- * @param sender - sender ID string
- * @return signature of encrypted message data
- */
-- (NSData *)message:(id<DKDSecureMessage>)sMsg
-           signData:(NSData *)data
-          forSender:(id<MKMID>)sender;
-
-/**
- *  2. Encode 'message.signature' to String (Base64)
- *
- * @param sMsg - secure message object
- * @param signature - signature of message.data
- * @return String object
- */
-- (NSObject *)message:(id<DKDSecureMessage>)sMsg
-      encodeSignature:(NSData *)signature;
-
-@end
-
-@protocol DKDReliableMessageDelegate <DKDSecureMessageDelegate>
-
-/**
- *  1. Decode 'message.signature' from String (Base64)
- *
- * @param rMsg - reliable message object
- * @param signatureString - base64 string object
- * @return signature data
- */
-- (nullable NSData *)message:(id<DKDReliableMessage>)rMsg
-             decodeSignature:(NSObject *)signatureString;
-
-/**
- *  2. Verify the message data and signature with sender's public key
- *
- * @param rMsg - reliable message object
- * @param data - message content(encrypted) data
- * @param signature - signature for message content(encrypted) data
- * @param sender - sender ID string
- * @return YES on signature match
- */
-- (BOOL)message:(id<DKDReliableMessage>)rMsg
-     verifyData:(NSData *)data
-  withSignature:(NSData *)signature
-      forSender:(id<MKMID>)sender;
-
-@end
-
-#pragma mark -
+@protocol DKDEnvelope;
 
 /*
  *  Message with Envelope
@@ -288,22 +74,24 @@ NS_ASSUME_NONNULL_BEGIN
  *          sender   : "moki@xxx",
  *          receiver : "hulk@yyy",
  *          time     : 123,
- *          //-- others
+ *          //-- body
  *          ...
  *      }
  */
 @protocol DKDMessage <MKMDictionary>
 
-// delegate to transform message
-@property (weak, nonatomic) id<DKDMessageDelegate> delegate;
-
 @property (readonly, strong, nonatomic) id<DKDEnvelope> envelope;
 
+// envelope.sender
 @property (readonly, strong, nonatomic) id<MKMID> sender;
+// envelope.receiver
 @property (readonly, strong, nonatomic) id<MKMID> receiver;
+// content.time or envelope.time
 @property (readonly, strong, nonatomic, nullable) NSDate *time;
 
+// content.group or envelope.group
 @property (readonly, strong, nonatomic, nullable) id<MKMID> group;
+// content.type or envelope.type
 @property (readonly, nonatomic) DKDContentType type;
 
 @end

@@ -98,10 +98,11 @@ static DKDFactoryManager *s_manager = nil;
     return [_contentFactories objectForKey:@(type)];
 }
 
-- (DKDContentType)contentType:(NSDictionary<NSString *,id> *)content {
+- (DKDContentType)contentType:(NSDictionary<NSString *,id> *)content
+                 defaultValue:(UInt8)aValue {
     id number = [content objectForKey:@"type"];
     NSAssert(number, @"content type not found: %@", content);
-    return MKMConverterGetUnsignedChar(number);
+    return MKMConverterGetUnsignedChar(number, aValue);
 }
 
 - (nullable id<DKDContent>)parseContent:(id)content {
@@ -111,15 +112,17 @@ static DKDFactoryManager *s_manager = nil;
         return (id<DKDContent>)content;
     }
     NSDictionary<NSString *, id> *info = MKMGetMap(content);
-    NSAssert([info isKindOfClass:[NSDictionary class]], @"content error: %@", content);
-    DKDContentType type = [self contentType:info];
-    NSAssert(type > 0, @"content type error: %@", content);
-
-    id<DKDContentFactory> factory = [self contentFactoryForType:type];
-    if (!factory && type != 0) {
-        factory = [self contentFactoryForType:0];  // unknown
+    if (!info) {
+        NSAssert(false, @"content error: %@", content);
+        return nil;
     }
-    NSAssert(factory, @"cannot parse content: %@", content);
+    DKDContentType type = [self contentType:info defaultValue:0];
+    NSAssert(type > 0, @"content type error: %@", content);
+    id<DKDContentFactory> factory = [self contentFactoryForType:type];
+    if (!factory) {
+        factory = [self contentFactoryForType:0];  // unknown
+        NSAssert(factory, @"default content factory not found");
+    }
     return [factory parseContent:info];
 }
 
@@ -134,7 +137,7 @@ static DKDFactoryManager *s_manager = nil;
 }
 
 - (id<DKDEnvelope>)createEnvelopeWithSender:(id<MKMID>)from
-                                   receiver:(nullable id<MKMID>)to
+                                   receiver:(id<MKMID>)to
                                        time:(nullable NSDate *)when {
     return [_envelopeFactory createEnvelopeWithSender:from
                                              receiver:to
@@ -148,10 +151,13 @@ static DKDFactoryManager *s_manager = nil;
         return (id<DKDEnvelope>)env;
     }
     NSDictionary<NSString *, id> *info = MKMGetMap(env);
-    NSAssert([info isKindOfClass:[NSDictionary class]], @"envelope error: %@", env);
-    
-    NSAssert(_envelopeFactory, @"envelope factory not set");
-    return [_envelopeFactory parseEnvelope:info];
+    if (!info) {
+        NSAssert(false, @"envelope error: %@", env);
+        return nil;
+    }
+    id<DKDEnvelopeFactory> factory = [self envelopeFactory];
+    NSAssert(factory, @"envelope factory not set");
+    return [factory parseEnvelope:info];
 }
 
 #pragma mark InstantMessage
@@ -166,8 +172,9 @@ static DKDFactoryManager *s_manager = nil;
 
 - (id<DKDInstantMessage>)createInstantMessageWithEnvelope:(id<DKDEnvelope>)head
                                                   content:(id<DKDContent>)body {
-    NSAssert(_instantFactory, @"instant message factory not set");
-    return [_instantFactory createInstantMessageWithEnvelope:head content:body];
+    id<DKDInstantMessageFactory> factory = [self instantMessageFactory];
+    NSAssert(factory, @"instant message factory not set");
+    return [factory createInstantMessageWithEnvelope:head content:body];
 }
 
 - (nullable id<DKDInstantMessage>)parseInstantMessage:(id)msg {
@@ -177,15 +184,19 @@ static DKDFactoryManager *s_manager = nil;
         return (id<DKDInstantMessage>)msg;
     }
     NSDictionary<NSString *, id> *info = MKMGetMap(msg);
-    NSAssert([info isKindOfClass:[NSDictionary class]], @"instant message error: %@", msg);
-
-    NSAssert(_instantFactory, @"instant message factory not set");
-    return [_instantFactory parseInstantMessage:info];
+    if (!info) {
+        NSAssert(false, @"instant message error: %@", msg);
+        return nil;
+    }
+    id<DKDInstantMessageFactory> factory = [self instantMessageFactory];
+    NSAssert(factory, @"instant message factory not set");
+    return [factory parseInstantMessage:info];
 }
 
 - (NSUInteger)generateSerialNumber:(DKDContentType)type time:(NSDate *)now {
-    NSAssert(_instantFactory, @"instant message factory not set");
-    return [_instantFactory generateSerialNumber:type time:now];
+    id<DKDInstantMessageFactory> factory = [self instantMessageFactory];
+    NSAssert(factory, @"instant message factory not set");
+    return [factory generateSerialNumber:type time:now];
 }
 
 #pragma mark SecureMessage
@@ -205,10 +216,13 @@ static DKDFactoryManager *s_manager = nil;
         return (id<DKDSecureMessage>)msg;
     }
     NSDictionary<NSString *, id> *info = MKMGetMap(msg);
-    NSAssert([info isKindOfClass:[NSDictionary class]], @"secure message error: %@", msg);
-
-    NSAssert(_secureFactory, @"secure message factory not set");
-    return [_secureFactory parseSecureMessage:info];
+    if (!info) {
+        NSAssert(false, @"secure message error: %@", msg);
+        return nil;
+    }
+    id<DKDSecureMessageFactory> factory = [self secureMessageFactory];
+    NSAssert(factory, @"secure message factory not set");
+    return [factory parseSecureMessage:info];
 }
 
 #pragma mark ReliableMessage
@@ -228,10 +242,13 @@ static DKDFactoryManager *s_manager = nil;
         return (id<DKDReliableMessage>)msg;
     }
     NSDictionary<NSString *, id> *info = MKMGetMap(msg);
-    NSAssert([info isKindOfClass:[NSDictionary class]], @"reliable message error: %@", msg);
-
-    NSAssert(_reliableFactory, @"reliable message factory not set");
-    return [_reliableFactory parseReliableMessage:info];
+    if (!info) {
+        NSAssert(false, @"reliable message error: %@", msg);
+        return nil;
+    }
+    id<DKDReliableMessageFactory> factory = [self reliableMessageFactory];
+    NSAssert(factory, @"reliable message factory not set");
+    return [factory parseReliableMessage:info];
 }
 
 @end

@@ -57,36 +57,6 @@ NS_ASSUME_NONNULL_BEGIN
 // setter is only for rebuild content
 @property (/*readonly, */strong, nonatomic) id<DKDContent> content;
 
-/*
- *  Encrypt the Instant Message to Secure Message
- *
- *    +----------+      +----------+
- *    | sender   |      | sender   |
- *    | receiver |      | receiver |
- *    | time     |  ->  | time     |
- *    |          |      |          |
- *    | content  |      | data     |  1. data = encrypt(content, PW)
- *    +----------+      | key/keys |  2. key  = encrypt(PW, receiver.PK)
- *                      +----------+
- */
-
-/**
- *  Encrypt message, replace 'content' field with encrypted 'data'
- *
- * @param password - symmetric key
- * @return SecureMessage object
- */
-- (nullable id<DKDSecureMessage>)encryptWithKey:(id<MKMSymmetricKey>)password;
-
-/**
- *  Encrypt group message, replace 'content' field with encrypted 'data'
- *
- * @param password - symmetric key
- * @param members - group members
- * @return SecureMessage object
- */
-- (nullable id<DKDSecureMessage>)encryptWithKey:(id<MKMSymmetricKey>)password forMembers:(NSArray<id<MKMID>> *)members;
-
 @end
 
 @protocol DKDInstantMessageFactory <NSObject>
@@ -122,6 +92,7 @@ void DKDInstantMessageSetFactory(id<DKDInstantMessageFactory> factory);
 
 id<DKDInstantMessage> DKDInstantMessageCreate(id<DKDEnvelope> head,
                                               id<DKDContent> body);
+
 _Nullable id<DKDInstantMessage> DKDInstantMessageParse(id msg);
 
 NSUInteger DKDInstantMessageGenerateSerialNumber(DKDContentType type,

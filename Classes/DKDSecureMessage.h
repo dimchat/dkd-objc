@@ -50,10 +50,10 @@ NS_ASSUME_NONNULL_BEGIN
  *          receiver : "hulk@yyy",
  *          time     : 123,
  *          //-- content data & key/keys
- *          data     : "...",  // base64_encode(symmetric)
- *          key      : "...",  // base64_encode(asymmetric)
+ *          data     : "...",  // base64_encode( symmetric_encrypt(content))
+ *          key      : "...",  // base64_encode(asymmetric_encrypt(password))
  *          keys     : {
- *              "ID1": "key1", // base64_encode(asymmetric)
+ *              "ID1": "key1", // base64_encode(asymmetric_encrypt(password))
  *          }
  *      }
  */
@@ -69,63 +69,6 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @property (readonly, strong, nonatomic, nullable) NSData *encryptedKey;
 @property (readonly, strong, nonatomic, nullable) NSDictionary *encryptedKeys;
-
-/*
- *  Decrypt the Secure Message to Instant Message
- *
- *    +----------+      +----------+
- *    | sender   |      | sender   |
- *    | receiver |      | receiver |
- *    | time     |  ->  | time     |
- *    |          |      |          |  1. PW      = decrypt(key, receiver.SK)
- *    | data     |      | content  |  2. content = decrypt(data, PW)
- *    | key/keys |      +----------+
- *    +----------+
- */
-
-/**
- *  Decrypt message, replace encrypted 'data' with 'content' field
- *
- * @return InstantMessage object
- */
-- (nullable id<DKDInstantMessage>)decrypt;
-
-/*
- *  Sign the Secure Message to Reliable Message
- *
- *    +----------+      +----------+
- *    | sender   |      | sender   |
- *    | receiver |      | receiver |
- *    | time     |  ->  | time     |
- *    |          |      |          |
- *    | data     |      | data     |
- *    | key/keys |      | key/keys |
- *    +----------+      | signature|  1. signature = sign(data, sender.SK)
- *                      +----------+
- */
-
-/**
- *  Sign message.data, add 'signature' field
- *
- * @return ReliableMessage object
- */
-- (id<DKDReliableMessage>)sign;
-
-/**
- *  Split the group message to single person messages
- *
- *  @param members - group members
- *  @return secure/reliable message(s)
- */
-- (NSArray<id<DKDSecureMessage>> *)splitForMembers:(NSArray<id<MKMID>> *)members;
-
-/**
- *  Trim the group message for a member
- *
- * @param member - group member ID
- * @return SecureMessage/ReliableMessage
- */
-- (id<DKDSecureMessage>)trimForMember:(id<MKMID>)member;
 
 @end
 

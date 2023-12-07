@@ -51,53 +51,18 @@ NS_ASSUME_NONNULL_BEGIN
  *          receiver : "hulk@yyy",
  *          time     : 123,
  *          //-- content data & key/keys
- *          data     : "...",  // base64_encode(symmetric)
- *          key      : "...",  // base64_encode(asymmetric)
+ *          data     : "...",  // base64_encode( symmetric_encrypt(content))
+ *          key      : "...",  // base64_encode(asymmetric_encrypt(password))
  *          keys     : {
- *              "ID1": "key1", // base64_encode(asymmetric)
+ *              "ID1": "key1", // base64_encode(asymmetric_encrypt(password))
  *          },
  *          //-- signature
- *          signature: "..."   // base64_encode()
+ *          signature: "..."   // base64_encode(asymmetric_sign(data))
  *      }
  */
 @protocol DKDReliableMessage <DKDSecureMessage>
 
 @property (readonly, strong, nonatomic) NSData *signature;
-
-/**
- *  Sender's Meta
- *  ~~~~~~~~~~~~~
- *  Extends for the first message package of 'Handshake' protocol.
- */
-@property (strong, nonatomic, nullable) id<MKMMeta> meta;
-
-/**
- *  Sender's Visa
- *  ~~~~~~~~~~~~~
- *  Extends for the first message package of 'Handshake' protocol.
-*/
-@property (strong, nonatomic, nullable) id<MKMVisa> visa;
-
-/*
- *  Verify the Reliable Message to Secure Message
- *
- *    +----------+      +----------+
- *    | sender   |      | sender   |
- *    | receiver |      | receiver |
- *    | time     |  ->  | time     |
- *    |          |      |          |
- *    | data     |      | data     |  1. verify(data, signature, sender.PK)
- *    | key/keys |      | key/keys |
- *    | signature|      +----------+
- *    +----------+
- */
-
-/**
- *  Verify 'data' and 'signature' field with sender's public key
- *
- * @return SecureMessage object
- */
-- (nullable id<DKDSecureMessage>)verify;
 
 @end
 

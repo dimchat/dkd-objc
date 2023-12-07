@@ -1,5 +1,5 @@
 platform :ios, '11.0'
 
 target 'DaoKeDao' do
-    pod 'MingKeMing', '~> 0.6.5'
+    pod 'MingKeMing', '~> 0.7.0'
 end
