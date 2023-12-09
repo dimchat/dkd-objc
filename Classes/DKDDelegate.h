@@ -254,7 +254,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @end
 
-@protocol DKDReliableMessageDelegate <DKDSecureMessageDelegate>
+@protocol DKDReliableMessageDelegate <NSObject>  // <DKDSecureMessageDelegate>
 
 /*
  *  Verify the Reliable Message to Secure Message

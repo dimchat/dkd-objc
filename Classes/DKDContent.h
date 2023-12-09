@@ -86,7 +86,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  *      (All above are just some advices to help choosing numbers :P)
  */
-typedef NS_ENUM(UInt8, DKDContentType) {
+typedef NS_ENUM(UInt8, DKDMessageType) {
     
     DKDContentType_Text       = 0x01, // 0000 0001
     
@@ -131,6 +131,8 @@ typedef NS_ENUM(UInt8, DKDContentType) {
     // Top-Secret message forward by proxy (MTA)
     DKDContentType_Forward    = 0xFF  // 1111 1111
 };
+typedef UInt8 DKDContentType;
+typedef unsigned long DKDSerialNumber;
 
 /*
  *  Message Content
@@ -156,7 +158,7 @@ typedef NS_ENUM(UInt8, DKDContentType) {
 @property (readonly, nonatomic) DKDContentType type;
 
 // serial number as message id
-@property (readonly, nonatomic) unsigned long serialNumber;
+@property (readonly, nonatomic) DKDSerialNumber serialNumber;
 
 // message time
 @property (readonly, strong, nonatomic, nullable) NSDate *time;

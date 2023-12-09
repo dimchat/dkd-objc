@@ -53,7 +53,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (nullable id<DKDContentFactory>)contentFactoryForType:(DKDContentType)type;
 
 - (DKDContentType)contentType:(NSDictionary<NSString *, id> *)content
-                 defaultValue:(UInt8)aValue;
+                 defaultValue:(DKDContentType)aValue;
 
 - (nullable id<DKDContent>)parseContent:(nullable id)content;
 

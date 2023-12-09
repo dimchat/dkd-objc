@@ -99,7 +99,7 @@ static DKDFactoryManager *s_manager = nil;
 }
 
 - (DKDContentType)contentType:(NSDictionary<NSString *,id> *)content
-                 defaultValue:(UInt8)aValue {
+                 defaultValue:(DKDContentType)aValue {
     id number = [content objectForKey:@"type"];
     NSAssert(number, @"content type not found: %@", content);
     return MKMConverterGetUnsignedChar(number, aValue);
