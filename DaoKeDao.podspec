@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
     s.name                  = 'DaoKeDao'
-    s.version               = '0.7.0'
+    s.version               = '0.7.1'
     s.summary               = 'Decentralized Instant Messaging'
     s.description           = <<-DESC
             A Common Message Module for Decentralized Instant Messaging
@@ -22,10 +22,10 @@ Pod::Spec.new do |s|
 
     s.source_files          = 'Classes', 'Classes/**/*.{h,m}'
     # s.exclude_files       = 'Classes/Exclude'
-    s.public_header_files   = 'Classes/*.h'
+    s.public_header_files   = 'Classes/**/*.h'
 
     # s.frameworks          = 'Security'
     # s.requires_arc        = true
 
-    s.dependency 'MingKeMing', '~> 0.7.0'
+    s.dependency 'MingKeMing', '~> 0.7.1'
 end
