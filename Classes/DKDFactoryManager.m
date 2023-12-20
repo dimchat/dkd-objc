@@ -109,7 +109,7 @@ static DKDFactoryManager *s_manager = nil;
     if (!content) {
         return nil;
     } else if ([content conformsToProtocol:@protocol(DKDContent)]) {
-        return (id<DKDContent>)content;
+        return content;
     }
     NSDictionary<NSString *, id> *info = MKMGetMap(content);
     if (!info) {
@@ -148,7 +148,7 @@ static DKDFactoryManager *s_manager = nil;
     if (!env) {
         return nil;
     } else if ([env conformsToProtocol:@protocol(DKDEnvelope)]) {
-        return (id<DKDEnvelope>)env;
+        return env;
     }
     NSDictionary<NSString *, id> *info = MKMGetMap(env);
     if (!info) {
@@ -181,7 +181,7 @@ static DKDFactoryManager *s_manager = nil;
     if (!msg) {
         return nil;
     } else if ([msg conformsToProtocol:@protocol(DKDInstantMessage)]) {
-        return (id<DKDInstantMessage>)msg;
+        return msg;
     }
     NSDictionary<NSString *, id> *info = MKMGetMap(msg);
     if (!info) {
@@ -213,7 +213,7 @@ static DKDFactoryManager *s_manager = nil;
     if (!msg) {
         return nil;
     } else if ([msg conformsToProtocol:@protocol(DKDSecureMessage)]) {
-        return (id<DKDSecureMessage>)msg;
+        return msg;
     }
     NSDictionary<NSString *, id> *info = MKMGetMap(msg);
     if (!info) {
@@ -239,7 +239,7 @@ static DKDFactoryManager *s_manager = nil;
     if (!msg) {
         return nil;
     } else if ([msg conformsToProtocol:@protocol(DKDReliableMessage)]) {
-        return (id<DKDReliableMessage>)msg;
+        return msg;
     }
     NSDictionary<NSString *, id> *info = MKMGetMap(msg);
     if (!info) {

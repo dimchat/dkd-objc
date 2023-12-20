@@ -177,7 +177,7 @@ typedef unsigned long DKDSerialNumber;
  * @param content - content info
  * @return Content
  */
-- (nullable id<DKDContent>)parseContent:(NSDictionary *)content;
+- (nullable __kindof id<DKDContent>)parseContent:(NSDictionary *)content;
 
 @end
 
@@ -188,7 +188,7 @@ extern "C" {
 _Nullable id<DKDContentFactory> DKDContentGetFactory(DKDContentType type);
 void DKDContentSetFactory(DKDContentType type, id<DKDContentFactory> factory);
 
-_Nullable id<DKDContent> DKDContentParse(id content);
+_Nullable __kindof id<DKDContent> DKDContentParse(id content);
 
 #ifdef __cplusplus
 } /* end of extern "C" */

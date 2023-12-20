@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
     s.name                  = 'DaoKeDao'
-    s.version               = '0.7.1'
+    s.version               = '0.7.2'
     s.summary               = 'Decentralized Instant Messaging'
     s.description           = <<-DESC
             A Common Message Module for Decentralized Instant Messaging
@@ -27,5 +27,5 @@ Pod::Spec.new do |s|
     # s.frameworks          = 'Security'
     # s.requires_arc        = true
 
-    s.dependency 'MingKeMing', '~> 0.7.1'
+    s.dependency 'MingKeMing', '~> 0.7.2'
 end

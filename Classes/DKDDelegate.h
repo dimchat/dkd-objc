@@ -69,7 +69,7 @@ NS_ASSUME_NONNULL_BEGIN
  * @return serialized content data
  */
 - (NSData *)message:(id<DKDInstantMessage>)iMsg
-   serializeContent:(id<DKDContent>)content
+   serializeContent:(__kindof id<DKDContent>)content
             withKey:(id<MKMSymmetricKey>)password;
 
 /**
@@ -212,9 +212,9 @@ NS_ASSUME_NONNULL_BEGIN
  * @param password - symmetric key (includes data compression algorithm)
  * @return message content
  */
-- (nullable id<DKDContent>)message:(id<DKDSecureMessage>)sMsg
-                deserializeContent:(NSData *)data
-                           withKey:(id<MKMSymmetricKey>)password;
+- (nullable __kindof id<DKDContent>)message:(id<DKDSecureMessage>)sMsg
+                         deserializeContent:(NSData *)data
+                                    withKey:(id<MKMSymmetricKey>)password;
 
 /*
  *  Sign the Secure Message to Reliable Message

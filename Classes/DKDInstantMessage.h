@@ -55,7 +55,7 @@ NS_ASSUME_NONNULL_BEGIN
 @protocol DKDInstantMessage <DKDMessage>
 
 // setter is only for rebuild content
-@property (/*readonly, */strong, nonatomic) id<DKDContent> content;
+@property (/*readonly, */strong, nonatomic) __kindof id<DKDContent> content;
 
 @end
 
@@ -77,7 +77,8 @@ NS_ASSUME_NONNULL_BEGIN
  * @param body - message content
  * @return InstantMessage
  */
-- (id<DKDInstantMessage>)createInstantMessageWithEnvelope:(id<DKDEnvelope>)head content:(id<DKDContent>)body;
+- (id<DKDInstantMessage>)createInstantMessageWithEnvelope:(id<DKDEnvelope>)head
+                                                  content:(__kindof id<DKDContent>)body;
 
 - (nullable id<DKDInstantMessage>)parseInstantMessage:(NSDictionary *)msg;
 
@@ -91,7 +92,7 @@ _Nullable id<DKDInstantMessageFactory> DKDInstantMessageGetFactory(void);
 void DKDInstantMessageSetFactory(id<DKDInstantMessageFactory> factory);
 
 id<DKDInstantMessage> DKDInstantMessageCreate(id<DKDEnvelope> head,
-                                              id<DKDContent> body);
+                                              __kindof id<DKDContent> body);
 
 _Nullable id<DKDInstantMessage> DKDInstantMessageParse(id msg);
 

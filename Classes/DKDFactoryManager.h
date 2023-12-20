@@ -55,7 +55,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (DKDContentType)contentType:(NSDictionary<NSString *, id> *)content
                  defaultValue:(DKDContentType)aValue;
 
-- (nullable id<DKDContent>)parseContent:(nullable id)content;
+- (nullable __kindof id<DKDContent>)parseContent:(nullable id)content;
 
 #pragma mark Envelope
 
@@ -74,7 +74,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (nullable id<DKDInstantMessageFactory>)instantMessageFactory;
 
 - (id<DKDInstantMessage>)createInstantMessageWithEnvelope:(id<DKDEnvelope>)head
-                                                  content:(id<DKDContent>)body;
+                                                  content:(__kindof id<DKDContent>)body;
 
 - (nullable id<DKDInstantMessage>)parseInstantMessage:(nullable id)msg;
 
