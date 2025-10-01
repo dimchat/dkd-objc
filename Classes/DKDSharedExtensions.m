@@ -28,18 +28,18 @@
 // SOFTWARE.
 // =============================================================================
 //
-//  DKDFactoryManager.m
+//  DKDSharedExtensions.m
 //  DaoKeDao
 //
 //  Created by Albert Moky on 2023/2/1.
 //  Copyright © 2023 DIM Group. All rights reserved.
 //
 
-#import "DKDFactoryManager.h"
+#import "DKDSharedExtensions.h"
 
-@implementation DKDFactoryManager
+@implementation DKDSharedExtensions
 
-static DKDFactoryManager *s_manager = nil;
+static DKDSharedExtensions *s_manager = nil;
 
 + (instancetype)allocWithZone:(struct _NSZone *)zone {
     static dispatch_once_t onceToken;

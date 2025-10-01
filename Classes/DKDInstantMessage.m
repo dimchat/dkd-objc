@@ -35,31 +35,31 @@
 //  Copyright © 2018 DIM Group. All rights reserved.
 //
 
-#import "DKDFactoryManager.h"
+#import "DKDSharedExtensions.h"
 
 #import "DKDInstantMessage.h"
 
 id<DKDInstantMessageFactory> DKDInstantMessageGetFactory(void) {
-    DKDFactoryManager *man = [DKDFactoryManager sharedManager];
+    DKDSharedExtensions *man = [DKDSharedExtensions sharedManager];
     return [man.generalFactory instantMessageFactory];
 }
 
 void DKDInstantMessageSetFactory(id<DKDInstantMessageFactory> factory) {
-    DKDFactoryManager *man = [DKDFactoryManager sharedManager];
+    DKDSharedExtensions *man = [DKDSharedExtensions sharedManager];
     [man.generalFactory setInstantMessageFactory:factory];
 }
 
 NSUInteger DKDInstantMessageGenerateSerialNumber(DKDContentType type, NSDate *now) {
-    DKDFactoryManager *man = [DKDFactoryManager sharedManager];
+    DKDSharedExtensions *man = [DKDSharedExtensions sharedManager];
     return [man.generalFactory generateSerialNumber:type time:now];
 }
 
 id<DKDInstantMessage> DKDInstantMessageCreate(id<DKDEnvelope> head, id<DKDContent> body) {
-    DKDFactoryManager *man = [DKDFactoryManager sharedManager];
+    DKDSharedExtensions *man = [DKDSharedExtensions sharedManager];
     return [man.generalFactory createInstantMessageWithEnvelope:head content:body];
 }
 
 id<DKDInstantMessage> DKDInstantMessageParse(id msg) {
-    DKDFactoryManager *man = [DKDFactoryManager sharedManager];
+    DKDSharedExtensions *man = [DKDSharedExtensions sharedManager];
     return [man.generalFactory parseInstantMessage:msg];
 }

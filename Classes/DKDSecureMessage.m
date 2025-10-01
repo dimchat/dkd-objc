@@ -35,21 +35,21 @@
 //  Copyright © 2018 DIM Group. All rights reserved.
 //
 
-#import "DKDFactoryManager.h"
+#import "DKDSharedExtensions.h"
 
 #import "DKDSecureMessage.h"
 
 id<DKDSecureMessageFactory> DKDSecureMessageGetFactory(void) {
-    DKDFactoryManager *man = [DKDFactoryManager sharedManager];
+    DKDSharedExtensions *man = [DKDSharedExtensions sharedManager];
     return [man.generalFactory secureMessageFactory];
 }
 
 void DKDSecureMessageSetFactory(id<DKDSecureMessageFactory> factory) {
-    DKDFactoryManager *man = [DKDFactoryManager sharedManager];
+    DKDSharedExtensions *man = [DKDSharedExtensions sharedManager];
     [man.generalFactory setSecureMessageFactory:factory];
 }
 
 id<DKDSecureMessage> DKDSecureMessageParse(id msg) {
-    DKDFactoryManager *man = [DKDFactoryManager sharedManager];
+    DKDSharedExtensions *man = [DKDSharedExtensions sharedManager];
     return [man.generalFactory parseSecureMessage:msg];
 }

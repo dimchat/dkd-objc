@@ -35,21 +35,21 @@
 //  Copyright © 2019 DIM Group. All rights reserved.
 //
 
-#import "DKDFactoryManager.h"
+#import "DKDSharedExtensions.h"
 
 #import "DKDContent.h"
 
 id<DKDContentFactory> DKDContentGetFactory(DKDContentType type) {
-    DKDFactoryManager *man = [DKDFactoryManager sharedManager];
+    DKDSharedExtensions *man = [DKDSharedExtensions sharedManager];
     return [man.generalFactory contentFactoryForType:type];
 }
 
 void DKDContentSetFactory(DKDContentType type, id<DKDContentFactory> factory) {
-    DKDFactoryManager *man = [DKDFactoryManager sharedManager];
+    DKDSharedExtensions *man = [DKDSharedExtensions sharedManager];
     [man.generalFactory setContentFactory:factory forType:type];
 }
 
 id<DKDContent> DKDContentParse(id content) {
-    DKDFactoryManager *man = [DKDFactoryManager sharedManager];
+    DKDSharedExtensions *man = [DKDSharedExtensions sharedManager];
     return [man.generalFactory parseContent:content];
 }

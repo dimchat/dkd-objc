@@ -35,30 +35,30 @@
 //  Copyright © 2018 DIM Group. All rights reserved.
 //
 
-#import "DKDFactoryManager.h"
+#import "DKDSharedExtensions.h"
 
 #import "DKDEnvelope.h"
 
 id<DKDEnvelopeFactory> DKDEnvelopeGetFactory(void) {
-    DKDFactoryManager * man = [DKDFactoryManager sharedManager];
+    DKDSharedExtensions * man = [DKDSharedExtensions sharedManager];
     return [man.generalFactory envelopeFactory];
 }
 
 void DKDEnvelopeSetFactory(id<DKDEnvelopeFactory> factory) {
-    DKDFactoryManager * man = [DKDFactoryManager sharedManager];
+    DKDSharedExtensions * man = [DKDSharedExtensions sharedManager];
     [man.generalFactory setEnvelopeFactory:factory];
 }
 
 id<DKDEnvelope> DKDEnvelopeCreate(id<MKMID> sender,
                                   id<MKMID> receiver,
                                   NSDate * _Nullable time) {
-    DKDFactoryManager * man = [DKDFactoryManager sharedManager];
+    DKDSharedExtensions * man = [DKDSharedExtensions sharedManager];
     return [man.generalFactory createEnvelopeWithSender:sender
                                                receiver:receiver
                                                    time:time];
 }
 
 id<DKDEnvelope> DKDEnvelopeParse(id env) {
-    DKDFactoryManager * man = [DKDFactoryManager sharedManager];
+    DKDSharedExtensions * man = [DKDSharedExtensions sharedManager];
     return [man.generalFactory parseEnvelope:env];
 }

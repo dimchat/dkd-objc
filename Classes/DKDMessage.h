@@ -78,7 +78,7 @@ NS_ASSUME_NONNULL_BEGIN
  *          ...
  *      }
  */
-@protocol DKDMessage <MKMDictionary>
+@protocol DKDMessage <MKDictionary>
 
 @property (readonly, strong, nonatomic) id<DKDEnvelope> envelope;
 
@@ -92,7 +92,7 @@ NS_ASSUME_NONNULL_BEGIN
 // content.group or envelope.group
 @property (readonly, strong, nonatomic, nullable) id<MKMID> group;
 // content.type or envelope.type
-@property (readonly, nonatomic) DKDContentType type;
+@property (readonly, strong, nonatomic, nullable) NSString *type;
 
 @end
 

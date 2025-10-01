@@ -35,21 +35,21 @@
 //  Copyright © 2018 DIM Group. All rights reserved.
 //
 
-#import "DKDFactoryManager.h"
+#import "DKDSharedExtensions.h"
 
 #import "DKDReliableMessage.h"
 
 id<DKDReliableMessageFactory> DKDReliableMessageGetFactory(void) {
-    DKDFactoryManager *man = [DKDFactoryManager sharedManager];
+    DKDSharedExtensions *man = [DKDSharedExtensions sharedManager];
     return [man.generalFactory reliableMessageFactory];
 }
 
 void DKDReliableMessageSetFactory(id<DKDReliableMessageFactory> factory) {
-    DKDFactoryManager *man = [DKDFactoryManager sharedManager];
+    DKDSharedExtensions *man = [DKDSharedExtensions sharedManager];
     [man.generalFactory setReliableMessageFactory:factory];
 }
 
 id<DKDReliableMessage> DKDReliableMessageParse(id msg) {
-    DKDFactoryManager *man = [DKDFactoryManager sharedManager];
+    DKDSharedExtensions *man = [DKDSharedExtensions sharedManager];
     return [man.generalFactory parseReliableMessage:msg];
 }

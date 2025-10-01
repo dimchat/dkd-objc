@@ -48,7 +48,7 @@ NS_ASSUME_NONNULL_BEGIN
  *          time     : 123
  *      }
  */
-@protocol DKDEnvelope <MKMDictionary>
+@protocol DKDEnvelope <MKDictionary>
 
 @property (readonly, strong, nonatomic) id<MKMID> sender;
 @property (readonly, strong, nonatomic) id<MKMID> receiver;
@@ -70,7 +70,7 @@ NS_ASSUME_NONNULL_BEGIN
  *      we pick out the content type and set it in envelope
  *      to let the station do its job.
  */
-@property (nonatomic) DKDContentType type;
+@property (strong, nonatomic, nullable) NSString *type;
 
 @end
 

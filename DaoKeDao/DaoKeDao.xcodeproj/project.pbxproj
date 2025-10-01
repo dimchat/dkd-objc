@@ -18,10 +18,9 @@
 		E94D2B0722B7A81500FF4AD5 /* DKDReliableMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = E94D2AF922B7A81400FF4AD5 /* DKDReliableMessage.m */; };
 		E94D2B0B22B7A87A00FF4AD5 /* DKDContent.h in Headers */ = {isa = PBXBuildFile; fileRef = E94D2B0922B7A87A00FF4AD5 /* DKDContent.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		E94D2B0C22B7A87A00FF4AD5 /* DKDContent.m in Sources */ = {isa = PBXBuildFile; fileRef = E94D2B0A22B7A87A00FF4AD5 /* DKDContent.m */; };
-		E966CD8D298A9DDE00FA9507 /* DKDFactoryManager.h in Headers */ = {isa = PBXBuildFile; fileRef = E966CD8B298A9DDE00FA9507 /* DKDFactoryManager.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		E966CD8E298A9DDE00FA9507 /* DKDFactoryManager.m in Sources */ = {isa = PBXBuildFile; fileRef = E966CD8C298A9DDE00FA9507 /* DKDFactoryManager.m */; };
+		E966CD8D298A9DDE00FA9507 /* DKDSharedExtensions.h in Headers */ = {isa = PBXBuildFile; fileRef = E966CD8B298A9DDE00FA9507 /* DKDSharedExtensions.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		E966CD8E298A9DDE00FA9507 /* DKDSharedExtensions.m in Sources */ = {isa = PBXBuildFile; fileRef = E966CD8C298A9DDE00FA9507 /* DKDSharedExtensions.m */; };
 		E9D71EA525BB272700773ED1 /* DaoKeDao.h in Headers */ = {isa = PBXBuildFile; fileRef = E9D71EA425BB272700773ED1 /* DaoKeDao.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		E9DE96E02B21DA06009D3FD5 /* DKDDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = E9DE96DF2B21DA06009D3FD5 /* DKDDelegate.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		E9F3A9BB21CBC160009690F6 /* DaoKeDao.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E9F3A9B121CBC160009690F6 /* DaoKeDao.framework */; };
 		E9F3A9C021CBC160009690F6 /* DaoKeDaoTests.m in Sources */ = {isa = PBXBuildFile; fileRef = E9F3A9BF21CBC160009690F6 /* DaoKeDaoTests.m */; };
 /* End PBXBuildFile section */
@@ -61,10 +60,9 @@
 		E94D2AF922B7A81400FF4AD5 /* DKDReliableMessage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DKDReliableMessage.m; sourceTree = "<group>"; };
 		E94D2B0922B7A87A00FF4AD5 /* DKDContent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DKDContent.h; sourceTree = "<group>"; };
 		E94D2B0A22B7A87A00FF4AD5 /* DKDContent.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DKDContent.m; sourceTree = "<group>"; };
-		E966CD8B298A9DDE00FA9507 /* DKDFactoryManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DKDFactoryManager.h; sourceTree = "<group>"; };
-		E966CD8C298A9DDE00FA9507 /* DKDFactoryManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DKDFactoryManager.m; sourceTree = "<group>"; };
+		E966CD8B298A9DDE00FA9507 /* DKDSharedExtensions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DKDSharedExtensions.h; sourceTree = "<group>"; };
+		E966CD8C298A9DDE00FA9507 /* DKDSharedExtensions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DKDSharedExtensions.m; sourceTree = "<group>"; };
 		E9D71EA425BB272700773ED1 /* DaoKeDao.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DaoKeDao.h; sourceTree = "<group>"; };
-		E9DE96DF2B21DA06009D3FD5 /* DKDDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DKDDelegate.h; sourceTree = "<group>"; };
 		E9F3A9B121CBC160009690F6 /* DaoKeDao.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = DaoKeDao.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		E9F3A9B521CBC160009690F6 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		E9F3A9BA21CBC160009690F6 /* DaoKeDaoTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = DaoKeDaoTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -136,15 +134,14 @@
 				E94D2B0922B7A87A00FF4AD5 /* DKDContent.h */,
 				E94D2B0A22B7A87A00FF4AD5 /* DKDContent.m */,
 				E94D2AEF22B7A81400FF4AD5 /* DKDMessage.h */,
-				E9DE96DF2B21DA06009D3FD5 /* DKDDelegate.h */,
 				E94D2AF122B7A81400FF4AD5 /* DKDInstantMessage.h */,
 				E94D2AF222B7A81400FF4AD5 /* DKDInstantMessage.m */,
 				E94D2AF422B7A81400FF4AD5 /* DKDSecureMessage.h */,
 				E94D2AEE22B7A81300FF4AD5 /* DKDSecureMessage.m */,
 				E94D2AF822B7A81400FF4AD5 /* DKDReliableMessage.h */,
 				E94D2AF922B7A81400FF4AD5 /* DKDReliableMessage.m */,
-				E966CD8B298A9DDE00FA9507 /* DKDFactoryManager.h */,
-				E966CD8C298A9DDE00FA9507 /* DKDFactoryManager.m */,
+				E966CD8B298A9DDE00FA9507 /* DKDSharedExtensions.h */,
+				E966CD8C298A9DDE00FA9507 /* DKDSharedExtensions.m */,
 				E9D71EA425BB272700773ED1 /* DaoKeDao.h */,
 			);
 			name = Classes;
@@ -169,11 +166,10 @@
 				E94D2B0B22B7A87A00FF4AD5 /* DKDContent.h in Headers */,
 				E94D2AFD22B7A81500FF4AD5 /* DKDMessage.h in Headers */,
 				E9D71EA525BB272700773ED1 /* DaoKeDao.h in Headers */,
-				E9DE96E02B21DA06009D3FD5 /* DKDDelegate.h in Headers */,
 				E94D2AFF22B7A81500FF4AD5 /* DKDInstantMessage.h in Headers */,
 				E94D2B0222B7A81500FF4AD5 /* DKDSecureMessage.h in Headers */,
 				E94D2B0622B7A81500FF4AD5 /* DKDReliableMessage.h in Headers */,
-				E966CD8D298A9DDE00FA9507 /* DKDFactoryManager.h in Headers */,
+				E966CD8D298A9DDE00FA9507 /* DKDSharedExtensions.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -277,7 +273,7 @@
 			files = (
 				E94D2AFC22B7A81500FF4AD5 /* DKDSecureMessage.m in Sources */,
 				E94D2B0722B7A81500FF4AD5 /* DKDReliableMessage.m in Sources */,
-				E966CD8E298A9DDE00FA9507 /* DKDFactoryManager.m in Sources */,
+				E966CD8E298A9DDE00FA9507 /* DKDSharedExtensions.m in Sources */,
 				E94D2B0C22B7A87A00FF4AD5 /* DKDContent.m in Sources */,
 				E94D2B0522B7A81500FF4AD5 /* DKDEnvelope.m in Sources */,
 				E94D2B0022B7A81500FF4AD5 /* DKDInstantMessage.m in Sources */,

@@ -28,7 +28,7 @@
 // SOFTWARE.
 // =============================================================================
 //
-//  DKDFactoryManager.h
+//  DKDSharedExtensions.h
 //  DaoKeDao
 //
 //  Created by Albert Moky on 2023/2/1.
@@ -102,7 +102,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @end
 
-@interface DKDFactoryManager : NSObject
+@interface DKDSharedExtensions : NSObject
 
 @property(strong, nonatomic) id<DKDGeneralFactory> generalFactory;
 
