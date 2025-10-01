@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
     s.name                  = 'DaoKeDao'
-    s.version               = '1.0.0'
+    s.version               = '1.0.2'
     s.summary               = 'Decentralized Instant Messaging'
     s.description           = <<-DESC
             A Common Message Module for Decentralized Instant Messaging
