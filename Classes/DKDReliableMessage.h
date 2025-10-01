@@ -79,7 +79,7 @@ extern "C" {
 _Nullable id<DKDReliableMessageFactory> DKDReliableMessageGetFactory(void);
 void DKDReliableMessageSetFactory(id<DKDReliableMessageFactory> factory);
 
-_Nullable id<DKDReliableMessage> DKDReliableMessageParse(id msg);
+_Nullable id<DKDReliableMessage> DKDReliableMessageParse(_Nullable id msg);
 
 #ifdef __cplusplus
 } /* end of extern "C" */

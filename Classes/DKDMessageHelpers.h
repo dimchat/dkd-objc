@@ -2,12 +2,12 @@
 //
 //  Dao-Ke-Dao: Universal Message Module
 //
-//                               Written in 2018 by Moky <albert.moky@gmail.com>
+//                               Written in 2025 by Moky <albert.moky@gmail.com>
 //
 // =============================================================================
 // The MIT License (MIT)
 //
-// Copyright (c) 2019 Albert Moky
+// Copyright (c) 2025 Albert Moky
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -28,36 +28,19 @@
 // SOFTWARE.
 // =============================================================================
 //
-//  DaoKeDao.h
+//  DKDMessageHelpers.h
 //  DaoKeDao
 //
-//  Created by Albert Moky on 2018/10/1.
-//  Copyright © 2018 DIM Group. All rights reserved.
+//  Created by Albert Moky on 2025/10/2.
+//  Copyright © 2025 DIM Group. All rights reserved.
 //
 
 #import <Foundation/Foundation.h>
 
-//! Project version number for DaoKeDao.
-FOUNDATION_EXPORT double DaoKeDaoVersionNumber;
+NS_ASSUME_NONNULL_BEGIN
 
-//! Project version string for DaoKeDao.
-FOUNDATION_EXPORT const unsigned char DaoKeDaoVersionString[];
+@interface DKDMessageHelpers : NSObject
 
-// In this header, you should import all the public headers of your framework using statements like #import <DaoKeDao/PublicHeader.h>
+@end
 
-#if !defined(__DAO_KE_DAO__)
-#define __DAO_KE_DAO__ 1
-
-#import <DaoKeDao/DKDEnvelope.h>
-#import <DaoKeDao/DKDContent.h>
-
-#import <DaoKeDao/DKDMessage.h>
-#import <DaoKeDao/DKDDelegate.h>
-#import <DaoKeDao/DKDInstantMessage.h>
-#import <DaoKeDao/DKDSecureMessage.h>
-#import <DaoKeDao/DKDReliableMessage.h>
-
-#import <DaoKeDao/DKDMessageHelpers.h>
-#import <DaoKeDao/DKDSharedExtensions.h>
-
-#endif /* ! __DAO_KE_DAO__ */
+NS_ASSUME_NONNULL_END

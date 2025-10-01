@@ -55,7 +55,10 @@ NS_ASSUME_NONNULL_BEGIN
 @protocol DKDInstantMessage <DKDMessage>
 
 // setter is only for rebuild content
-@property (/*readonly, */strong, nonatomic) __kindof id<DKDContent> content;
+@property (readonly, strong, nonatomic) __kindof id<DKDContent> content;
+
+//// only for rebuild content
+//- (void)setContent:(id<DKDContent>)content;
 
 @end
 
@@ -68,7 +71,7 @@ NS_ASSUME_NONNULL_BEGIN
  * @param now - message time
  * @return SN (serial number as msg id)
  */
-- (NSUInteger)generateSerialNumber:(DKDContentType)type time:(NSDate *)now;
+- (NSUInteger)generateSerialNumberForType:(NSString *)type time:(NSDate *)now;
 
 /**
  *  Create instant message with envelope & content
@@ -78,7 +81,7 @@ NS_ASSUME_NONNULL_BEGIN
  * @return InstantMessage
  */
 - (id<DKDInstantMessage>)createInstantMessageWithEnvelope:(id<DKDEnvelope>)head
-                                                  content:(__kindof id<DKDContent>)body;
+                                                  content:(id<DKDContent>)body;
 
 - (nullable id<DKDInstantMessage>)parseInstantMessage:(NSDictionary *)msg;
 
@@ -92,12 +95,11 @@ _Nullable id<DKDInstantMessageFactory> DKDInstantMessageGetFactory(void);
 void DKDInstantMessageSetFactory(id<DKDInstantMessageFactory> factory);
 
 id<DKDInstantMessage> DKDInstantMessageCreate(id<DKDEnvelope> head,
-                                              __kindof id<DKDContent> body);
+                                              id<DKDContent> body);
 
-_Nullable id<DKDInstantMessage> DKDInstantMessageParse(id msg);
+_Nullable id<DKDInstantMessage> DKDInstantMessageParse(_Nullable id msg);
 
-NSUInteger DKDInstantMessageGenerateSerialNumber(DKDContentType type,
-                                                 NSDate *now);
+NSUInteger DKDInstantMessageGenerateSerialNumber(NSString *type, NSDate *now);
 
 #ifdef __cplusplus
 } /* end of extern "C" */

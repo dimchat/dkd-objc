@@ -95,7 +95,13 @@ extern "C" {
 _Nullable id<DKDContentFactory> DKDContentGetFactory(NSString *type);
 void DKDContentSetFactory(NSString *type, id<DKDContentFactory> factory);
 
-_Nullable __kindof id<DKDContent> DKDContentParse(id content);
+_Nullable __kindof id<DKDContent> DKDContentParse(_Nullable id content);
+
+#pragma mark Conveniences
+
+NSMutableArray<id<DKDContent>> *DKDContentConvert(NSArray<id> *array);
+
+NSMutableArray<NSDictionary *> *DKDContentRevert(NSArray<id<DKDContent>> *contents);
 
 #ifdef __cplusplus
 } /* end of extern "C" */

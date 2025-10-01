@@ -107,7 +107,7 @@ id<DKDEnvelope> DKDEnvelopeCreate(id<MKMID> sender,
                                   id<MKMID> receiver,
                                   NSDate * _Nullable time);
 
-_Nullable id<DKDEnvelope> DKDEnvelopeParse(id env);
+_Nullable id<DKDEnvelope> DKDEnvelopeParse(_Nullable id env);
 
 #ifdef __cplusplus
 } /* end of extern "C" */

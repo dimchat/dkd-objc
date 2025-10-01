@@ -74,7 +74,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (nullable id<DKDInstantMessageFactory>)instantMessageFactory;
 
 - (id<DKDInstantMessage>)createInstantMessageWithEnvelope:(id<DKDEnvelope>)head
-                                                  content:(__kindof id<DKDContent>)body;
+                                                  content:(id<DKDContent>)body;
 
 - (nullable id<DKDInstantMessage>)parseInstantMessage:(nullable id)msg;
 

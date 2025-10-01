@@ -85,7 +85,7 @@ extern "C" {
 _Nullable id<DKDSecureMessageFactory> DKDSecureMessageGetFactory(void);
 void DKDSecureMessageSetFactory(id<DKDSecureMessageFactory> factory);
 
-_Nullable id<DKDSecureMessage> DKDSecureMessageParse(id msg);
+_Nullable id<DKDSecureMessage> DKDSecureMessageParse(_Nullable id msg);
 
 #ifdef __cplusplus
 } /* end of extern "C" */

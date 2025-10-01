@@ -53,3 +53,27 @@ id<DKDContent> DKDContentParse(id content) {
     DKDSharedExtensions *man = [DKDSharedExtensions sharedManager];
     return [man.generalFactory parseContent:content];
 }
+
+NSMutableArray<id<DKDContent>> *DKDContentConvert(NSArray<id> *array) {
+    NSMutableArray<id<DKDContent>> *contents;
+    contents = [[NSMutableArray alloc] initWithCapacity:array.count];
+    [array enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+        id<DKDContent> msg = DKDContentParse(obj);
+        if (msg) {
+            [contents addObject:msg];
+        }
+    }];
+    return contents;
+}
+
+NSMutableArray<NSDictionary *> *DKDContentRevert(NSArray<id<DKDContent>> *contents) {
+    NSMutableArray<NSDictionary *> *array;
+    array = [[NSMutableArray alloc] initWithCapacity:contents.count];
+    [contents enumerateObjectsUsingBlock:^(id<DKDContent> obj, NSUInteger idx, BOOL *stop) {
+        NSDictionary *dict = [obj dictionary];
+        if (dict) {
+            [array addObject:dict];
+        }
+    }];
+    return array;
+}
