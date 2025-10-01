@@ -39,20 +39,22 @@
 
 #import "DKDContent.h"
 
-id<DKDContentFactory> DKDContentGetFactory(DKDContentType type) {
-    DKDSharedExtensions *man = [DKDSharedExtensions sharedManager];
-    return [man.generalFactory contentFactoryForType:type];
+id<DKDContentFactory> DKDContentGetFactory(NSString *type) {
+    DKDMessageExtensions * ext = [DKDMessageExtensions sharedInstance];
+    return [ext.contentHelper getContentFactory:type];
 }
 
-void DKDContentSetFactory(DKDContentType type, id<DKDContentFactory> factory) {
-    DKDSharedExtensions *man = [DKDSharedExtensions sharedManager];
-    [man.generalFactory setContentFactory:factory forType:type];
+void DKDContentSetFactory(NSString *type, id<DKDContentFactory> factory) {
+    DKDMessageExtensions * ext = [DKDMessageExtensions sharedInstance];
+    [ext.contentHelper setContentFactory:factory forType:type];
 }
 
 id<DKDContent> DKDContentParse(id content) {
-    DKDSharedExtensions *man = [DKDSharedExtensions sharedManager];
-    return [man.generalFactory parseContent:content];
+    DKDMessageExtensions * ext = [DKDMessageExtensions sharedInstance];
+    return [ext.contentHelper parseContent:content];
 }
+
+#pragma mark Conveniences
 
 NSMutableArray<id<DKDContent>> *DKDContentConvert(NSArray<id> *array) {
     NSMutableArray<id<DKDContent>> *contents;

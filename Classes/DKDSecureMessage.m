@@ -40,16 +40,16 @@
 #import "DKDSecureMessage.h"
 
 id<DKDSecureMessageFactory> DKDSecureMessageGetFactory(void) {
-    DKDSharedExtensions *man = [DKDSharedExtensions sharedManager];
-    return [man.generalFactory secureMessageFactory];
+    DKDMessageExtensions * ext = [DKDMessageExtensions sharedInstance];
+    return [ext.secureHelper getSecureMessageFactory];
 }
 
 void DKDSecureMessageSetFactory(id<DKDSecureMessageFactory> factory) {
-    DKDSharedExtensions *man = [DKDSharedExtensions sharedManager];
-    [man.generalFactory setSecureMessageFactory:factory];
+    DKDMessageExtensions * ext = [DKDMessageExtensions sharedInstance];
+    [ext.secureHelper setSecureMessageFactory:factory];
 }
 
 id<DKDSecureMessage> DKDSecureMessageParse(id msg) {
-    DKDSharedExtensions *man = [DKDSharedExtensions sharedManager];
-    return [man.generalFactory parseSecureMessage:msg];
+    DKDMessageExtensions * ext = [DKDMessageExtensions sharedInstance];
+    return [ext.secureHelper parseSecureMessage:msg];
 }

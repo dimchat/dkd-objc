@@ -37,218 +37,76 @@
 
 #import "DKDSharedExtensions.h"
 
-@implementation DKDSharedExtensions
+@implementation DKDSharedMessageExtensions
 
-static DKDSharedExtensions *s_manager = nil;
+static DKDSharedMessageExtensions *s_msg_extension = nil;
 
-+ (instancetype)allocWithZone:(struct _NSZone *)zone {
++ (instancetype)sharedInstance {
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-        s_manager = [super allocWithZone:zone];
-        s_manager.generalFactory = [[DKDGeneralFactory alloc] init];
+        s_msg_extension = [[self alloc] init];
     });
-    return s_manager;
+    return s_msg_extension;
 }
 
-+ (instancetype)sharedManager {
-    static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{
-        s_manager = [[self alloc] init];
-    });
-    return s_manager;
+#pragma mark Content Helper
+
+- (id<DKDContentHelper>)contentHelper {
+    DKDMessageExtensions *ext = [DKDMessageExtensions sharedInstance];
+    return [ext contentHelper];
 }
 
-@end
-
-#pragma mark -
-
-@interface DKDGeneralFactory () {
-    
-    NSMutableDictionary<NSNumber *, id<DKDContentFactory>> *_contentFactories;
-    
-    id<DKDEnvelopeFactory> _envelopeFactory;
-    
-    id<DKDInstantMessageFactory>  _instantFactory;
-    id<DKDSecureMessageFactory>   _secureFactory;
-    id<DKDReliableMessageFactory> _reliableFactory;
+- (void)setContentHelper:(id<DKDContentHelper>)contentHelper {
+    DKDMessageExtensions *ext = [DKDMessageExtensions sharedInstance];
+    [ext setContentHelper:contentHelper];
 }
 
-@end
+#pragma mark Envelope Helper
 
-@implementation DKDGeneralFactory
-
-- (instancetype)init {
-    if ([super init]) {
-        _contentFactories = [[NSMutableDictionary alloc] init];
-        _envelopeFactory  = nil;
-        _instantFactory   = nil;
-        _secureFactory    = nil;
-        _reliableFactory  = nil;
-    }
-    return self;
+- (id<DKDEnvelopeHelper>)envelopeHelper {
+    DKDMessageExtensions *ext = [DKDMessageExtensions sharedInstance];
+    return [ext envelopeHelper];
 }
 
-#pragma mark Content
-
-- (void)setContentFactory:(id<DKDContentFactory>)factory forType:(DKDContentType)type {
-    [_contentFactories setObject:factory forKey:@(type)];
+- (void)setEnvelopeHelper:(id<DKDEnvelopeHelper>)envelopeHelper {
+    DKDMessageExtensions *ext = [DKDMessageExtensions sharedInstance];
+    [ext setEnvelopeHelper:envelopeHelper];
 }
 
-- (nullable id<DKDContentFactory>)contentFactoryForType:(DKDContentType)type {
-    return [_contentFactories objectForKey:@(type)];
+#pragma mark Instant Message Helper
+
+- (id<DKDInstantMessageHelper>)instantHelper {
+    DKDMessageExtensions *ext = [DKDMessageExtensions sharedInstance];
+    return [ext instantHelper];
 }
 
-- (DKDContentType)contentType:(NSDictionary<NSString *,id> *)content
-                 defaultValue:(DKDContentType)aValue {
-    id number = [content objectForKey:@"type"];
-    NSAssert(number, @"content type not found: %@", content);
-    return MKMConverterGetUnsignedChar(number, aValue);
+- (void)setInstantHelper:(id<DKDInstantMessageHelper>)instantHelper {
+    DKDMessageExtensions *ext = [DKDMessageExtensions sharedInstance];
+    [ext setInstantHelper:instantHelper];
 }
 
-- (nullable id<DKDContent>)parseContent:(id)content {
-    if (!content) {
-        return nil;
-    } else if ([content conformsToProtocol:@protocol(DKDContent)]) {
-        return content;
-    }
-    NSDictionary<NSString *, id> *info = MKMGetMap(content);
-    if (!info) {
-        NSAssert(false, @"content error: %@", content);
-        return nil;
-    }
-    DKDContentType type = [self contentType:info defaultValue:0];
-    NSAssert(type > 0, @"content type error: %@", content);
-    id<DKDContentFactory> factory = [self contentFactoryForType:type];
-    if (!factory) {
-        factory = [self contentFactoryForType:0];  // unknown
-        NSAssert(factory, @"default content factory not found");
-    }
-    return [factory parseContent:info];
+#pragma mark Secure Message Helper
+
+- (id<DKDSecureMessageHelper>)secureHelper {
+    DKDMessageExtensions *ext = [DKDMessageExtensions sharedInstance];
+    return [ext secureHelper];
 }
 
-#pragma mark Envelope
-
-- (void)setEnvelopeFactory:(id<DKDEnvelopeFactory>)factory {
-    _envelopeFactory = factory;
+- (void)setSecureHelper:(id<DKDSecureMessageHelper>)secureHelper {
+    DKDMessageExtensions *ext = [DKDMessageExtensions sharedInstance];
+    [ext setSecureHelper:secureHelper];
 }
 
-- (nullable id<DKDEnvelopeFactory>)envelopeFactory {
-    return _envelopeFactory;
+#pragma mark Reliable Message Helper
+
+- (id<DKDReliableMessageHelper>)reliableHelper {
+    DKDMessageExtensions *ext = [DKDMessageExtensions sharedInstance];
+    return [ext reliableHelper];
 }
 
-- (id<DKDEnvelope>)createEnvelopeWithSender:(id<MKMID>)from
-                                   receiver:(id<MKMID>)to
-                                       time:(nullable NSDate *)when {
-    return [_envelopeFactory createEnvelopeWithSender:from
-                                             receiver:to
-                                                 time:when];
-}
-
-- (nullable id<DKDEnvelope>)parseEnvelope:(id)env {
-    if (!env) {
-        return nil;
-    } else if ([env conformsToProtocol:@protocol(DKDEnvelope)]) {
-        return env;
-    }
-    NSDictionary<NSString *, id> *info = MKMGetMap(env);
-    if (!info) {
-        NSAssert(false, @"envelope error: %@", env);
-        return nil;
-    }
-    id<DKDEnvelopeFactory> factory = [self envelopeFactory];
-    NSAssert(factory, @"envelope factory not set");
-    return [factory parseEnvelope:info];
-}
-
-#pragma mark InstantMessage
-
-- (void)setInstantMessageFactory:(id<DKDInstantMessageFactory>)factory {
-    _instantFactory = factory;
-}
-
-- (nullable id<DKDInstantMessageFactory>)instantMessageFactory {
-    return _instantFactory;
-}
-
-- (id<DKDInstantMessage>)createInstantMessageWithEnvelope:(id<DKDEnvelope>)head
-                                                  content:(id<DKDContent>)body {
-    id<DKDInstantMessageFactory> factory = [self instantMessageFactory];
-    NSAssert(factory, @"instant message factory not set");
-    return [factory createInstantMessageWithEnvelope:head content:body];
-}
-
-- (nullable id<DKDInstantMessage>)parseInstantMessage:(id)msg {
-    if (!msg) {
-        return nil;
-    } else if ([msg conformsToProtocol:@protocol(DKDInstantMessage)]) {
-        return msg;
-    }
-    NSDictionary<NSString *, id> *info = MKMGetMap(msg);
-    if (!info) {
-        NSAssert(false, @"instant message error: %@", msg);
-        return nil;
-    }
-    id<DKDInstantMessageFactory> factory = [self instantMessageFactory];
-    NSAssert(factory, @"instant message factory not set");
-    return [factory parseInstantMessage:info];
-}
-
-- (NSUInteger)generateSerialNumber:(DKDContentType)type time:(NSDate *)now {
-    id<DKDInstantMessageFactory> factory = [self instantMessageFactory];
-    NSAssert(factory, @"instant message factory not set");
-    return [factory generateSerialNumber:type time:now];
-}
-
-#pragma mark SecureMessage
-
-- (void)setSecureMessageFactory:(id<DKDSecureMessageFactory>)factory {
-    _secureFactory = factory;
-}
-
-- (nullable id<DKDSecureMessageFactory>)secureMessageFactory {
-    return _secureFactory;
-}
-
-- (nullable id<DKDSecureMessage>)parseSecureMessage:(id)msg {
-    if (!msg) {
-        return nil;
-    } else if ([msg conformsToProtocol:@protocol(DKDSecureMessage)]) {
-        return msg;
-    }
-    NSDictionary<NSString *, id> *info = MKMGetMap(msg);
-    if (!info) {
-        NSAssert(false, @"secure message error: %@", msg);
-        return nil;
-    }
-    id<DKDSecureMessageFactory> factory = [self secureMessageFactory];
-    NSAssert(factory, @"secure message factory not set");
-    return [factory parseSecureMessage:info];
-}
-
-#pragma mark ReliableMessage
-
-- (void)setReliableMessageFactory:(id<DKDReliableMessageFactory>)factory {
-    _reliableFactory = factory;
-}
-
-- (nullable id<DKDReliableMessageFactory>)reliableMessageFactory {
-    return _reliableFactory;
-}
-
-- (nullable id<DKDReliableMessage>)parseReliableMessage:(id)msg {
-    if (!msg) {
-        return nil;
-    } else if ([msg conformsToProtocol:@protocol(DKDReliableMessage)]) {
-        return msg;
-    }
-    NSDictionary<NSString *, id> *info = MKMGetMap(msg);
-    if (!info) {
-        NSAssert(false, @"reliable message error: %@", msg);
-        return nil;
-    }
-    id<DKDReliableMessageFactory> factory = [self reliableMessageFactory];
-    NSAssert(factory, @"reliable message factory not set");
-    return [factory parseReliableMessage:info];
+- (void)setReliableHelper:(id<DKDReliableMessageHelper>)reliableHelper {
+    DKDMessageExtensions *ext = [DKDMessageExtensions sharedInstance];
+    [ext setReliableHelper:reliableHelper];
 }
 
 @end

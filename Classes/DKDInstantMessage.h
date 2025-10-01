@@ -65,15 +65,6 @@ NS_ASSUME_NONNULL_BEGIN
 @protocol DKDInstantMessageFactory <NSObject>
 
 /**
- *  Generate SN for message content
- *
- * @param type - content type
- * @param now - message time
- * @return SN (serial number as msg id)
- */
-- (NSUInteger)generateSerialNumberForType:(NSString *)type time:(NSDate *)now;
-
-/**
  *  Create instant message with envelope & content
  *
  * @param head - message envelope
@@ -84,6 +75,15 @@ NS_ASSUME_NONNULL_BEGIN
                                                   content:(id<DKDContent>)body;
 
 - (nullable id<DKDInstantMessage>)parseInstantMessage:(NSDictionary *)msg;
+
+/**
+ *  Generate SN for message content
+ *
+ * @param type - content type
+ * @param now - message time
+ * @return SN (serial number as msg id)
+ */
+- (DKDSerialNumber)generateSerialNumberForType:(NSString *)type time:(NSDate *)now;
 
 @end
 
@@ -99,7 +99,13 @@ id<DKDInstantMessage> DKDInstantMessageCreate(id<DKDEnvelope> head,
 
 _Nullable id<DKDInstantMessage> DKDInstantMessageParse(_Nullable id msg);
 
-NSUInteger DKDInstantMessageGenerateSerialNumber(NSString *type, NSDate *now);
+DKDSerialNumber DKDInstantMessageGenerateSerialNumber(NSString *type, NSDate *now);
+
+#pragma mark Conveniences
+
+NSMutableArray<id<DKDInstantMessage>> *DKDInstantMessageConvert(NSArray<id> *array);
+
+NSMutableArray<NSDictionary *> *DKDInstantMessageRevert(NSArray<id<DKDInstantMessage>> *messages);
 
 #ifdef __cplusplus
 } /* end of extern "C" */

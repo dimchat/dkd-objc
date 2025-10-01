@@ -37,6 +37,16 @@
 
 #import "DKDMessageHelpers.h"
 
-@implementation DKDMessageHelpers
+@implementation DKDMessageExtensions
+
+static DKDMessageExtensions *s_msg_ext = nil;
+
++ (instancetype)sharedInstance {
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        s_msg_ext = [[self alloc] init];
+    });
+    return s_msg_ext;
+}
 
 @end

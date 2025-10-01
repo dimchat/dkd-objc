@@ -40,25 +40,25 @@
 #import "DKDEnvelope.h"
 
 id<DKDEnvelopeFactory> DKDEnvelopeGetFactory(void) {
-    DKDSharedExtensions * man = [DKDSharedExtensions sharedManager];
-    return [man.generalFactory envelopeFactory];
+    DKDMessageExtensions * ext = [DKDMessageExtensions sharedInstance];
+    return [ext.envelopeHelper getEnvelopeFactory];
 }
 
 void DKDEnvelopeSetFactory(id<DKDEnvelopeFactory> factory) {
-    DKDSharedExtensions * man = [DKDSharedExtensions sharedManager];
-    [man.generalFactory setEnvelopeFactory:factory];
+    DKDMessageExtensions * ext = [DKDMessageExtensions sharedInstance];
+    [ext.envelopeHelper setEnvelopeFactory:factory];
 }
 
 id<DKDEnvelope> DKDEnvelopeCreate(id<MKMID> sender,
                                   id<MKMID> receiver,
                                   NSDate * _Nullable time) {
-    DKDSharedExtensions * man = [DKDSharedExtensions sharedManager];
-    return [man.generalFactory createEnvelopeWithSender:sender
+    DKDMessageExtensions * ext = [DKDMessageExtensions sharedInstance];
+    return [ext.envelopeHelper createEnvelopeWithSender:sender
                                                receiver:receiver
                                                    time:time];
 }
 
 id<DKDEnvelope> DKDEnvelopeParse(id env) {
-    DKDSharedExtensions * man = [DKDSharedExtensions sharedManager];
-    return [man.generalFactory parseEnvelope:env];
+    DKDMessageExtensions * ext = [DKDMessageExtensions sharedInstance];
+    return [ext.envelopeHelper parseEnvelope:env];
 }

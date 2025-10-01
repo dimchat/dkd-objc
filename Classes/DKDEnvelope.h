@@ -84,7 +84,9 @@ NS_ASSUME_NONNULL_BEGIN
  * @param when - message time
  * @return Envelope
  */
-- (id<DKDEnvelope>)createEnvelopeWithSender:(id<MKMID>)from receiver:(id<MKMID>)to time:(nullable NSDate *)when;
+- (id<DKDEnvelope>)createEnvelopeWithSender:(id<MKMID>)from
+                                   receiver:(id<MKMID>)to
+                                       time:(nullable NSDate *)when;
 
 /**
  *  Parse map object to envelope

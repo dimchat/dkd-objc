@@ -40,26 +40,52 @@
 #import "DKDInstantMessage.h"
 
 id<DKDInstantMessageFactory> DKDInstantMessageGetFactory(void) {
-    DKDSharedExtensions *man = [DKDSharedExtensions sharedManager];
-    return [man.generalFactory instantMessageFactory];
+    DKDMessageExtensions * ext = [DKDMessageExtensions sharedInstance];
+    return [ext.instantHelper getInstantMessageFactory];
 }
 
 void DKDInstantMessageSetFactory(id<DKDInstantMessageFactory> factory) {
-    DKDSharedExtensions *man = [DKDSharedExtensions sharedManager];
-    [man.generalFactory setInstantMessageFactory:factory];
+    DKDMessageExtensions * ext = [DKDMessageExtensions sharedInstance];
+    [ext.instantHelper setInstantMessageFactory:factory];
 }
 
-NSUInteger DKDInstantMessageGenerateSerialNumber(DKDContentType type, NSDate *now) {
-    DKDSharedExtensions *man = [DKDSharedExtensions sharedManager];
-    return [man.generalFactory generateSerialNumber:type time:now];
+NSUInteger DKDInstantMessageGenerateSerialNumber(NSString *type, NSDate *now) {
+    DKDMessageExtensions * ext = [DKDMessageExtensions sharedInstance];
+    return [ext.instantHelper generateSerialNumberForType:type time:now];
 }
 
 id<DKDInstantMessage> DKDInstantMessageCreate(id<DKDEnvelope> head, id<DKDContent> body) {
-    DKDSharedExtensions *man = [DKDSharedExtensions sharedManager];
-    return [man.generalFactory createInstantMessageWithEnvelope:head content:body];
+    DKDMessageExtensions * ext = [DKDMessageExtensions sharedInstance];
+    return [ext.instantHelper createInstantMessageWithEnvelope:head content:body];
 }
 
 id<DKDInstantMessage> DKDInstantMessageParse(id msg) {
-    DKDSharedExtensions *man = [DKDSharedExtensions sharedManager];
-    return [man.generalFactory parseInstantMessage:msg];
+    DKDMessageExtensions * ext = [DKDMessageExtensions sharedInstance];
+    return [ext.instantHelper parseInstantMessage:msg];
+}
+
+#pragma mark Conveniences
+
+NSMutableArray<id<DKDInstantMessage>> *DKDInstantMessageConvert(NSArray<id> *array) {
+    NSMutableArray<id<DKDInstantMessage>> *messages;
+    messages = [[NSMutableArray alloc] initWithCapacity:array.count];
+    [array enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+        id<DKDInstantMessage> msg = DKDInstantMessageParse(obj);
+        if (msg) {
+            [messages addObject:msg];
+        }
+    }];
+    return messages;
+}
+
+NSMutableArray<NSDictionary *> *DKDInstantMessageRevert(NSArray<id<DKDInstantMessage>> *messages) {
+    NSMutableArray<NSDictionary *> *array;
+    array = [[NSMutableArray alloc] initWithCapacity:messages.count];
+    [messages enumerateObjectsUsingBlock:^(id<DKDInstantMessage> obj, NSUInteger idx, BOOL *stop) {
+        NSDictionary *dict = [obj dictionary];
+        if (dict) {
+            [array addObject:dict];
+        }
+    }];
+    return array;
 }

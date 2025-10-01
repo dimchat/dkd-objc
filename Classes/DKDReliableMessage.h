@@ -81,6 +81,12 @@ void DKDReliableMessageSetFactory(id<DKDReliableMessageFactory> factory);
 
 _Nullable id<DKDReliableMessage> DKDReliableMessageParse(_Nullable id msg);
 
+#pragma mark Conveniences
+
+NSMutableArray<id<DKDReliableMessage>> *DKDReliableMessageConvert(NSArray<id> *array);
+
+NSMutableArray<NSDictionary *> *DKDReliableMessageRevert(NSArray<id<DKDReliableMessage>> *messages);
+
 #ifdef __cplusplus
 } /* end of extern "C" */
 #endif

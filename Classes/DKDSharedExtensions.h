@@ -35,78 +35,40 @@
 //  Copyright © 2023 DIM Group. All rights reserved.
 //
 
-#import <DaoKeDao/DKDEnvelope.h>
-#import <DaoKeDao/DKDInstantMessage.h>
-#import <DaoKeDao/DKDReliableMessage.h>
+#import <DaoKeDao/DKDMessageHelpers.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
-/**
- *  General Factory for Messages
- *  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
- */
-@protocol DKDGeneralFactory <NSObject>
+@protocol DKDGeneralMessageHelper <NSObject/*,
+                                            DKDContentHelper,
+                                            DKDEnvelopeHelper,
+                                            DKDInstantMessageHelper,
+                                            DKDSecureMessageHelper,
+                                            DKDReliableMessageHelper
+                                            */>
 
-#pragma mark Content
-
-- (void)setContentFactory:(id<DKDContentFactory>)factory forType:(DKDContentType)type;
-- (nullable id<DKDContentFactory>)contentFactoryForType:(DKDContentType)type;
-
-- (DKDContentType)contentType:(NSDictionary<NSString *, id> *)content
-                 defaultValue:(DKDContentType)aValue;
-
-- (nullable __kindof id<DKDContent>)parseContent:(nullable id)content;
-
-#pragma mark Envelope
-
-- (void)setEnvelopeFactory:(id<DKDEnvelopeFactory>)factory;
-- (nullable id<DKDEnvelopeFactory>)envelopeFactory;
-
-- (id<DKDEnvelope>)createEnvelopeWithSender:(id<MKMID>)from
-                                   receiver:(id<MKMID>)to
-                                       time:(nullable NSDate *)when;
-
-- (nullable id<DKDEnvelope>)parseEnvelope:(nullable id)env;
-
-#pragma mark InstantMessage
-
-- (void)setInstantMessageFactory:(id<DKDInstantMessageFactory>)factory;
-- (nullable id<DKDInstantMessageFactory>)instantMessageFactory;
-
-- (id<DKDInstantMessage>)createInstantMessageWithEnvelope:(id<DKDEnvelope>)head
-                                                  content:(id<DKDContent>)body;
-
-- (nullable id<DKDInstantMessage>)parseInstantMessage:(nullable id)msg;
-
-- (NSUInteger)generateSerialNumber:(DKDContentType)type time:(NSDate *)now;
-
-#pragma mark SecureMessage
-
-- (void)setSecureMessageFactory:(id<DKDSecureMessageFactory>)factory;
-- (nullable id<DKDSecureMessageFactory>)secureMessageFactory;
-
-- (nullable id<DKDSecureMessage>)parseSecureMessage:(nullable id)msg;
-
-#pragma mark ReliableMessage
-
-- (void)setReliableMessageFactory:(id<DKDReliableMessageFactory>)factory;
-- (nullable id<DKDReliableMessageFactory>)reliableMessageFactory;
-
-- (nullable id<DKDReliableMessage>)parseReliableMessage:(nullable id)msg;
+//
+//  Algorithm
+//
+- (nullable NSString *)getContentType:(NSDictionary<NSString *, id> *)content
+                         defaultValue:(nullable NSString *)aValue;
 
 @end
 
-#pragma mark -
+#pragma mark Message FactoryManager
 
-@interface DKDGeneralFactory : NSObject <DKDGeneralFactory>
+@interface DKDSharedMessageExtensions : NSObject
 
-@end
++ (instancetype)sharedInstance;
 
-@interface DKDSharedExtensions : NSObject
+@property (strong, nonatomic, nullable) id<DKDContentHelper> contentHelper;
+@property (strong, nonatomic, nullable) id<DKDEnvelopeHelper> envelopeHelper;
 
-@property(strong, nonatomic) id<DKDGeneralFactory> generalFactory;
+@property (strong, nonatomic, nullable) id<DKDInstantMessageHelper> instantHelper;
+@property (strong, nonatomic, nullable) id<DKDSecureMessageHelper> secureHelper;
+@property (strong, nonatomic, nullable) id<DKDReliableMessageHelper> reliableHelper;
 
-+ (instancetype)sharedManager;
+@property (strong, nonatomic, nullable) id<DKDGeneralMessageHelper> helper;
 
 @end
 

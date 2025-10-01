@@ -40,16 +40,42 @@
 #import "DKDReliableMessage.h"
 
 id<DKDReliableMessageFactory> DKDReliableMessageGetFactory(void) {
-    DKDSharedExtensions *man = [DKDSharedExtensions sharedManager];
-    return [man.generalFactory reliableMessageFactory];
+    DKDMessageExtensions * ext = [DKDMessageExtensions sharedInstance];
+    return [ext.reliableHelper getReliableMessageFactory];
 }
 
 void DKDReliableMessageSetFactory(id<DKDReliableMessageFactory> factory) {
-    DKDSharedExtensions *man = [DKDSharedExtensions sharedManager];
-    [man.generalFactory setReliableMessageFactory:factory];
+    DKDMessageExtensions * ext = [DKDMessageExtensions sharedInstance];
+    [ext.reliableHelper setReliableMessageFactory:factory];
 }
 
 id<DKDReliableMessage> DKDReliableMessageParse(id msg) {
-    DKDSharedExtensions *man = [DKDSharedExtensions sharedManager];
-    return [man.generalFactory parseReliableMessage:msg];
+    DKDMessageExtensions * ext = [DKDMessageExtensions sharedInstance];
+    return [ext.reliableHelper parseReliableMessage:msg];
+}
+
+#pragma mark Conveniences
+
+NSMutableArray<id<DKDReliableMessage>> *DKDReliableMessageConvert(NSArray<id> *array) {
+    NSMutableArray<id<DKDReliableMessage>> *messages;
+    messages = [[NSMutableArray alloc] initWithCapacity:array.count];
+    [array enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+        id<DKDReliableMessage> msg = DKDReliableMessageParse(obj);
+        if (msg) {
+            [messages addObject:msg];
+        }
+    }];
+    return messages;
+}
+
+NSMutableArray<NSDictionary *> *DKDReliableMessageRevert(NSArray<id<DKDReliableMessage>> *messages) {
+    NSMutableArray<NSDictionary *> *array;
+    array = [[NSMutableArray alloc] initWithCapacity:messages.count];
+    [messages enumerateObjectsUsingBlock:^(id<DKDReliableMessage> obj, NSUInteger idx, BOOL *stop) {
+        NSDictionary *dict = [obj dictionary];
+        if (dict) {
+            [array addObject:dict];
+        }
+    }];
+    return array;
 }

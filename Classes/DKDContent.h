@@ -65,7 +65,7 @@ typedef unsigned long DKDSerialNumber;
 @property (readonly, nonatomic) NSString *type;
 
 // serial number as message id
-@property (readonly, nonatomic) DKDSerialNumber serialNumber;
+@property (readonly, nonatomic) DKDSerialNumber sn;
 
 // message time
 @property (readonly, strong, nonatomic, nullable) NSDate *time;
