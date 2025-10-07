@@ -62,7 +62,7 @@ typedef unsigned long DKDSerialNumber;
 @protocol DKDContent <MKDictionary>
 
 // message type: text, image, ...
-@property (readonly, nonatomic) NSString *type;
+@property (readonly, strong, nonatomic) NSString *type;
 
 // serial number as message id
 @property (readonly, nonatomic) DKDSerialNumber sn;
