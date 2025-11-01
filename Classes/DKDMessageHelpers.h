@@ -76,7 +76,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (nullable id<DKDInstantMessage>)parseInstantMessage:(nullable id)msg;
 
-- (DKDSerialNumber)generateSerialNumberForType:(NSString *)type time:(NSDate *)now;
+- (DKDSerialNumber)generateSerialNumberForType:(nullable NSString *)type
+                                          time:(nullable NSDate *)now;
 
 @end
 

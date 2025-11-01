@@ -49,7 +49,7 @@ void DKDInstantMessageSetFactory(id<DKDInstantMessageFactory> factory) {
     [ext.instantHelper setInstantMessageFactory:factory];
 }
 
-NSUInteger DKDInstantMessageGenerateSerialNumber(NSString *type, NSDate *now) {
+DKDSerialNumber DKDInstantMessageGenerateSerialNumber(NSString *type, NSDate *now) {
     DKDMessageExtensions * ext = [DKDMessageExtensions sharedInstance];
     return [ext.instantHelper generateSerialNumberForType:type time:now];
 }

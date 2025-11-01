@@ -83,7 +83,8 @@ NS_ASSUME_NONNULL_BEGIN
  * @param now - message time
  * @return SN (serial number as msg id)
  */
-- (DKDSerialNumber)generateSerialNumberForType:(NSString *)type time:(NSDate *)now;
+- (DKDSerialNumber)generateSerialNumberForType:(nullable NSString *)type
+                                          time:(nullable NSDate *)now;
 
 @end
 
@@ -99,7 +100,8 @@ id<DKDInstantMessage> DKDInstantMessageCreate(id<DKDEnvelope> head,
 
 _Nullable id<DKDInstantMessage> DKDInstantMessageParse(_Nullable id msg);
 
-DKDSerialNumber DKDInstantMessageGenerateSerialNumber(NSString *type, NSDate *now);
+DKDSerialNumber DKDInstantMessageGenerateSerialNumber(NSString * _Nullable type,
+                                                      NSDate * _Nullable now);
 
 #pragma mark Conveniences
 

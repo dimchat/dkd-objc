@@ -37,14 +37,6 @@
 
 #import <Foundation/Foundation.h>
 
-//! Project version number for DaoKeDao.
-FOUNDATION_EXPORT double DaoKeDaoVersionNumber;
-
-//! Project version string for DaoKeDao.
-FOUNDATION_EXPORT const unsigned char DaoKeDaoVersionString[];
-
-// In this header, you should import all the public headers of your framework using statements like #import <DaoKeDao/PublicHeader.h>
-
 #if !defined(__DAO_KE_DAO__)
 #define __DAO_KE_DAO__ 1
 
@@ -56,7 +48,7 @@ FOUNDATION_EXPORT const unsigned char DaoKeDaoVersionString[];
 #import <DaoKeDao/DKDSecureMessage.h>
 #import <DaoKeDao/DKDReliableMessage.h>
 
-#import <DaoKeDao/DKDMessageHelpers.h>
-#import <DaoKeDao/DKDSharedExtensions.h>
+//#import <DaoKeDao/DKDMessageHelpers.h>    // -> "Ext.h"
+//#import <DaoKeDao/DKDSharedExtensions.h>  // -> "Ext.h"
 
 #endif /* ! __DAO_KE_DAO__ */

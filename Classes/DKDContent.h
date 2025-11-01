@@ -39,7 +39,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-typedef unsigned long DKDSerialNumber;
+typedef UInt32 DKDSerialNumber;
 
 /*
  *  Message Content
