@@ -35,9 +35,12 @@
 //  Copyright © 2018 DIM Group. All rights reserved.
 //
 
+#import <DaoKeDao/DKDContent.h>
 #import <DaoKeDao/DKDMessage.h>
 
 NS_ASSUME_NONNULL_BEGIN
+
+//@protocol DKDContent;
 
 /*
  *  Instant Message

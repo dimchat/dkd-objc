@@ -35,7 +35,7 @@
 //  Copyright © 2019 DIM Group. All rights reserved.
 //
 
-#import "DKDSharedExtensions.h"
+#import "DKDMessageHelpers.h"
 
 #import "DKDContent.h"
 

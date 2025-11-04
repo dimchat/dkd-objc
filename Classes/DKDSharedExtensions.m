@@ -35,6 +35,8 @@
 //  Copyright © 2023 DIM Group. All rights reserved.
 //
 
+#import "DKDMessageHelpers.h"
+
 #import "DKDSharedExtensions.h"
 
 @implementation DKDSharedMessageExtensions

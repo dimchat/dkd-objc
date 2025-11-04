@@ -35,9 +35,16 @@
 //  Copyright © 2023 DIM Group. All rights reserved.
 //
 
-#import <DaoKeDao/DKDMessageHelpers.h>
+#import <Foundation/Foundation.h>
 
 NS_ASSUME_NONNULL_BEGIN
+
+@protocol DKDContentHelper;
+@protocol DKDEnvelopeHelper;
+
+@protocol DKDInstantMessageHelper;
+@protocol DKDSecureMessageHelper;
+@protocol DKDReliableMessageHelper;
 
 @protocol DKDGeneralMessageHelper <NSObject/*,
                                             DKDContentHelper,

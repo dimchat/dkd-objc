@@ -35,8 +35,6 @@
 //  Copyright © 2018 DIM Group. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
-
 #if !defined(__DAO_KE_DAO__)
 #define __DAO_KE_DAO__ 1
 

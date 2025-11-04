@@ -35,8 +35,6 @@
 //  Copyright © 2018 DIM Group. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
-
 #if !defined(__DKD_EXT__)
 #define __DKD_EXT__ 1
 

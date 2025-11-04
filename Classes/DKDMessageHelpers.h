@@ -36,10 +36,21 @@
 //
 
 #import <DaoKeDao/DKDContent.h>
-#import <DaoKeDao/DKDEnvelope.h>
-#import <DaoKeDao/DKDInstantMessage.h>
-#import <DaoKeDao/DKDSecureMessage.h>
-#import <DaoKeDao/DKDReliableMessage.h>
+
+//@protocol DKDContent;
+//@protocol DKDContentFactory;
+
+@protocol DKDEnvelope;
+@protocol DKDEnvelopeFactory;
+
+@protocol DKDInstantMessage;
+@protocol DKDInstantMessageFactory;
+
+@protocol DKDSecureMessage;
+@protocol DKDSecureMessageFactory;
+
+@protocol DKDReliableMessage;
+@protocol DKDReliableMessageFactory;
 
 NS_ASSUME_NONNULL_BEGIN
 
