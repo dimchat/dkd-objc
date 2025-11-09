@@ -39,9 +39,9 @@ This [document](https://github.com/moky/DIMP/blob/master/DaoKeDao-Message.md) in
 ```javascript
 /* example */
 {
-    sender   : "moki@4WDfe3zZ4T7opFSi3iDAKiuTnUHjxmXekk",
-    receiver : "hulk@4YeVEN3aUnvC1DNUufCq1bs9zoBSJTzVEj",
-    time     : 1545405083
+    "sender"   : "moki@4WDfe3zZ4T7opFSi3iDAKiuTnUHjxmXekk",
+    "receiver" : "hulk@4YeVEN3aUnvC1DNUufCq1bs9zoBSJTzVEj",
+    "time"     : 1545405083
 }
 ```
 
@@ -50,10 +50,10 @@ This [document](https://github.com/moky/DIMP/blob/master/DaoKeDao-Message.md) in
 ```javascript
 /* example */
 {
-    type     : "1",      // message type
-    sn       : 412968873, // serial number (message ID in conversation)
+    "type"     : "1",       // message type
+    "sn"       : 412968873, // serial number (message ID in conversation)
     
-    text     : "Hey guy!"
+    "text"     : "Hey guy!"
 }
 ```
 
