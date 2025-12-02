@@ -47,15 +47,15 @@ typedef UInt32 DKDSerialNumber;
  *  This class is for creating message content
  *
  *      data format: {
- *          'type'    : i2s(0),         // message type
- *          'sn'      : 0,              // serial number
+ *          "type"    : i2s(0),         // message type
+ *          "sn"      : 0,              // serial number
  *
- *          'time'    : 123,            // message time
- *          'group'   : '{GroupID}',    // for group message
+ *          "time"    : 123,            // message time
+ *          "group"   : "{GroupID}",    // for group message
  *
  *          //-- message info
- *          'text'    : 'text',         // for text message
- *          'command' : 'Command Name'  // for system command
+ *          "text"    : "text",         // for text message
+ *          "command" : "Command Name"  // for system command
  *          //...
  *      }
  */

@@ -43,9 +43,9 @@ NS_ASSUME_NONNULL_BEGIN
  *  Envelope for message
  *
  *      data format: {
- *          sender   : "moki@xxx",
- *          receiver : "hulk@yyy",
- *          time     : 123
+ *          "sender"   : "moki@xxx",
+ *          "receiver" : "hulk@yyy",
+ *          "time"     : 123
  *      }
  */
 @protocol DKDEnvelope <MKDictionary>

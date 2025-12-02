@@ -8,8 +8,11 @@
 
 Pod::Spec.new do |s|
     s.name                  = 'DaoKeDao'
-    s.version               = '1.0.9'
+    s.version               = '1.1.0'
     s.summary               = 'Universal Message Module'
+    s.description           = <<-DESC
+            A Common Message Module for Decentralized Instant Messaging
+                              DESC
     s.homepage              = 'https://github.com/dimchat/dkd-objc'
     s.license               = { :type => 'MIT', :file => 'LICENSE' }
     s.author                = { 'Albert Moky' => 'albert.moky@gmail.com' }
@@ -24,5 +27,5 @@ Pod::Spec.new do |s|
     # s.frameworks          = 'Security'
     # s.requires_arc        = true
 
-    s.dependency 'MingKeMing', '~> 1.0.9'
+    s.dependency 'MingKeMing', '~> 1.1.0'
 end

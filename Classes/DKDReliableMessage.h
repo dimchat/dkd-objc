@@ -47,17 +47,17 @@ NS_ASSUME_NONNULL_BEGIN
  *
  *      data format: {
  *          //-- envelope
- *          sender   : "moki@xxx",
- *          receiver : "hulk@yyy",
- *          time     : 123,
+ *          "sender"   : "moki@xxx",
+ *          "receiver" : "hulk@yyy",
+ *          "time"     : 123,
  *          //-- content data & key/keys
- *          data     : "...",  // base64_encode( symmetric_encrypt(content))
- *          key      : "...",  // base64_encode(asymmetric_encrypt(password))
- *          keys     : {
- *              "ID1": "key1", // base64_encode(asymmetric_encrypt(password))
+ *          "data"     : "...",  // base64_encode( symmetric_encrypt(content))
+ *          "key"      : "...",  // base64_encode(asymmetric_encrypt(password))
+ *          "keys"     : {
+ *              "ID1" : "key1", // base64_encode(asymmetric_encrypt(password))
  *          },
  *          //-- signature
- *          signature: "..."   // base64_encode(asymmetric_sign(data))
+ *          "signature": "..."   // base64_encode(asymmetric_sign(data))
  *      }
  */
 @protocol DKDReliableMessage <DKDSecureMessage>
