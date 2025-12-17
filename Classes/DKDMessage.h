@@ -74,6 +74,7 @@ NS_ASSUME_NONNULL_BEGIN
  *          "sender"   : "moki@xxx",
  *          "receiver" : "hulk@yyy",
  *          "time"     : 123,
+ *
  *          //-- body
  *          ...
  *      }

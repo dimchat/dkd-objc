@@ -49,11 +49,12 @@ NS_ASSUME_NONNULL_BEGIN
  *          "sender"   : "moki@xxx",
  *          "receiver" : "hulk@yyy",
  *          "time"     : 123,
+ *
  *          //-- content data & key/keys
  *          "data"     : "...",  // base64_encode( symmetric_encrypt(content))
- *          "key"      : "...",  // base64_encode(asymmetric_encrypt(password))
  *          "keys"     : {
- *              "ID1" : "key1", // base64_encode(asymmetric_encrypt(password))
+ *              "{ID}"   : "...",  // base64_encode(asymmetric_encrypt(pwd))
+ *              "digest" : "..."   // hash(pwd.data)
  *          }
  *      }
  */
@@ -61,14 +62,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (readonly, strong, nonatomic) NSData *data;
 
-/**
- * Password to decode the content, which encrypted by contact.PK
- *
- *   secureMessage.content = symmetricKey.encrypt(instantMessage.content);
- *   encryptedKey = receiver.publicKey.encrypt(symmetricKey);
- */
-@property (readonly, strong, nonatomic, nullable) NSData *encryptedKey;
-@property (readonly, strong, nonatomic, nullable) NSDictionary *encryptedKeys;
+// String => String
+@property (readonly, strong, nonatomic, nullable) NSDictionary<NSString *, id> *encryptedKeys;
 
 @end
 
